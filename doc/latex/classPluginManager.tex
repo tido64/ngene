@@ -1,0 +1,270 @@
+\hypertarget{classPluginManager}{
+\section{PluginManager Class Reference}
+\label{classPluginManager}\index{PluginManager@{PluginManager}}
+}
+{\tt \#include $<$PluginManager.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classPluginManager_59e57fdbde1831ee0f568f20be6775b1}{PluginManager} (\hyperlink{classSettingsManager}{SettingsManager} \&settings\_\-manager)
+\end{CompactItemize}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+int \hyperlink{classPluginManager_c09d5dee99948f43a349e4bcecfbe578}{offspring\_\-rate}
+\item 
+vector$<$ const char $\ast$ $>$ \hyperlink{classPluginManager_f13751fb9b39023b1fd176768def6826}{modules}
+\item 
+\hyperlink{classPluginManager_74536c0cfee914f6b592d185e9d8b004}{Fitness} \hyperlink{classPluginManager_93440ee4d3657d57b795b1cf2c136871}{fitness\_\-assess}
+\item 
+\hyperlink{classPluginManager_fbd27663f74cd22c439cc0a365094d79}{Gene} \hyperlink{classPluginManager_d5baa7b8d770b48f3dbf9bcd90817ceb}{seed}
+\item 
+\hyperlink{classPluginManager_ed40a705dc64b5ebe14b9a29f2828241}{GenotypeToStr} \hyperlink{classPluginManager_5cdf0f6cb22a6e4a8f188bafd74d2d88}{genotype\_\-to\_\-str}
+\item 
+\hyperlink{classPluginManager_b2707706d35a521a1c9c0c525b20b3a9}{Mating} \hyperlink{classPluginManager_6df542bda57cd82fc11dd2b0cc59605b}{mate}
+\item 
+\hyperlink{classPluginManager_00afabd8a9bbe0fd0c5b90294dc96a45}{Mutator} \hyperlink{classPluginManager_d64faacd5d3222e068cd3a6632e75d7e}{mutate}
+\item 
+\hyperlink{classPluginManager_64f7347436213b5c961891c7035947cc}{Selector} \hyperlink{classPluginManager_01e6b62a96bea7b38b5ab83513037e6c}{select}
+\end{CompactItemize}
+\subsection*{Private Types}
+\begin{CompactItemize}
+\item 
+typedef void($\ast$ \hyperlink{classPluginManager_b500db2879e847e3cf37918762255898}{initiate} )(const string \&)
+\item 
+typedef const char $\ast$($\ast$ \hyperlink{classPluginManager_95364d1fe57a2da74463958f77891e60}{module\_\-name} )()
+\item 
+typedef const int($\ast$ \hyperlink{classPluginManager_c8e3b761e36272f70ea015348474ca42}{offspring\_\-produced} )()
+\item 
+typedef void($\ast$ \hyperlink{classPluginManager_74536c0cfee914f6b592d185e9d8b004}{Fitness} )(\hyperlink{classSpecimen}{Specimen} \&)
+\item 
+typedef void($\ast$ \hyperlink{classPluginManager_fbd27663f74cd22c439cc0a365094d79}{Gene} )(vector$<$ any $>$ \&)
+\item 
+typedef const char $\ast$($\ast$ \hyperlink{classPluginManager_ed40a705dc64b5ebe14b9a29f2828241}{GenotypeToStr} )(const vector$<$ any $>$ \&)
+\item 
+typedef void($\ast$ \hyperlink{classPluginManager_b2707706d35a521a1c9c0c525b20b3a9}{Mating} )(vector$<$ \hyperlink{classSpecimen}{Specimen} $>$ \&, const \hyperlink{classSpecimen}{Specimen} \&, const \hyperlink{classSpecimen}{Specimen} \&)
+\item 
+typedef void($\ast$ \hyperlink{classPluginManager_00afabd8a9bbe0fd0c5b90294dc96a45}{Mutator} )(vector$<$ any $>$ \&)
+\item 
+typedef void($\ast$ \hyperlink{classPluginManager_64f7347436213b5c961891c7035947cc}{Selector} )(multiset$<$ \hyperlink{classSpecimen}{Specimen} $>$::iterator \&, multiset$<$ \hyperlink{classSpecimen}{Specimen} $>$ \&, int)
+\end{CompactItemize}
+\subsection*{Private Member Functions}
+\begin{CompactItemize}
+\item 
+{\footnotesize template$<$class T$>$ }\\void \hyperlink{classPluginManager_df498f0e9054ae03f78927510905ec55}{load\_\-module} (const \hyperlink{ModuleType_8h_224128d35337e2b42cebf846d4d0c6f1}{ModuleType} module\_\-type, string \&path, const string \&parameters, const char $\ast$import, T \&function)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 23 of file PluginManager.h.
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classPluginManager_b500db2879e847e3cf37918762255898}{
+\index{PluginManager@{PluginManager}!initiate@{initiate}}
+\index{initiate@{initiate}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ {\bf PluginManager::initiate})(const string \&)\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classPluginManager_b500db2879e847e3cf37918762255898}
+
+
+
+
+Definition at line 26 of file PluginManager.h.\hypertarget{classPluginManager_95364d1fe57a2da74463958f77891e60}{
+\index{PluginManager@{PluginManager}!module_name@{module\_\-name}}
+\index{module_name@{module\_\-name}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef const char$\ast$($\ast$ {\bf PluginManager::module\_\-name})()\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classPluginManager_95364d1fe57a2da74463958f77891e60}
+
+
+
+
+Definition at line 27 of file PluginManager.h.\hypertarget{classPluginManager_c8e3b761e36272f70ea015348474ca42}{
+\index{PluginManager@{PluginManager}!offspring_produced@{offspring\_\-produced}}
+\index{offspring_produced@{offspring\_\-produced}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef const int($\ast$ {\bf PluginManager::offspring\_\-produced})()\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classPluginManager_c8e3b761e36272f70ea015348474ca42}
+
+
+
+
+Definition at line 28 of file PluginManager.h.\hypertarget{classPluginManager_74536c0cfee914f6b592d185e9d8b004}{
+\index{PluginManager@{PluginManager}!Fitness@{Fitness}}
+\index{Fitness@{Fitness}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ {\bf PluginManager::Fitness})({\bf Specimen} \&)\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classPluginManager_74536c0cfee914f6b592d185e9d8b004}
+
+
+
+
+Definition at line 31 of file PluginManager.h.\hypertarget{classPluginManager_fbd27663f74cd22c439cc0a365094d79}{
+\index{PluginManager@{PluginManager}!Gene@{Gene}}
+\index{Gene@{Gene}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ {\bf PluginManager::Gene})(vector$<$ any $>$ \&)\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classPluginManager_fbd27663f74cd22c439cc0a365094d79}
+
+
+
+
+Definition at line 32 of file PluginManager.h.\hypertarget{classPluginManager_ed40a705dc64b5ebe14b9a29f2828241}{
+\index{PluginManager@{PluginManager}!GenotypeToStr@{GenotypeToStr}}
+\index{GenotypeToStr@{GenotypeToStr}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef const char$\ast$($\ast$ {\bf PluginManager::GenotypeToStr})(const vector$<$ any $>$ \&)\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classPluginManager_ed40a705dc64b5ebe14b9a29f2828241}
+
+
+
+
+Definition at line 33 of file PluginManager.h.\hypertarget{classPluginManager_b2707706d35a521a1c9c0c525b20b3a9}{
+\index{PluginManager@{PluginManager}!Mating@{Mating}}
+\index{Mating@{Mating}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ {\bf PluginManager::Mating})(vector$<$ {\bf Specimen} $>$ \&, const {\bf Specimen} \&, const {\bf Specimen} \&)\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classPluginManager_b2707706d35a521a1c9c0c525b20b3a9}
+
+
+
+
+Definition at line 34 of file PluginManager.h.\hypertarget{classPluginManager_00afabd8a9bbe0fd0c5b90294dc96a45}{
+\index{PluginManager@{PluginManager}!Mutator@{Mutator}}
+\index{Mutator@{Mutator}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ {\bf PluginManager::Mutator})(vector$<$ any $>$ \&)\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classPluginManager_00afabd8a9bbe0fd0c5b90294dc96a45}
+
+
+
+
+Definition at line 35 of file PluginManager.h.\hypertarget{classPluginManager_64f7347436213b5c961891c7035947cc}{
+\index{PluginManager@{PluginManager}!Selector@{Selector}}
+\index{Selector@{Selector}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ {\bf PluginManager::Selector})(multiset$<$ {\bf Specimen} $>$::iterator \&, multiset$<$ {\bf Specimen} $>$ \&, int)\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classPluginManager_64f7347436213b5c961891c7035947cc}
+
+
+
+
+Definition at line 36 of file PluginManager.h.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classPluginManager_59e57fdbde1831ee0f568f20be6775b1}{
+\index{PluginManager@{PluginManager}!PluginManager@{PluginManager}}
+\index{PluginManager@{PluginManager}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}PluginManager::PluginManager ({\bf SettingsManager} \& {\em settings\_\-manager})}}
+\label{classPluginManager_59e57fdbde1831ee0f568f20be6775b1}
+
+
+
+
+Definition at line 3 of file PluginManager.cpp.
+
+References SettingsManager::config, fitness\_\-assess, fitness\_\-module, gene\_\-module, mate, mating\_\-module, Configuration::module\_\-path, modules, mutate, mutator\_\-module, number\_\-of\_\-modules, Configuration::parameters, seed, select, and selector\_\-module.
+
+\subsection{Member Function Documentation}
+\hypertarget{classPluginManager_df498f0e9054ae03f78927510905ec55}{
+\index{PluginManager@{PluginManager}!load_module@{load\_\-module}}
+\index{load_module@{load\_\-module}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void PluginManager::load\_\-module (const {\bf ModuleType} {\em module\_\-type}, string \& {\em path}, const string \& {\em parameters}, const char $\ast$ {\em import}, T \& {\em function})\hspace{0.3cm}{\tt  \mbox{[}inline, private\mbox{]}}}}
+\label{classPluginManager_df498f0e9054ae03f78927510905ec55}
+
+
+
+
+Definition at line 65 of file PluginManager.h.
+
+References gene\_\-module, genotype\_\-to\_\-str, mating\_\-module, modules, and offspring\_\-rate.
+
+\subsection{Member Data Documentation}
+\hypertarget{classPluginManager_c09d5dee99948f43a349e4bcecfbe578}{
+\index{PluginManager@{PluginManager}!offspring_rate@{offspring\_\-rate}}
+\index{offspring_rate@{offspring\_\-rate}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int {\bf PluginManager::offspring\_\-rate}}}
+\label{classPluginManager_c09d5dee99948f43a349e4bcecfbe578}
+
+
+
+
+Definition at line 90 of file PluginManager.h.
+
+Referenced by load\_\-module(), and main().\hypertarget{classPluginManager_f13751fb9b39023b1fd176768def6826}{
+\index{PluginManager@{PluginManager}!modules@{modules}}
+\index{modules@{modules}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}vector$<$const char $\ast$$>$ {\bf PluginManager::modules}}}
+\label{classPluginManager_f13751fb9b39023b1fd176768def6826}
+
+
+
+
+Definition at line 91 of file PluginManager.h.
+
+Referenced by load\_\-module(), main(), and PluginManager().\hypertarget{classPluginManager_93440ee4d3657d57b795b1cf2c136871}{
+\index{PluginManager@{PluginManager}!fitness_assess@{fitness\_\-assess}}
+\index{fitness_assess@{fitness\_\-assess}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf Fitness} {\bf PluginManager::fitness\_\-assess}}}
+\label{classPluginManager_93440ee4d3657d57b795b1cf2c136871}
+
+
+
+
+Definition at line 93 of file PluginManager.h.
+
+Referenced by main(), and PluginManager().\hypertarget{classPluginManager_d5baa7b8d770b48f3dbf9bcd90817ceb}{
+\index{PluginManager@{PluginManager}!seed@{seed}}
+\index{seed@{seed}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf Gene} {\bf PluginManager::seed}}}
+\label{classPluginManager_d5baa7b8d770b48f3dbf9bcd90817ceb}
+
+
+
+
+Definition at line 94 of file PluginManager.h.
+
+Referenced by main(), and PluginManager().\hypertarget{classPluginManager_5cdf0f6cb22a6e4a8f188bafd74d2d88}{
+\index{PluginManager@{PluginManager}!genotype_to_str@{genotype\_\-to\_\-str}}
+\index{genotype_to_str@{genotype\_\-to\_\-str}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf GenotypeToStr} {\bf PluginManager::genotype\_\-to\_\-str}}}
+\label{classPluginManager_5cdf0f6cb22a6e4a8f188bafd74d2d88}
+
+
+
+
+Definition at line 95 of file PluginManager.h.
+
+Referenced by load\_\-module(), and main().\hypertarget{classPluginManager_6df542bda57cd82fc11dd2b0cc59605b}{
+\index{PluginManager@{PluginManager}!mate@{mate}}
+\index{mate@{mate}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf Mating} {\bf PluginManager::mate}}}
+\label{classPluginManager_6df542bda57cd82fc11dd2b0cc59605b}
+
+
+
+
+Definition at line 96 of file PluginManager.h.
+
+Referenced by main(), and PluginManager().\hypertarget{classPluginManager_d64faacd5d3222e068cd3a6632e75d7e}{
+\index{PluginManager@{PluginManager}!mutate@{mutate}}
+\index{mutate@{mutate}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf Mutator} {\bf PluginManager::mutate}}}
+\label{classPluginManager_d64faacd5d3222e068cd3a6632e75d7e}
+
+
+
+
+Definition at line 97 of file PluginManager.h.
+
+Referenced by main(), and PluginManager().\hypertarget{classPluginManager_01e6b62a96bea7b38b5ab83513037e6c}{
+\index{PluginManager@{PluginManager}!select@{select}}
+\index{select@{select}!PluginManager@{PluginManager}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf Selector} {\bf PluginManager::select}}}
+\label{classPluginManager_01e6b62a96bea7b38b5ab83513037e6c}
+
+
+
+
+Definition at line 98 of file PluginManager.h.
+
+Referenced by main(), and PluginManager().
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+/media/Junkbox/Projects/Ngene/src/\hyperlink{PluginManager_8h}{PluginManager.h}\item 
+/media/Junkbox/Projects/Ngene/src/\hyperlink{PluginManager_8cpp}{PluginManager.cpp}\end{CompactItemize}

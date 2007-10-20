@@ -1,0 +1,12 @@
+digraph G
+{
+  edge [fontname="FreeSans.ttf",fontsize=10,labelfontname="FreeSans.ttf",labelfontsize=10];
+  node [fontname="FreeSans.ttf",fontsize=10,shape=record];
+  Node1 [label="/media/Junkbox/Projects/Ngene/src/Logger.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="/media/Junkbox/Projects/Ngene/src/Logger.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Logger_8cpp.html"];
+  Node1 -> Node3 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="/media/Junkbox/Projects/Ngene/src/Ngene.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Ngene_8h.html"];
+  Node3 -> Node4 [dir=back,color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="/media/Junkbox/Projects/Ngene/src/Ngene.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Ngene_8cpp.html"];
+}
