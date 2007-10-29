@@ -1,7 +1,6 @@
 #ifndef SETTINGS_MANAGER
 #define SETTINGS_MANAGER
 
-#include <cstdio>
 #include <fstream>
 #include <vector>
 #include <boost/algorithm/string/trim.hpp>
@@ -24,7 +23,7 @@ class SettingsManager
 {
 public:
 	Configuration config;
-	SettingsManager();
+	SettingsManager(const char *conf_file);
 	bool is_loaded();
 
 private:

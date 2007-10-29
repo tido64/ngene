@@ -5,9 +5,9 @@ using std::string;
 using std::vector;
 using boost::algorithm::trim;
 
-SettingsManager::SettingsManager()
+SettingsManager::SettingsManager(const char *conf_file)
 {
-	this->ngene_conf.open("ngene.conf");
+	this->ngene_conf.open(conf_file);
 	this->loaded = false;
 	if (ngene_conf.is_open())
 	{
