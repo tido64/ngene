@@ -4,16 +4,34 @@ using namespace std;
 using boost::any;
 using boost::mt19937;
 
-const char *NGENE_VERSION = "0.2007.10.19";
+const char *NGENE_VERSION = "0.2007.10.29";
 
-int main()
+int main(int argc, char *argv[])
 {
-	printf("Starting Ngene v%s\n\nPreparing the environment:\n", NGENE_VERSION);
+	char *ngene_conf;
+	if (argc > 1)
+	{
+		if (strcmp(argv[1], "--config") == 0)
+		{
+			printf("Starting Ngene v%s\n\nPreparing the environment:\n  * Running with configuration file: %s\n", NGENE_VERSION, argv[2]);
+			ngene_conf = argv[2];
+		}
+		else
+		{
+			printf("Usage: Ngene --config <config file>\n");
+			return 0;
+		}
+	}
+	else
+	{
+		printf("Starting Ngene v%s\n\nPreparing the environment:\n", NGENE_VERSION);
+		ngene_conf = "ngene.conf";
+	}
 
-	SettingsManager settings_manager;
+	SettingsManager settings_manager (ngene_conf);
 	if (!settings_manager.is_loaded())
 	{
-		printf("  * Could not read from 'ngene.conf'.\n\nAborting...\n");
+		printf("  * Could not read from '%s'.\n\nAborting...\n", ngene_conf);
 		return -1;
 	}
 
