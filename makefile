@@ -20,7 +20,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CPP) $(FLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJDIR)/*.o
+	rm -f $(OBJ)
 
 cleanall: clean
 	rm -f $(EXEC)
