@@ -8,7 +8,7 @@ const char *NGENE_VERSION = "0.2007.10.29";
 
 int main(int argc, char *argv[])
 {
-	char *ngene_conf;
+	char *ngene_conf = NULL;
 	if (argc > 1)
 	{
 		if (strcmp(argv[1], "--config") == 0)
@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 			{
 				vector<Specimen> embryo (module.offspring_rate);
 				module.mate(embryo, *mates[0], *mates[1]);
-				for(vector<Specimen>::iterator fetus = embryo.begin(); fetus != embryo.end(); fetus++)
+				for (vector<Specimen>::iterator fetus = embryo.begin(); fetus != embryo.end(); fetus++)
 				{
 					if (mt_rand() <= settings_manager.config.mutation_rate)
 						module.mutate(fetus->genotype);
