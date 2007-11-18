@@ -14,7 +14,7 @@
 #include <boost/random/variate_generator.hpp>
 
 #include "ModuleType.h"
-#include "SettingsManager.h"
+#include "ConfigManager.h"
 #include "PluginManager.h"
 #include "Interfaces/Specimen.h"
 #include "Logger.h"
