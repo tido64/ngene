@@ -11,9 +11,9 @@
 	#include <dlfcn.h>
 #endif
 
+#include "Config.h"
 #include "ModuleType.h"
 #include "Interfaces/Specimen.h"
-#include "SettingsManager.h"
 
 using std::multiset;
 using std::string;
@@ -97,6 +97,6 @@ public:
 	Mutator mutate;
 	Selector select;
 
-	PluginManager(SettingsManager &settings_manager);
+	PluginManager(Config &config);
 };
 
