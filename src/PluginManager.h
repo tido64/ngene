@@ -7,6 +7,7 @@
 #ifdef WIN32
 	#define WIN32_LEAN_AND_MEAN
 	#include <windows.h>
+	#define dlsym GetProcAddress
 #else
 	#include <dlfcn.h>
 #endif
@@ -35,37 +36,15 @@ class PluginManager
 	typedef void (*Mutator)(vector<any> &);
 	typedef void (*Selector)(multiset<Specimen>::iterator &, multiset<Specimen> &, int);
 
-#ifdef WIN32
 	template <class T>
 	void load_module(const ModuleType module_type, string &path, const string &parameters, const char *import, T &function)
 	{
 		path = "./modules/" + path;
-		HMODULE module (LoadLibraryA(path.c_str()));
-		if (module != NULL)
-		{
-			((initiate)GetProcAddress(module, "initiate"))(parameters);
-			function = (T)GetProcAddress(module, import);
-			switch (module_type)
-			{
-				case mating_module:
-					this->offspring_rate = ((offspring_produced)GetProcAddress(module, "offspring"))();
-					break;
-				case gene_module:
-					this->genotype_to_str = (GenotypeToStr)GetProcAddress(module, "str");
-					this->modules[module_type] = ((module_name)GetProcAddress(module, "species"))();
-					break;
-				default:
-					this->modules[module_type] = ((module_name)GetProcAddress(module, "name"))();
-					break;
-			}
-		}
-	}
-#else
-	template <class T>
-	void load_module(const ModuleType module_type, string &path, const string &parameters, const char *import, T &function)
-	{
-		path = "./modules/" + path;
-		void *module = dlopen(path.c_str(), RTLD_LAZY);
+		#ifdef WIN32
+			HMODULE module (LoadLibraryA(path.c_str()));
+		#else
+			void *module = dlopen(path.c_str(), RTLD_LAZY);
+		#endif
 		if (module != NULL)
 		{
 			((initiate)dlsym(module, "initiate"))(parameters);
@@ -84,7 +63,6 @@ class PluginManager
 			}
 		}
 	}
-#endif
 
 public:
 	int offspring_rate;
