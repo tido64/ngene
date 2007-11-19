@@ -5,7 +5,11 @@ BINDIR = bin
 OBJDIR = platform/unix
 SRCDIR = src
 EXEC = $(BINDIR)/$(TARGET)
-OBJ = $(OBJDIR)/$(TARGET).o $(OBJDIR)/SettingsManager.o $(OBJDIR)/PluginManager.o $(OBJDIR)/Logger.o
+OBJ = $(OBJDIR)/$(TARGET).o \
+$(OBJDIR)/ConfigManager.o \
+$(OBJDIR)/Plotter_SVG.o \
+$(OBJDIR)/PluginManager.o \
+$(OBJDIR)/Logger.o
 
 CPP = g++
 FLAGS = -O2 -Wall
