@@ -38,7 +38,15 @@ int main(int argc, char *argv[])
 	PluginManager module (config_manager.config);
 
 	Logger logger;
-	logger.log(module.modules, config_manager.config);
+	try
+	{
+		logger.log(module.modules, config_manager.config);
+	}
+	catch (char *e)
+	{
+		printf("  * %s\n\nAborting...\n", e);
+		return -1;
+	}
 
 	boost::mt19937 rand_gen ((unsigned)time(NULL));
 	//boost::uniform_01<boost::mt19937> rand_dist (rand_gen);
@@ -170,4 +178,3 @@ int main(int argc, char *argv[])
 	logger.log(ticks);
 	return 0;
 }
-

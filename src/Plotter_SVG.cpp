@@ -2,9 +2,8 @@
 
 using namespace std;
 
-Plotter_SVG::Plotter_SVG(string filename, vector<const char *> &modules, const Config &config)
+bool Plotter_SVG::initiate(string filename, vector<const char *> &modules, const Config &config)
 {
-	this->initiated = false;
 	this->svg.open(filename.append(".svg").c_str());
 	if (this->svg.is_open())
 	{
@@ -68,13 +67,10 @@ Plotter_SVG::Plotter_SVG(string filename, vector<const char *> &modules, const C
 			this->generation_axis.push_back(this->generation_axis[i] + generation_scale);
 			// generate ticks on the axes
 
-		this->initiated = true;
+		return true;
 	}
-}
-
-bool Plotter_SVG::is_initiated()
-{
-	return initiated;
+	else
+		return false;
 }
 
 void Plotter_SVG::plot(const int generation, double min, double avg, double max)

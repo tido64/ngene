@@ -12,6 +12,7 @@ struct Config
 		lifespan,
 		max_prodigies,
 		offspring_rate;
+	std::string plotter;
 	std::vector<std::string> module_path, parameters;
 };
 
