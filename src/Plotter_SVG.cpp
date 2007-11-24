@@ -1,6 +1,14 @@
 #include "Plotter_SVG.h"
 
-using namespace std;
+using std::string;
+using std::vector;
+
+void Plotter_SVG::close()
+{
+	this->svg << "</svg>\n";
+	this->svg.close();
+	this->generation_axis.clear();
+}
 
 bool Plotter_SVG::initiate(string filename, vector<const char *> &modules, const Config &config)
 {
@@ -60,12 +68,14 @@ bool Plotter_SVG::initiate(string filename, vector<const char *> &modules, const
 		this->fitness_margin = 16;
 		this->fitness_scale = 240;
 
-		double generation_scale = config.doomsday / 240.0;
+		double generation_scale = 320.0 / config.doomsday;
 		this->generation_axis.reserve(config.doomsday + 1);
-		this->generation_axis.push_back(16);
+		this->generation_axis.push_back(this->fitness_margin);
 		for (int i = 0; i < config.doomsday; i++)
 			this->generation_axis.push_back(this->generation_axis[i] + generation_scale);
 			// generate ticks on the axes
+
+		this->fitness_margin += this->fitness_scale;
 
 		return true;
 	}
@@ -75,9 +85,9 @@ bool Plotter_SVG::initiate(string filename, vector<const char *> &modules, const
 
 void Plotter_SVG::plot(const int generation, double min, double avg, double max)
 {
-	avg = avg * this->fitness_scale + this->fitness_margin;
-	max = max * this->fitness_scale + this->fitness_margin;
-	min = min * this->fitness_scale + this->fitness_margin;
+	avg = this->fitness_margin - avg * this->fitness_scale;
+	max = this->fitness_margin - max * this->fitness_scale;
+	min = this->fitness_margin - min * this->fitness_scale;
 	if (generation != 0)
 	{
 		int p = generation - 1;
@@ -89,3 +99,4 @@ void Plotter_SVG::plot(const int generation, double min, double avg, double max)
 	this->max = max;
 	this->min = min;
 }
+
