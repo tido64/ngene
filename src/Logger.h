@@ -5,7 +5,7 @@
 
 #include "Config.h"
 #include "ModuleType.h"
-#include "Plotter_SVG.h"
+#include "PlotterFactory.h"
 #include "Interfaces/Specimen.h"
 
 class Logger
@@ -24,4 +24,3 @@ private:
 	char timestamp[32];
 	IPlotter *plotter;
 };
-

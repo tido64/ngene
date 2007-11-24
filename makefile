@@ -1,4 +1,4 @@
-# Makefile for Ngene
+﻿# Makefile for Ngene
 
 TARGET = Ngene
 BINDIR = bin
@@ -8,6 +8,7 @@ EXEC = $(BINDIR)/$(TARGET)
 OBJ = $(OBJDIR)/$(TARGET).o \
 $(OBJDIR)/ConfigManager.o \
 $(OBJDIR)/Plotter_SVG.o \
+$(OBJDIR)/PlotterFactory.o \
 $(OBJDIR)/PluginManager.o \
 $(OBJDIR)/Logger.o
 

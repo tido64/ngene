@@ -41,6 +41,8 @@ ConfigManager::ConfigManager(const char *conf_file)
 		this->config.module_path[selector_module] = get_conf();
 		this->config.parameters[selector_module] = get_conf();
 
+		this->config.plotter = "SVG";
+
 		this->loaded = true;
 		this->ngene_conf.close();
 	}
@@ -61,4 +63,3 @@ bool ConfigManager::is_loaded()
 {
 	return this->loaded;
 }
-
