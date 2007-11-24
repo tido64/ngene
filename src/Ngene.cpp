@@ -4,7 +4,7 @@ using namespace std;
 using boost::any;
 using boost::mt19937;
 
-const char *NGENE_VERSION = "0.2007.10.29";
+const char *NGENE_VERSION = "0.2007.11.24";
 
 int main(int argc, char *argv[])
 {
@@ -80,7 +80,6 @@ int main(int argc, char *argv[])
 	for (int generation = 1; generation < config_manager.config.doomsday; generation++)
 	{
 		// Mating season!
-		offspring.clear();
 		if ((int)mates.size() < 2)
 		{
 			iter_tmp = --adults.end();
@@ -160,6 +159,7 @@ int main(int argc, char *argv[])
 				offspring.erase(iter_tmp);
 			}
 		}
+		offspring.clear();
 
 		// Gather statistics
 		population_fitness = 0;
@@ -173,7 +173,6 @@ int main(int argc, char *argv[])
 
 	mates.clear();
 	adults.clear();
-	offspring.clear();
 
 	logger.log(ticks);
 	return 0;
