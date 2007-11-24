@@ -1,4 +1,4 @@
-﻿# Makefile for Ngene
+# Makefile for Ngene
 
 TARGET = Ngene
 BINDIR = bin
