@@ -31,3 +31,7 @@ PluginManager::PluginManager(Config &config)
 		this->select);
 }
 
+PluginManager::~PluginManager()
+{
+	this->modules.clear();
+}
