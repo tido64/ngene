@@ -42,7 +42,6 @@ void Logger::log(const std::multiset<Specimen> &population, GenotypeToStr genoty
 	//fputs("# Model specimen:\n", this->log_file);
 	//fprintf(this->log_file, "# %s\n", genotype_to_str(top->genotype));
 	//fclose(this->log_file);
-	this->plotter->close();
 }
 
 void Logger::log(double ticks)

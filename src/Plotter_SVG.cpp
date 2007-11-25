@@ -3,7 +3,7 @@
 using std::string;
 using std::vector;
 
-void Plotter_SVG::close()
+Plotter_SVG::~Plotter_SVG()
 {
 	this->svg << "</svg>\n";
 	this->svg.close();

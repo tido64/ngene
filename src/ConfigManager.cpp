@@ -9,7 +9,7 @@ ConfigManager::ConfigManager(const char *conf_file)
 {
 	this->ngene_conf.open(conf_file);
 	this->loaded = false;
-	if (ngene_conf.is_open())
+	if (this->ngene_conf.is_open())
 	{
 		this->config.module_path = vector<string> (number_of_modules);
 		this->config.parameters = vector<string> (number_of_modules);

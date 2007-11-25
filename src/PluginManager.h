@@ -76,5 +76,6 @@ public:
 	Selector select;
 
 	PluginManager(Config &config);
+	~PluginManager();
 };
 
