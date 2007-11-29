@@ -36,4 +36,3 @@ const char *name()
 {
 	return tournament::name.c_str();
 }
-

@@ -99,4 +99,3 @@ void Plotter_SVG::plot(const int generation, double min, double avg, double max)
 	this->max = max;
 	this->min = min;
 }
-

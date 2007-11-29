@@ -12,4 +12,3 @@ enum ModuleType
 };
 
 #endif
-

@@ -31,4 +31,3 @@ const char *name()
 {
 	return "Unsorted";
 }
-

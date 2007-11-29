@@ -15,4 +15,3 @@ extern "C"
 	const char MATING_INTERFACE *name();
 	const int MATING_INTERFACE offspring();
 }
-
