@@ -2,4 +2,3 @@
 
 void initiate(const std::string &parameters) { }
 const char *name() { return "Random Swap"; }
-
