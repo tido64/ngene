@@ -1,4 +1,3 @@
-#include <cstdio>
 #include <set>
 #include <string>
 #include <vector>
@@ -78,4 +77,3 @@ public:
 	PluginManager(Config &config);
 	~PluginManager();
 };
-

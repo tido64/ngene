@@ -13,4 +13,3 @@ extern "C"
 	void MUTATION_INTERFACE mutate(std::vector<boost::any> &genotype);
 	const char MUTATION_INTERFACE *name();
 }
-

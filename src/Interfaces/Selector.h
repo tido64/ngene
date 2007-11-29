@@ -14,4 +14,3 @@ extern "C"
 	void SELECTION_INTERFACE gene_select(std::multiset<Specimen>::iterator &champ, std::multiset<Specimen> &candidates, int generation);
 	const char SELECTION_INTERFACE *name();
 }
-

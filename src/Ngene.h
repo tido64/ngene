@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstdio>
 #include <ctime>
 #include <map>
 #include <set>
@@ -18,4 +17,3 @@
 #include "PluginManager.h"
 #include "Interfaces/Specimen.h"
 #include "Logger.h"
-

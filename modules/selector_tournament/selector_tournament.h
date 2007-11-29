@@ -11,4 +11,3 @@ namespace tournament
 	double p;
 	double random() { return (double)rand() / ((double)RAND_MAX + 1.0); }
 }
-

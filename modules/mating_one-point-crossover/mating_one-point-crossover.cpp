@@ -33,4 +33,3 @@ const int offspring()
 {
 	return 2;
 }
-

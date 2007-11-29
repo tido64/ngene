@@ -16,4 +16,3 @@ extern "C"
 	const char GENE_FACTORY_INTERFACE *species();
 	const char GENE_FACTORY_INTERFACE *str(const std::vector<boost::any> &genotype);
 }
-
