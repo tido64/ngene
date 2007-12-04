@@ -4,7 +4,7 @@ using namespace std;
 using boost::any;
 using boost::mt19937;
 
-const char *NGENE_VERSION = "0.2007.11.24";
+const char *NGENE_VERSION = "0.2007.12.04";
 
 int main(int argc, char *argv[])
 {
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 	// Prepare the initial population
 	double population_fitness = 0;
 	multiset<Specimen> adults;
-	for (int i = 0; i < config_manager.config.adult_pool_capacity; i++)
+	for (unsigned int i = 0; i < config_manager.config.adult_pool_capacity; i++)
 	{
 		Specimen specimen;
 		specimen.age = 1;
@@ -75,9 +75,8 @@ int main(int argc, char *argv[])
 
 	logger.log(0, adults.rbegin()->fitness, population_fitness / adults.size(), adults.begin()->fitness);
 	double ticks = clock();
-
 	// Commence evolution
-	for (int generation = 1; generation < config_manager.config.doomsday; generation++)
+	for (unsigned int generation = 1; generation < config_manager.config.doomsday; generation++)
 	{
 		// Mating season!
 		if ((int)mates.size() < 2)
@@ -87,7 +86,7 @@ int main(int argc, char *argv[])
 			mates.push_back(iter_tmp);
 		}
 		// The following loop has multithreading potential. Exploit!
-		while ((int)offspring.size() < config_manager.config.offspring_rate)
+		while (offspring.size() < config_manager.config.offspring_rate)
 		{
 			do
 			{
@@ -142,7 +141,7 @@ int main(int argc, char *argv[])
 			{
 				for (vector<multiset<Specimen>::iterator>::iterator i = mates.begin(); i != mates.end(); i++)
 					adults.erase(*i);
-				for (int i = (int)adults.size(); i != config_manager.config.adult_pool_capacity; i++)
+				for (unsigned int i = adults.size(); i != config_manager.config.adult_pool_capacity; i++)
 				{
 					module.select(iter_tmp, offspring, generation);
 					adults.insert(*iter_tmp);

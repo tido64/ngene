@@ -1,5 +1,3 @@
-#pragma once
-
 #include <ctime>
 #include <map>
 #include <set>

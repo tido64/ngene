@@ -71,7 +71,7 @@ bool Plotter_SVG::initiate(string filename, vector<const char *> &modules, const
 		double generation_scale = 320.0 / config.doomsday;
 		this->generation_axis.reserve(config.doomsday + 1);
 		this->generation_axis.push_back(this->fitness_margin);
-		for (int i = 0; i < config.doomsday; i++)
+		for (unsigned int i = 0; i < config.doomsday; i++)
 			this->generation_axis.push_back(this->generation_axis[i] + generation_scale);
 			// generate ticks on the axes
 
@@ -83,7 +83,7 @@ bool Plotter_SVG::initiate(string filename, vector<const char *> &modules, const
 		return false;
 }
 
-void Plotter_SVG::plot(const int generation, double min, double avg, double max)
+void Plotter_SVG::plot(const unsigned int generation, double min, double avg, double max)
 {
 	avg = this->fitness_margin - avg * this->fitness_scale;
 	max = this->fitness_margin - max * this->fitness_scale;

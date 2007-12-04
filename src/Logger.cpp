@@ -29,7 +29,7 @@ void Logger::log(std::vector<const char *> &modules, const Config &config)
 	printf("  * Selector:          %s\n\n", modules[selector_module]);
 }
 
-void Logger::log(const int generation, const double min, const double avg, const double max)
+void Logger::log(const unsigned int generation, const double min, const double avg, const double max)
 {
 	this->plotter->plot(generation, min, avg, max);
 	printf(" %i:\tmin: %.4f\tavg: %.4f\tmax: %.4f\n", generation, min, avg, max);

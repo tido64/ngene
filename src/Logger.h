@@ -16,7 +16,7 @@ public:
 	Logger();
 	~Logger();
 	void log(std::vector<const char *> &modules, const Config &config);
-	void log(const int generation, const double min, const double avg, const double max);
+	void log(const unsigned int generation, const double min, const double avg, const double max);
 	void log(const std::multiset<Specimen> &population, GenotypeToStr genotype_to_str);
 	void log(double ticks);
 

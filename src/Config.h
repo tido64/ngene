@@ -7,7 +7,7 @@ struct Config
 {
 	bool elitism;
 	double mating_rate, mutation_rate;
-	int adult_pool_capacity,
+	unsigned int adult_pool_capacity,
 		doomsday,
 		lifespan,
 		max_prodigies,
