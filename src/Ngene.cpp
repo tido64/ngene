@@ -102,6 +102,7 @@ int main(int argc, char *argv[])
 					if (mt_rand() <= config_manager.config.mutation_rate)
 						module.mutate(fetus->genotype);
 					module.fitness_assess(*fetus);
+					fetus->age = 0;
 					offspring.insert(*fetus);
 				}
 			}
