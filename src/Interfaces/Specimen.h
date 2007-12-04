@@ -7,7 +7,7 @@
 class Specimen
 {
 public:
-	mutable int age;
+	mutable unsigned int age;
 	double fitness;
 	std::vector<boost::any> genotype;
 

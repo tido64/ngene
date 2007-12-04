@@ -6,9 +6,12 @@
 #ifdef WIN32
 	#define WIN32_LEAN_AND_MEAN
 	#include <windows.h>
+	#define dlhandle HMODULE
 	#define dlsym GetProcAddress
+	#define dlclose FreeLibrary
 #else
 	#include <dlfcn.h>
+	#define dlhandle void *
 #endif
 
 #include "Config.h"
@@ -40,9 +43,9 @@ class PluginManager
 	{
 		path = "./modules/" + path;
 		#ifdef WIN32
-			HMODULE module (LoadLibraryA(path.c_str()));
+			dlhandle module (LoadLibraryA(path.c_str()));
 		#else
-			void *module = dlopen(path.c_str(), RTLD_LAZY);
+			dlhandle module = dlopen(path.c_str(), RTLD_LAZY);
 		#endif
 		if (module != NULL)
 		{
@@ -60,12 +63,14 @@ class PluginManager
 					this->modules[module_type] = ((module_name)dlsym(module, "name"))();
 					break;
 			}
+			dlhandles.push_back(module);
 		}
 	}
 
 public:
 	int offspring_rate;
 	vector<const char *> modules;
+	vector<dlhandle> dlhandles;
 
 	Fitness fitness_assess;
 	Gene seed;

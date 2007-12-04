@@ -34,4 +34,7 @@ PluginManager::PluginManager(Config &config)
 PluginManager::~PluginManager()
 {
 	this->modules.clear();
+	for (vector<dlhandle>::iterator i = this->dlhandles.begin(); i != this->dlhandles.end(); i++)
+		dlclose(*i);
+	this->dlhandles.clear();
 }
