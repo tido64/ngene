@@ -23,13 +23,13 @@ ConfigManager::ConfigManager(const char *conf_file)
 			this->config.elitism = false;
 
 		this->config.lifespan = atoi(get_conf().c_str());
-		
+
 		this->config.mating_rate = atof(get_conf().c_str());
-		
+
 		this->config.max_prodigies = atoi(get_conf().c_str()) + 1;
-		
+
 		this->config.mutation_rate = atof(get_conf().c_str());
-		
+
 		this->config.offspring_rate = atoi(get_conf().c_str());
 
 		this->config.module_path[gene_module] = get_conf();

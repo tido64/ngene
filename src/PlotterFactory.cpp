@@ -1,6 +1,6 @@
 #include "PlotterFactory.h"
 
-using namespace std;
+using std::string;
 
 PlotterFactory::PlotterFactory()
 {

@@ -7,7 +7,6 @@ Plotter_SVG::~Plotter_SVG()
 {
 	this->svg << "</svg>\n";
 	this->svg.close();
-	this->generation_axis.clear();
 }
 
 bool Plotter_SVG::initiate(string filename, vector<const char *> &modules, const Config &config)
