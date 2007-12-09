@@ -17,7 +17,7 @@ ConfigManager::ConfigManager(const char *conf_file)
 
 		this->config.doomsday = atoi(get_conf().c_str());
 
-		if (get_conf().compare(0, 4, "true") == 0)
+		if (is_true(get_conf()))
 			this->config.elitism = true;
 		else
 			this->config.elitism = false;
@@ -68,4 +68,16 @@ string ConfigManager::get_conf()
 bool ConfigManager::is_loaded()
 {
 	return this->loaded;
+}
+
+bool ConfigManager::is_true(const string &b)
+{
+	if (b[0] == '1'
+		|| ((b[0] == 'T' || b[0] == 't')
+			&& (b[1] == 'R' || b[1] == 'r')
+			&& (b[2] == 'U' || b[2] == 'u')
+			&& (b[3] == 'E' || b[3] == 'e')))
+		return true;
+	else
+		return false;
 }
