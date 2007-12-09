@@ -19,6 +19,7 @@ private:
 	bool loaded;
 	std::ifstream ngene_conf;
 	std::string get_conf();
+	bool is_true(const std::string &b);
 };
 
 #endif
