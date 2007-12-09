@@ -46,7 +46,7 @@ namespace Ngene_Configurator
 			}
 			catch (DirectoryNotFoundException ex)
 			{
-				MessageBox.Show("You're not running the configurator from the same folder, or there are no modules installed.\nException message: " + ex.Message, "Failed to locate modules", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("You're not running the configurator from the same folder as Ngene.\n\nException:\n" + ex.Message, "Failed to locate modules", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				Application.Exit();
 				return;
 			}
@@ -65,7 +65,7 @@ namespace Ngene_Configurator
 			}
 			catch (FileNotFoundException ex)
 			{
-				MessageBox.Show("Please make sure you're running the configurator from the same folder.\nException message: " + ex.Message, "Could not find default configuration", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show("Please make sure you're running the configurator from the same folder.\n\nException:\n" + ex.Message, "Could not find default configuration", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				this.currentConfigurationFile = string.Empty;
 				this.hint = "No default configuration found";
 				component_MouseLeave(sender, e);
@@ -203,6 +203,7 @@ namespace Ngene_Configurator
 		private void component_MouseLeave(object sender, EventArgs e)
 		{
 			this.toolStripStatusHint.Text = this.hint;
+			this.statusStrip.Invalidate();
 		}
 
 		private void button_MouseEnter(object sender, EventArgs e)
@@ -334,8 +335,7 @@ namespace Ngene_Configurator
 
 		private void buttonSave_Click(object sender, EventArgs e)
 		{
-			if (FormCheck())
-				Save(sender, e);
+			Save(sender, e);
 		}
 
 		private void buttonSaveAs_Click(object sender, EventArgs e)
@@ -362,7 +362,7 @@ namespace Ngene_Configurator
 				}
 				catch (Win32Exception ex)
 				{
-					MessageBox.Show("Please make sure you're running the configurator from the same folder.\nException message: " + ex.Message, "Could not run Ngene", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show("Please make sure you're running the configurator from the same folder.\n\nException: " + ex.Message, "Could not run Ngene", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 		}
@@ -388,25 +388,26 @@ namespace Ngene_Configurator
 
 		private bool Save(object sender, EventArgs e)
 		{
-			if (this.currentConfigurationFile != string.Empty)
+			if (FormCheck())
 			{
-				try
+				if (this.currentConfigurationFile != string.Empty)
 				{
-					using (StreamWriter s = new StreamWriter(this.currentConfigurationFile))
+					try
 					{
-						SaveConfiguration(s);
+						using (StreamWriter s = new StreamWriter(this.currentConfigurationFile))
+						{
+							SaveConfiguration(s);
+						}
+						this.hint = "Saved '" + this.currentConfigurationFile + "'";
+						component_MouseLeave(sender, e);
+						return true;
 					}
-					this.hint = "Saved '" + this.currentConfigurationFile + "'";
-					component_MouseLeave(sender, e);
-					return true;
+					catch { return false; }
 				}
-				catch
-				{
-					return false;
-				}
+				else
+					return SaveAs(sender, e);
 			}
-			else
-				return SaveAs(sender, e);
+			else return false;
 		}
 
 		private bool SaveAs(object sender, EventArgs e)

@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 		{
 			this.statusStrip = new System.Windows.Forms.StatusStrip();
-			this.toolStripConfigDescription = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripStatusHint = new System.Windows.Forms.ToolStripStatusLabel();
 			this.groupBoxGeneral = new System.Windows.Forms.GroupBox();
 			this.tableLayoutPanelGeneral = new System.Windows.Forms.TableLayoutPanel();
@@ -113,18 +112,12 @@
 			this.statusStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
 			this.statusStrip.ImeMode = System.Windows.Forms.ImeMode.Disable;
 			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripConfigDescription,
             this.toolStripStatusHint});
 			this.statusStrip.Location = new System.Drawing.Point(0, 467);
 			this.statusStrip.Name = "statusStrip";
 			this.statusStrip.Size = new System.Drawing.Size(494, 22);
 			this.statusStrip.SizingGrip = false;
 			this.statusStrip.TabIndex = 0;
-			// 
-			// toolStripConfigDescription
-			// 
-			this.toolStripConfigDescription.Name = "toolStripConfigDescription";
-			this.toolStripConfigDescription.Size = new System.Drawing.Size(0, 17);
 			// 
 			// toolStripStatusHint
 			// 
@@ -139,7 +132,7 @@
 			this.groupBoxGeneral.Location = new System.Drawing.Point(287, 12);
 			this.groupBoxGeneral.Name = "groupBoxGeneral";
 			this.groupBoxGeneral.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-			this.groupBoxGeneral.Size = new System.Drawing.Size(195, 237);
+			this.groupBoxGeneral.Size = new System.Drawing.Size(192, 237);
 			this.groupBoxGeneral.TabIndex = 0;
 			this.groupBoxGeneral.TabStop = false;
 			this.groupBoxGeneral.Text = "General";
@@ -180,13 +173,13 @@
 			this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanelGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelGeneral.Size = new System.Drawing.Size(183, 202);
+			this.tableLayoutPanelGeneral.Size = new System.Drawing.Size(180, 202);
 			this.tableLayoutPanelGeneral.TabIndex = 0;
 			// 
 			// numericUpDownMaxProdigies
 			// 
 			this.numericUpDownMaxProdigies.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericUpDownMaxProdigies.Location = new System.Drawing.Point(106, 179);
+			this.numericUpDownMaxProdigies.Location = new System.Drawing.Point(103, 179);
 			this.numericUpDownMaxProdigies.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -208,11 +201,12 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.labelMaxProdigies.AutoSize = true;
 			this.labelMaxProdigies.CausesValidation = false;
-			this.labelMaxProdigies.Location = new System.Drawing.Point(25, 176);
+			this.labelMaxProdigies.Location = new System.Drawing.Point(22, 176);
+			this.labelMaxProdigies.Margin = new System.Windows.Forms.Padding(0);
 			this.labelMaxProdigies.Name = "labelMaxProdigies";
-			this.labelMaxProdigies.Size = new System.Drawing.Size(75, 26);
+			this.labelMaxProdigies.Size = new System.Drawing.Size(78, 26);
 			this.labelMaxProdigies.TabIndex = 7;
-			this.labelMaxProdigies.Text = "Max prodigies:";
+			this.labelMaxProdigies.Text = "Max prodigies: ";
 			this.labelMaxProdigies.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// labelGenerations
@@ -221,17 +215,18 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.labelGenerations.AutoSize = true;
 			this.labelGenerations.CausesValidation = false;
-			this.labelGenerations.Location = new System.Drawing.Point(33, 0);
+			this.labelGenerations.Location = new System.Drawing.Point(30, 0);
+			this.labelGenerations.Margin = new System.Windows.Forms.Padding(0);
 			this.labelGenerations.Name = "labelGenerations";
-			this.labelGenerations.Size = new System.Drawing.Size(67, 26);
+			this.labelGenerations.Size = new System.Drawing.Size(70, 26);
 			this.labelGenerations.TabIndex = 0;
-			this.labelGenerations.Text = "Generations:";
+			this.labelGenerations.Text = "Generations: ";
 			this.labelGenerations.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// numericUpDownGenerations
 			// 
 			this.numericUpDownGenerations.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericUpDownGenerations.Location = new System.Drawing.Point(106, 3);
+			this.numericUpDownGenerations.Location = new System.Drawing.Point(103, 3);
 			this.numericUpDownGenerations.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -258,11 +253,12 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.labelMutationRate.AutoSize = true;
 			this.labelMutationRate.CausesValidation = false;
-			this.labelMutationRate.Location = new System.Drawing.Point(28, 150);
+			this.labelMutationRate.Location = new System.Drawing.Point(25, 150);
+			this.labelMutationRate.Margin = new System.Windows.Forms.Padding(0);
 			this.labelMutationRate.Name = "labelMutationRate";
-			this.labelMutationRate.Size = new System.Drawing.Size(72, 26);
+			this.labelMutationRate.Size = new System.Drawing.Size(75, 26);
 			this.labelMutationRate.TabIndex = 6;
-			this.labelMutationRate.Text = "Mutation rate:";
+			this.labelMutationRate.Text = "Mutation rate: ";
 			this.labelMutationRate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// labelOffspringRate
@@ -271,11 +267,12 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.labelOffspringRate.AutoSize = true;
 			this.labelOffspringRate.CausesValidation = false;
-			this.labelOffspringRate.Location = new System.Drawing.Point(27, 124);
+			this.labelOffspringRate.Location = new System.Drawing.Point(24, 124);
+			this.labelOffspringRate.Margin = new System.Windows.Forms.Padding(0);
 			this.labelOffspringRate.Name = "labelOffspringRate";
-			this.labelOffspringRate.Size = new System.Drawing.Size(73, 26);
+			this.labelOffspringRate.Size = new System.Drawing.Size(76, 26);
 			this.labelOffspringRate.TabIndex = 5;
-			this.labelOffspringRate.Text = "Offspring rate:";
+			this.labelOffspringRate.Text = "Offspring rate: ";
 			this.labelOffspringRate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// labelMatingRate
@@ -284,11 +281,12 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.labelMatingRate.AutoSize = true;
 			this.labelMatingRate.CausesValidation = false;
-			this.labelMatingRate.Location = new System.Drawing.Point(37, 98);
+			this.labelMatingRate.Location = new System.Drawing.Point(34, 98);
+			this.labelMatingRate.Margin = new System.Windows.Forms.Padding(0);
 			this.labelMatingRate.Name = "labelMatingRate";
-			this.labelMatingRate.Size = new System.Drawing.Size(63, 26);
+			this.labelMatingRate.Size = new System.Drawing.Size(66, 26);
 			this.labelMatingRate.TabIndex = 4;
-			this.labelMatingRate.Text = "Mating rate:";
+			this.labelMatingRate.Text = "Mating rate: ";
 			this.labelMatingRate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// labelElitism
@@ -297,11 +295,12 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.labelElitism.AutoSize = true;
 			this.labelElitism.CausesValidation = false;
-			this.labelElitism.Location = new System.Drawing.Point(61, 78);
+			this.labelElitism.Location = new System.Drawing.Point(58, 78);
+			this.labelElitism.Margin = new System.Windows.Forms.Padding(0);
 			this.labelElitism.Name = "labelElitism";
-			this.labelElitism.Size = new System.Drawing.Size(39, 20);
+			this.labelElitism.Size = new System.Drawing.Size(42, 20);
 			this.labelElitism.TabIndex = 3;
-			this.labelElitism.Text = "Elitism:";
+			this.labelElitism.Text = "Elitism: ";
 			this.labelElitism.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// labelAdultPoolCapacity
@@ -310,11 +309,12 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.labelAdultPoolCapacity.AutoSize = true;
 			this.labelAdultPoolCapacity.CausesValidation = false;
-			this.labelAdultPoolCapacity.Location = new System.Drawing.Point(3, 52);
+			this.labelAdultPoolCapacity.Location = new System.Drawing.Point(0, 52);
+			this.labelAdultPoolCapacity.Margin = new System.Windows.Forms.Padding(0);
 			this.labelAdultPoolCapacity.Name = "labelAdultPoolCapacity";
-			this.labelAdultPoolCapacity.Size = new System.Drawing.Size(97, 26);
+			this.labelAdultPoolCapacity.Size = new System.Drawing.Size(100, 26);
 			this.labelAdultPoolCapacity.TabIndex = 2;
-			this.labelAdultPoolCapacity.Text = "Adul pool capacity:";
+			this.labelAdultPoolCapacity.Text = "Adul pool capacity: ";
 			this.labelAdultPoolCapacity.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// labelLifespan
@@ -323,11 +323,12 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.labelLifespan.AutoSize = true;
 			this.labelLifespan.CausesValidation = false;
-			this.labelLifespan.Location = new System.Drawing.Point(50, 26);
+			this.labelLifespan.Location = new System.Drawing.Point(47, 26);
+			this.labelLifespan.Margin = new System.Windows.Forms.Padding(0);
 			this.labelLifespan.Name = "labelLifespan";
-			this.labelLifespan.Size = new System.Drawing.Size(50, 26);
+			this.labelLifespan.Size = new System.Drawing.Size(53, 26);
 			this.labelLifespan.TabIndex = 1;
-			this.labelLifespan.Text = "Lifespan:";
+			this.labelLifespan.Text = "Lifespan: ";
 			this.labelLifespan.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// numericUpDownMutationRate
@@ -339,7 +340,7 @@
             0,
             0,
             131072});
-			this.numericUpDownMutationRate.Location = new System.Drawing.Point(106, 153);
+			this.numericUpDownMutationRate.Location = new System.Drawing.Point(103, 153);
 			this.numericUpDownMutationRate.Maximum = new decimal(new int[] {
             1,
             0,
@@ -357,7 +358,7 @@
 			// numericUpDownOffspringRate
 			// 
 			this.numericUpDownOffspringRate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericUpDownOffspringRate.Location = new System.Drawing.Point(106, 127);
+			this.numericUpDownOffspringRate.Location = new System.Drawing.Point(103, 127);
 			this.numericUpDownOffspringRate.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -387,7 +388,7 @@
             0,
             0,
             131072});
-			this.numericUpDownMatingRate.Location = new System.Drawing.Point(106, 101);
+			this.numericUpDownMatingRate.Location = new System.Drawing.Point(103, 101);
 			this.numericUpDownMatingRate.Maximum = new decimal(new int[] {
             1,
             0,
@@ -405,7 +406,7 @@
 			// checkBoxElitism
 			// 
 			this.checkBoxElitism.AutoSize = true;
-			this.checkBoxElitism.Location = new System.Drawing.Point(106, 81);
+			this.checkBoxElitism.Location = new System.Drawing.Point(103, 81);
 			this.checkBoxElitism.Name = "checkBoxElitism";
 			this.checkBoxElitism.Size = new System.Drawing.Size(15, 14);
 			this.checkBoxElitism.TabIndex = 3;
@@ -414,7 +415,7 @@
 			// numericUpDownAdultPoolCapacity
 			// 
 			this.numericUpDownAdultPoolCapacity.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericUpDownAdultPoolCapacity.Location = new System.Drawing.Point(106, 55);
+			this.numericUpDownAdultPoolCapacity.Location = new System.Drawing.Point(103, 55);
 			this.numericUpDownAdultPoolCapacity.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -438,7 +439,7 @@
 			// numericUpDownLifespan
 			// 
 			this.numericUpDownLifespan.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.numericUpDownLifespan.Location = new System.Drawing.Point(106, 29);
+			this.numericUpDownLifespan.Location = new System.Drawing.Point(103, 29);
 			this.numericUpDownLifespan.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -477,7 +478,6 @@
 			// 
 			this.comboBoxPlotter.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
 			this.comboBoxPlotter.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.comboBoxPlotter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.comboBoxPlotter.FormattingEnabled = true;
 			this.comboBoxPlotter.ImeMode = System.Windows.Forms.ImeMode.Disable;
 			this.comboBoxPlotter.Location = new System.Drawing.Point(7, 20);
@@ -494,7 +494,7 @@
 			this.groupBoxGene.Location = new System.Drawing.Point(12, 12);
 			this.groupBoxGene.Name = "groupBoxGene";
 			this.groupBoxGene.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-			this.groupBoxGene.Size = new System.Drawing.Size(269, 84);
+			this.groupBoxGene.Size = new System.Drawing.Size(266, 84);
 			this.groupBoxGene.TabIndex = 2;
 			this.groupBoxGene.TabStop = false;
 			this.groupBoxGene.Text = "Gene";
@@ -516,7 +516,7 @@
 			this.tableLayoutPanelGene.RowCount = 2;
 			this.tableLayoutPanelGene.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanelGene.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelGene.Size = new System.Drawing.Size(257, 53);
+			this.tableLayoutPanelGene.Size = new System.Drawing.Size(254, 53);
 			this.tableLayoutPanelGene.TabIndex = 0;
 			// 
 			// labelGeneModule
@@ -525,21 +525,21 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.labelGeneModule.AutoSize = true;
 			this.labelGeneModule.CausesValidation = false;
-			this.labelGeneModule.Location = new System.Drawing.Point(21, 0);
+			this.labelGeneModule.Location = new System.Drawing.Point(18, 0);
+			this.labelGeneModule.Margin = new System.Windows.Forms.Padding(0);
 			this.labelGeneModule.Name = "labelGeneModule";
-			this.labelGeneModule.Size = new System.Drawing.Size(45, 27);
+			this.labelGeneModule.Size = new System.Drawing.Size(48, 27);
 			this.labelGeneModule.TabIndex = 9;
-			this.labelGeneModule.Text = "Module:";
+			this.labelGeneModule.Text = "Module: ";
 			this.labelGeneModule.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// comboBoxGene
 			// 
 			this.comboBoxGene.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
 			this.comboBoxGene.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.comboBoxGene.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.comboBoxGene.FormattingEnabled = true;
 			this.comboBoxGene.ImeMode = System.Windows.Forms.ImeMode.Disable;
-			this.comboBoxGene.Location = new System.Drawing.Point(72, 3);
+			this.comboBoxGene.Location = new System.Drawing.Point(69, 3);
 			this.comboBoxGene.Name = "comboBoxGene";
 			this.comboBoxGene.Size = new System.Drawing.Size(182, 21);
 			this.comboBoxGene.Sorted = true;
@@ -551,16 +551,17 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.labelGeneParameters.AutoSize = true;
 			this.labelGeneParameters.CausesValidation = false;
-			this.labelGeneParameters.Location = new System.Drawing.Point(3, 27);
+			this.labelGeneParameters.Location = new System.Drawing.Point(0, 27);
+			this.labelGeneParameters.Margin = new System.Windows.Forms.Padding(0);
 			this.labelGeneParameters.Name = "labelGeneParameters";
-			this.labelGeneParameters.Size = new System.Drawing.Size(63, 26);
+			this.labelGeneParameters.Size = new System.Drawing.Size(66, 26);
 			this.labelGeneParameters.TabIndex = 10;
-			this.labelGeneParameters.Text = "Parameters:";
+			this.labelGeneParameters.Text = "Parameters: ";
 			this.labelGeneParameters.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// textBoxGene
 			// 
-			this.textBoxGene.Location = new System.Drawing.Point(72, 30);
+			this.textBoxGene.Location = new System.Drawing.Point(69, 30);
 			this.textBoxGene.Name = "textBoxGene";
 			this.textBoxGene.Size = new System.Drawing.Size(182, 20);
 			this.textBoxGene.TabIndex = 10;
@@ -574,7 +575,7 @@
 			this.groupBoxFitness.Location = new System.Drawing.Point(12, 102);
 			this.groupBoxFitness.Name = "groupBoxFitness";
 			this.groupBoxFitness.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-			this.groupBoxFitness.Size = new System.Drawing.Size(269, 84);
+			this.groupBoxFitness.Size = new System.Drawing.Size(266, 84);
 			this.groupBoxFitness.TabIndex = 3;
 			this.groupBoxFitness.TabStop = false;
 			this.groupBoxFitness.Text = "Fitness";
@@ -596,17 +597,16 @@
 			this.tableLayoutPanelFitness.RowCount = 2;
 			this.tableLayoutPanelFitness.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanelFitness.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelFitness.Size = new System.Drawing.Size(257, 53);
+			this.tableLayoutPanelFitness.Size = new System.Drawing.Size(254, 53);
 			this.tableLayoutPanelFitness.TabIndex = 0;
 			// 
 			// comboBoxFitness
 			// 
 			this.comboBoxFitness.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
 			this.comboBoxFitness.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.comboBoxFitness.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.comboBoxFitness.FormattingEnabled = true;
 			this.comboBoxFitness.ImeMode = System.Windows.Forms.ImeMode.Disable;
-			this.comboBoxFitness.Location = new System.Drawing.Point(72, 3);
+			this.comboBoxFitness.Location = new System.Drawing.Point(69, 3);
 			this.comboBoxFitness.Name = "comboBoxFitness";
 			this.comboBoxFitness.Size = new System.Drawing.Size(182, 21);
 			this.comboBoxFitness.Sorted = true;
@@ -614,7 +614,7 @@
 			// 
 			// textBoxFitness
 			// 
-			this.textBoxFitness.Location = new System.Drawing.Point(72, 30);
+			this.textBoxFitness.Location = new System.Drawing.Point(69, 30);
 			this.textBoxFitness.Name = "textBoxFitness";
 			this.textBoxFitness.Size = new System.Drawing.Size(182, 20);
 			this.textBoxFitness.TabIndex = 12;
@@ -626,11 +626,12 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.labelFitnessParameters.AutoSize = true;
 			this.labelFitnessParameters.CausesValidation = false;
-			this.labelFitnessParameters.Location = new System.Drawing.Point(3, 27);
+			this.labelFitnessParameters.Location = new System.Drawing.Point(0, 27);
+			this.labelFitnessParameters.Margin = new System.Windows.Forms.Padding(0);
 			this.labelFitnessParameters.Name = "labelFitnessParameters";
-			this.labelFitnessParameters.Size = new System.Drawing.Size(63, 26);
+			this.labelFitnessParameters.Size = new System.Drawing.Size(66, 26);
 			this.labelFitnessParameters.TabIndex = 12;
-			this.labelFitnessParameters.Text = "Parameters:";
+			this.labelFitnessParameters.Text = "Parameters: ";
 			this.labelFitnessParameters.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// labelFitnessModule
@@ -639,11 +640,12 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.labelFitnessModule.AutoSize = true;
 			this.labelFitnessModule.CausesValidation = false;
-			this.labelFitnessModule.Location = new System.Drawing.Point(21, 0);
+			this.labelFitnessModule.Location = new System.Drawing.Point(18, 0);
+			this.labelFitnessModule.Margin = new System.Windows.Forms.Padding(0);
 			this.labelFitnessModule.Name = "labelFitnessModule";
-			this.labelFitnessModule.Size = new System.Drawing.Size(45, 27);
+			this.labelFitnessModule.Size = new System.Drawing.Size(48, 27);
 			this.labelFitnessModule.TabIndex = 11;
-			this.labelFitnessModule.Text = "Module:";
+			this.labelFitnessModule.Text = "Module: ";
 			this.labelFitnessModule.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// groupBoxMating
@@ -654,7 +656,7 @@
 			this.groupBoxMating.Location = new System.Drawing.Point(12, 192);
 			this.groupBoxMating.Name = "groupBoxMating";
 			this.groupBoxMating.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-			this.groupBoxMating.Size = new System.Drawing.Size(269, 84);
+			this.groupBoxMating.Size = new System.Drawing.Size(266, 84);
 			this.groupBoxMating.TabIndex = 4;
 			this.groupBoxMating.TabStop = false;
 			this.groupBoxMating.Text = "Mating";
@@ -676,17 +678,16 @@
 			this.tableLayoutPanelMating.RowCount = 2;
 			this.tableLayoutPanelMating.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanelMating.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelMating.Size = new System.Drawing.Size(257, 53);
+			this.tableLayoutPanelMating.Size = new System.Drawing.Size(254, 53);
 			this.tableLayoutPanelMating.TabIndex = 0;
 			// 
 			// comboBoxMating
 			// 
 			this.comboBoxMating.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
 			this.comboBoxMating.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.comboBoxMating.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.comboBoxMating.FormattingEnabled = true;
 			this.comboBoxMating.ImeMode = System.Windows.Forms.ImeMode.Disable;
-			this.comboBoxMating.Location = new System.Drawing.Point(72, 3);
+			this.comboBoxMating.Location = new System.Drawing.Point(69, 3);
 			this.comboBoxMating.Name = "comboBoxMating";
 			this.comboBoxMating.Size = new System.Drawing.Size(182, 21);
 			this.comboBoxMating.Sorted = true;
@@ -694,7 +695,7 @@
 			// 
 			// textBoxMating
 			// 
-			this.textBoxMating.Location = new System.Drawing.Point(72, 30);
+			this.textBoxMating.Location = new System.Drawing.Point(69, 30);
 			this.textBoxMating.Name = "textBoxMating";
 			this.textBoxMating.Size = new System.Drawing.Size(182, 20);
 			this.textBoxMating.TabIndex = 14;
@@ -706,11 +707,12 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.labelMatingParameters.AutoSize = true;
 			this.labelMatingParameters.CausesValidation = false;
-			this.labelMatingParameters.Location = new System.Drawing.Point(3, 27);
+			this.labelMatingParameters.Location = new System.Drawing.Point(0, 27);
+			this.labelMatingParameters.Margin = new System.Windows.Forms.Padding(0);
 			this.labelMatingParameters.Name = "labelMatingParameters";
-			this.labelMatingParameters.Size = new System.Drawing.Size(63, 26);
+			this.labelMatingParameters.Size = new System.Drawing.Size(66, 26);
 			this.labelMatingParameters.TabIndex = 14;
-			this.labelMatingParameters.Text = "Parameters:";
+			this.labelMatingParameters.Text = "Parameters: ";
 			this.labelMatingParameters.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// labelMatingModule
@@ -719,11 +721,12 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.labelMatingModule.AutoSize = true;
 			this.labelMatingModule.CausesValidation = false;
-			this.labelMatingModule.Location = new System.Drawing.Point(21, 0);
+			this.labelMatingModule.Location = new System.Drawing.Point(18, 0);
+			this.labelMatingModule.Margin = new System.Windows.Forms.Padding(0);
 			this.labelMatingModule.Name = "labelMatingModule";
-			this.labelMatingModule.Size = new System.Drawing.Size(45, 27);
+			this.labelMatingModule.Size = new System.Drawing.Size(48, 27);
 			this.labelMatingModule.TabIndex = 13;
-			this.labelMatingModule.Text = "Module:";
+			this.labelMatingModule.Text = "Module: ";
 			this.labelMatingModule.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// groupBoxMutator
@@ -734,7 +737,7 @@
 			this.groupBoxMutator.Location = new System.Drawing.Point(12, 282);
 			this.groupBoxMutator.Name = "groupBoxMutator";
 			this.groupBoxMutator.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-			this.groupBoxMutator.Size = new System.Drawing.Size(269, 84);
+			this.groupBoxMutator.Size = new System.Drawing.Size(266, 84);
 			this.groupBoxMutator.TabIndex = 5;
 			this.groupBoxMutator.TabStop = false;
 			this.groupBoxMutator.Text = "Mutator";
@@ -756,17 +759,16 @@
 			this.tableLayoutPanelMutator.RowCount = 2;
 			this.tableLayoutPanelMutator.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanelMutator.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelMutator.Size = new System.Drawing.Size(257, 53);
+			this.tableLayoutPanelMutator.Size = new System.Drawing.Size(254, 53);
 			this.tableLayoutPanelMutator.TabIndex = 0;
 			// 
 			// comboBoxMutator
 			// 
 			this.comboBoxMutator.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
 			this.comboBoxMutator.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.comboBoxMutator.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.comboBoxMutator.FormattingEnabled = true;
 			this.comboBoxMutator.ImeMode = System.Windows.Forms.ImeMode.Disable;
-			this.comboBoxMutator.Location = new System.Drawing.Point(72, 3);
+			this.comboBoxMutator.Location = new System.Drawing.Point(69, 3);
 			this.comboBoxMutator.Name = "comboBoxMutator";
 			this.comboBoxMutator.Size = new System.Drawing.Size(182, 21);
 			this.comboBoxMutator.Sorted = true;
@@ -774,7 +776,7 @@
 			// 
 			// textBoxMutator
 			// 
-			this.textBoxMutator.Location = new System.Drawing.Point(72, 30);
+			this.textBoxMutator.Location = new System.Drawing.Point(69, 30);
 			this.textBoxMutator.Name = "textBoxMutator";
 			this.textBoxMutator.Size = new System.Drawing.Size(182, 20);
 			this.textBoxMutator.TabIndex = 16;
@@ -786,11 +788,12 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.labelMutatorParameters.AutoSize = true;
 			this.labelMutatorParameters.CausesValidation = false;
-			this.labelMutatorParameters.Location = new System.Drawing.Point(3, 27);
+			this.labelMutatorParameters.Location = new System.Drawing.Point(0, 27);
+			this.labelMutatorParameters.Margin = new System.Windows.Forms.Padding(0);
 			this.labelMutatorParameters.Name = "labelMutatorParameters";
-			this.labelMutatorParameters.Size = new System.Drawing.Size(63, 26);
+			this.labelMutatorParameters.Size = new System.Drawing.Size(66, 26);
 			this.labelMutatorParameters.TabIndex = 16;
-			this.labelMutatorParameters.Text = "Parameters:";
+			this.labelMutatorParameters.Text = "Parameters: ";
 			this.labelMutatorParameters.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// labelMutatorModule
@@ -799,11 +802,12 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.labelMutatorModule.AutoSize = true;
 			this.labelMutatorModule.CausesValidation = false;
-			this.labelMutatorModule.Location = new System.Drawing.Point(21, 0);
+			this.labelMutatorModule.Location = new System.Drawing.Point(18, 0);
+			this.labelMutatorModule.Margin = new System.Windows.Forms.Padding(0);
 			this.labelMutatorModule.Name = "labelMutatorModule";
-			this.labelMutatorModule.Size = new System.Drawing.Size(45, 27);
+			this.labelMutatorModule.Size = new System.Drawing.Size(48, 27);
 			this.labelMutatorModule.TabIndex = 15;
-			this.labelMutatorModule.Text = "Module:";
+			this.labelMutatorModule.Text = "Module: ";
 			this.labelMutatorModule.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// groupBoxSelector
@@ -814,7 +818,7 @@
 			this.groupBoxSelector.Location = new System.Drawing.Point(12, 372);
 			this.groupBoxSelector.Name = "groupBoxSelector";
 			this.groupBoxSelector.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-			this.groupBoxSelector.Size = new System.Drawing.Size(269, 84);
+			this.groupBoxSelector.Size = new System.Drawing.Size(266, 84);
 			this.groupBoxSelector.TabIndex = 6;
 			this.groupBoxSelector.TabStop = false;
 			this.groupBoxSelector.Text = "Selector";
@@ -836,17 +840,16 @@
 			this.tableLayoutPanelSelector.RowCount = 2;
 			this.tableLayoutPanelSelector.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanelSelector.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanelSelector.Size = new System.Drawing.Size(257, 53);
+			this.tableLayoutPanelSelector.Size = new System.Drawing.Size(254, 53);
 			this.tableLayoutPanelSelector.TabIndex = 0;
 			// 
 			// comboBoxSelector
 			// 
 			this.comboBoxSelector.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
 			this.comboBoxSelector.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.comboBoxSelector.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.comboBoxSelector.FormattingEnabled = true;
 			this.comboBoxSelector.ImeMode = System.Windows.Forms.ImeMode.Disable;
-			this.comboBoxSelector.Location = new System.Drawing.Point(72, 3);
+			this.comboBoxSelector.Location = new System.Drawing.Point(69, 3);
 			this.comboBoxSelector.Name = "comboBoxSelector";
 			this.comboBoxSelector.Size = new System.Drawing.Size(182, 21);
 			this.comboBoxSelector.Sorted = true;
@@ -854,7 +857,7 @@
 			// 
 			// textBoxSelector
 			// 
-			this.textBoxSelector.Location = new System.Drawing.Point(72, 30);
+			this.textBoxSelector.Location = new System.Drawing.Point(69, 30);
 			this.textBoxSelector.Name = "textBoxSelector";
 			this.textBoxSelector.Size = new System.Drawing.Size(182, 20);
 			this.textBoxSelector.TabIndex = 18;
@@ -866,11 +869,12 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.labelSelectorParameters.AutoSize = true;
 			this.labelSelectorParameters.CausesValidation = false;
-			this.labelSelectorParameters.Location = new System.Drawing.Point(3, 27);
+			this.labelSelectorParameters.Location = new System.Drawing.Point(0, 27);
+			this.labelSelectorParameters.Margin = new System.Windows.Forms.Padding(0);
 			this.labelSelectorParameters.Name = "labelSelectorParameters";
-			this.labelSelectorParameters.Size = new System.Drawing.Size(63, 26);
+			this.labelSelectorParameters.Size = new System.Drawing.Size(66, 26);
 			this.labelSelectorParameters.TabIndex = 18;
-			this.labelSelectorParameters.Text = "Parameters:";
+			this.labelSelectorParameters.Text = "Parameters: ";
 			this.labelSelectorParameters.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// labelSelectorModule
@@ -879,11 +883,12 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.labelSelectorModule.AutoSize = true;
 			this.labelSelectorModule.CausesValidation = false;
-			this.labelSelectorModule.Location = new System.Drawing.Point(21, 0);
+			this.labelSelectorModule.Location = new System.Drawing.Point(18, 0);
+			this.labelSelectorModule.Margin = new System.Windows.Forms.Padding(0);
 			this.labelSelectorModule.Name = "labelSelectorModule";
-			this.labelSelectorModule.Size = new System.Drawing.Size(45, 27);
+			this.labelSelectorModule.Size = new System.Drawing.Size(48, 27);
 			this.labelSelectorModule.TabIndex = 17;
-			this.labelSelectorModule.Text = "Module:";
+			this.labelSelectorModule.Text = "Module: ";
 			this.labelSelectorModule.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// buttonSaveAndRun
@@ -992,7 +997,6 @@
 		#endregion
 
 		private System.Windows.Forms.StatusStrip statusStrip;
-		private System.Windows.Forms.ToolStripStatusLabel toolStripConfigDescription;
 		private System.Windows.Forms.GroupBox groupBoxGeneral;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanelGeneral;
 		private System.Windows.Forms.Label labelAdultPoolCapacity;
