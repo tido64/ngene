@@ -1,6 +1,7 @@
 #ifndef CONFIG_STRUCT
 #define CONFIG_STRUCT
 
+#include <string>
 #include <vector>
 
 struct Config
