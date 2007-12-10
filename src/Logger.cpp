@@ -10,6 +10,11 @@ Logger::Logger()
 	this->plotter = NULL;
 }
 
+Logger::~Logger()
+{
+	delete this->plotter;
+}
+
 void Logger::log(std::vector<const char *> &modules, const Config &config)
 {
 	PlotterFactory plotter_factory;
@@ -32,7 +37,6 @@ void Logger::log(const unsigned int generation, const double min, const double a
 
 void Logger::log(const std::multiset<Specimen> &population, GenotypeToStr genotype_to_str)
 {
-	this->plotter = NULL;
 	std::ofstream output (strcat(this->timestamp, ".output"));
 	output << genotype_to_str(population.begin()->genotype) << "\n";
 	output.close();

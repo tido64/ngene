@@ -1,13 +1,12 @@
 #include <fstream>
 #include "IPlotter.h"
 #include "ModuleType.h"
-#include "Config.h"
 
 class Plotter_SVG : public IPlotter
 {
 public:
 	~Plotter_SVG();
-	bool initiate(char *filename, const std::vector<const char *> &modules, const Config &config);
+	bool initiate(std::string filename, const std::vector<const char *> &modules, const Config &config);
 	void plot(const unsigned int generation, double min, double avg, double max);
 
 private:

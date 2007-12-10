@@ -1,16 +1,15 @@
 #include "Plotter_SVG.h"
 
-using std::vector;
-
 Plotter_SVG::~Plotter_SVG()
 {
 	this->svg << "</svg>\n";
 	this->svg.close();
 }
 
-bool Plotter_SVG::initiate(char *filename, const vector<const char *> &modules, const Config &config)
+bool Plotter_SVG::initiate(std::string filename, const std::vector<const char *> &modules, const Config &config)
 {
-	this->svg.open(strcat(filename, ".svg"));
+	filename += ".svg";
+	this->svg.open(filename.c_str());
 	if (this->svg.is_open())
 	{
 		this->svg	<< "<?xml version=\"1.0\"?>\n"
