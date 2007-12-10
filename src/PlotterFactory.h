@@ -5,7 +5,8 @@ class PlotterFactory
 {
 public:
 	PlotterFactory();
-	IPlotter *create_plotter(std::string type);
+	~PlotterFactory();
+	IPlotter *create_plotter(const std::string &type);
 
 private:
 	IPlotter *plotter;

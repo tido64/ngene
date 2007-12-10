@@ -7,7 +7,12 @@ PlotterFactory::PlotterFactory()
 	this->plotter = NULL;
 }
 
-IPlotter *PlotterFactory::create_plotter(string type)
+PlotterFactory::~PlotterFactory()
+{
+	delete this->plotter;
+}
+
+IPlotter *PlotterFactory::create_plotter(const string &type)
 {
 	if (this->plotter == NULL)
 	{

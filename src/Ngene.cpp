@@ -4,7 +4,7 @@ using namespace std;
 using boost::any;
 using boost::mt19937;
 
-const char *NGENE_VERSION = "0.2007.12.04";
+const char *NGENE_VERSION = "0.2007.12.10";
 
 int main(int argc, char *argv[])
 {
