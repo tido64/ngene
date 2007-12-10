@@ -10,36 +10,21 @@ namespace Ngene_Configurator
 	{
 		#region Initialization
 
+		private const string fileDialogFilter = "configuration files (*.conf)|*.conf";
 		private const string ngene_conf = "ngene.conf";
 		private const string noParameters = "none";
-
-		private readonly OpenFileDialog openFileDialog;
-		private readonly ProcessStartInfo processInfo;
-		private readonly SaveFileDialog saveFileDialog;
 
 		private string currentConfigurationFile, hint;
 
 		public Configurator()
 		{
 			InitializeComponent();
-
-			this.openFileDialog = new OpenFileDialog();
-			this.openFileDialog.InitialDirectory = ".";
-			this.openFileDialog.Filter = "configuration files (*.conf)|*.conf";
-
-			this.processInfo = new ProcessStartInfo("ngene");
-			this.processInfo.UseShellExecute = true;
-
-			this.saveFileDialog = new SaveFileDialog();
-			this.saveFileDialog.InitialDirectory = this.openFileDialog.InitialDirectory;
-			this.saveFileDialog.Filter = this.openFileDialog.Filter;
+			this.MaximumSize = this.Size;
+			this.MinimumSize = this.Size;
 		}
 
 		private void Configurator_Load(object sender, EventArgs e)
 		{
-			this.MaximumSize = this.Size;
-			this.MinimumSize = this.Size;
-
 			try
 			{
 				LoadModules();
@@ -63,9 +48,9 @@ namespace Ngene_Configurator
 				}
 				this.hint = "";
 			}
-			catch (FileNotFoundException ex)
+			catch //(FileNotFoundException ex)
 			{
-				MessageBox.Show("Please make sure you're running the configurator from the same folder.\n\nException:\n" + ex.Message, "Could not find default configuration", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				//MessageBox.Show("Please make sure you're running the configurator from the same folder.\n\nException:\n" + ex.Message, "Could not find default configuration", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				this.currentConfigurationFile = string.Empty;
 				this.hint = "No default configuration found";
 				component_MouseLeave(sender, e);
@@ -311,22 +296,26 @@ namespace Ngene_Configurator
 
 		private void buttonLoad_Click(object sender, EventArgs e)
 		{
-			if (this.openFileDialog.ShowDialog() == DialogResult.OK)
+			using (OpenFileDialog openFileDialog = new OpenFileDialog())
 			{
-				using (Stream s = this.openFileDialog.OpenFile())
+				openFileDialog.Filter = fileDialogFilter;
+				if (openFileDialog.ShowDialog() == DialogResult.OK)
 				{
-					if (s != null)
+					using (Stream s = openFileDialog.OpenFile())
 					{
-						try
+						if (s != null)
 						{
-							LoadConfiguration(s);
-							this.currentConfigurationFile = this.saveFileDialog.FileName;
-							this.hint = "Loaded '" + this.currentConfigurationFile + "'";
-							component_MouseLeave(sender, e);
-						}
-						catch (Exception ex)
-						{
-							MessageBox.Show(ex.Message, "Could not read configuration file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+							try
+							{
+								LoadConfiguration(s);
+								this.currentConfigurationFile = openFileDialog.FileName;
+								this.hint = "Loaded '" + this.currentConfigurationFile + "'";
+								component_MouseLeave(sender, e);
+							}
+							catch (Exception ex)
+							{
+								MessageBox.Show(ex.Message, "Could not read configuration file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+							}
 						}
 					}
 				}
@@ -350,14 +339,11 @@ namespace Ngene_Configurator
 			{
 				try
 				{
+					ProcessStartInfo processInfo = new ProcessStartInfo("ngene");
 					if (!this.currentConfigurationFile.Equals(ngene_conf))
-					{
-						ProcessStartInfo processInfo = new ProcessStartInfo("ngene", "--config " + this.currentConfigurationFile);
-						this.processInfo.UseShellExecute = true;
-						Process.Start(processInfo);
-					}
-					else
-						Process.Start(this.processInfo);
+						processInfo.Arguments = "--config " + this.currentConfigurationFile;
+					processInfo.UseShellExecute = true;
+					Process.Start(processInfo);
 					Application.Exit();
 				}
 				catch (Win32Exception ex)
@@ -412,23 +398,27 @@ namespace Ngene_Configurator
 
 		private bool SaveAs(object sender, EventArgs e)
 		{
-			if (this.saveFileDialog.ShowDialog() == DialogResult.OK)
+			using (SaveFileDialog saveFileDialog = new SaveFileDialog())
 			{
-				using (Stream s = this.saveFileDialog.OpenFile())
+				saveFileDialog.Filter = fileDialogFilter;
+				if (saveFileDialog.ShowDialog() == DialogResult.OK)
 				{
-					if (s != null)
+					using (Stream s = saveFileDialog.OpenFile())
 					{
-						try
+						if (s != null)
 						{
-							SaveConfiguration(s);
-							this.currentConfigurationFile = this.saveFileDialog.FileName;
-							this.hint = "Saved to '" + this.currentConfigurationFile + "'";
-							component_MouseLeave(sender, e);
-							return true;
-						}
-						catch (Exception ex)
-						{
-							MessageBox.Show(ex.Message, "Could not write configuration file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+							try
+							{
+								SaveConfiguration(s);
+								this.currentConfigurationFile = saveFileDialog.FileName;
+								this.hint = "Saved to '" + this.currentConfigurationFile + "'";
+								component_MouseLeave(sender, e);
+								return true;
+							}
+							catch (Exception ex)
+							{
+								MessageBox.Show(ex.Message, "Could not write configuration file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+							}
 						}
 					}
 				}
