@@ -476,8 +476,7 @@
 			// 
 			// comboBoxPlotter
 			// 
-			this.comboBoxPlotter.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-			this.comboBoxPlotter.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+			this.comboBoxPlotter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxPlotter.FormattingEnabled = true;
 			this.comboBoxPlotter.ImeMode = System.Windows.Forms.ImeMode.Disable;
 			this.comboBoxPlotter.Location = new System.Drawing.Point(7, 20);
@@ -535,8 +534,7 @@
 			// 
 			// comboBoxGene
 			// 
-			this.comboBoxGene.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-			this.comboBoxGene.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+			this.comboBoxGene.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxGene.FormattingEnabled = true;
 			this.comboBoxGene.ImeMode = System.Windows.Forms.ImeMode.Disable;
 			this.comboBoxGene.Location = new System.Drawing.Point(69, 3);
@@ -602,8 +600,7 @@
 			// 
 			// comboBoxFitness
 			// 
-			this.comboBoxFitness.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-			this.comboBoxFitness.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+			this.comboBoxFitness.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxFitness.FormattingEnabled = true;
 			this.comboBoxFitness.ImeMode = System.Windows.Forms.ImeMode.Disable;
 			this.comboBoxFitness.Location = new System.Drawing.Point(69, 3);
@@ -683,8 +680,7 @@
 			// 
 			// comboBoxMating
 			// 
-			this.comboBoxMating.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-			this.comboBoxMating.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+			this.comboBoxMating.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxMating.FormattingEnabled = true;
 			this.comboBoxMating.ImeMode = System.Windows.Forms.ImeMode.Disable;
 			this.comboBoxMating.Location = new System.Drawing.Point(69, 3);
@@ -764,8 +760,7 @@
 			// 
 			// comboBoxMutator
 			// 
-			this.comboBoxMutator.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-			this.comboBoxMutator.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+			this.comboBoxMutator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxMutator.FormattingEnabled = true;
 			this.comboBoxMutator.ImeMode = System.Windows.Forms.ImeMode.Disable;
 			this.comboBoxMutator.Location = new System.Drawing.Point(69, 3);
@@ -845,8 +840,7 @@
 			// 
 			// comboBoxSelector
 			// 
-			this.comboBoxSelector.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-			this.comboBoxSelector.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+			this.comboBoxSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxSelector.FormattingEnabled = true;
 			this.comboBoxSelector.ImeMode = System.Windows.Forms.ImeMode.Disable;
 			this.comboBoxSelector.Location = new System.Drawing.Point(69, 3);
@@ -908,7 +902,7 @@
 			this.buttonSaveAs.Name = "buttonSaveAs";
 			this.buttonSaveAs.Size = new System.Drawing.Size(195, 23);
 			this.buttonSaveAs.TabIndex = 9;
-			this.buttonSaveAs.Text = "Save settings as...";
+			this.buttonSaveAs.Text = "Save as...";
 			this.buttonSaveAs.UseVisualStyleBackColor = true;
 			this.buttonSaveAs.Click += new System.EventHandler(this.buttonSaveAs_Click);
 			// 
@@ -918,7 +912,7 @@
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(195, 23);
 			this.buttonSave.TabIndex = 8;
-			this.buttonSave.Text = "Save settings";
+			this.buttonSave.Text = "Save";
 			this.buttonSave.UseVisualStyleBackColor = true;
 			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
 			// 
@@ -928,7 +922,7 @@
 			this.buttonLoad.Name = "buttonLoad";
 			this.buttonLoad.Size = new System.Drawing.Size(195, 23);
 			this.buttonLoad.TabIndex = 7;
-			this.buttonLoad.Text = "Load settings...";
+			this.buttonLoad.Text = "Load...";
 			this.buttonLoad.UseVisualStyleBackColor = true;
 			this.buttonLoad.Click += new System.EventHandler(this.buttonLoad_Click);
 			// 
