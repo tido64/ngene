@@ -1,6 +1,5 @@
 #include "Plotter_SVG.h"
 
-using std::string;
 using std::vector;
 
 Plotter_SVG::~Plotter_SVG()
@@ -9,9 +8,9 @@ Plotter_SVG::~Plotter_SVG()
 	this->svg.close();
 }
 
-bool Plotter_SVG::initiate(string filename, vector<const char *> &modules, const Config &config)
+bool Plotter_SVG::initiate(char *filename, const vector<const char *> &modules, const Config &config)
 {
-	this->svg.open(filename.append(".svg").c_str());
+	this->svg.open(strcat(filename, ".svg"));
 	if (this->svg.is_open())
 	{
 		this->svg	<< "<?xml version=\"1.0\"?>\n"

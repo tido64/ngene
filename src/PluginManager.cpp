@@ -1,6 +1,6 @@
 #include "PluginManager.h"
 
-PluginManager::PluginManager(Config &config)
+PluginManager::PluginManager(const Config &config)
 {
 	modules = vector<const char *> (number_of_modules);
 

@@ -1,4 +1,5 @@
 #include <ctime>
+#include <fstream>
 #include <set>
 #include <vector>
 #include <boost/filesystem.hpp>
@@ -14,13 +15,12 @@ class Logger
 
 public:
 	Logger();
-	~Logger();
 	void log(std::vector<const char *> &modules, const Config &config);
 	void log(const unsigned int generation, const double min, const double avg, const double max);
 	void log(const std::multiset<Specimen> &population, GenotypeToStr genotype_to_str);
 	void log(double ticks);
 
 private:
-	char timestamp[32];
+	char timestamp[64];
 	IPlotter *plotter;
 };

@@ -38,8 +38,11 @@ class PluginManager
 	typedef void (*Mutator)(vector<any> &);
 	typedef void (*Selector)(multiset<Specimen>::iterator &, multiset<Specimen> &, int);
 
+	// dynamic library handlers
+	vector<dlhandle> dlhandles;
+
 	template <class T>
-	void load_module(const ModuleType module_type, string &path, const string &parameters, const char *import, T &function)
+	void load_module(const ModuleType module_type, string path, const string &parameters, const char *import, T &function)
 	{
 		path = "./modules/" + path;
 		#ifdef WIN32
@@ -70,7 +73,6 @@ class PluginManager
 public:
 	int offspring_rate;
 	vector<const char *> modules;
-	vector<dlhandle> dlhandles;
 
 	Fitness fitness_assess;
 	Gene seed;
@@ -79,6 +81,6 @@ public:
 	Mutator mutate;
 	Selector select;
 
-	PluginManager(Config &config);
+	PluginManager(const Config &config);
 	~PluginManager();
 };
