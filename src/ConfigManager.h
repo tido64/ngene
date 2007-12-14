@@ -2,11 +2,10 @@
 #define CONFIG_MANAGER
 
 #include <fstream>
-#include <vector>
 #include <boost/algorithm/string/trim.hpp>
 
-#include "ModuleType.h"
 #include "Config.h"
+#include "ModuleType.h"
 
 class ConfigManager
 {

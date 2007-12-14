@@ -1,8 +1,6 @@
 #ifndef PLOTTER_INTERFACE
 #define PLOTTER_INTERFACE
 
-#include <string>
-#include <vector>
 #include "Config.h"
 
 class IPlotter

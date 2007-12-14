@@ -1,7 +1,4 @@
 #include <set>
-#include <string>
-#include <vector>
-#include <boost/any.hpp>
 
 #ifdef WIN32
 	#define WIN32_LEAN_AND_MEAN
@@ -14,35 +11,30 @@
 	#define dlhandle void *
 #endif
 
+#include "Interfaces/Specimen.h"
 #include "Config.h"
 #include "ModuleType.h"
-#include "Interfaces/Specimen.h"
-
-using std::multiset;
-using std::string;
-using std::vector;
-using boost::any;
 
 class PluginManager
 {
 	// common functions
-	typedef void (*initiate)(const string &);
+	typedef void (*initiate)(const std::string &);
 	typedef const char *(*module_name)();
 	typedef const int (*offspring_produced)();
 
 	// module specific functions
 	typedef void (*Fitness)(Specimen &);
-	typedef void (*Gene)(vector<any> &);
-	typedef const char *(*GenotypeToStr)(const vector<any> &);
-	typedef void (*Mating)(vector<Specimen> &, const Specimen &, const Specimen &);
-	typedef void (*Mutator)(vector<any> &);
-	typedef void (*Selector)(multiset<Specimen>::iterator &, multiset<Specimen> &, int);
+	typedef void (*Gene)(std::vector<boost::any> &);
+	typedef const char *(*GenotypeToStr)(const std::vector<boost::any> &);
+	typedef void (*Mating)(std::vector<Specimen> &, const Specimen &, const Specimen &);
+	typedef void (*Mutator)(std::vector<boost::any> &);
+	typedef void (*Selector)(std::multiset<Specimen>::iterator &, std::multiset<Specimen> &, int);
 
 	// dynamic library handlers
-	vector<dlhandle> dlhandles;
+	std::vector<dlhandle> dlhandles;
 
 	template <class T>
-	void load_module(const ModuleType module_type, string path, const string &parameters, const char *import, T &function)
+	void load_module(const ModuleType module_type, std::string path, const std::string &parameters, const char *import, T &function)
 	{
 		path = "./modules/" + path;
 		#ifdef WIN32
@@ -72,7 +64,7 @@ class PluginManager
 
 public:
 	int offspring_rate;
-	vector<const char *> modules;
+	std::vector<const char *> modules;
 
 	Fitness fitness_assess;
 	Gene seed;

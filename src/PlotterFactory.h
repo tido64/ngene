@@ -1,4 +1,3 @@
-#include "IPlotter.h"
 #include "Plotter_SVG.h"
 
 class PlotterFactory

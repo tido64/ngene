@@ -1,13 +1,8 @@
-#include <ctime>
-#include <fstream>
 #include <set>
-#include <vector>
 #include <boost/filesystem.hpp>
 
-#include "Config.h"
-#include "ModuleType.h"
-#include "PlotterFactory.h"
 #include "Interfaces/Specimen.h"
+#include "PlotterFactory.h"
 
 class Logger
 {
