@@ -1,7 +1,5 @@
 #include "Logger.h"
 
-using std::string;
-
 Logger::Logger()
 {
 	boost::filesystem::create_directory("logs");

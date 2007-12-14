@@ -1,5 +1,7 @@
 #include "PluginManager.h"
 
+using std::vector;
+
 PluginManager::PluginManager(const Config &config)
 {
 	modules = vector<const char *> (number_of_modules);

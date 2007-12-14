@@ -1,7 +1,7 @@
 #include "Ngene.h"
 
-using namespace std;
-using boost::any;
+using std::multiset;
+using std::vector;
 using boost::mt19937;
 
 const char *NGENE_VERSION = "0.2007.12.10";
