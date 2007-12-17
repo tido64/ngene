@@ -109,6 +109,7 @@ namespace Ngene_Configurator
 		void numericUpDownAdultPoolCapacity_ValueChanged(object sender, EventArgs e)
 		{
 			this.numericUpDownOffspringRate.Minimum = this.numericUpDownAdultPoolCapacity.Value;
+			this.numericUpDownMaxProdigies.Maximum = this.numericUpDownAdultPoolCapacity.Value;
 		}
 
 		void textBox_LostFocus(object sender, EventArgs e)

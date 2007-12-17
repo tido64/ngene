@@ -394,6 +394,11 @@
             0,
             0,
             0});
+			this.numericUpDownMatingRate.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
 			this.numericUpDownMatingRate.Name = "numericUpDownMatingRate";
 			this.numericUpDownMatingRate.Size = new System.Drawing.Size(74, 20);
 			this.numericUpDownMatingRate.TabIndex = 4;
