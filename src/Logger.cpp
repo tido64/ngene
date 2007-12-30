@@ -20,11 +20,11 @@ void Logger::log(std::vector<const char *> &modules, const Config &config)
 	if (!this->plotter->initiate(this->timestamp, modules, config))
 		throw "Failed to initiate plotter. Make sure you have writing privileges.";
 
-	printf("  * Species:           %s\n", modules[gene_module]);
-	printf("  * Fitness assessor:  %s\n", modules[fitness_module]);
-	printf("  * Mating style:      %s\n", modules[mating_module]);
-	printf("  * Mutator:           %s\n", modules[mutator_module]);
-	printf("  * Selector:          %s\n\n", modules[selector_module]);
+	printf("  * Species:           %s\n", modules[Module::gene]);
+	printf("  * Fitness assessor:  %s\n", modules[Module::fitness]);
+	printf("  * Mating style:      %s\n", modules[Module::mating]);
+	printf("  * Mutator:           %s\n", modules[Module::mutator]);
+	printf("  * Selector:          %s\n\n", modules[Module::selector]);
 }
 
 void Logger::log(const unsigned int generation, const double min, const double avg, const double max)

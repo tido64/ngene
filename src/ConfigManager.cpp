@@ -10,8 +10,8 @@ ConfigManager::ConfigManager(const char *conf_file)
 	this->ngene_conf.open(conf_file);
 	if (this->ngene_conf.is_open())
 	{
-		this->config.module_path = vector<string> (number_of_modules);
-		this->config.parameters = vector<string> (number_of_modules);
+		this->config.module_path = vector<string> (Module::number_of_types);
+		this->config.parameters = vector<string> (Module::number_of_types);
 
 		this->config.adult_pool_capacity = atoi(get_conf().c_str());
 
@@ -32,20 +32,20 @@ ConfigManager::ConfigManager(const char *conf_file)
 
 		this->config.offspring_rate = atoi(get_conf().c_str());
 
-		this->config.module_path[gene_module] = get_conf();
-		this->config.parameters[gene_module] = get_conf();
+		this->config.module_path[Module::gene] = get_conf();
+		this->config.parameters[Module::gene] = get_conf();
 
-		this->config.module_path[fitness_module] = get_conf();
-		this->config.parameters[fitness_module] = get_conf();
+		this->config.module_path[Module::fitness] = get_conf();
+		this->config.parameters[Module::fitness] = get_conf();
 
-		this->config.module_path[mating_module] = get_conf();
-		this->config.parameters[mating_module] = get_conf();
+		this->config.module_path[Module::mating] = get_conf();
+		this->config.parameters[Module::mating] = get_conf();
 
-		this->config.module_path[mutator_module] = get_conf();
-		this->config.parameters[mutator_module] = get_conf();
+		this->config.module_path[Module::mutator] = get_conf();
+		this->config.parameters[Module::mutator] = get_conf();
 
-		this->config.module_path[selector_module] = get_conf();
-		this->config.parameters[selector_module] = get_conf();
+		this->config.module_path[Module::selector] = get_conf();
+		this->config.parameters[Module::selector] = get_conf();
 
 		this->config.plotter = "SVG";
 
