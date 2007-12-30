@@ -70,7 +70,7 @@ class PluginManager
 	/// \param import The function to import from the module
 	/// \param function An empty pointer to store the function pointer
 	template <class T>
-	void load_module(const ModuleType module_type, std::string path, const std::string &parameters, const char *import, T &function)
+	void load_module(const Module::Type module_type, std::string path, const std::string &parameters, const char *import, T &function)
 	{
 		path = "./modules/" + path;
 		#ifdef WIN32
@@ -84,11 +84,11 @@ class PluginManager
 			function = (T)dlsym(module, import);
 			switch (module_type)
 			{
-				case gene_module:
+				case Module::gene:
 					this->genotype_to_str = (GenotypeToStr)dlsym(module, "str");
 					this->modules[module_type] = ((module_name)dlsym(module, "species"))();
 					break;
-				case mating_module:
+				case Module::mating:
 					this->offspring_rate = ((offspring_produced)dlsym(module, "offspring"))();
 				default:
 					this->modules[module_type] = ((module_name)dlsym(module, "name"))();

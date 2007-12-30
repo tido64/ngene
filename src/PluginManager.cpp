@@ -4,31 +4,31 @@ using std::vector;
 
 PluginManager::PluginManager(const Config &config)
 {
-	modules = vector<const char *> (number_of_modules);
+	modules = vector<const char *> (Module::number_of_types);
 
-	this->load_module<Gene>(gene_module,
-		config.module_path[gene_module],
-		config.parameters[gene_module],
+	this->load_module<Gene>(Module::gene,
+		config.module_path[Module::gene],
+		config.parameters[Module::gene],
 		"seed",
 		this->seed);
-	this->load_module<Fitness>(fitness_module,
-		config.module_path[fitness_module],
-		config.parameters[fitness_module],
+	this->load_module<Fitness>(Module::fitness,
+		config.module_path[Module::fitness],
+		config.parameters[Module::fitness],
 		"assess",
 		this->fitness_assess);
-	this->load_module<Mating>(mating_module,
-		config.module_path[mating_module],
-		config.parameters[mating_module],
+	this->load_module<Mating>(Module::mating,
+		config.module_path[Module::mating],
+		config.parameters[Module::mating],
 		"mate",
 		this->mate);
-	this->load_module<Mutator>(mutator_module,
-		config.module_path[mutator_module],
-		config.parameters[mutator_module],
+	this->load_module<Mutator>(Module::mutator,
+		config.module_path[Module::mutator],
+		config.parameters[Module::mutator],
 		"mutate",
 		this->mutate);
-	this->load_module<Selector>(selector_module,
-		config.module_path[selector_module],
-		config.parameters[selector_module],
+	this->load_module<Selector>(Module::selector,
+		config.module_path[Module::selector],
+		config.parameters[Module::selector],
 		"gene_select",
 		this->select);
 }
