@@ -5,14 +5,12 @@
 #endif
 
 #include <string>
-#include <vector>
-#include <boost/any.hpp>
 #include "Specimen.h"
 
 extern "C"
 {
 	void GENE_FACTORY_INTERFACE initiate(const std::string &parameters);
-	void GENE_FACTORY_INTERFACE seed(std::vector<boost::any> &genotype);
+	void GENE_FACTORY_INTERFACE seed(Gene &genotype);
 	const char GENE_FACTORY_INTERFACE *species();
-	const char GENE_FACTORY_INTERFACE *str(const std::vector<boost::any> &genotype);
+	const char GENE_FACTORY_INTERFACE *str(Gene &genotype);
 }

@@ -6,7 +6,6 @@
 	#define FITNESS_INTERFACE
 #endif
 
-#include <boost/any.hpp>
 #include "Specimen.h"
 
 extern "C"

@@ -3,9 +3,9 @@
 #else
 	#define SELECTION_INTERFACE
 #endif
+
 #include <set>
 #include <string>
-#include <vector>
 #include "Specimen.h"
 
 extern "C"

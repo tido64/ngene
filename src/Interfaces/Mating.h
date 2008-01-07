@@ -3,9 +3,9 @@
 #else
 	#define MATING_INTERFACE
 #endif
+
 #include <map>
 #include <string>
-#include <vector>
 #include "Specimen.h"
 
 extern "C"
