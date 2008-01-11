@@ -2,7 +2,7 @@
 
 TARGET = ngene
 BINDIR = bin
-OBJDIR = platform/unix
+OBJDIR = obj
 SRCDIR = src
 EXEC = $(BINDIR)/$(TARGET)
 OBJ = $(OBJDIR)/ConfigManager.o \
