@@ -37,11 +37,12 @@ class PluginManager
 
 	/// A pointer to a function that generates random genotypes
 	/// \param[out] std::vector<boost::any> An empty gene to inject a genotype into
-	typedef void (*Gene)(std::vector<boost::any> &);
+	typedef void (*Genotype)(Gene &);
 
 	/// A pointer to a function that makes a string out of a genotype
 	/// \param std::vector<boost::any> The genotype
-	typedef const char *(*GenotypeToStr)(const std::vector<boost::any> &);
+	typedef const char *(*GenotypeToStr)(const Gene &);
+	//typedef const char *(*GenotypeToStr)(const std::vector<boost::any> &);
 
 	/// A pointer to a function that crosses over two individuals
 	/// \param[out] std::vector<Specimen> The container that carries the offspring produced
@@ -51,7 +52,7 @@ class PluginManager
 
 	/// A pointer to a function that mutates a genotype
 	/// \param[in,out] std::vector<boost::any> The genotype to mutate
-	typedef void (*Mutator)(std::vector<boost::any> &);
+	typedef void (*Mutator)(Gene &);
 
 	/// A pointer to a function that selects an individual out of a population
 	/// \param[out] std::multiset<Specimen>::iterator An std::multiset::iterator to the selected individual
@@ -103,7 +104,7 @@ public:
 	std::vector<const char *> modules;	///< Stores the names of the modules loaded
 
 	Fitness fitness_assess;				///< Assesses an individual
-	Gene seed;							///< Randomly generates an individual
+	Genotype seed;						///< Randomly generates an individual
 	GenotypeToStr genotype_to_str;		///< Returns a string representing the individual
 	Mating mate;						///< Crosses over two individuals' genes
 	Mutator mutate;						///< Mutates a genotype
