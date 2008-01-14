@@ -1,10 +1,11 @@
 /// Logger takes care of properly logging every run. A log consists of a plot
 /// or graph, and an actual output of the fittest individual after an ended
-/// run. The outputs produced are typically:
+/// run. The outputs produced are typically stored with the following file
+/// names:
 /// - 20071220-201435.svg		(plot/graph)
 /// - 20071220-201435.output	(best fit individual)
 ///
-/// where the file name follows YYYYMMdd-hhmmss (date, then time).
+/// where the file name follows YYYYMMdd-hhmmss (ie. date, then time).
 
 #include <set>
 #include <boost/filesystem.hpp>
@@ -25,7 +26,7 @@ public:
 	/// and configuration.
 	/// \param modules The list of modules loaded
 	/// \param config The configuration
-	void log(std::vector<const char *> &modules, const Config &config);
+	void log(const std::vector<const char *> &modules, const Config &config);
 
 	/// Logs the progression of the run for each generation.
 	/// \param generation The current generation
@@ -35,8 +36,8 @@ public:
 	void log(const unsigned int generation, const double min, const double avg, const double max);
 
 	/// Towards the end of a run, another file is created to output the
-	/// solutions found. In the current implementation, only the best is actually
-	/// written to file.
+	/// solutions found. In the current implementation, only the best is
+	/// actually written to file.
 	/// \param population The population of the last generation
 	/// \param genotype_to_str A pointer to a function that converts a genotype to string
 	void log(const std::multiset<Specimen> &population, GenotypeToStr genotype_to_str);
