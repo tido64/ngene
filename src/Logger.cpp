@@ -13,7 +13,7 @@ Logger::~Logger()
 	delete this->plotter;
 }
 
-void Logger::log(std::vector<const char *> &modules, const Config &config)
+void Logger::log(const std::vector<const char *> &modules, const Config &config)
 {
 	PlotterFactory plotter_factory;
 	this->plotter = plotter_factory.create_plotter(config.plotter);

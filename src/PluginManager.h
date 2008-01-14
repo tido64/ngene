@@ -20,15 +20,15 @@
 
 class PluginManager
 {
-	/// An access point for all modules. Sets up a module with given parameters.
-	/// A common method required in all modules.
+	/// An access point for all modules. Sets up a module with given
+	/// parameters. A common method required in all modules.
 	typedef void (*initiate)(const std::string &);
 
 	/// Returns the name of a module. A common method required in all modules.
 	typedef const char *(*module_name)();
 
-	/// Returns the number of offspring produced for each generation. Loaded from
-	/// a mating module.
+	/// Returns the number of offspring produced for each generation. Loaded
+	/// from a mating module.
 	typedef const int (*offspring_produced)();
 
 	/// A pointer to a function that assesses the fitness of an individual
@@ -110,7 +110,8 @@ public:
 	Mutator mutate;						///< Mutates a genotype
 	Selector select;					///< Selects an individual out of a population
 
-	/// Loads and readies the interface for the modules specified by the config file
+	/// Loads the modules specificed by the config file and readies an
+	/// interface for the modules accessible for the rest of the system.
 	/// \param config The configuration to abide by
 	PluginManager(const Config &config);
 	~PluginManager();
