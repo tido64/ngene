@@ -7,8 +7,8 @@
 class Plotter_SVG : public IPlotter
 {
 public:
+	Plotter_SVG(std::string &filename, const std::vector<const char *> *modules, const Config *config);
 	~Plotter_SVG();
-	bool initiate(std::string filename, const std::vector<const char *> &modules, const Config &config);
 	void plot(const unsigned int generation, double min, double avg, double max);
 
 private:

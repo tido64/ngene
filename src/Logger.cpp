@@ -15,9 +15,9 @@ Logger::~Logger()
 
 void Logger::log(const std::vector<const char *> &modules, const Config &config)
 {
-	PlotterFactory plotter_factory;
-	this->plotter = plotter_factory.create_plotter(config.plotter);
-	if (!this->plotter->initiate(this->timestamp, modules, config))
+	PlotterFactory plotter_factory ((const char *)&this->timestamp, &modules, &config);
+	this->plotter = plotter_factory.get_plotter();
+	if (this->plotter->fail())
 		throw "Failed to initiate plotter. Make sure you have writing privileges.";
 
 	printf("  * Species:           %s\n", modules[Module::gene]);

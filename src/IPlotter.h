@@ -13,11 +13,8 @@ class IPlotter
 public:
 	virtual ~IPlotter() { };
 
-	/// Initiates the plotter and starts outputting the details for this run.
-	/// \param filename The path to the output
-	/// \param modules The list of modules loaded
-	/// \param config The configuration
-	virtual bool initiate(std::string filename, const std::vector<const char *> &modules, const Config &config) = 0;
+	/// Returns true if the plotter failed to initialize.
+	bool fail() { return this->failed; };
 
 	/// Plots the progression for each generation.
 	/// \param generation The current generation
@@ -25,6 +22,9 @@ public:
 	/// \param avg The average fitness of current generation
 	/// \param max The highest fitness of current generation
 	virtual void plot(const unsigned int generation, double min, double avg, double max) = 0;
+
+protected:
+	bool failed;
 };
 
 #endif
