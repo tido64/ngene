@@ -13,9 +13,9 @@ Logger::~Logger()
 	delete this->plotter;
 }
 
-void Logger::log(const std::vector<const char *> &modules, const Config &config)
+void Logger::log(const Config &config, const std::vector<const char *> &modules)
 {
-	PlotterFactory plotter_factory ((const char *)&this->timestamp, &modules, &config);
+	PlotterFactory plotter_factory ((const char *)&this->timestamp, &config, &modules);
 	this->plotter = plotter_factory.get_plotter();
 	if (this->plotter->fail())
 		throw "Failed to initiate plotter. Make sure you have writing privileges.";
