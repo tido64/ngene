@@ -6,7 +6,7 @@
 class PlotterFactory
 {
 public:
-	PlotterFactory(const char *filename, const std::vector<const char *> *modules, const Config *config);
+	PlotterFactory(const char *filename, const Config *config, const std::vector<const char *> *modules);
 
 	/// Creates an instance of a plotter, given its type. Once created, the
 	/// pointer to this instance is returned on subsequent calls.

@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 	Logger logger;
 	try
 	{
-		logger.log(module.modules, config_manager.config);
+		logger.log(config_manager.config, module.modules);
 	}
 	catch (char *e)
 	{

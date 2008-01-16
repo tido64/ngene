@@ -2,8 +2,8 @@
 
 using std::vector;
 
-PlotterFactory::PlotterFactory(const char *filename, const vector<const char *> *m, const Config *c)
-	: modules(m), config(c)
+PlotterFactory::PlotterFactory(const char *filename, const Config *c, const vector<const char *> *m)
+	: config(c), modules(m)
 {
 	this->log_file = filename;
 	this->plotter = NULL;
