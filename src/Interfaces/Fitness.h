@@ -10,6 +10,9 @@
 
 extern "C"
 {
+	/// Assess an individual. The genotype is extracted through
+	/// individual.genotype, and the fitness is given to individual.fitness.
+	/// \param[in,out] individual The individual to assess
 	void FITNESS_INTERFACE assess(Specimen &individual);
 	void FITNESS_INTERFACE initiate(const std::string &parameters);
 	const char FITNESS_INTERFACE *name();

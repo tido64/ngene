@@ -10,6 +10,9 @@
 extern "C"
 {
 	void MUTATION_INTERFACE initiate(const std::string &parameters);
+
+	/// Mutates a genotype.
 	void MUTATION_INTERFACE mutate(Gene &genotype);
+
 	const char MUTATION_INTERFACE *name();
 }

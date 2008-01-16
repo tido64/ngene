@@ -11,6 +11,12 @@
 extern "C"
 {
 	void SELECTION_INTERFACE initiate(const std::string &parameters);
+
+	/// Randomly selects an individual from a population.
+	/// \param[out] champ The selected individual
+	/// \param candidates The population to perform selection over
+	/// \param generation The current generation
 	void SELECTION_INTERFACE gene_select(std::multiset<Specimen>::iterator &champ, std::multiset<Specimen> &candidates, int generation);
+
 	const char SELECTION_INTERFACE *name();
 }

@@ -1,14 +1,11 @@
 #include "Plotter_SVG.h"
 
-Plotter_SVG::~Plotter_SVG()
-{
-	this->svg << "</svg>\n";
-	this->svg.close();
-}
+using std::string;
 
-bool Plotter_SVG::initiate(std::string filename, const std::vector<const char *> &modules, const Config &config)
+Plotter_SVG::Plotter_SVG(string &filename, const std::vector<const char *> *modules, const Config *config)
 {
 	filename += ".svg";
+	this->failed = true;
 	this->svg.open(filename.c_str());
 	if (this->svg.is_open())
 	{
@@ -27,18 +24,18 @@ bool Plotter_SVG::initiate(std::string filename, const std::vector<const char *>
 					<< "		]]>\n"
 					<< "		</style>\n"
 					<< "		<g id=\"modules\">\n"
-					<< "			<text x=\"0\" y=\"0\">Species: " << modules[Module::gene] << "</text>\n"
-					<< "			<text x=\"0\" y=\"16\">Fitness: " << modules[Module::fitness] << "</text>\n"
-					<< "			<text x=\"0\" y=\"32\">Mating: " << modules[Module::mating] << "</text>\n"
-					<< "			<text x=\"0\" y=\"48\">Mutator: " << modules[Module::mutator] << "</text>\n"
-					<< "			<text x=\"0\" y=\"64\">Selector: " << modules[Module::selector] << "</text>\n"
+					<< "			<text x=\"0\" y=\"0\">Species: " << modules->at(Module::gene) << "</text>\n"
+					<< "			<text x=\"0\" y=\"16\">Fitness: " << modules->at(Module::fitness) << "</text>\n"
+					<< "			<text x=\"0\" y=\"32\">Mating: " << modules->at(Module::mating) << "</text>\n"
+					<< "			<text x=\"0\" y=\"48\">Mutator: " << modules->at(Module::mutator) << "</text>\n"
+					<< "			<text x=\"0\" y=\"64\">Selector: " << modules->at(Module::selector) << "</text>\n"
 					<< "		</g>\n"
 					<< "		<g id=\"config\">\n"
-					<< "			<text x=\"0\" y=\"0\">Individuals: " << config.adult_pool_capacity << "</text>\n"
-					<< "			<text x=\"0\" y=\"16\">Generations: " << config.doomsday << "</text>\n"
-					<< "			<text x=\"0\" y=\"32\">Mating rate: " << config.mating_rate << "</text>\n"
-					<< "			<text x=\"0\" y=\"48\">Mutation rate: " << config.mutation_rate << "</text>\n"
-					<< "			<text x=\"0\" y=\"64\">Elitism: " << config.elitism << "</text>\n"
+					<< "			<text x=\"0\" y=\"0\">Individuals: " << config->adult_pool_capacity << "</text>\n"
+					<< "			<text x=\"0\" y=\"16\">Generations: " << config->doomsday << "</text>\n"
+					<< "			<text x=\"0\" y=\"32\">Mating rate: " << config->mating_rate << "</text>\n"
+					<< "			<text x=\"0\" y=\"48\">Mutation rate: " << config->mutation_rate << "</text>\n"
+					<< "			<text x=\"0\" y=\"64\">Elitism: " << config->elitism << "</text>\n"
 					<< "		</g>\n"
 					<< "		<marker id=\"arrow\" viewBox=\"0 0 10 10\" refX=\"0\" refY=\"5\" markerUnits=\"strokeWidth\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto\">\n"
 					<< "			<path d=\"M 0 0 L 10 5 L 0 10 Z\" />\n"
@@ -65,19 +62,21 @@ bool Plotter_SVG::initiate(std::string filename, const std::vector<const char *>
 		this->fitness_margin = 16;
 		this->fitness_scale = 240;
 
-		double generation_scale = 320.0 / config.doomsday;
-		this->generation_axis.reserve(config.doomsday + 1);
+		double generation_scale = 320.0 / config->doomsday;
+		this->generation_axis.reserve(config->doomsday + 1);
 		this->generation_axis.push_back(this->fitness_margin);
-		for (unsigned int i = 0; i < config.doomsday; i++)
+		for (unsigned int i = 0; i < config->doomsday; i++)
 			this->generation_axis.push_back(this->generation_axis[i] + generation_scale);
 			// generate ticks on the axes
-
 		this->fitness_margin += this->fitness_scale;
-
-		return true;
+		this->failed = false;
 	}
-	else
-		return false;
+}
+
+Plotter_SVG::~Plotter_SVG()
+{
+	this->svg << "</svg>\n";
+	this->svg.close();
 }
 
 void Plotter_SVG::plot(const unsigned int generation, double min, double avg, double max)

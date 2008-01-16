@@ -1,18 +1,20 @@
 #include "PlotterFactory.h"
 
-using std::string;
+using std::vector;
 
-PlotterFactory::PlotterFactory()
+PlotterFactory::PlotterFactory(const char *filename, const vector<const char *> *m, const Config *c)
+	: modules(m), config(c)
 {
+	this->log_file = filename;
 	this->plotter = NULL;
 }
 
-IPlotter *PlotterFactory::create_plotter(const string &type)
+IPlotter *PlotterFactory::get_plotter()
 {
 	if (this->plotter == NULL)
 	{
-		if (type.compare("SVG") == 0)
-			this->plotter = new Plotter_SVG();
+		if (this->config->plotter.compare("SVG") == 0)
+			this->plotter = new Plotter_SVG(this->log_file, this->modules, this->config);
 	}
 	return this->plotter;
 }

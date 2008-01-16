@@ -6,7 +6,7 @@ PluginManager::PluginManager(const Config &config)
 {
 	this->modules = vector<const char *> (Module::number_of_types);
 
-	this->load_module<Genotype>(Module::gene,
+	this->load_module<GenerateGenotype>(Module::gene,
 		config.module_path[Module::gene],
 		config.parameters[Module::gene],
 		"seed",
