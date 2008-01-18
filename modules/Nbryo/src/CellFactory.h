@@ -10,12 +10,12 @@
 class CellFactory
 {
 public:
-	CellFactory(const Organism *o);
-	Cell *create_cell(Proteins *proteins);
-	Cell *create_cell(Proteins *proteins, Coordinates coords);
+	CellFactory(Organism *o);
+	Cell *create_cell(std::vector<Protein *> *proteins);
+	Cell *create_cell(std::vector<Protein *> *proteins, Coordinates coords);
 
 private:
-	const Organism *host;		///< The organism that uses this factory
+	Organism *host;				///< The organism that uses this factory
 	unsigned int cell_count;	///< Keeps count of how many cells have been created
 };
 

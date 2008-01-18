@@ -7,7 +7,7 @@ const char *NGENE_VERSION = "0.2007.12.16";
 
 int main(int argc, char *argv[])
 {
-	char *ngene_conf = NULL;
+	char *ngene_conf = 0;
 	if (argc > 1)
 	{
 		if (strcmp(argv[1], "--config") == 0)
@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	boost::mt19937							rand_gen ((unsigned)time(NULL));
+	boost::mt19937							rand_gen ((unsigned)time(0));
 	//boost::uniform_01<boost::mt19937>		rand_dist (rand_gen);
 	//boost::variate_generator<boost::mt19937 &, boost::uniform_01<boost::mt19937> > mt_rand (rand_gen, rand_dist);
 	boost::uniform_real<double>				rand_dist (0, 1);

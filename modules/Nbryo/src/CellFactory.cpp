@@ -1,11 +1,11 @@
 #include "CellFactory.h"
 
-CellFactory::CellFactory(const Organism *o) : host(o)
+CellFactory::CellFactory(Organism *o) : host(o)
 {
 	this->cell_count = 0;
 }
 
-Cell *CellFactory::create_cell(Proteins *proteins)
+Cell *CellFactory::create_cell(std::vector<Protein *> *proteins)
 {
 	if (this->cell_count == 0)
 	{
@@ -18,7 +18,9 @@ Cell *CellFactory::create_cell(Proteins *proteins)
 	else throw "Cannot create the zygote twice.";
 }
 
-Cell *CellFactory::create_cell(Proteins *proteins, Coordinates coords)
+Cell *CellFactory::create_cell(std::vector<Protein *> *proteins, Coordinates coords)
 {
-	return new Cell(&this->host->dna, proteins, coords, this->cell_count++);
+	Cell *c = new Cell(&this->host->dna, proteins, coords, this->cell_count++);
+	this->host->add_cell(c);
+	return c;
 }

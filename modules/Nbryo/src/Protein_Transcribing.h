@@ -4,16 +4,16 @@
 #ifndef PROTEIN_TRANSCRIBING
 #define PROTEIN_TRANSCRIBING
 
-#include "ProteinMolecule.h"
+#include "Protein.h"
 
-class Protein_Transcribing : public ProteinMolecule
+class Protein_Transcribing : public Protein
 {
 public:
 	const double MAX, MIN;
 	Protein_Transcribing(const std::vector<double> *thresholds,
 		unsigned int lifespan,
 		const std::vector<double> *parameters)
-		: ProteinMolecule(ProteinType::adjusting, thresholds, lifespan, parameters), MAX(1.0), MIN(-1.0) { };
+		: Protein(ProteinType::adjusting, thresholds, lifespan, parameters), MAX(1.0), MIN(-1.0) { };
 	void perform_action();
 };
 

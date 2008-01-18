@@ -3,9 +3,9 @@
 Logger::Logger()
 {
 	boost::filesystem::create_directory("logs");
-	const std::time_t now = time(NULL);
+	const std::time_t now = time(0);
 	strftime(this->timestamp, sizeof(this->timestamp), "./logs/%Y%m%d-%H%M%S", localtime(&now));
-	this->plotter = NULL;
+	this->plotter = 0;
 }
 
 Logger::~Logger()

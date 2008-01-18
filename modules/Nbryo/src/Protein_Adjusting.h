@@ -4,16 +4,16 @@
 #ifndef PROTEIN_ADJUSTING
 #define PROTEIN_ADJUSTING
 
-#include "ProteinMolecule.h"
+#include "Protein.h"
 
-class Protein_Adjusting : public ProteinMolecule
+class Protein_Adjusting : public Protein
 {
 public:
 	const double MAX, MIN;
 	Protein_Adjusting(const std::vector<double> *thresholds,
 		unsigned int lifespan,
 		const std::vector<double> *parameters)
-		: ProteinMolecule(ProteinType::adjusting, thresholds, lifespan, parameters), MAX(1.0), MIN(-1.0) { };
+		: Protein(ProteinType::adjusting, thresholds, lifespan, parameters), MAX(1.0), MIN(-1.0) { };
 	void perform_action();
 };
 

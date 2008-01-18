@@ -5,14 +5,14 @@
 #endif
 
 #include <string>
-#include <boost/any.hpp>
+#include "Specimen.h"
 
 extern "C"
 {
 	void MUTATION_INTERFACE initiate(const std::string &parameters);
 
 	/// Mutates a genotype.
-	void MUTATION_INTERFACE mutate(Gene &genotype);
+	void MUTATION_INTERFACE mutate(Genotype &genotype);
 
 	const char MUTATION_INTERFACE *name();
 }

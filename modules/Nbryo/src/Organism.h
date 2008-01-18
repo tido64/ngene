@@ -8,6 +8,9 @@
 #ifndef ORGANISM
 #define ORGANISM
 
+#include <map>
+
+#include "Coordinates.h"
 #include "Gene.h"
 
 class Cell;
@@ -16,26 +19,26 @@ class CellFactory;
 class Organism
 {
 public:
-	const std::vector<Gene> dna;	///< The organism's dna
-	CellFactory *cell_factory;		///< Responsible for creating all cells
+	const std::vector<Gene> dna;			///< The organism's dna
+	CellFactory *cell_factory;				///< Responsible for creating all cells
 
 	Organism(std::vector<Gene> d);
 	~Organism();
 
 	/// Adds a cell to the organism.
-	void add_cell(Cell *c);
+	virtual void add_cell(Cell *c);
 
 	/// Fires a tick event. Currently, the cells are notified in an order
-	/// instead of simultaneously.
-	void increment_tick();
+	/// instead of "simultaneously".
+	virtual void increment_tick();
 
 	/// Removes and erases a cell from the organism.
-	void remove_cell(std::vector<Cell *>::iterator cell);
+	void remove_cell(Cell *cell);
 
 	std::string to_string(unsigned int width, unsigned int height, unsigned int depth);
 
 private:
-	std::vector<Cell *> cells;		///< The cells this organism consists of
+	std::map<Coordinates, Cell *> cells;	///< The cells this organism consists of
 };
 
 #endif
