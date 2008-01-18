@@ -2,9 +2,9 @@
 
 using std::vector;
 
-ProteinMolecule *Ribosome::translate(vector<Gene>::const_iterator gene)
+Protein *Ribosome::translate(vector<Gene>::const_iterator gene)
 {
-	ProteinMolecule *polypeptide;
+	Protein *polypeptide;
 	switch (gene->protein_type)
 	{
 		case ProteinType::adjusting:

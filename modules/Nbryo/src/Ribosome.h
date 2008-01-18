@@ -21,7 +21,7 @@ public:
 	/// The ribosome translates an mRNA and generates a polypeptide chain.
 	/// While simulating it, transcribing DNA to mRNA is not necessary so it is
 	/// skipped. The ribosome instead translates the DNA directly.
-	ProteinMolecule *translate(std::vector<Gene>::const_iterator gene);
+	Protein *translate(std::vector<Gene>::const_iterator gene);
 };
 
 #endif

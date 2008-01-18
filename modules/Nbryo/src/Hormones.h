@@ -27,7 +27,7 @@ public:
 	void adjust_concentration(Hormone::Type t, double n);
 
 	/// Gets the current concentration of a hormone.
-	double get_concentration(Hormone::Type t) const;
+	double get_concentration(Hormone::Type t);
 
 private:
 	const double MAX_CONCENTRATION,		///< Maximum allowed concentration of a hormone

@@ -10,7 +10,7 @@
 extern "C"
 {
 	void GENE_FACTORY_INTERFACE initiate(const std::string &parameters);
-	void GENE_FACTORY_INTERFACE seed(Gene &genotype);
+	void GENE_FACTORY_INTERFACE seed(Genotype &genotype);
 	const char GENE_FACTORY_INTERFACE *species();
-	const char GENE_FACTORY_INTERFACE *str(Gene &genotype);
+	const char GENE_FACTORY_INTERFACE *str(Genotype &genotype);
 }

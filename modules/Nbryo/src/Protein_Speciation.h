@@ -4,16 +4,16 @@
 #ifndef PROTEIN_SPECIATION
 #define PROTEIN_SPECIATION
 
-#include "ProteinMolecule.h"
+#include "Protein.h"
 
-class Protein_Speciation : public ProteinMolecule
+class Protein_Speciation : public Protein
 {
 public:
 	const double MAX, MIN;
 	Protein_Speciation(const std::vector<double> *thresholds,
 		unsigned int lifespan,
 		const std::vector<double> *parameters)
-		: ProteinMolecule(ProteinType::transcribing, thresholds, lifespan, parameters), MAX(1.0), MIN(-1.0) { };
+		: Protein(ProteinType::transcribing, thresholds, lifespan, parameters), MAX(1.0), MIN(-1.0) { };
 	void perform_action();
 };
 

@@ -5,10 +5,9 @@
 #define CELL
 
 #include "CellType.h"
-#include "Coordinates.h"
 #include "Hormones.h"
-#include "Proteins.h"
-#include "Ribosome.h"
+#include "Organism.h"
+#include "Protein.h"
 
 class Ribosome;
 
@@ -17,32 +16,44 @@ class Cell
 public:
 	const int MAX_NUMBER_OF_PROTEINS;
 
-	Cell(const std::vector<Gene> *dna, Proteins *p, Coordinates c, int id);
+	Cell(const std::vector<Gene> *dna, std::vector<Protein *> *p, Coordinates c, int id);
 	~Cell();
 
-	/// Returns the type of this cell.
-	CellType::Type get_type() { return this->type; }
+	/// Returns the concentration of given hormone.
+	double get_hormone_concentration(const Hormone::Type type)
+	{
+		return this->hormones.get_concentration(type);
+	}
 
 	/// Returns the location of this cell.
-	const Coordinates &get_location() { return this->coordinates; }
+	Coordinates get_location()
+	{
+		return this->coordinates;
+	}
 
-	/// Returns the hormone concentrations in this cell.
-	const Hormones *get_hormones() { return &this->hormones; }
+	/// Returns the type of this cell.
+	CellType::Type get_type()
+	{
+		return this->type;
+	}
 
-	/// Notifies all elements inside the cell of a tick.
+	/// Notifies all elements inside the cell of a tick so they can perform
+	/// their function. The order of operations in this method might change the
+	/// outcome. Experimentation is recommended.
 	virtual void increment_tick();
 
 	/// Uhh...
 	void queue_action();
 
 protected:
-	Cell();
-
 	/// Adjusts the hormone concentrations (maybe sending them out?)
 	virtual void adjust_hormones();
 
 	/// Divides the cell into two cells.
 	virtual void divide();
+
+	/// Regulates the protein level in the cell.
+	virtual void regulate_proteins();
 
 	/// Speciates the cell and gives it a distinct function and/or place.
 	virtual void speciate();
@@ -59,11 +70,13 @@ private:
 	const std::vector<Gene> *dna;
 	const int id;
 	Coordinates coordinates;
-	std::vector<Cell *> neighbourhood;	///< Keeps track of direct neighbours
+	std::vector<Cell *> neighbourhood;		///< Keeps track of direct neighbours
 	CellType::Type type;
 	Hormones hormones;
-	Proteins *proteins;					///< Proteins control internal cell states, cell division, speciation and protein production
-	Ribosome *ribosome;					///< Ribosomes create proteins
+	std::vector<Protein *> active_proteins;	///< Vector of active proteins
+	std::vector<std::vector<Protein *>::iterator> dead_proteins;
+	std::vector<Protein *> *proteins;		///< Proteins control internal cell states, cell division, speciation and protein production
+	Ribosome *ribosome;						///< Ribosomes create proteins
 };
 
 #endif

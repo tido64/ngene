@@ -10,11 +10,11 @@ Proteins::Proteins()
 
 Proteins::~Proteins()
 {
-	for (vector<ProteinMolecule *>::iterator i = this->proteins.begin(); i != this->proteins.end(); i++)
+	for (vector<Protein *>::iterator i = this->proteins.begin(); i != this->proteins.end(); i++)
 		delete *i;
 }
 
-void Proteins::add(ProteinMolecule *p)
+void Proteins::add(Protein *p)
 {
 	this->proteins.push_back(p);
 }
@@ -22,14 +22,14 @@ void Proteins::add(ProteinMolecule *p)
 void Proteins::increment_tick()
 {
 	// Remove dead proteins
-	for (vector<vector<ProteinMolecule *>::iterator>::reverse_iterator i = this->dead_proteins.rbegin(); i != this->dead_proteins.rend(); i++)
+	for (vector<vector<Protein *>::iterator>::reverse_iterator i = this->dead_proteins.rbegin(); i != this->dead_proteins.rend(); i++)
 	{
 		delete **i;
 		this->proteins.erase(*i);
 	}
 	this->dead_proteins.clear();
 
-	for (vector<ProteinMolecule *>::iterator i = this->proteins.begin(); i != this->proteins.end(); i++)
+	for (vector<Protein *>::iterator i = this->proteins.begin(); i != this->proteins.end(); i++)
 	{
 		// Age the proteins and add the dead/removable ones into a vector
 		if ((*i)->age())
@@ -39,4 +39,10 @@ void Proteins::increment_tick()
 		if ((*i)->is_active())
 			(*i)->perform_action();
 	}
+}
+
+void Proteins::make_aware(Cell *host)
+{
+	for (vector<Protein *>::iterator i = this->proteins.begin(); i != this->proteins.end(); i++)
+		(*i)->make_aware(host);
 }

@@ -1,25 +1,25 @@
 ﻿/// Code based off Johan Høye's [HOYE2006]. Rewritten in C++ for Ngene with
 /// modifications, hopefully making things simpler and faster.
 
-#ifndef PROTEINMOLECULE
-#define PROTEINMOLECULE
+#ifndef PROTEIN
+#define PROTEIN
 
 #include <vector>
 #include "ProteinType.h"
 
 class Cell;
 
-class ProteinMolecule
+class Protein
 {
 public:
 	const ProteinType::Type type;			///< The type this protein belongs to
 
-	ProteinMolecule(const ProteinType::Type type,
+	Protein(const ProteinType::Type type,
 		const std::vector<double> *thresholds,
 		unsigned int lifespan,
 		const std::vector<double> *parameters)
 		: type(type), thresholds(thresholds), lifespan(lifespan), parameters(parameters) { };
-	virtual ~ProteinMolecule() { };
+	virtual ~Protein() { };
 
 	/// Ages the protein and checks whether it died or not.
 	bool age() { return --this->lifespan < 0 ? true : false; }

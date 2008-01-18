@@ -4,16 +4,16 @@
 #ifndef PROTEIN_DIVISION
 #define PROTEIN_DIVISION
 
-#include "ProteinMolecule.h"
+#include "Protein.h"
 
-class Protein_Division : public ProteinMolecule
+class Protein_Division : public Protein
 {
 public:
 	const double MAX, MIN;
 	Protein_Division(const std::vector<double> *thresholds,
 		unsigned int lifespan,
 		const std::vector<double> *parameters)
-		: ProteinMolecule(ProteinType::division, thresholds, lifespan, parameters), MAX(1.0), MIN(-1.0) { };
+		: Protein(ProteinType::division, thresholds, lifespan, parameters), MAX(1.0), MIN(-1.0) { };
 	void perform_action();
 };
 
