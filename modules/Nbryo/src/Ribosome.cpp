@@ -19,6 +19,8 @@ Protein *Ribosome::translate(vector<Gene>::const_iterator gene)
 		case ProteinType::transcribing:
 			polypeptide = new Protein_Transcribing(&gene->protein_thresholds, gene->protein_lifespan, &gene->parameters);
 			break;
+		default:
+			throw "Cell->Ribosome: This should never happen.";
 	}
 	return polypeptide;
 }

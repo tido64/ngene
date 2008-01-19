@@ -20,7 +20,7 @@ Cell *CellFactory::create_cell(std::vector<Protein *> *proteins)
 
 Cell *CellFactory::create_cell(std::vector<Protein *> *proteins, Coordinates coords)
 {
-	Cell *c = new Cell(&this->host->dna, proteins, coords, this->cell_count++);
+	Cell *c = new Cell(this->cell_count++, &this->host->dna, coords, proteins);
 	this->host->add_cell(c);
 	return c;
 }

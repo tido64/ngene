@@ -1,4 +1,4 @@
-﻿/// Code based off Johan Hoeye's [HOYE2006]. Rewritten in C++ for Ngene with
+/// Code based off Johan Høye's [HOYE2006]. Rewritten in C++ for Ngene with
 /// modifications, hopefully making things simpler and faster.
 
 #ifndef CELL
@@ -16,7 +16,7 @@ class Cell
 public:
 	const unsigned int MAX_NUMBER_OF_PROTEINS;
 
-	Cell(const std::vector<Gene> *dna, std::vector<Protein *> *p, Coordinates c, int id);
+	Cell(int id, const std::vector<Gene> *dna, Coordinates c, std::vector<Protein *> *p);
 	virtual ~Cell();
 
 	/// Returns the concentration of given hormone.
@@ -67,11 +67,11 @@ protected:
 	virtual void translate(std::string promoter);
 
 private:
-	const std::vector<Gene> *dna;
 	const int id;
+	const std::vector<Gene> *dna;
+	CellType::Type type;
 	Coordinates coordinates;
 	std::vector<Cell *> neighbourhood;		///< Keeps track of direct neighbours
-	CellType::Type type;
 	Hormones hormones;
 	std::vector<Protein *> active_proteins;	///< Vector of active proteins
 	std::vector<std::vector<Protein *>::iterator> dead_proteins;

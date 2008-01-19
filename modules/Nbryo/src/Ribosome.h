@@ -1,4 +1,4 @@
-﻿/// Code based off Johan Hoeye's [HOYE2006]. Rewritten in C++ for Ngene with
+/// Code based off Johan Høye's [HOYE2006]. Rewritten in C++ for Ngene with
 /// modifications, hopefully making things simpler and faster.
 ///
 /// Ribosome is the proper name for a "protein factory".
@@ -7,7 +7,6 @@
 #define RIBOSOME
 
 #include "Gene.h"
-//#include "ProteinMolecule.h"
 #include "Protein_Adjusting.h"
 #include "Protein_Division.h"
 #include "Protein_Speciation.h"
