@@ -1,4 +1,4 @@
-﻿/// Nbryo's entry point and face towards Ngene. Produces the random genotypes
+/// Nbryo's entry point and face towards Ngene. Produces the random genotypes
 /// as well as translating them into phenotypes and equivalent strings for
 /// output.
 /*

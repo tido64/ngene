@@ -4,10 +4,9 @@
 using std::string;
 using std::vector;
 
-Cell::Cell(const vector<Gene> *d, vector<Protein *> *p, Coordinates c, int id)
-	: coordinates(c), dna(d), id(id), MAX_NUMBER_OF_PROTEINS(99)
+Cell::Cell(int id, const vector<Gene> *d, Coordinates c, vector<Protein *> *p)
+	: MAX_NUMBER_OF_PROTEINS(99), id(id), dna(d), coordinates(c), proteins(p)
 {
-	this->proteins = p;
 	for (vector<Protein*>::iterator i = this->proteins->begin(); i != this->proteins->end(); i++)
 		(*i)->make_aware(this);
 }

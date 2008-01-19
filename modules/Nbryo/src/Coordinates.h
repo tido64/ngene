@@ -1,4 +1,4 @@
-﻿#ifndef COORDINATES
+#ifndef COORDINATES
 #define COORDINATES
 
 struct Coordinates
