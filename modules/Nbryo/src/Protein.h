@@ -1,4 +1,4 @@
-﻿/// Code based off Johan Høye's [HOYE2006]. Rewritten in C++ for Ngene with
+﻿/// Code based off Johan Hoeye's [HOYE2006]. Rewritten in C++ for Ngene with
 /// modifications, hopefully making things simpler and faster.
 
 #ifndef PROTEIN
@@ -14,11 +14,11 @@ class Protein
 public:
 	const ProteinType::Type type;			///< The type this protein belongs to
 
-	Protein(const ProteinType::Type type,
-		const std::vector<double> *thresholds,
+	Protein(const std::vector<double> *thresholds,
 		unsigned int lifespan,
-		const std::vector<double> *parameters)
-		: type(type), thresholds(thresholds), lifespan(lifespan), parameters(parameters) { };
+		const std::vector<double> *parameters,
+		const ProteinType::Type type)
+		: type(type), parameters(parameters), thresholds(thresholds), lifespan(lifespan) { };
 	virtual ~Protein() { };
 
 	/// Ages the protein and checks whether it died or not.
