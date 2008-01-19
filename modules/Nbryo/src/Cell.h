@@ -1,4 +1,4 @@
-﻿/// Code based off Johan Høye's [HOYE2006]. Rewritten in C++ for Ngene with
+﻿/// Code based off Johan Hoeye's [HOYE2006]. Rewritten in C++ for Ngene with
 /// modifications, hopefully making things simpler and faster.
 
 #ifndef CELL
@@ -14,10 +14,10 @@ class Ribosome;
 class Cell
 {
 public:
-	const int MAX_NUMBER_OF_PROTEINS;
+	const unsigned int MAX_NUMBER_OF_PROTEINS;
 
 	Cell(const std::vector<Gene> *dna, std::vector<Protein *> *p, Coordinates c, int id);
-	~Cell();
+	virtual ~Cell();
 
 	/// Returns the concentration of given hormone.
 	double get_hormone_concentration(const Hormone::Type type)

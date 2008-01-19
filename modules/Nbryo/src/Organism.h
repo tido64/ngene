@@ -1,4 +1,4 @@
-﻿/// Code based off Johan Høye's [HOYE2006]. Rewritten in C++ for Ngene with
+﻿/// Code based off Johan Hoeye's [HOYE2006]. Rewritten in C++ for Ngene with
 /// modifications, hopefully making things simpler and faster.
 ///
 /// Modifications to this class includes the removal of the boundaries
@@ -23,7 +23,7 @@ public:
 	CellFactory *cell_factory;				///< Responsible for creating all cells
 
 	Organism(std::vector<Gene> d);
-	~Organism();
+	virtual ~Organism();
 
 	/// Adds a cell to the organism.
 	virtual void add_cell(Cell *c);
