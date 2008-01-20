@@ -8,8 +8,8 @@ namespace ProteinType
 {
 	enum Type
 	{
-		adjusting,
-		mitosis,
+		mitotic,
+		regulatory,
 		speciation,
 		transcribing,
 		number_of_types

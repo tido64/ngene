@@ -1,6 +1,7 @@
 #include "CellFactory.h"
 #include "Organism.h"
 
+using std::make_pair;
 using std::map;
 using std::string;
 using std::vector;
@@ -8,7 +9,7 @@ using std::vector;
 Organism::Organism(vector<Gene> d) : dna(d)
 {
 	this->cell_factory = new CellFactory(this);
-	this->add_cell(this->cell_factory->create_cell(new vector<Protein *>()));
+	this->add_cell(this->cell_factory->create_zygote(new vector<Protein *>()));
 }
 
 Organism::~Organism()
@@ -20,11 +21,7 @@ Organism::~Organism()
 
 void Organism::add_cell(Cell *c)
 {
-	// Does not overwrite the location
-	this->cells.insert(std::make_pair(c->get_location(), c));
-
-	// Overwrites the location
-	//this->cells[c->get_location()] = c;
+	this->cells[c->get_location()] = c;
 }
 
 void Organism::increment_tick()

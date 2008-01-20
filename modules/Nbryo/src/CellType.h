@@ -8,7 +8,7 @@ namespace CellType
 {
 	enum Type
 	{
-		empty,
+		//empty,
 		a,
 		b,
 		c,
@@ -20,7 +20,8 @@ namespace CellType
 		i,
 		j,
 		k,
-		l
+		l,
+		number_of_types
 	};
 }
 
