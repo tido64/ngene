@@ -217,7 +217,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Protein_Division.cpp"
+				RelativePath="..\..\src\Protein_Mitosis.cpp"
 				>
 			</File>
 			<File
@@ -279,7 +279,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Protein_Division.h"
+				RelativePath="..\..\src\Protein_Mitosis.h"
 				>
 			</File>
 			<File

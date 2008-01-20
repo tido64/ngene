@@ -22,14 +22,24 @@ public:
 	virtual ~Protein() { };
 
 	/// Ages the protein and checks whether it died or not.
-	bool age() { return --this->lifespan < 0 ? true : false; }
+	bool age()
+	{
+		return --this->lifespan < 0 ? true : false;
+	}
 
 	/// Checks whether this protein is activated given current states
 	virtual bool is_active();
 
-	void make_aware(Cell *host) { this->host = host; }
+	/// Makes the protein aware of its host.
+	void make_aware(Cell *host)
+	{
+		this->host = host;
+	}
 
-	virtual void perform_action() = 0;
+	const std::vector<double> *read()
+	{
+		return this->parameters;
+	}
 
 protected:
 	Cell *host;								///< The cell hosting the protein
@@ -39,7 +49,5 @@ protected:
 private:
 	unsigned int lifespan;					///< The number of ticks left for this protein to live
 };
-
-#include "Cell.h"
 
 #endif
