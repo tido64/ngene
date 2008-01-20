@@ -6,21 +6,20 @@
 #ifndef RIBOSOME
 #define RIBOSOME
 
-#include "Gene.h"
-#include "Protein_Adjusting.h"
-#include "Protein_Division.h"
-#include "Protein_Speciation.h"
-#include "Protein_Transcribing.h"
+#include "Cell.h"
 
 class Ribosome
 {
 public:
-	Ribosome();
+	Ribosome(Cell *host) : host(host) { };
 
 	/// The ribosome translates an mRNA and generates a polypeptide chain.
 	/// While simulating it, transcribing DNA to mRNA is not necessary so it is
 	/// skipped. The ribosome instead translates the DNA directly.
 	Protein *translate(std::vector<Gene>::const_iterator gene);
+
+private:
+	Cell *host;
 };
 
 #endif

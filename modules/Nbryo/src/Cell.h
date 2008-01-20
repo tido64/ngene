@@ -14,7 +14,7 @@ class Ribosome;
 class Cell
 {
 public:
-	const unsigned int MAX_NUMBER_OF_PROTEINS;
+	const unsigned int MAX_NUMBER_OF_PROTEINS;						///< The maximum amount of proteins allowed
 
 	Cell(int id, const std::vector<Gene> *dna, Coordinates c, std::vector<Protein *> *p);
 	virtual ~Cell();
@@ -46,11 +46,11 @@ public:
 	void queue_action();
 
 protected:
-	/// Adjusts the hormone concentrations (maybe sending them out?)
-	virtual void adjust_hormones();
-
 	/// Divides the cell into two cells.
 	virtual void divide();
+
+	/// Adjusts the hormone concentrations (by secretion?)
+	virtual void regulate_hormones();
 
 	/// Regulates the protein level in the cell.
 	virtual void regulate_proteins();
@@ -64,19 +64,19 @@ protected:
 	/// Note: Need to check whether this is biologically plausible. Also, the
 	/// current algorithm doesn't really abide by MAX_NUMBER_OF_PROTEINS.
 	/// Though it is true to Johan's code, it should be rewritten.
-	virtual void translate(std::string promoter);
+	virtual void translate();
 
 private:
 	const int id;
-	const std::vector<Gene> *dna;
-	CellType::Type type;
-	Coordinates coordinates;
-	std::vector<Cell *> neighbourhood;		///< Keeps track of direct neighbours
-	Hormones hormones;
-	std::vector<Protein *> active_proteins;	///< Vector of active proteins
-	std::vector<std::vector<Protein *>::iterator> dead_proteins;
-	std::vector<Protein *> *proteins;		///< Proteins control internal cell states, cell division, speciation and protein production
-	Ribosome *ribosome;						///< Ribosomes create proteins
+	const std::vector<Gene> *dna;									///< The organism's (the cell is a part of) dna
+	CellType::Type type;											///< The type of this cell
+	Coordinates coordinates;										///< The location of this cell
+	std::vector<Cell *> neighbourhood;								///< Keeps track of direct neighbours
+	Hormones hormones;												///< Hormones regulate protein activity
+	std::vector<std::vector<Protein *> > active_proteins;			///< Vector of categorized active proteins
+	std::vector<std::vector<Protein *>::iterator> dead_proteins;	///< Vector of dead proteins to be removed
+	std::vector<Protein *> *proteins;								///< Proteins control internal cell states, cell division, speciation and protein production
+	Ribosome *ribosome;												///< Ribosomes create proteins
 };
 
 #endif

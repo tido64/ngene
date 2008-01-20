@@ -9,7 +9,7 @@ namespace ProteinType
 	enum Type
 	{
 		adjusting,
-		division,
+		mitosis,
 		speciation,
 		transcribing,
 		number_of_types

@@ -1,3 +1,4 @@
+#include "Cell.h"
 #include "Protein.h"
 
 bool Protein::is_active()
