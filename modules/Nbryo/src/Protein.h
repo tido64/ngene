@@ -13,6 +13,7 @@ class Protein
 {
 public:
 	const ProteinType::Type type;			///< The type this protein belongs to
+	const std::string promoter;				///< The promoter this protein will respond to
 
 	Protein(const std::vector<double> *thresholds,
 		unsigned int lifespan,

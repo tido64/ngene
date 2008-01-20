@@ -213,22 +213,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Protein_Adjusting.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Protein_Mitosis.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Protein_Speciation.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Protein_Transcribing.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Ribosome.cpp"
 				>
 			</File>
@@ -255,6 +239,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Direction.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Gene.h"
 				>
 			</File>
@@ -272,22 +260,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Protein.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Protein_Adjusting.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Protein_Mitosis.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Protein_Speciation.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Protein_Transcribing.h"
 				>
 			</File>
 			<File

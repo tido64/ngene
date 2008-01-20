@@ -5,14 +5,21 @@
 #define CELLFACTORY
 
 #include "Cell.h"
-#include "Organism.h"
 
 class CellFactory
 {
 public:
 	CellFactory(Organism *o);
-	Cell *create_cell(std::vector<Protein *> *proteins);
-	Cell *create_cell(std::vector<Protein *> *proteins, Coordinates coords);
+	virtual ~CellFactory() { };
+
+	/// Creates the initial cell, the zygote.
+	Cell *create_zygote(std::vector<Protein *> *proteins);
+
+	/// Divides a mother cell into two daughter cells, a process called
+	/// cytokinesis, in given direction.
+	/// \param mother	The mother cell to divide
+	/// \param location	The location to put the new cell
+	virtual void divide_cell(Cell *mother, Coordinates &location);
 
 private:
 	Organism *host;				///< The organism that uses this factory
