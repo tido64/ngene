@@ -189,6 +189,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ConfigManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Gene.cpp"
 				>
 			</File>
@@ -235,6 +239,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ConfigManager.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Coordinates.h"
 				>
 			</File>
@@ -252,6 +260,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\HormoneType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Nbryo.h"
 				>
 			</File>
 			<File

@@ -6,7 +6,7 @@
 #include <vector>
 #include <boost/any.hpp>
 
-#define Genotype std::vector<boost::any>	///< Defines the gene type
+typedef std::vector<boost::any> Genotype;	///< Defines the gene type
 
 class Specimen
 {

@@ -10,7 +10,8 @@ namespace Direction
 		left,
 		right,
 		front,
-		back
+		back,
+		number_of_directions
 	};
 }
 

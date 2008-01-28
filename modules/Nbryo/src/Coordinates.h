@@ -1,6 +1,8 @@
 #ifndef COORDINATES
 #define COORDINATES
 
+#include "Direction.h"
+
 struct Coordinates
 {
 	const unsigned int directions;	///< Number of directions the cell can "observe"
@@ -11,34 +13,32 @@ struct Coordinates
 	Coordinates() : directions(6), x(0), y(0), z(0) { }
 	Coordinates(int x, int y, int z) : directions(6), x(x), y(y), z(z) { }
 
-	Coordinates top() const
+	Coordinates look(Direction::direction d) const
 	{
-		return Coordinates(this->x, this->y + 1, this->z);
-	}
-
-	Coordinates bottom() const
-	{
-		return Coordinates(this->x, this->y - 1, this->z);
-	}
-
-	Coordinates left() const
-	{
-		return Coordinates(this->x - 1, this->y, this->z);
-	}
-
-	Coordinates right() const
-	{
-		return Coordinates(this->x + 1, this->y, this->z);
-	}
-
-	Coordinates front() const
-	{
-		return Coordinates(this->x, this->y, this->z + 1);
-	}
-
-	Coordinates back() const
-	{
-		return Coordinates(this->x, this->y, this->z - 1);
+		switch (d)
+		{
+			case Direction::top:
+				return Coordinates(this->x, this->y + 1, this->z);
+				break;
+			case Direction::bottom:
+				return Coordinates(this->x, this->y - 1, this->z);
+				break;
+			case Direction::left:
+				return Coordinates(this->x - 1, this->y, this->z);
+				break;
+			case Direction::right:
+				return Coordinates(this->x + 1, this->y, this->z);
+				break;
+			case Direction::front:
+				return Coordinates(this->x, this->y, this->z + 1);
+				break;
+			case Direction::back:
+				return Coordinates(this->x, this->y, this->z - 1);
+				break;
+			default:
+				return Coordinates(this->x, this->y, this->z);
+				break;
+		}
 	}
 
 	bool operator <(const Coordinates &b) const

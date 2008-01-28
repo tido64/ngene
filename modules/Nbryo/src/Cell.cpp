@@ -1,4 +1,5 @@
 #include "Cell.h"
+#include "CellFactory.h"
 #include "Ribosome.h"
 
 using std::string;
@@ -32,16 +33,15 @@ void Cell::mitosis()
 	vector<Protein *> *proteins = &this->active_proteins[ProteinType::mitotic];
 	for (vector<Protein *>::iterator p = proteins->begin(); p != proteins->end(); p++)
 	{
-		const vector<double> *dir_stimulus = (*p)->read();
+		const vector<double> dir_stimulus = (*p)->parameters;
 		for (unsigned int i = 0; i < this->coordinates.directions; i++)
-			stimuli[i] += dir_stimulus->at(i);
+			stimuli[i] += dir_stimulus[i];
 	}
 
+	// Look to divide in all directions with enough stimulus
 	for (unsigned int i = 0; i < this->coordinates.directions; i++)
-	{
-		//if (stimuli[i] > this->STIMULUS_THRESHOLD)
-		//	this->organism->cell_factory(this, (Coordinates));
-	}
+		if (stimuli[i] > this->STIMULUS_THRESHOLD)
+			this->organism->cell_factory->divide_cell(this, this->coordinates.look((Direction::direction)i));
 }
 
 void Cell::regulate_hormones()
@@ -53,9 +53,9 @@ void Cell::regulate_hormones()
 	vector<Protein *> *proteins = &this->active_proteins[ProteinType::regulatory];
 	for (vector<Protein *>::iterator p = proteins->begin(); p != proteins->end(); p++)
 	{
-		const vector<double> *change = (*p)->read();
+		const vector<double> change = (*p)->parameters;
 		for (int i = 0; i < Hormone::number_of_types; i++)
-			changes[i] += change->at(i);
+			changes[i] += change[i];
 	}
 
 	// Apply the changes
@@ -94,25 +94,25 @@ void Cell::speciate()
 	stimuli.assign(CellType::number_of_types, 0.0);
 	for (vector<Protein *>::iterator i = this->active_proteins[ProteinType::speciation].begin(); i != this->active_proteins[ProteinType::speciation].end(); i++)
 	{
-		const vector<double> *stimulus = (*i)->read();
-		stimuli[(int)stimulus->at(0)] += stimulus->at(1);
+		const vector<double> stimulus = (*i)->parameters;
+		stimuli[(int)stimulus[0]] += stimulus[1];
 	}
 
 	// Find highest stimulus
-	CellType::Type ct;
+	int ct = -1;
 	double highest = 0.0;
 	for (int i = 0; i < CellType::number_of_types; i++)
 	{
 		if (stimuli[i] > highest)
 		{
-			ct = (CellType::Type)i;
+			ct = i;
 			highest = stimuli[i];
 		}
 	}
 
 	// Speciate only if the stimulus is above the threshold
-	if (stimuli[ct] > this->STIMULUS_THRESHOLD)
-		this->type = ct;
+	if (stimuli[ct] > 0 && stimuli[ct] > this->STIMULUS_THRESHOLD)
+		this->type = (CellType::Type)ct;
 }
 
 void Cell::translate()
@@ -126,7 +126,7 @@ void Cell::translate()
 		vector<Protein *> *proteins = &this->active_proteins[ProteinType::transcribing];
 		for (vector<Protein *>::iterator p = proteins->begin(); p != proteins->end(); p++)
 			for (vector<Gene>::const_iterator g = dna->begin(); g != dna->end(); g++)
-				if (g->sequence.find((*p)->promoter) != string::npos)
+				if ((*p)->find_promoter(g->get_sequence()))
 				{
 					this->proteins->push_back(this->ribosome->translate(g));
 					if (this->proteins->size() >= this->MAX_NUMBER_OF_PROTEINS)
