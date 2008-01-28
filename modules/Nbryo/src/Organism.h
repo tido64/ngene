@@ -13,16 +13,18 @@
 #include "Coordinates.h"
 #include "Gene.h"
 
+typedef std::vector<Gene> DNA;
+
 class Cell;
 class CellFactory;
 
 class Organism
 {
 public:
-	const std::vector<Gene> dna;			///< The organism's dna
+	const DNA dna;							///< The organism's dna
 	CellFactory *cell_factory;				///< Responsible for creating all cells
 
-	Organism(std::vector<Gene> d);
+	Organism(DNA d);
 	virtual ~Organism();
 
 	/// Adds a cell to the organism.

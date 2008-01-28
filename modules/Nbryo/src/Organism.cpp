@@ -6,7 +6,7 @@ using std::map;
 using std::string;
 using std::vector;
 
-Organism::Organism(vector<Gene> d) : dna(d)
+Organism::Organism(DNA d) : dna(d)
 {
 	this->cell_factory = new CellFactory(this);
 	this->add_cell(this->cell_factory->create_zygote(new vector<Protein *>()));
@@ -21,6 +21,7 @@ Organism::~Organism()
 
 void Organism::add_cell(Cell *c)
 {
+	delete this->cells[c->get_location()];
 	this->cells[c->get_location()] = c;
 }
 

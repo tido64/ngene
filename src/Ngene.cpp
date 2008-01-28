@@ -1,6 +1,5 @@
 #include "Ngene.h"
 
-using std::multiset;
 using std::vector;
 
 const char *NGENE_VERSION = "0.2007.12.16";
@@ -47,18 +46,23 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	boost::mt19937							rand_gen ((unsigned)time(0));
-	//boost::uniform_01<boost::mt19937>		rand_dist (rand_gen);
-	//boost::variate_generator<boost::mt19937 &, boost::uniform_01<boost::mt19937> > mt_rand (rand_gen, rand_dist);
-	boost::uniform_real<double>				rand_dist (0, 1);
+	// Initiate the mersenne twister random number generator
+	boost::mt19937 rand_gen ((unsigned)time(0));
+	boost::uniform_real<double> rand_dist (0, 1);
 	boost::variate_generator<boost::mt19937 &, boost::uniform_real<double> > mt_rand (rand_gen, rand_dist);
-	double									population_fitness = 0, ticks;
-	multiset<Specimen>						*adults, *offspring;
-	multiset<Specimen>::iterator			iter_tmp;
-	vector<multiset<Specimen>::iterator>	mates (config_manager.config.adult_pool_capacity);
+
+	double
+		population_fitness = 0,		///< The population's accumulated fitness
+		ticks;						///< Number of ticks elapsed since the beginning of execution
+	Population
+		*adults = new Population(),	///< The adult population
+		*offspring;					///< The offspring population
+	Population::iterator
+		iter_tmp;					///< A temporary iterator/pointer to an individual
+	vector<Population::iterator>
+		mates (config_manager.config.adult_pool_capacity);
 
 	// Prepare the initial population
-	adults = new multiset<Specimen>();
 	for (unsigned int i = 0; i < config_manager.config.adult_pool_capacity; i++)
 	{
 		Specimen specimen;
@@ -84,7 +88,7 @@ int main(int argc, char *argv[])
 			mates.push_back(iter_tmp);
 			mates.push_back(iter_tmp);
 		}
-		offspring = new multiset<Specimen>();
+		offspring = new Population();
 		// The following loop has multithreading potential. Exploit!
 		while (offspring->size() < config_manager.config.offspring_rate)
 		{
@@ -107,22 +111,20 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		// Replace the adults with offspring
-		if (config_manager.config.lifespan < 2)
+		if (config_manager.config.lifespan < 2) // replace the adults with offspring
 		{
 			if (config_manager.config.elitism)
+			{
+				offspring->erase(--offspring->end());
 				offspring->insert(*adults->begin());
+			}
 			delete adults;
 			adults = offspring;
-
-			// Truncate the adult population (necessary ?)
-			for (unsigned int i = adults->size(); i > config_manager.config.adult_pool_capacity; i--)
-				adults->erase(--adults->end());
 		}
-		else	// Age the adult pool and replace offspring with old adults
+		else // age the adult pool and replace offspring with old adults
 		{
 			mates.clear();
-			for (multiset<Specimen>::iterator i = --adults->end(); i != adults->begin(); i--)
+			for (Population::iterator i = --adults->end(); i != adults->begin(); i--)
 			{
 				if(i->age >= config_manager.config.lifespan)
 					mates.push_back(i);
@@ -139,7 +141,7 @@ int main(int argc, char *argv[])
 			}
 			if ((int)mates.size() > 0)
 			{
-				for (vector<multiset<Specimen>::iterator>::iterator i = mates.begin(); i != mates.end(); i++)
+				for (vector<Population::iterator>::iterator i = mates.begin(); i != mates.end(); i++)
 					adults->erase(*i);
 				for (unsigned int i = adults->size(); i != config_manager.config.adult_pool_capacity; i++)
 				{
@@ -168,7 +170,7 @@ int main(int argc, char *argv[])
 
 		// Gather statistics
 		population_fitness = 0;
-		for (multiset<Specimen>::iterator i = adults->begin(); i != adults->end(); i++)
+		for (Population::iterator i = adults->begin(); i != adults->end(); i++)
 			population_fitness += i->fitness;
 		logger.log(generation, adults->rbegin()->fitness, population_fitness / adults->size(), adults->begin()->fitness);
 	}
