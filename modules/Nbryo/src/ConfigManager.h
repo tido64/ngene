@@ -22,13 +22,12 @@ public:
 		protein_lifespan;				///< The maximum lifespan of a protein
 
 	ConfigManager();
-	double get_protein_weight(ProteinType::Type type) const;
 	const std::pair<double, double> *get_protein_stimuli(ProteinType::Type type) const;
-
+	double get_protein_weight(ProteinType::Type type) const;
 
 private:
 	std::vector<double> protein_weights;						///< ???
-	std::vector<std::pair<double, double> > protein_stimuli;	///< ???
+	std::vector<std::pair<double, double> > protein_stimuli;	///< Max (second) and min (first) stimuli a protein can change in a cell
 
 	unsigned int parse_config(std::string &config, std::string str, unsigned int &index);
 	void parse_protein_config(std::string &config, std::string str, unsigned int &index);

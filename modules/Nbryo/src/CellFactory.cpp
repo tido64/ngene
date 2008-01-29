@@ -1,4 +1,5 @@
 #include "CellFactory.h"
+#include "Organism.h"
 
 using std::vector;
 

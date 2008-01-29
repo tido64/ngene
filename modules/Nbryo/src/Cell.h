@@ -8,41 +8,48 @@
 #ifndef CELL
 #define CELL
 
-#include "CellType.h"
+#include "Coordinates.h"
+#include "Gene.h"
 #include "Hormones.h"
-#include "Organism.h"
 #include "Protein.h"
 
+typedef std::vector<Gene> DNA;
+
+class Organism;
 class Ribosome;
 
 class Cell
 {
 public:
 	const unsigned int MAX_NUMBER_OF_PROTEINS;						///< The maximum amount of proteins allowed
-	const double STIMULUS_THRESHOLD;								///< The level of stimulus at which this cell will react
+	const double STIMULUS_THRESHOLD;								///< The level of stimulus at which this cell will perform set action
 
 	Cell(int id, Organism *host, Coordinates c, std::vector<Protein *> *p);
 	virtual ~Cell();
 
 	/// Returns the concentration of given hormone.
-	double get_hormone_concentration(const Hormone::Type type)
+	double get_hormone_concentration(const Hormone::Type type) const
 	{
 		return this->hormones.get_concentration(type);
 	}
 
 	/// Returns the location of this cell.
-	Coordinates get_location()
+	Coordinates get_location() const
 	{
 		return this->coordinates;
 	}
 
-	std::vector<Protein *> *get_proteins()
+	/// Returns a vector with the neighbours of this cell
+	/// \param[out] neighbours Stores the neighbour cell types
+	void get_neighbours(std::vector<CellType::Type> &neighbours) const;
+
+	const std::vector<Protein *> *get_proteins() const
 	{
 		return this->proteins;
 	}
 
 	/// Returns the type of this cell.
-	CellType::Type get_type()
+	CellType::Type get_type() const
 	{
 		return this->type;
 	}
@@ -87,10 +94,9 @@ protected:
 
 private:
 	const int id;
-	const std::vector<Gene> *dna;									///< The dna of the organism this cell is part of
-	CellType::Type type;											///< The type of this cell
+	CellType::Type type;											///< This cell's type
+	DNA dna;														///< The dna of the organism this cell is part of
 	Coordinates coordinates;										///< The location of this cell
-	std::vector<Cell *> neighbourhood;								///< Keeps track of direct neighbours
 	Hormones hormones;												///< Hormones regulate protein activity
 	Organism *organism;												///< The organism this cell is part of
 	std::vector<std::vector<Protein *> > active_proteins;			///< Vector of categorized active proteins

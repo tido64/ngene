@@ -25,6 +25,14 @@ void Organism::add_cell(Cell *c)
 	this->cells[c->get_location()] = c;
 }
 
+CellType::Type Organism::get_cell(const Coordinates &c)
+{
+	if (this->cells.find(c) != this->cells.end())
+		return this->cells[c]->get_type();
+	else
+		return CellType::empty;
+}
+
 void Organism::increment_tick()
 {
 	for (map<Coordinates, Cell *>::iterator i = this->cells.begin(); i!= this->cells.end(); i++)
