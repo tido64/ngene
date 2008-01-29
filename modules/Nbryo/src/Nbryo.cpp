@@ -56,6 +56,8 @@ DNA Nbryo::synthesize()
 				dna.push_back(Gene(sequence, protein_type, NUtility::random(this->config.protein_lifespan), thresholds, neighbours, generate_transcription_promoter(this->config.promoter_length)));
 				dna.rbegin()->set_number_of_cell_types(this->config.number_of_cell_types);
 				break;
+			default:
+				throw "Nbryo::synthesize: This should never happen.";
 		}
 	}
 	return dna;

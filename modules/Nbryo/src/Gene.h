@@ -17,7 +17,6 @@
 
 class Gene
 {
-	friend class Gene;
 	friend class Protein;
 
 public:

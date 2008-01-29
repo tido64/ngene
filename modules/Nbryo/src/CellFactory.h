@@ -19,7 +19,7 @@ public:
 	/// cytokinesis, in given direction.
 	/// \param mother	The mother cell to divide
 	/// \param location	The location to put the new cell
-	virtual void divide_cell(Cell *mother, Coordinates &location);
+	virtual void divide_cell(Cell const *mother, const Coordinates &location);
 
 private:
 	Organism *host;				///< The organism that uses this factory
