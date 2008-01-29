@@ -6,7 +6,9 @@
 /// useful.
 /// - Normalizing no longer happens with each tick, but whenever a 
 /// concentration is adjusted. This eliminates normalizing values that are
-/// never touched, hopefully saving some CPU cycles.
+/// never touched, hopefully saving some CPU cycles. In order for this to be
+/// effective, all changes to the concentrations are first accumulated before
+/// applied.
 
 #ifndef HORMONES
 #define HORMONES
@@ -27,10 +29,11 @@ public:
 	void adjust_concentration(Hormone::Type t, double n);
 
 	/// Gets the current concentration of a hormone.
-	double get_concentration(Hormone::Type t);
+	double get_concentration(Hormone::Type t) const;
 
 private:
-	const double MAX_CONCENTRATION,		///< Maximum allowed concentration of a hormone
+	const double
+		MAX_CONCENTRATION,				///< Maximum allowed concentration of a hormone
 		MIN_CONCENTRATION;				///< Minimum allowed concentration of a hormone
 	std::vector<double> concentrations;	///< Stores all hormone concentrations
 };

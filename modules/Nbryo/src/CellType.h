@@ -8,7 +8,7 @@ namespace CellType
 {
 	enum Type
 	{
-		//empty,
+		empty = -1,
 		a,
 		b,
 		c,

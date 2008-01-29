@@ -1,12 +1,13 @@
 #include "Cell.h"
 #include "CellFactory.h"
+#include "Organism.h"
 #include "Ribosome.h"
 
 using std::string;
 using std::vector;
 
 Cell::Cell(int id, Organism *host, Coordinates c, vector<Protein *> *p)
-	: MAX_NUMBER_OF_PROTEINS(99), STIMULUS_THRESHOLD(0.0), id(id), dna(&host->dna), coordinates(c), organism(host), proteins(p)
+	: MAX_NUMBER_OF_PROTEINS(99), STIMULUS_THRESHOLD(0.0), id(id), dna(host->dna), coordinates(c), organism(host), proteins(p)
 {
 	this->active_proteins.assign(ProteinType::number_of_types, vector<Protein *>());
 	for (vector<vector<Protein *> >::iterator i = this->active_proteins.begin(); i != this->active_proteins.end(); i++)
@@ -125,14 +126,21 @@ void Cell::translate()
 	{
 		vector<Protein *> *proteins = &this->active_proteins[ProteinType::transcribing];
 		for (vector<Protein *>::iterator p = proteins->begin(); p != proteins->end(); p++)
-			for (vector<Gene>::const_iterator g = dna->begin(); g != dna->end(); g++)
-				if ((*p)->find_promoter(g->get_sequence()))
+			for (unsigned int i = 0; i < this->dna.size(); i++)
+				if ((*p)->find_promoter(this->dna[i].get_sequence()))
 				{
-					this->proteins->push_back(this->ribosome->translate(g));
+					this->proteins->push_back(this->ribosome->translate(&this->dna[i]));
 					if (this->proteins->size() >= this->MAX_NUMBER_OF_PROTEINS)
 						return;
 				}
 	}
+}
+
+void Cell::get_neighbours(vector<CellType::Type> &neighbours) const
+{
+	neighbours.reserve(Direction::number_of_directions);
+	for (int i = 0; i < Direction::number_of_directions; i++)
+		neighbours.push_back(this->organism->get_cell(this->coordinates.look((Direction::direction)i)));
 }
 
 void Cell::increment_tick()

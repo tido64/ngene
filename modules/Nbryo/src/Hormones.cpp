@@ -16,7 +16,7 @@ void Hormones::adjust_concentration(Hormone::Type t, double n)
 		this->concentrations[t] = max(this->concentrations[t] + n, this->MIN_CONCENTRATION);
 }
 
-double Hormones::get_concentration(Hormone::Type t)
+double Hormones::get_concentration(Hormone::Type t) const
 {
 	return this->concentrations[t];
 }

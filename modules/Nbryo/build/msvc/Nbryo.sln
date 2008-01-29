@@ -3,6 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C++ Express 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nbryo", "Nbryo.vcproj", "{164C5D1A-EC18-443F-A6AA-D30F63574552}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mutator_nbryo", "mutator_nbryo.vcproj", "{194EEDA8-8FB5-4733-AED9-05AE73F3772E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{164C5D1A-EC18-443F-A6AA-D30F63574552} = {164C5D1A-EC18-443F-A6AA-D30F63574552}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -13,6 +18,9 @@ Global
 		{164C5D1A-EC18-443F-A6AA-D30F63574552}.Debug|Win32.Build.0 = Debug|Win32
 		{164C5D1A-EC18-443F-A6AA-D30F63574552}.Release|Win32.ActiveCfg = Release|Win32
 		{164C5D1A-EC18-443F-A6AA-D30F63574552}.Release|Win32.Build.0 = Release|Win32
+		{194EEDA8-8FB5-4733-AED9-05AE73F3772E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{194EEDA8-8FB5-4733-AED9-05AE73F3772E}.Release|Win32.ActiveCfg = Release|Win32
+		{194EEDA8-8FB5-4733-AED9-05AE73F3772E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
