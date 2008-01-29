@@ -6,4 +6,4 @@
 #include "PluginManager.h"
 #include "Logger.h"
 
-typedef std::multiset<Specimen> Population
+typedef std::multiset<Specimen> Population;

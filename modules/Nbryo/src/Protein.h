@@ -17,7 +17,7 @@ public:
 	const std::vector<double> parameters;	///< The parameters the protein can effect the host cell
 
 	Protein(const Gene *gene)
-		: type(gene->protein_type), parameters(gene->protein_parameters), lifespan(gene->protein_lifespan), thresholds(gene->protein_thresholds), neighbours(gene->protein_neighbours), promoter(gene->protein_promoter)
+		: type(gene->protein_type), parameters(gene->protein_parameters), lifespan(gene->protein_lifespan), promoter(gene->protein_promoter), thresholds(gene->protein_thresholds), neighbours(gene->protein_neighbours)
 	{ }
 
 	virtual ~Protein() { }

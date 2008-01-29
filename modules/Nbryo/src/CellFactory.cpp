@@ -19,7 +19,7 @@ Cell *CellFactory::create_zygote(std::vector<Protein *> *proteins)
 	else throw "Cannot create the zygote twice.";
 }
 
-void CellFactory::divide_cell(Cell *mother, Coordinates &location)
+void CellFactory::divide_cell(Cell const *mother, const Coordinates &location)
 {
 	this->host->add_cell(
 		new Cell(this->cell_count++, this->host, location, new vector<Protein *>(*mother->get_proteins())));

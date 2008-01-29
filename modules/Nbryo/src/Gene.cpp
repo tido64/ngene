@@ -46,6 +46,8 @@ void Gene::mutate()
 				case ProteinType::transcribing: // flip a random bit in the promoter
 					this->protein_promoter[NUtility::random(this->protein_promoter.size())].flip();
 					break;
+				default:
+					throw "Gene::mutate: This should never happen.";
 			}
 			break;
 	}
