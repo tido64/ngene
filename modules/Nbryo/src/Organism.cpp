@@ -6,10 +6,9 @@ using std::map;
 using std::string;
 using std::vector;
 
-Organism::Organism(DNA d) : dna(d)
+Organism::Organism(const DNA &d) : dna(d)
 {
 	this->cell_factory = new CellFactory(this);
-	this->add_cell(this->cell_factory->create_zygote(new vector<Protein *>()));
 }
 
 Organism::~Organism()
@@ -21,7 +20,8 @@ Organism::~Organism()
 
 void Organism::add_cell(Cell *c)
 {
-	delete this->cells[c->get_location()];
+	if (this->cells.find(c->get_location()) != this->cells.end())
+		delete this->cells[c->get_location()];
 	this->cells[c->get_location()] = c;
 }
 
@@ -45,7 +45,19 @@ void Organism::remove_cell(Cell *cell)
 	delete cell;
 }
 
-string Organism::to_string(unsigned int width, unsigned int height, unsigned int depth)
+string Organism::to_string() const
 {
-	return "";
+	string s;
+	for (map<Coordinates, Cell *>::const_iterator i = this->cells.begin(); i != this->cells.end(); i++)
+	{
+		s += i->first.x;
+		s += " ";
+		s += i->first.y;
+		s += " ";
+		s += i->first.z;
+		s += " ";
+		s += NUtility::to_string<int>(i->second->get_type());
+		s += "\n";
+	}
+	return s;
 }
