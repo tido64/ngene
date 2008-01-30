@@ -9,11 +9,12 @@
 class CellFactory
 {
 public:
+	/// Initializes CellFactory and creates the initial cell, the zygote, and
+	/// the initial set of proteins.
+	/// \param o The organism to build cells for
 	CellFactory(Organism *o);
-	virtual ~CellFactory() { };
 
-	/// Creates the initial cell, the zygote.
-	Cell *create_zygote(std::vector<Protein *> *proteins);
+	virtual ~CellFactory() { };
 
 	/// Divides a mother cell into two daughter cells, a process called
 	/// cytokinesis, in given direction.

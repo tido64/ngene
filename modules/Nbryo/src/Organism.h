@@ -19,7 +19,7 @@ public:
 	const DNA dna;							///< The organism's dna
 	CellFactory *cell_factory;				///< Responsible for creating all cells
 
-	Organism(DNA d);
+	Organism(const DNA &d);
 	virtual ~Organism();
 
 	/// Adds a cell to the organism.
@@ -35,7 +35,7 @@ public:
 	/// Removes and erases a cell from the organism.
 	void remove_cell(Cell *cell);
 
-	std::string to_string(unsigned int width, unsigned int height, unsigned int depth);
+	std::string to_string() const;
 
 private:
 	std::map<Coordinates, Cell *> cells;	///< The cells this organism consists of

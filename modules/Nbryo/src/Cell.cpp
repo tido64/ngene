@@ -29,18 +29,18 @@ void Cell::mitosis()
 {
 	// Accumulate stimuli in each directions
 	vector<double> stimuli;
-	stimuli.assign(this->coordinates.directions, 0.0);
+	stimuli.assign(Direction::number_of_directions, 0.0);
 
 	vector<Protein *> *proteins = &this->active_proteins[ProteinType::mitotic];
 	for (vector<Protein *>::iterator p = proteins->begin(); p != proteins->end(); p++)
 	{
 		const vector<double> dir_stimulus = (*p)->parameters;
-		for (unsigned int i = 0; i < this->coordinates.directions; i++)
+		for (unsigned int i = 0; i < Direction::number_of_directions; i++)
 			stimuli[i] += dir_stimulus[i];
 	}
 
 	// Look to divide in all directions with enough stimulus
-	for (unsigned int i = 0; i < this->coordinates.directions; i++)
+	for (unsigned int i = 0; i < Direction::number_of_directions; i++)
 		if (stimuli[i] > this->STIMULUS_THRESHOLD)
 			this->organism->cell_factory->divide_cell(this, this->coordinates.look((Direction::direction)i));
 }
