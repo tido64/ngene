@@ -2,7 +2,7 @@
 /// as well as translating them into phenotypes and equivalent strings for
 /// output.
 
-#include "../../../src/Interfaces/GeneFactory.h"
+#include "../../../src/Interfaces/Genotype.h"
 #include "Synthesizer.h"
 
 namespace Nbryo
@@ -12,7 +12,6 @@ namespace Nbryo
 
 using std::string;
 using std::vector;
-using boost::any;
 
 void initiate(const string &parameters) { }
 
@@ -29,7 +28,7 @@ const char *species()
 	return "Nbryo ";
 }
 
-const char *str(const vector<any> &genotype)
+const char *str(const vector<boost::any> &genotype)
 {
 	return "some string";
 }
