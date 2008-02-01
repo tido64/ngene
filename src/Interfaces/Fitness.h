@@ -8,7 +8,7 @@
 
 #include "../Plugins.h"
 
-namespace Fitness
+namespace Ngene
 {
 	/// A pointer to \ref Genotype.h::phenotype. Must be set by PluginManager.
 	Phenotype phenotype;
@@ -25,7 +25,7 @@ extern "C"
 	/// Fitness.h::assess.
 	void FITNESS_INTERFACE assign_phenotype_function(Phenotype *fn)
 	{
-		phenotype = *fn;
+		Ngene::phenotype = *fn;
 	}
 
 	/// Sets up the module and makes sure it is ready for use. Every module is

@@ -6,7 +6,7 @@ CFLAGS = -O2 -Wall -iquote../../src/Interfaces
 
 default: $(TARGET).so
 
-$(TARGET).o: $(TARGET).h
+$(TARGET).o:
 	$(CPP) -fPIC $(CFLAGS) -c $(TARGET).cpp
 
 $(TARGET).so: $(TARGET).o
