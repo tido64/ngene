@@ -249,6 +249,14 @@
 				RelativePath="..\..\src\PluginManager.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\src\Plugins.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Specimen.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -264,7 +272,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Interfaces\GeneFactory.h"
+				RelativePath="..\..\src\Interfaces\Genotype.h"
 				>
 			</File>
 			<File
@@ -277,10 +285,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Interfaces\Selector.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Interfaces\Specimen.h"
 				>
 			</File>
 		</Filter>

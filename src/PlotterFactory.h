@@ -1,4 +1,4 @@
-/// Creates (lazy) and returns an instance (implementation) of IPlotter. Used
+/// Lazy-creates and returns an instance (implementation) of IPlotter. Used
 /// by Logger to create graphs as part of the log.
 
 #include "Plotter_SVG.h"
@@ -10,8 +10,6 @@ public:
 
 	/// Creates an instance of a plotter, given its type. Once created, the
 	/// pointer to this instance is returned on subsequent calls.
-	/// \param type The plotter to create/return
-	//IPlotter *create_plotter(const std::string &type);
 	IPlotter *get_plotter();
 
 private:

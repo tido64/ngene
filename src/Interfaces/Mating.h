@@ -6,10 +6,13 @@
 
 #include <map>
 #include <string>
-#include "Specimen.h"
+#include "../Specimen.h"
 
 extern "C"
 {
+	/// Sets up the module and makes sure it is ready for use. Every module is
+	/// initiated this way.
+	/// \param parameters The parameters needed to correctly set up the module
 	void MATING_INTERFACE initiate(const std::string &parameters);
 
 	/// Crosses over two individuals and produces offspring.
@@ -18,6 +21,9 @@ extern "C"
 	/// \param parentB The other individual of the cross over process
 	void MATING_INTERFACE mate(std::vector<Specimen> &children, const Specimen &parentA, const Specimen &parentB);
 
+	/// Returns the name of this module.
 	const char MATING_INTERFACE *name();
+
+	/// Returns the number of offspring this module produces.
 	const int MATING_INTERFACE offspring();
 }

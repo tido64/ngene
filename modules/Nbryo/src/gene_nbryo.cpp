@@ -3,24 +3,22 @@
 /// output.
 
 #include "../../../src/Interfaces/GeneFactory.h"
-#include "Nbryo.h"
+#include "Synthesizer.h"
 
-namespace N
+namespace Nbryo
 {
-	Nbryo instance;
+	Synthesizer synthesizer;
 }
 
 using std::string;
 using std::vector;
 using boost::any;
 
-void initiate(const string &parameters)
-{
-}
+void initiate(const string &parameters) { }
 
-void seed(vector<any> &genotype)
+void seed(Genotype &genotype)
 {
-	DNA dna = N::instance.synthesize();
+	DNA dna = Nbryo::synthesizer.synthesize();
 	genotype.reserve(dna.size());
 	for (DNA::iterator i = dna.begin(); i != dna.end(); i++)
 		genotype.push_back(*i);

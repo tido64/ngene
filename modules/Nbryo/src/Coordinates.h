@@ -5,9 +5,9 @@
 
 struct Coordinates
 {
-	int x;							///< The x component of the cell's location
-	int y;							///< The y component of the cell's location
-	int z;							///< The z component of the cell's location
+	int x;	///< The x component of the cell's location
+	int y;	///< The y component of the cell's location
+	int z;	///< The z component of the cell's location
 
 	Coordinates() : x(0), y(0), z(0) { }
 	Coordinates(int x, int y, int z) : x(x), y(y), z(z) { }

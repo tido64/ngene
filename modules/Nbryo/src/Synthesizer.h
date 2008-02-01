@@ -3,10 +3,10 @@
 #include "ConfigManager.h"
 #include "Organism.h"
 
-class Nbryo
+class Synthesizer
 {
 public:
-	Nbryo();
+	Synthesizer();
 	DNA synthesize();
 
 private:

@@ -6,7 +6,13 @@
 	#define FITNESS_INTERFACE
 #endif
 
-#include "Specimen.h"
+#include "../Plugins.h"
+
+namespace Fitness
+{
+	/// A pointer to \ref Genotype.h::phenotype. Must be set by PluginManager.
+	Phenotype phenotype;
+}
 
 extern "C"
 {
@@ -14,7 +20,20 @@ extern "C"
 	/// individual.genotype, and the fitness is given to individual.fitness.
 	/// \param[in,out] individual The individual to assess
 	void FITNESS_INTERFACE assess(Specimen &individual);
+
+	/// Sends a pointer to function Genotype.h::phenotype, needed by
+	/// Fitness.h::assess.
+	void FITNESS_INTERFACE assign_phenotype_function(Phenotype *fn)
+	{
+		phenotype = *fn;
+	}
+
+	/// Sets up the module and makes sure it is ready for use. Every module is
+	/// initiated this way.
+	/// \param parameters The parameters needed to correctly set up the module
 	void FITNESS_INTERFACE initiate(const std::string &parameters);
+
+	/// Returns the name of this module.
 	const char FITNESS_INTERFACE *name();
 }
 
