@@ -28,5 +28,5 @@ extern "C"
 
 	/// Returns the string representation of the genotype. Typically used for
 	/// saving to file.
-	const char GENOTYPE_INTERFACE *str(Genotype &genotype);
+	const char GENOTYPE_INTERFACE *str(const Genotype &genotype);
 }

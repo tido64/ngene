@@ -1,8 +1,10 @@
 #include "../../src/Interfaces/Fitness.h"
 
 #include <list>
+#include <string>
 
 using std::list;
+using std::string;
 
 void assess(Specimen &individual)
 {
@@ -15,7 +17,7 @@ void assess(Specimen &individual)
 	for (int i = 0; i < (int)individual.genotype.size(); i++)
 	{
 		iter = order.begin();
-		pt = boost::any_cast<int>(individual.genotype[i]) % order.size();
+		pt = boost::any_cast<unsigned int>(individual.genotype[i]) % order.size();
 		for (int j = 0; j < pt; j++)
 			iter++;
 		if (*iter != i)
@@ -25,9 +27,12 @@ void assess(Specimen &individual)
 	individual.fitness /= (double)individual.genotype.size();
 }
 
-void initiate(const std::string &parameters) { }
+void initiate(const string &parameters) { }
 
 const char *name()
 {
+	boost::any tmp;
+	Ngene::phenotype(tmp, Genotype());
+	printf("From fitness_unsorted: %s", boost::any_cast<const char *>(tmp));
 	return "Unsorted";
 }

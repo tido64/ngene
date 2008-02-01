@@ -33,10 +33,10 @@ void Logger::log(const unsigned int generation, const double min, const double a
 	printf(" %i:\tmin: %.4f\tavg: %.4f\tmax: %.4f\n", generation, min, avg, max);
 }
 
-void Logger::log(const Population &population, GenotypeToStr genotype_to_str)
+void Logger::log(const Population *population, GenotypeToStr *genotype_to_str)
 {
 	std::ofstream output (strcat(this->timestamp, ".output"));
-	output << genotype_to_str(population.begin()->genotype) << "\n";
+	output << (*genotype_to_str)(population->begin()->genotype) << "\n";
 	output.close();
 }
 

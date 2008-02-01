@@ -178,7 +178,7 @@ int main(int argc, char *argv[])
 		logger.log(generation, adults->rbegin()->fitness, population_fitness / adults->size(), adults->begin()->fitness);
 	}
 	ticks = clock() - ticks;
-	logger.log(*adults, module.genotype_to_str);
+	logger.log(adults, &module.genotype_to_str);
 	logger.log(ticks);
 	delete adults;
 	return 0;

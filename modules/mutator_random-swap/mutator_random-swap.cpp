@@ -1,8 +1,19 @@
-#include "mutator_random-swap.h"
+#include "../../src/Interfaces/Mutator.h"
 
-void mutate(std::vector<boost::any> &genotype)
+using std::string;
+using std::swap;
+using std::vector;
+
+void initiate(const string &parameters) { }
+
+const char *name()
 {
-	std::swap(genotype[(int)(rand() / (RAND_MAX + 1.0) * genotype.size())],
+	return "Random Swap";
+}
+
+void mutate(vector<boost::any> &genotype)
+{
+	swap(genotype[(int)(rand() / (RAND_MAX + 1.0) * genotype.size())],
 		genotype[(int)(rand() / (RAND_MAX + 1.0) * genotype.size())]);
 }
 

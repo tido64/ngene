@@ -1,9 +1,25 @@
-#include "selector_tournament.h"
+#include "../../src/Interfaces/Selector.h"
+#include <cmath>
+#include <cstdlib>
+#include <sstream>
+
+namespace tournament
+{
+	std::string name;
+	unsigned int k;
+	double p;
+	double random()
+	{
+		return (double)rand() / ((double)RAND_MAX + 1.0);
+	}
+}
+
 
 using std::multiset;
 using std::set;
+using std::string;
 
-void initiate(const std::string &parameters)
+void initiate(const string &parameters)
 {
 	std::istringstream parse (parameters);
 	parse >> tournament::k >> tournament::p;
@@ -13,7 +29,7 @@ void initiate(const std::string &parameters)
 	srand(time(NULL));
 }
 
-void gene_select(multiset<Specimen>::iterator &champ, multiset<Specimen> &candidates, int generation)
+void gene_select(Population::iterator &champ, Population &candidates, int generation)
 {
 	set<int> selection;
 	while (selection.size() < tournament::k)

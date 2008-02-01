@@ -1,28 +1,49 @@
-#include "gene_unsorted.h"
+#include "../../src/Interfaces/Genotype.h"
+#include <algorithm>
+#include <sstream>
 
-using std::vector;
-using boost::any;
-using boost::any_cast;
-
-void initiate(const std::string &parameters)
+namespace Ngene
 {
-	Unsorted::numbers = atoi(parameters.c_str());
+	unsigned int numbers;
+	std::string output, name, phtype;
 }
 
-void seed(vector<any> &genotype)
+using std::string;
+using std::ostringstream;
+using std::vector;
+
+void initiate(const string &parameters)
 {
-	genotype.reserve(Unsorted::numbers);
-	for (int i = 0; i < (int)genotype.capacity(); i++)
-		genotype.push_back(i % (Unsorted::numbers / 2));
+	Ngene::numbers = atoi(parameters.c_str());
+	Ngene::name = "Unsorted (n = " + parameters;
+	Ngene::name += ')';
+	Ngene::phtype = "The phenotype passed on okay.\n";
+}
+
+void phenotype(boost::any &phtype, const Genotype &gtype)
+{
+	phtype = Ngene::phtype.c_str();
+}
+
+void seed(vector<boost::any> &genotype)
+{
+	genotype.reserve(Ngene::numbers);
+	for (unsigned int i = 0; i < genotype.capacity(); i++)
+		genotype.push_back(i % (Ngene::numbers / 2));
 	random_shuffle(genotype.begin(), genotype.end());
 }
 
-const char *str(const vector<any> &genotype)
+const char *species()
 {
-	std::ostringstream phenotype;
-	for (vector<any>::const_iterator i = genotype.begin(); i != genotype.end(); i++)
-		phenotype << any_cast<int>(*i) << " ";
-	Unsorted::output = phenotype.str();
-	return Unsorted::output.c_str();
+	return Ngene::name.c_str();
+}
+
+const char *str(const vector<boost::any> &genotype)
+{
+	ostringstream phenotype;
+	for (vector<boost::any>::const_iterator i = genotype.begin(); i != genotype.end(); i++)
+		phenotype << boost::any_cast<unsigned int>(*i) << " ";
+	Ngene::output = phenotype.str();
+	return Ngene::output.c_str();
 }
 
