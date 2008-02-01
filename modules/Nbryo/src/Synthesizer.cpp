@@ -1,12 +1,12 @@
-#include "Nbryo.h"
+#include "Synthesizer.h"
 
 using std::pair;
 using std::string;
 using std::vector;
 
-Nbryo::Nbryo() { }
+Synthesizer::Synthesizer() { }
 
-DNA Nbryo::synthesize()
+DNA Synthesizer::synthesize()
 {
 	DNA dna (this->config.number_of_genes);
 	for (unsigned int i = 0; i < this->config.number_of_genes; i++)
@@ -63,7 +63,7 @@ DNA Nbryo::synthesize()
 	return dna;
 }
 
-vector<double> Nbryo::generate_protein_parameters(unsigned int n, const pair<double, double> *stimuli)
+vector<double> Synthesizer::generate_protein_parameters(unsigned int n, const pair<double, double> *stimuli)
 {
 	double factor = stimuli->second - stimuli->first;
 	vector<double> parameters (n);
@@ -77,7 +77,7 @@ vector<double> Nbryo::generate_protein_parameters(unsigned int n, const pair<dou
 	return parameters;
 }
 
-vector<double> Nbryo::generate_speciation_parameters(const pair<double, double> *stimuli)
+vector<double> Synthesizer::generate_speciation_parameters(const pair<double, double> *stimuli)
 {
 	vector<double> parameters (2);
 	parameters.push_back(NUtility::random() * (stimuli->second - stimuli->first) + stimuli->first);
@@ -85,7 +85,7 @@ vector<double> Nbryo::generate_speciation_parameters(const pair<double, double> 
 	return parameters;
 }
 
-boost::dynamic_bitset<> Nbryo::generate_transcription_promoter(unsigned int length)
+boost::dynamic_bitset<> Synthesizer::generate_transcription_promoter(unsigned int length)
 {
 	boost::dynamic_bitset<> promoter (length);
 	for (unsigned int i = 0; i < this->config.promoter_length; i++)

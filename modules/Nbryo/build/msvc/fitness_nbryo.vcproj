@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="Nbryo"
-	ProjectGUID="{164C5D1A-EC18-443F-A6AA-D30F63574552}"
-	RootNamespace="Nbryo"
+	Name="fitness_nbryo"
+	ProjectGUID="{6AE2CE76-B89E-4E52-B6BF-542DB4E50D07}"
+	RootNamespace="fitness_nbryo"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -19,7 +19,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="..\..\bin"
-			IntermediateDirectory="..\..\obj\$(ConfigurationName)"
+			IntermediateDirectory="..\..\obj\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
 			>
@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\libs"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;NBRYO_EXPORTS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;FITNESS_NBRYO_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -64,7 +64,6 @@
 				OutputFile="..\..\bin\$(ProjectName).dll"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(IntDir)\$(TargetName).pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -93,7 +92,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="..\..\bin"
-			IntermediateDirectory="..\..\obj\$(ConfigurationName)"
+			IntermediateDirectory="..\..\obj\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -117,13 +116,10 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories="..\..\..\..\libs"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;NBRYO_EXPORTS"
-				RuntimeLibrary="0"
-				BufferSecurityCheck="false"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;FITNESS_NBRYO_EXPORTS"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				RuntimeTypeInfo="false"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -142,11 +138,9 @@
 				OutputFile="..\..\bin\$(ProjectName).dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(IntDir)\$(TargetName).pdb"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="1"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -181,47 +175,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\src\Cell.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CellFactory.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ConfigManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Gene.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gene_nbryo.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Hormones.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\NUtility.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Organism.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Protein.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Ribosome.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Synthesizer.cpp"
+				RelativePath="..\..\src\fitness_nbryo.cpp"
 				>
 			</File>
 		</Filter>
@@ -231,67 +185,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\src\Cell.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CellFactory.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\CellType.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\ConfigManager.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Coordinates.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Direction.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Gene.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Hormones.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\HormoneType.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\NUtility.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Organism.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Protein.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ProteinProperty.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ProteinType.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Ribosome.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Synthesizer.h"
 				>
 			</File>
 		</Filter>

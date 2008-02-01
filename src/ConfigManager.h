@@ -17,21 +17,21 @@ class ConfigManager
 public:
 	Config config;				///< Mapping of the config file read
 
-	/// Starts reading from the config file
+	/// Starts reading from the config file.
 	/// \param conf_file The path to the configuration file
 	ConfigManager(const char *conf_file);
 
-	/// Returns true if config file loaded fine
+	/// Returns true if config file loaded fine.
 	bool is_loaded();
 
 private:
 	bool loaded;				///< Stores the successfulness of loading and parsing the config file
 	std::ifstream ngene_conf;	///< The file stream used to open a config file
 
-	/// Gets the next parameter in a config file
+	/// Gets the next parameter in a config file.
 	std::string get_conf();
 
-	/// Parses a string for a boolean value
+	/// Parses a string for a boolean value.
 	bool is_true(const std::string &b);
 };
 

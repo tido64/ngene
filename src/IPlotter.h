@@ -11,10 +11,10 @@
 class IPlotter
 {
 public:
-	virtual ~IPlotter() { };
+	virtual ~IPlotter() { }
 
 	/// Returns true if the plotter failed to initialize.
-	bool fail() { return this->failed; };
+	bool fail() { return this->failed; }
 
 	/// Plots the progression for each generation.
 	/// \param generation The current generation

@@ -2,7 +2,7 @@
 
 using std::vector;
 
-const char *NGENE_VERSION = "0.2007.12.16";
+const char *NGENE_VERSION = "0.2008.01.31";
 
 int main(int argc, char *argv[])
 {
@@ -26,19 +26,25 @@ int main(int argc, char *argv[])
 		ngene_conf = "ngene.conf";
 	}
 
-	ConfigManager config_manager (ngene_conf);
-	if (!config_manager.is_loaded())
+	// Load configuration
+	ConfigManager *config_manager = new ConfigManager(ngene_conf);
+	if (!config_manager->is_loaded())
 	{
 		printf("  * Could not read from '%s'.\n\nAborting...\n", ngene_conf);
 		return -1;
 	}
+	const Config config = config_manager->config;
+	delete config_manager;
+	config_manager = 0;
 
-	PluginManager module (config_manager.config);
+	// Load all plugins
+	PluginManager module (&config);
 
+	// Initialize logging
 	Logger logger;
 	try
 	{
-		logger.log(config_manager.config, module.modules);
+		logger.log(config, module.modules);
 	}
 	catch (char *e)
 	{
@@ -46,7 +52,7 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	// Initiate the mersenne twister random number generator
+	// Initialize the mersenne twister random number generator
 	boost::mt19937 rand_gen ((unsigned)time(0));
 	boost::uniform_real<double> rand_dist (0, 1);
 	boost::variate_generator<boost::mt19937 &, boost::uniform_real<double> > mt_rand (rand_gen, rand_dist);
@@ -60,26 +66,26 @@ int main(int argc, char *argv[])
 	Population::iterator
 		iter_tmp;					///< A temporary iterator/pointer to an individual
 	vector<Population::iterator>
-		mates (config_manager.config.adult_pool_capacity);
+		mates (config.adult_pool_capacity);
 
 	// Prepare the initial population
-	for (unsigned int i = 0; i < config_manager.config.adult_pool_capacity; i++)
+	for (unsigned int i = 0; i < config.adult_pool_capacity; i++)
 	{
 		Specimen specimen;
 		specimen.age = 1;
 		module.seed(specimen.genotype);
-		module.fitness_assess(specimen);
+		module.assess_fitness(specimen);
 		population_fitness += specimen.fitness;
 		adults->insert(specimen);
 	}
 
-	printf("Evolution started: %i generations shall live and prosper!\n\n", config_manager.config.doomsday);
+	printf("Evolution started: %i generations shall live and prosper!\n\n", config.doomsday);
 
 	logger.log(0, adults->rbegin()->fitness, population_fitness / adults->size(), adults->begin()->fitness);
 	ticks = clock();
 
 	// Commence evolution
-	for (unsigned int generation = 1; generation < config_manager.config.doomsday; generation++)
+	for (unsigned int generation = 1; generation < config.doomsday; generation++)
 	{
 		// Mating season!
 		if ((int)mates.size() < 2)
@@ -90,30 +96,30 @@ int main(int argc, char *argv[])
 		}
 		offspring = new Population();
 		// The following loop has multithreading potential. Exploit!
-		while (offspring->size() < config_manager.config.offspring_rate)
+		while (offspring->size() < config.offspring_rate)
 		{
 			do
 			{
 				module.select(mates[0], *adults, generation);
 				module.select(mates[1], *adults, generation);
 			} while (mates[0] == mates[1]);
-			if (mt_rand() <= config_manager.config.mating_rate)
+			if (mt_rand() <= config.mating_rate)
 			{
 				vector<Specimen> embryo (module.offspring_rate);
 				module.mate(embryo, *mates[0], *mates[1]);
 				for (vector<Specimen>::iterator fetus = embryo.begin(); fetus != embryo.end(); fetus++)
 				{
-					if (mt_rand() <= config_manager.config.mutation_rate)
+					if (mt_rand() <= config.mutation_rate)
 						module.mutate(fetus->genotype);
-					module.fitness_assess(*fetus);
+					module.assess_fitness(*fetus);
 					offspring->insert(*fetus);
 				}
 			}
 		}
 
-		if (config_manager.config.lifespan < 2) // replace the adults with offspring
+		if (config.lifespan < 2) // replace the adults with offspring
 		{
-			if (config_manager.config.elitism)
+			if (config.elitism)
 			{
 				offspring->erase(--offspring->end());
 				offspring->insert(*adults->begin());
@@ -126,15 +132,15 @@ int main(int argc, char *argv[])
 			mates.clear();
 			for (Population::iterator i = --adults->end(); i != adults->begin(); i--)
 			{
-				if(i->age >= config_manager.config.lifespan)
+				if(i->age >= config.lifespan)
 					mates.push_back(i);
 				else
 					i->age++;
 			}
-			if (!config_manager.config.elitism)
+			if (!config.elitism)
 			{
 				iter_tmp = adults->begin();
-				if(iter_tmp->age >= config_manager.config.lifespan)
+				if(iter_tmp->age >= config.lifespan)
 					adults->erase(iter_tmp);
 				else
 					iter_tmp->age++;
@@ -143,7 +149,7 @@ int main(int argc, char *argv[])
 			{
 				for (vector<Population::iterator>::iterator i = mates.begin(); i != mates.end(); i++)
 					adults->erase(*i);
-				for (unsigned int i = adults->size(); i != config_manager.config.adult_pool_capacity; i++)
+				for (unsigned int i = adults->size(); i != config.adult_pool_capacity; i++)
 				{
 					module.select(iter_tmp, *offspring, generation);
 					adults->insert(*iter_tmp)->age = 1;
@@ -152,12 +158,9 @@ int main(int argc, char *argv[])
 			}
 
 			// Replace lower citizens with prodigies
-			if (config_manager.config.max_prodigies > 0)
+			if (config.max_prodigies > 0)
 			{
-				unsigned int n = config_manager.config.max_prodigies;
-				if (n > offspring->size())
-					n = offspring->size();
-				for (int i = 0; i < (int)(mt_rand() * n); i++)
+				for (int i = 0; i < (int)(mt_rand() * config.max_prodigies > offspring->size() ? offspring->size() : config.max_prodigies); i++)
 				{
 					module.select(iter_tmp, *offspring, generation);
 					adults->erase(--adults->end());

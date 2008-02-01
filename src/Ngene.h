@@ -5,5 +5,3 @@
 #include "ConfigManager.h"
 #include "PluginManager.h"
 #include "Logger.h"
-
-typedef std::multiset<Specimen> Population;

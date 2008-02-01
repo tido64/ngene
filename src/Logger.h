@@ -7,17 +7,13 @@
 ///
 /// where the file name follows YYYYMMdd-hhmmss (ie. date, then time).
 
-#include <set>
 #include <boost/filesystem.hpp>
 
-#include "Interfaces/Specimen.h"
 #include "PlotterFactory.h"
+#include "Plugins.h"
 
 class Logger
 {
-	/// \see PluginManager::GenotypeToStr
-	typedef const char *(*GenotypeToStr)(const std::vector<boost::any> &);
-
 public:
 	Logger();
 	~Logger();
@@ -40,7 +36,7 @@ public:
 	/// actually written to file.
 	/// \param population The population of the last generation
 	/// \param genotype_to_str A pointer to a function that converts a genotype to string
-	void log(const std::multiset<Specimen> &population, GenotypeToStr genotype_to_str);
+	void log(const Population &population, GenotypeToStr genotype_to_str);
 
 	/// Logs the time used for this run.
 	/// \param ticks The ticks accumulated for this run.
