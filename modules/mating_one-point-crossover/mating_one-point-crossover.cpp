@@ -1,23 +1,20 @@
 #include "../../src/Interfaces/Mating.h"
+#include <cmath>
 
 void initiate(const std::string &parameters) { }
 
 void mate(std::vector<Specimen> &children, const Specimen &parentA, const Specimen &parentB)
 {
-	int size, split;
+	unsigned int
+		size = (parentB.genotype.size() > parentA.genotype.size() ? parentA.genotype.size() : parentB.genotype.size()) - 1,
+		split = (unsigned int)floor((double)rand() / ((double)RAND_MAX + 1.0) * size);
 
-	if (parentB.genotype.size() > parentA.genotype.size())
-		size = (int)parentA.genotype.size() - 1;
-	else
-		size = (int)parentB.genotype.size() - 1;
-	do
-	{
-		split = (int)(size * (double)rand() / ((double)RAND_MAX + 1.0));
-	} while (split == 0);
+	while (split == 0)
+		split = (unsigned int)floor((double)rand() / ((double)RAND_MAX + 1.0) * size);
 
 	children[0].genotype = parentB.genotype;
 	children[1].genotype = parentA.genotype;
-	for (int i = 0; i < split; i++)
+	for (unsigned int i = 0; i < split; i++)
 	{
 		children[0].genotype[i] = parentA.genotype[i];
 		children[1].genotype[i] = parentB.genotype[i];
