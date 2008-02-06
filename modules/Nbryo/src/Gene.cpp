@@ -21,18 +21,18 @@ void Gene::mutate()
 				this->protein_lifespan += NUtility::random() < 0.5 ? 1 : -1;
 			break;
 		case ProteinProperty::thresholds: // mutates the hormonal thresholds in proteins
-			if (this->protein_thresholds.size() > 0)
+			if (!this->protein_thresholds.empty())
 				this->protein_thresholds[NUtility::random(this->protein_thresholds.size())] += NUtility::random() * 0.2 - 0.1;
 			break;
-		case ProteinProperty::neighbours:
-			this->protein_neighbours[NUtility::random(Direction::number_of_directions)] = (CellType::Type)((int)NUtility::random(CellType::number_of_types + 2) - 1);
+		case ProteinProperty::neighbourhood:
+			this->protein_neighbourhood[NUtility::random(Direction::number_of_directions)] = (CellType::Type)((int)NUtility::random(CellType::number_of_types + 2) - 1);
 			break;
 		default:
 			switch (this->protein_type)
 			{
 				case ProteinType::mitotic:
 				case ProteinType::regulatory:
-					if (this->protein_parameters.size() > 0)
+					if (!this->protein_parameters.empty())
 						this->protein_parameters[NUtility::random(this->protein_parameters.size())]
 							= NUtility::random() * (this->protein_stimuli->second - this->protein_stimuli->first) + this->protein_stimuli->first;
 					break;

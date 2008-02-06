@@ -4,6 +4,7 @@
 using std::make_pair;
 using std::map;
 using std::string;
+using std::stringstream;
 using std::vector;
 
 Organism::Organism(const DNA &d) : dna(d)
@@ -20,9 +21,16 @@ Organism::~Organism()
 
 void Organism::add_cell(Cell *c)
 {
+#if defined(CELL_OVERWRITE)
 	if (this->cells.find(c->get_location()) != this->cells.end())
+	{
+		this->working_cells[c->get_location()] = false;
 		delete this->cells[c->get_location()];
+	}
 	this->cells[c->get_location()] = c;
+#else
+	this->cells.insert(make_pair(c->get_location(), c));
+#endif
 }
 
 CellType::Type Organism::get_cell(const Coordinates &c)
@@ -35,29 +43,25 @@ CellType::Type Organism::get_cell(const Coordinates &c)
 
 void Organism::increment_tick()
 {
-	for (map<Coordinates, Cell *>::iterator i = this->cells.begin(); i!= this->cells.end(); i++)
-		i->second->increment_tick();
+	// This algorithm prevents newly added/removed cells from ever being noticed of a tick
+	this->working_cells.clear();
+	for (map<Coordinates, Cell *>::iterator i = this->cells.begin(); i != this->cells.end(); i++)
+		this->working_cells[i->first] = true;
+	for (map<Coordinates, bool>::iterator i = this->working_cells.begin(); i != this->working_cells.end(); i++)
+		if (i->second)
+			this->cells[i->first]->increment_tick();
 }
 
-void Organism::remove_cell(Cell *cell)
+unsigned int Organism::size()
 {
-	this->cells.erase(cell->get_location());
-	delete cell;
+	return this->cells.size();
 }
 
-string Organism::to_string() const
+const char *Organism::str()
 {
-	string s;
+	stringstream o;
 	for (map<Coordinates, Cell *>::const_iterator i = this->cells.begin(); i != this->cells.end(); i++)
-	{
-		s += i->first.x;
-		s += " ";
-		s += i->first.y;
-		s += " ";
-		s += i->first.z;
-		s += " ";
-		s += NUtility::to_string<int>(i->second->get_type());
-		s += "\n";
-	}
-	return s;
+		o << i->first.x << " " << i->first.y << " " << i->first.z << " " << i->second->get_type() << "\n";
+	this->output = o.str();
+	return this->output.c_str();
 }

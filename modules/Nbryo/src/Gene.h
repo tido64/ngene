@@ -27,18 +27,18 @@ public:
 		const ProteinType::Type protein_type,
 		const unsigned int protein_lifespan,
 		const std::vector<double> &protein_thresholds,
-		const std::vector<CellType::Type> &protein_neighbours,
+		const std::vector<CellType::Type> &protein_neighbourhood,
 		const boost::dynamic_bitset<> &protein_promoter)
-		: sequence(sequence), protein_type(protein_type), protein_lifespan(protein_lifespan), protein_promoter(protein_promoter), protein_thresholds(protein_thresholds), protein_neighbours(protein_neighbours) { }
+		: sequence(sequence), protein_type(protein_type), protein_lifespan(protein_lifespan), protein_promoter(protein_promoter), protein_thresholds(protein_thresholds), protein_neighbourhood(protein_neighbourhood) { }
 
 	Gene(
 		const boost::dynamic_bitset<> &sequence,
 		const ProteinType::Type protein_type,
 		const unsigned int protein_lifespan,
 		const std::vector<double> &protein_thresholds,
-		const std::vector<CellType::Type> &protein_neighbours,
+		const std::vector<CellType::Type> &protein_neighbourhood,
 		const std::vector<double> &protein_parameters)
-		: sequence(sequence), protein_type(protein_type), protein_lifespan(protein_lifespan), protein_thresholds(protein_thresholds), protein_neighbours(protein_neighbours), protein_parameters(protein_parameters) { }
+		: sequence(sequence), protein_type(protein_type), protein_lifespan(protein_lifespan), protein_thresholds(protein_thresholds), protein_neighbourhood(protein_neighbourhood), protein_parameters(protein_parameters) { }
 
 	/// Returns the dna sequence of this gene.
 	const boost::dynamic_bitset<> *get_sequence() const;
@@ -66,7 +66,7 @@ private:
 	unsigned int protein_lifespan;						///< The translated protein's lifespan
 	boost::dynamic_bitset<> protein_promoter;			///< The translated protein's promoter
 	std::vector<double> protein_thresholds;				///< The translated protein's hormonal thresholds
-	std::vector<CellType::Type> protein_neighbours;		///< The translated protein's criteria for a thriving neighbourhood
+	std::vector<CellType::Type> protein_neighbourhood;		///< The translated protein's criteria for a thriving neighbourhood
 	std::vector<double> protein_parameters;				///< The translated protein's parameters
 
 	// Configuration (for the lack of a more elegant way)

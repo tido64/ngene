@@ -9,6 +9,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mutator_nbryo", "mutator_nb
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fitness_nbryo", "fitness_nbryo.vcproj", "{6AE2CE76-B89E-4E52-B6BF-542DB4E50D07}"
+	ProjectSection(ProjectDependencies) = postProject
+		{164C5D1A-EC18-443F-A6AA-D30F63574552} = {164C5D1A-EC18-443F-A6AA-D30F63574552}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,7 +27,6 @@ Global
 		{194EEDA8-8FB5-4733-AED9-05AE73F3772E}.Release|Win32.ActiveCfg = Release|Win32
 		{194EEDA8-8FB5-4733-AED9-05AE73F3772E}.Release|Win32.Build.0 = Release|Win32
 		{6AE2CE76-B89E-4E52-B6BF-542DB4E50D07}.Debug|Win32.ActiveCfg = Debug|Win32
-		{6AE2CE76-B89E-4E52-B6BF-542DB4E50D07}.Debug|Win32.Build.0 = Debug|Win32
 		{6AE2CE76-B89E-4E52-B6BF-542DB4E50D07}.Release|Win32.ActiveCfg = Release|Win32
 		{6AE2CE76-B89E-4E52-B6BF-542DB4E50D07}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection

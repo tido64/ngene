@@ -8,7 +8,10 @@
 #ifndef ORGANISM
 #define ORGANISM
 
+//#define CELL_OVERWRITE						///< Enables cell overwriting algorithm
+
 #include <map>
+#include <sstream>
 #include "Cell.h"
 
 class CellFactory;
@@ -32,13 +35,14 @@ public:
 	/// of their creation instead of "simultaneously".
 	virtual void increment_tick();
 
-	/// Removes and erases a cell from the organism.
-	void remove_cell(Cell *cell);
+	unsigned int size();
 
-	std::string to_string() const;
+	const char *str();
 
 private:
-	std::map<Coordinates, Cell *> cells;	///< The cells this organism consists of
+	std::map<Coordinates, Cell *> cells;		///< The cells this organism consists of
+	std::map<Coordinates, bool> working_cells;	///< The cells that are working in current tick
+	std::string output;
 };
 
 #endif

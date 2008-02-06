@@ -2,9 +2,9 @@
 
 using std::vector;
 
-Protein *Ribosome::translate(const Gene *gene)
+void Ribosome::translate(const Gene *gene)
 {
-	Protein *polypeptide = new Protein(gene);
-	polypeptide->make_aware(this->host);
-	return polypeptide;
+	Protein polypeptide (gene);
+	polypeptide.make_aware(this->host);
+	this->host->proteins.push_back(polypeptide);
 }

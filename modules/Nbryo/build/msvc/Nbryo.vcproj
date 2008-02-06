@@ -20,7 +20,7 @@
 			Name="Debug|Win32"
 			OutputDirectory="..\..\bin"
 			IntermediateDirectory="..\..\obj\$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="1"
 			CharacterSet="1"
 			>
 			<Tool
@@ -65,7 +65,8 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)\$(TargetName).pdb"
-				SubSystem="2"
+				SubSystem="1"
+				ImportLibrary="$(IntDir)\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -147,6 +148,7 @@
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				RandomizedBaseAddress="1"
+				ImportLibrary="$(IntDir)\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -193,6 +195,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Coordinates.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Gene.cpp"
 				>
 			</File>
@@ -222,6 +228,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Synthesizer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\UnitTest.cpp"
 				>
 			</File>
 		</Filter>

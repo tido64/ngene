@@ -8,16 +8,18 @@ Synthesizer::Synthesizer() { }
 
 DNA Synthesizer::synthesize()
 {
-	DNA dna (this->config.number_of_genes);
+	DNA dna;
+	dna.reserve(this->config.number_of_genes);
 	for (unsigned int i = 0; i < this->config.number_of_genes; i++)
 	{
 		// Create gene sequence
 		boost::dynamic_bitset<> sequence (this->config.promoter_length);
 		for (unsigned int b = 0; b < this->config.promoter_length; b++)
-			sequence[i] = NUtility::random() < 0.5;
+			sequence[b] = NUtility::random() < 0.5;
 
 		// Initiate hormonal thresholds (most of these values will be low to ease development)
-		vector<double> thresholds (this->config.number_of_hormones);
+		vector<double> thresholds;
+		thresholds.reserve(this->config.number_of_hormones);
 		for (unsigned int h = 0; h < this->config.number_of_hormones; h++)
 		{
 			if (NUtility::random() < 0.5)
@@ -66,7 +68,8 @@ DNA Synthesizer::synthesize()
 vector<double> Synthesizer::generate_protein_parameters(unsigned int n, const pair<double, double> *stimuli)
 {
 	double factor = stimuli->second - stimuli->first;
-	vector<double> parameters (n);
+	vector<double> parameters;
+	parameters.reserve(n);
 	for (unsigned int p = 0; p < n; p++)
 	{
 		if (NUtility::random() < 0.5)
@@ -79,7 +82,8 @@ vector<double> Synthesizer::generate_protein_parameters(unsigned int n, const pa
 
 vector<double> Synthesizer::generate_speciation_parameters(const pair<double, double> *stimuli)
 {
-	vector<double> parameters (2);
+	vector<double> parameters;
+	parameters.reserve(2);
 	parameters.push_back(NUtility::random() * (stimuli->second - stimuli->first) + stimuli->first);
 	parameters.push_back(NUtility::random(this->config.number_of_cell_types));
 	return parameters;

@@ -59,7 +59,7 @@ void initiate(const string &parameters)
 	if (target_phenotype.is_open())
 	{
 		config.clear();
-		config << "Nbryo fitness module (target = " << Nbryo::name << ", development time = " << Nbryo::development_time << ")";
+		config << "Nbryo fitness module (target=" << Nbryo::name << ", development time= " << Nbryo::development_time << ")";
 		Nbryo::name = config.str();
 
 		string tmp;
