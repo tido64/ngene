@@ -11,7 +11,7 @@ namespace ProteinProperty
 		lifespan,
 		promoter,
 		thresholds,
-		neighbours,
+		neighbourhood,
 		parameters,
 		number_of_properties
 	};

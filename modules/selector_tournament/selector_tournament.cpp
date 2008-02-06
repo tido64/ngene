@@ -1,6 +1,7 @@
 #include "../../src/Interfaces/Selector.h"
 #include <cmath>
 #include <cstdlib>
+#include <ctime>
 #include <sstream>
 
 namespace tournament
@@ -26,7 +27,7 @@ void initiate(const string &parameters)
 	std::ostringstream in_name;
 	in_name << "Tournament (k=" << tournament::k << ", p=" << tournament::p << ")";
 	tournament::name = in_name.str();
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 }
 
 void gene_select(Population::iterator &champ, Population &candidates, int generation)

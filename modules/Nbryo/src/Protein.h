@@ -13,42 +13,36 @@ class Cell;
 class Protein
 {
 public:
-	const ProteinType::Type type;			///< The type this protein belongs to
-	const std::vector<double> parameters;	///< The parameters the protein can effect the host cell
-
-	Protein(const Gene *gene)
-		: type(gene->protein_type), parameters(gene->protein_parameters), lifespan(gene->protein_lifespan), promoter(gene->protein_promoter), thresholds(gene->protein_thresholds), neighbours(gene->protein_neighbours)
-	{ }
+	Protein(const Gene *gene);
 
 	virtual ~Protein() { }
 
 	/// Ages the protein and checks whether it died or not.
-	bool age()
-	{
-		return --this->lifespan < 0 ? true : false;
-	}
+	bool age();
 
 	/// Checks whether the dna sequence contains the promoter.
-	bool find_promoter(const boost::dynamic_bitset<> *sequence)
-	{
-		return this->promoter.is_subset_of(*sequence);
-	}
+	bool find_promoter(const boost::dynamic_bitset<> *sequence);
+
+	const std::vector<double> *get_parameters();
+
+	ProteinType::Type get_type();
 
 	/// Checks whether this protein is activated given current states
 	virtual bool is_active();
 
 	/// Makes the protein aware of its host.
-	void make_aware(const Cell *host)
-	{
-		this->host = host;
-	}
+	void make_aware(const Cell *host);
+
+	void operator =(const Protein &p);
 
 private:
-	unsigned int lifespan;							///< The number of ticks left for this protein to live
-	const boost::dynamic_bitset<> promoter;			///< The promoter this protein will respond to
-	const std::vector<double> thresholds;			///< The thresholds at which this protein will be activated
-	const std::vector<CellType::Type> neighbours;	///< The criteria for a thriving neighbourhood
-	const Cell *host;								///< The cell hosting the protein
+	ProteinType::Type type;						///< The type this protein belongs to
+	unsigned int lifespan;						///< The number of ticks left for this protein to live
+	boost::dynamic_bitset<> promoter;			///< The promoter this protein will respond to
+	std::vector<double> thresholds;				///< The thresholds at which this protein will be activated
+	std::vector<CellType::Type> neighbourhood;	///< The criteria for a thriving neighbourhood
+	std::vector<double> parameters;				///< The parameters the protein can effect the host cell
+	const Cell *host;							///< The cell hosting the protein
 };
 
 #endif

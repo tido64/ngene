@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="mutator_nbryo"
-	ProjectGUID="{194EEDA8-8FB5-4733-AED9-05AE73F3772E}"
-	RootNamespace="mutator_nbryo"
+	Name="mutator_random-swap"
+	ProjectGUID="{7678107A-C74E-428E-9042-8886B60AE2BD}"
+	RootNamespace="mutator_randomswap"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\bin"
+			OutputDirectory="..\..\bin\$(ConfigurationName)"
 			IntermediateDirectory="..\..\obj\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
@@ -41,8 +41,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\libs"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;MUTATOR_NBRYO_EXPORTS"
+				AdditionalIncludeDirectories="..\..\libs"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -61,7 +61,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="..\..\bin\$(ProjectName).dll"
+				AdditionalDependencies="..\..\include\libboost_filesystem-vc80-mt-sgd-1_34_1.lib"
+				OutputFile="..\..\bin\modules\$(ProjectName).dll"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)\$(TargetName).pdb"
@@ -93,7 +94,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\bin"
+			OutputDirectory="..\..\bin\$(ConfigurationName)"
 			IntermediateDirectory="..\..\obj\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
@@ -118,8 +119,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\..\..\..\libs"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;MUTATOR_NBRYO_EXPORTS"
+				AdditionalIncludeDirectories="..\..\libs"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -137,14 +138,14 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="..\..\bin\$(ProjectName).dll"
+				AdditionalDependencies="..\..\include\libboost_filesystem-vc80-mt-s-1_34_1.lib"
+				OutputFile="..\..\bin\modules\$(ProjectName).dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)\$(TargetName).pdb"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="$(IntDir)\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -179,15 +180,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\src\Gene.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\mutator_nbryo.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\NUtility.cpp"
+				RelativePath="..\..\modules\mutator_random-swap\mutator_random-swap.cpp"
 				>
 			</File>
 		</Filter>
@@ -196,14 +189,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath="..\..\src\Gene.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\NUtility.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

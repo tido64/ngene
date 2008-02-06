@@ -2,7 +2,7 @@
 
 using std::vector;
 
-const char *NGENE_VERSION = "0.2008.01.31";
+const char *NGENE_VERSION = "0.2008.02.01";
 
 int main(int argc, char *argv[])
 {
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 	Population::iterator
 		iter_tmp;					///< A temporary iterator/pointer to an individual
 	vector<Population::iterator>
-		mates (config.adult_pool_capacity);
+		mates;
 
 	// Prepare the initial population
 	for (unsigned int i = 0; i < config.adult_pool_capacity; i++)
@@ -78,6 +78,7 @@ int main(int argc, char *argv[])
 		population_fitness += specimen.fitness;
 		adults->insert(specimen);
 	}
+	mates.reserve(config.adult_pool_capacity);
 
 	printf("Evolution started: %i generations shall live and prosper!\n\n", config.doomsday);
 
@@ -88,7 +89,7 @@ int main(int argc, char *argv[])
 	for (unsigned int generation = 1; generation < config.doomsday; generation++)
 	{
 		// Mating season!
-		if ((int)mates.size() < 2)
+		if (mates.size() < 2)
 		{
 			iter_tmp = adults->begin();
 			mates.push_back(iter_tmp);

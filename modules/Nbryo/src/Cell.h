@@ -16,43 +16,32 @@
 typedef std::vector<Gene> DNA;
 
 class Organism;
-class Ribosome;
 
 class Cell
 {
+	friend class Ribosome;
+
 public:
 	const unsigned int MAX_NUMBER_OF_PROTEINS;						///< The maximum amount of proteins allowed
 	const double STIMULUS_THRESHOLD;								///< The level of stimulus at which this cell will perform set action
 
-	Cell(int id, Organism *host, Coordinates c, std::vector<Protein *> *p);
+	Cell(int id, Organism *host, Coordinates coordinates, const std::vector<Protein> *proteins);
 	virtual ~Cell();
 
 	/// Returns the concentration of given hormone.
-	double get_hormone_concentration(const Hormone::Type type) const
-	{
-		return this->hormones.get_concentration(type);
-	}
+	double get_hormones(const Hormone::Type type) const;
 
 	/// Returns the location of this cell.
-	Coordinates get_location() const
-	{
-		return this->coordinates;
-	}
+	Coordinates get_location() const;
 
 	/// Returns a vector with the neighbours of this cell
-	/// \param[out] neighbours Stores the neighbour cell types
-	void get_neighbours(std::vector<CellType::Type> &neighbours) const;
+	/// \param[out] neighbourhood Stores the neighbour cell types
+	void get_neighbourhood(std::vector<CellType::Type> &neighbourhood) const;
 
-	const std::vector<Protein *> *get_proteins() const
-	{
-		return this->proteins;
-	}
+	const std::vector<Protein> *get_proteins() const;
 
 	/// Returns the type of this cell.
-	CellType::Type get_type() const
-	{
-		return this->type;
-	}
+	CellType::Type get_type() const;
 
 	/// Notifies all elements inside the cell of a tick so they can perform
 	/// their function. The order of operations in this method might change the
@@ -99,9 +88,9 @@ private:
 	Coordinates coordinates;										///< The location of this cell
 	Hormones hormones;												///< Hormones regulate protein activity
 	Organism *organism;												///< The organism this cell is part of
-	std::vector<std::vector<Protein *> > active_proteins;			///< Vector of categorized active proteins
-	std::vector<std::vector<Protein *>::iterator> dead_proteins;	///< Vector of dead proteins to be removed
-	std::vector<Protein *> *proteins;								///< Proteins control internal cell states, cell division, speciation and protein production
+	std::vector<std::vector<Protein *> > active_proteins;			///< Categorized vector of active proteins
+	std::vector<std::vector<Protein>::iterator> dead_proteins;		///< Vector of dead proteins to be removed
+	std::vector<Protein> proteins;									///< Proteins control internal cell states, cell division, speciation and protein production
 	Ribosome *ribosome;												///< Ribosomes create proteins
 };
 

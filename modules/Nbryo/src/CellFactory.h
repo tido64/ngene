@@ -16,6 +16,8 @@ public:
 
 	virtual ~CellFactory() { };
 
+	void create_zygote();
+
 	/// Divides a mother cell into two daughter cells, a process called
 	/// cytokinesis, in given direction.
 	/// \param mother	The mother cell to divide
@@ -24,7 +26,6 @@ public:
 
 private:
 	Organism *host;				///< The organism that uses this factory
-	unsigned int cell_count;	///< Keeps count of how many cells have been created
 };
 
 #endif
