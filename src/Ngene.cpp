@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 	config_manager = 0;
 
 	// Load all plugins
-	PluginManager module (&config);
+	PluginManager module (config);
 
 	// Initialize logging
 	Logger logger;

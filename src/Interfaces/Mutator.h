@@ -12,7 +12,7 @@ extern "C"
 	/// Sets up the module and makes sure it is ready for use. Every module is
 	/// initiated this way.
 	/// \param parameters The parameters needed to correctly set up the module
-	void MUTATION_INTERFACE initiate(const std::string &parameters);
+	void MUTATION_INTERFACE initiate(const char *parameters);
 
 	/// Mutates given genotype.
 	/// \param[in,out] genotype The genotype to mutate

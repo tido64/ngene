@@ -19,7 +19,6 @@
 class PluginManager
 {
 public:
-	const Config *config;				///< Points to the loaded configuration
 	int offspring_rate;					///< The number of offspring produced each generation
 	std::vector<const char *> modules;	///< Stores the names of the modules loaded
 
@@ -34,7 +33,7 @@ public:
 	/// Loads the modules specificed by the config file and readies an
 	/// interface for the modules accessible for the rest of the system.
 	/// \param config The configuration to abide by
-	PluginManager(const Config *config);
+	PluginManager(const Config &config);
 	~PluginManager();
 
 private:
@@ -43,6 +42,8 @@ private:
 	std::vector<dlhandle> dlhandles;
 
 	/// Handles the actual loading of a module.
-	/// \param module_type The type of the module to load
-	void load_module(const Module::Type module_type);
+	/// \param module_type	The type of the module to load
+	/// \param filename		The filename of the module
+	/// \param parameters	The parameters to send to the module
+	void load_module(const Module::Type module_type, const std::string &filename, const std::string &parameters);
 };
