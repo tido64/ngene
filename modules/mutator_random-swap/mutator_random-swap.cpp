@@ -4,7 +4,7 @@ using std::string;
 using std::swap;
 using std::vector;
 
-void initiate(const string &parameters) { }
+void initiate(const char *parameters) { }
 
 const char *name()
 {

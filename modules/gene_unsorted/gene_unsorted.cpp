@@ -12,7 +12,7 @@ using std::string;
 using std::ostringstream;
 using std::vector;
 
-void initiate(const string &parameters)
+void initiate(const char *parameters)
 {
 	Ngene::numbers = atoi(parameters.c_str());
 	Ngene::name = "Unsorted (n = " + parameters;

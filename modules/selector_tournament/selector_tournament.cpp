@@ -20,7 +20,7 @@ using std::multiset;
 using std::set;
 using std::string;
 
-void initiate(const string &parameters)
+void initiate(const char *parameters)
 {
 	std::istringstream parse (parameters);
 	parse >> tournament::k >> tournament::p;
