@@ -27,7 +27,7 @@ void assess(Specimen &individual)
 	individual.fitness /= (double)individual.genotype.size();
 }
 
-void initiate(const string &parameters) { }
+void initiate(const char *parameters) { }
 
 const char *name()
 {

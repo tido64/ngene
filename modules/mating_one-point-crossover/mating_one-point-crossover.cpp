@@ -1,7 +1,7 @@
 #include "../../src/Interfaces/Mating.h"
 #include <cmath>
 
-void initiate(const std::string &parameters) { }
+void initiate(const char *parameters) { }
 
 void mate(std::vector<Specimen> &children, const Specimen &parentA, const Specimen &parentB)
 {
