@@ -13,7 +13,7 @@ extern "C"
 	/// Sets up the module and makes sure it is ready for use. Every module is
 	/// initiated this way.
 	/// \param parameters The parameters needed to correctly set up the module
-	void MATING_INTERFACE initiate(const std::string &parameters);
+	void MATING_INTERFACE initiate(const char *parameters);
 
 	/// Crosses over two individuals and produces offspring.
 	/// \param[out] children The child(ren) produced
