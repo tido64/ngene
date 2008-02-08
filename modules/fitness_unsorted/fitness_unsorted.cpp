@@ -31,8 +31,7 @@ void initiate(const char *parameters) { }
 
 const char *name()
 {
-	boost::any tmp;
-	Ngene::phenotype(tmp, Genotype());
-	printf("From fitness_unsorted: %s", boost::any_cast<const char *>(tmp));
+	string *name = (string *)Ngene::phenotype(Genotype());
+	printf("From fitness_unsorted: %s", name->c_str());
 	return "Unsorted";
 }

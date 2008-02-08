@@ -14,15 +14,16 @@ using std::vector;
 
 void initiate(const char *parameters)
 {
-	Ngene::numbers = atoi(parameters.c_str());
-	Ngene::name = "Unsorted (n = " + parameters;
+	Ngene::numbers = atoi(parameters);
+	Ngene::name = "Unsorted (n = ";
+	Ngene::name.append(parameters);
 	Ngene::name += ')';
 	Ngene::phtype = "The phenotype passed on okay.\n";
 }
 
-void phenotype(boost::any &phtype, const Genotype &gtype)
+void *phenotype(const Genotype &gtype)
 {
-	phtype = Ngene::phtype.c_str();
+	return &Ngene::name;
 }
 
 void seed(vector<boost::any> &genotype)
