@@ -16,6 +16,7 @@
 typedef std::vector<Gene> DNA;
 
 class Organism;
+class Ribosome;
 
 class Cell
 {
@@ -25,7 +26,12 @@ public:
 	const unsigned int MAX_NUMBER_OF_PROTEINS;						///< The maximum amount of proteins allowed
 	const double STIMULUS_THRESHOLD;								///< The level of stimulus at which this cell will perform set action
 
-	Cell(int id, Organism *host, Coordinates coordinates, const std::vector<Protein> *proteins);
+	/// Used only to create the zygote.
+	Cell(Organism *host, const std::vector<Protein> &proteins);
+
+	/// Used by CellFactory to perform cell division.
+	Cell(int id, const Cell *mother, const Coordinates &c);
+
 	virtual ~Cell();
 
 	/// Returns the concentration of given hormone.
@@ -92,6 +98,14 @@ private:
 	std::vector<std::vector<Protein>::iterator> dead_proteins;		///< Vector of dead proteins to be removed
 	std::vector<Protein> proteins;									///< Proteins control internal cell states, cell division, speciation and protein production
 	Ribosome *ribosome;												///< Ribosomes create proteins
+
+	/// From Wikipedia: Cytokinesis is a separate process that begins at the
+	/// same time as telophase. Cytokinesis is technically not even a phase of
+	/// mitosis, but rather a separate process, necessary for completing cell
+	/// division.
+	///
+	/// Here, it's just used to "optimize"/enable future vital operations.
+	void engage_cytokinesis();
 };
 
 #endif

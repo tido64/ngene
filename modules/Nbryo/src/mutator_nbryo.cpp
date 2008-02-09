@@ -1,7 +1,7 @@
 #include "../../../src/Interfaces/Mutator.h"
 #include "Gene.h"
 
-void initiate(const std::string &parameters) { }
+void initiate(const char *parameters) { }
 
 void mutate(Genotype &genotype)
 {

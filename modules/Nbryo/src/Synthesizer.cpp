@@ -4,7 +4,10 @@ using std::pair;
 using std::string;
 using std::vector;
 
-Synthesizer::Synthesizer() { }
+Synthesizer::Synthesizer()
+{
+	srand((unsigned int)time(0));
+}
 
 DNA Synthesizer::synthesize()
 {

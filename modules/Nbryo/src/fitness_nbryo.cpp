@@ -25,6 +25,7 @@ using std::stringstream;
 void assess(Specimen &individual)
 {
 	map<Coordinates, CellType::Type> phenotype;
+	map<Coordinates, CellType::Type>::const_iterator a, b;
 
 	int points = 0;
 	for (int z = 0; z < Nbryo::boundaries.z; z++)
@@ -36,8 +37,6 @@ void assess(Specimen &individual)
 			check.y = y;
 			for (int x = 0; x < Nbryo::boundaries.x; x++)
 			{
-				static map<Coordinates, CellType::Type>::const_iterator a, b;
-
 				check.x = x;
 				a = phenotype.find(check);
 				b = Nbryo::target.find(check);
@@ -47,10 +46,10 @@ void assess(Specimen &individual)
 			}
 		}
 	}
-	individual.fitness = (double)points / (double)(Nbryo::boundaries.x * Nbryo::boundaries.y * Nbryo::boundaries.z * 2);
+	individual.fitness = points == 0 ? 0 : (double)points / (double)(Nbryo::boundaries.x * Nbryo::boundaries.y * Nbryo::boundaries.z * 2);
 }
 
-void initiate(const string &parameters)
+void initiate(const char *parameters)
 {
 	stringstream config (parameters);
 	config >> Nbryo::name >> Nbryo::development_time >> Nbryo::boundaries.x >> Nbryo::boundaries.y >> Nbryo::boundaries.z;
