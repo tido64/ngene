@@ -5,6 +5,7 @@ using std::vector;
 
 PluginManager::PluginManager(const Config &config)
 {
+	this->dlhandles.reserve(Module::number_of_types);
 	this->modules.assign(Module::number_of_types, 0);
 	this->load_module(Module::gene, config.module_path[Module::gene], config.parameters[Module::gene]);
 	this->load_module(Module::fitness, config.module_path[Module::fitness], config.parameters[Module::fitness]);

@@ -14,13 +14,13 @@ Protein::Protein(const Gene *gene)
 
 bool Protein::age()
 {
-	return --this->lifespan < 0 ? true : false;
+	return this->lifespan-- == 0;
 }
 
 bool Protein::find_promoter(const boost::dynamic_bitset<> *sequence)
 {
 	bool found = false;
-	for (unsigned int i = 0; i < sequence->size() - this->promoter.size(); i++)
+	for (unsigned int i = 0; i <= sequence->size() - this->promoter.size(); i++)
 	{
 		if ((*sequence)[i] == this->promoter[0])
 		{

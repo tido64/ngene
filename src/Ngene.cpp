@@ -79,6 +79,7 @@ int main(int argc, char *argv[])
 		adults->insert(specimen);
 	}
 	mates.reserve(config.adult_pool_capacity);
+	module.seed = 0;
 
 	printf("Evolution started: %i generations shall live and prosper!\n\n", config.doomsday);
 

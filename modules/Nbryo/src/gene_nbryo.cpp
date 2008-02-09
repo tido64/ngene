@@ -8,20 +8,24 @@
 namespace Nbryo
 {
 	unsigned int ticks;
-	Synthesizer synthesizer;
+	Synthesizer *synthesizer;
+	std::string name;
 }
 
 using std::string;
 using std::vector;
 
-void initiate(const string &parameters)
+void initiate(const char *parameters)
 {
-	Nbryo::ticks = atoi(parameters.c_str());
+	Nbryo::ticks = atoi(parameters);
+	Nbryo::name = "Nbryo ";
+	Nbryo::name += parameters;
+	Nbryo::synthesizer = new Synthesizer();
 }
 
 void *phenotype(const Genotype &genotype)
 {
-	DNA dna;
+	vector<Gene> dna;
 	for (Genotype::const_iterator i = genotype.begin(); i != genotype.end(); i++)
 		dna.push_back(boost::any_cast<Gene>(*i));
 
@@ -35,15 +39,14 @@ void *phenotype(const Genotype &genotype)
 
 void seed(Genotype &genotype)
 {
-	DNA dna = Nbryo::synthesizer.synthesize();
-	genotype.reserve(dna.size());
-	for (DNA::iterator i = dna.begin(); i != dna.end(); i++)
+	DNA dna = Nbryo::synthesizer->synthesize();
+	for (DNA::const_iterator i = dna.begin(); i != dna.end(); i++)
 		genotype.push_back(*i);
 }
 
 const char *species()
 {
-	return "Nbryo ";
+	return Nbryo::name.c_str();
 }
 
 const char *str(const Genotype &genotype)

@@ -6,8 +6,24 @@
 using std::string;
 using std::vector;
 
-Cell::Cell(int id, Organism *host, Coordinates c, const vector<Protein> *p)
-	: MAX_NUMBER_OF_PROTEINS(99), STIMULUS_THRESHOLD(0.0), id(id), dna(host->dna), coordinates(c), organism(host), proteins(*p)
+Cell::Cell(Organism *host, const std::vector<Protein> &p)
+: MAX_NUMBER_OF_PROTEINS(99), STIMULUS_THRESHOLD(0.0), id(0), type(CellType::a), dna(host->dna), coordinates(0,0,0), organism(host), proteins(p)
+{
+	engage_cytokinesis();
+}
+
+Cell::Cell(int id, const Cell *mother, const Coordinates &c)
+: MAX_NUMBER_OF_PROTEINS(mother->MAX_NUMBER_OF_PROTEINS), STIMULUS_THRESHOLD(mother->STIMULUS_THRESHOLD), id(id), type(mother->type), dna(mother->dna), coordinates(c), organism(mother->organism), proteins(mother->proteins)
+{
+	engage_cytokinesis();
+}
+
+Cell::~Cell()
+{
+	delete this->ribosome;
+}
+
+void Cell::engage_cytokinesis()
 {
 	this->active_proteins.reserve(ProteinType::number_of_types);
 	for (int i = 0; i < ProteinType::number_of_types; i++)
@@ -20,9 +36,40 @@ Cell::Cell(int id, Organism *host, Coordinates c, const vector<Protein> *p)
 	this->ribosome = new Ribosome(this);
 }
 
-Cell::~Cell()
+double Cell::get_hormones(const Hormone::Type type) const
 {
-	delete this->ribosome;
+	return this->hormones.get_concentration(type);
+}
+
+Coordinates Cell::get_location() const
+{
+	return this->coordinates;
+}
+
+void Cell::get_neighbourhood(vector<CellType::Type> &neighbourhood) const
+{
+	neighbourhood.reserve(Direction::number_of_directions);
+	for (int i = 0; i < Direction::number_of_directions; i++)
+		neighbourhood.push_back(this->organism->get_cell(this->coordinates.look((Direction::direction)i)));
+}
+
+const vector<Protein> *Cell::get_proteins() const
+{
+	return &this->proteins;
+}
+
+CellType::Type Cell::get_type() const
+{
+	return this->type;
+}
+
+void Cell::increment_tick()
+{
+	regulate_proteins();
+	translate();
+	regulate_hormones();
+	mitosis();
+	speciate();
 }
 
 void Cell::mitosis()
@@ -98,7 +145,7 @@ void Cell::speciate()
 	}
 
 	// Find highest stimulus
-	int ct = -1;
+	int ct = this->type;
 	double highest = 0.0;
 	for (int i = 0; i < CellType::number_of_types; i++)
 	{
@@ -132,41 +179,4 @@ void Cell::translate()
 						return;
 				}
 	}
-}
-
-
-double Cell::get_hormones(const Hormone::Type type) const
-{
-	return this->hormones.get_concentration(type);
-}
-
-Coordinates Cell::get_location() const
-{
-	return this->coordinates;
-}
-
-void Cell::get_neighbourhood(vector<CellType::Type> &neighbourhood) const
-{
-	neighbourhood.reserve(Direction::number_of_directions);
-	for (int i = 0; i < Direction::number_of_directions; i++)
-		neighbourhood.push_back(this->organism->get_cell(this->coordinates.look((Direction::direction)i)));
-}
-
-const vector<Protein> *Cell::get_proteins() const
-{
-	return &this->proteins;
-}
-
-CellType::Type Cell::get_type() const
-{
-	return this->type;
-}
-
-void Cell::increment_tick()
-{
-	regulate_proteins();
-	translate();
-	regulate_hormones();
-	mitosis();
-	speciate();
 }
