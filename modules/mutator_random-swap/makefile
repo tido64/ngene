@@ -1,5 +1,5 @@
 TARGET = mutator_random-swap
-BIN = ..
+BIN = ../../bin/modules
 
 CPP = g++
 CFLAGS = -O2 -Wall -iquote../../src/Interfaces
@@ -11,4 +11,3 @@ $(TARGET).o:
 
 $(TARGET).so: $(TARGET).o
 	$(CPP) -shared $(CFLAGS) -o $(BIN)/$(TARGET).so $(TARGET).cpp
-	rm -f $(TARGET).o

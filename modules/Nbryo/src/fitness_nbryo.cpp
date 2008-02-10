@@ -12,7 +12,6 @@ namespace Nbryo
 {
 	Coordinates boundaries;
 	std::map<Coordinates, CellType::Type> target;
-	unsigned int development_time;
 	std::string name;
 }
 
@@ -24,7 +23,9 @@ using std::stringstream;
 
 void assess(Specimen &individual)
 {
-	map<Coordinates, CellType::Type> phenotype;
+	const map<Coordinates, CellType::Type> *phenotype
+		= (const map<Coordinates, CellType::Type> *)Ngene::phenotype(individual.genotype);
+
 	map<Coordinates, CellType::Type>::const_iterator a, b;
 
 	int points = 0;
@@ -38,27 +39,30 @@ void assess(Specimen &individual)
 			for (int x = 0; x < Nbryo::boundaries.x; x++)
 			{
 				check.x = x;
-				a = phenotype.find(check);
+				a = phenotype->find(check);
 				b = Nbryo::target.find(check);
 
-				if (a != phenotype.end() && b != Nbryo::target.end())
+				if (a != phenotype->end() && b != Nbryo::target.end())
 					points += a->second == b->second ? 2 : 1;
+				else if (a == phenotype->end() && b == Nbryo::target.end())
+					points += 2;
 			}
 		}
 	}
 	individual.fitness = points == 0 ? 0 : (double)points / (double)(Nbryo::boundaries.x * Nbryo::boundaries.y * Nbryo::boundaries.z * 2);
+	delete phenotype;
 }
 
 void initiate(const char *parameters)
 {
 	stringstream config (parameters);
-	config >> Nbryo::name >> Nbryo::development_time >> Nbryo::boundaries.x >> Nbryo::boundaries.y >> Nbryo::boundaries.z;
+	config >> Nbryo::name >> Nbryo::boundaries.x >> Nbryo::boundaries.y >> Nbryo::boundaries.z;
 
 	ifstream target_phenotype (Nbryo::name.c_str());
 	if (target_phenotype.is_open())
 	{
 		config.clear();
-		config << "Nbryo fitness module (target=" << Nbryo::name << ", development time= " << Nbryo::development_time << ")";
+		config << "Nbryo fitness module (target=" << Nbryo::name << ")";
 		Nbryo::name = config.str();
 
 		string tmp;

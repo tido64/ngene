@@ -21,15 +21,26 @@ Organism::~Organism()
 
 void Organism::add_cell(Cell *c)
 {
-#if defined(CELL_OVERWRITE)
+#ifdef CELL_OVERWRITE /*
+* The following algorithm overwrites the location with a newly created
+* cell. The problem with this algorithm is that it may overwrite the
+* same cells every tick, preventing growth.
+*/
 	if (this->cells.find(c->get_location()) != this->cells.end())
 	{
 		this->working_cells[c->get_location()] = false;
 		delete this->cells[c->get_location()];
 	}
 	this->cells[c->get_location()] = c;
-#else
-	this->cells.insert(make_pair(c->get_location(), c));
+
+#else /*
+* In this algorithm, if the location is already occupied by a cell, the
+* newly created cell will be deleted.
+*/
+	if (this->cells.find(c->get_location()) != this->cells.end())
+		delete c;
+	else
+		this->cells[c->get_location()] = c;
 #endif
 }
 
@@ -52,16 +63,15 @@ void Organism::increment_tick()
 			this->cells[i->first]->increment_tick();
 }
 
+const map<Coordinates, CellType::Type> *Organism::phenotype()
+{
+	map<Coordinates, CellType::Type> *ph = new map<Coordinates, CellType::Type>();
+	for (map<Coordinates, Cell *>::const_iterator i = this->cells.begin(); i != this->cells.end(); i++)
+		(*ph)[i->first] = i->second->get_type();
+	return ph;
+}
+
 unsigned int Organism::size()
 {
 	return this->cells.size();
-}
-
-const char *Organism::str()
-{
-	stringstream o;
-	for (map<Coordinates, Cell *>::const_iterator i = this->cells.begin(); i != this->cells.end(); i++)
-		o << i->first.x << " " << i->first.y << " " << i->first.z << " " << i->second->get_type() << "\n";
-	this->output = o.str();
-	return this->output.c_str();
 }

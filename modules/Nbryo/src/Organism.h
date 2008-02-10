@@ -35,9 +35,9 @@ public:
 	/// of their creation instead of "simultaneously".
 	virtual void increment_tick();
 
-	unsigned int size();
+	const std::map<Coordinates, CellType::Type> *phenotype();
 
-	const char *str();
+	unsigned int size();
 
 private:
 	std::map<Coordinates, Cell *> cells;		///< The cells this organism consists of

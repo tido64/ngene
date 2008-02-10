@@ -15,17 +15,13 @@
 class ConfigManager
 {
 public:
-	Config config;				///< Mapping of the config file read
+	ConfigManager(const char *config_file);
 
-	/// Starts reading from the config file.
-	/// \param conf_file The path to the configuration file
-	ConfigManager(const char *conf_file);
-
-	/// Returns true if config file loaded fine.
-	bool is_loaded();
+	/// Parses the configuration file and returns an config object.
+	const Config parse();
 
 private:
-	bool loaded;				///< Stores the successfulness of loading and parsing the config file
+	const char *conf_file;
 	std::ifstream ngene_conf;	///< The file stream used to open a config file
 
 	/// Gets the next parameter in a config file.
