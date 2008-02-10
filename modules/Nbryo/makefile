@@ -1,11 +1,12 @@
 TARGET = gene_nbryo.so
-BINDIR = bin
+BINDIR = ../../bin/modules
 OBJDIR = obj
 SRCDIR = src
 EXEC   = $(BINDIR)/$(TARGET)
 OBJ    = $(OBJDIR)/Cell.o \
 		 $(OBJDIR)/CellFactory.o \
 		 $(OBJDIR)/ConfigManager.o \
+		 $(OBJDIR)/Coordinates.o \
 		 $(OBJDIR)/Gene.o \
 		 $(OBJDIR)/Hormones.o \
 		 $(OBJDIR)/NUtility.o \
@@ -16,7 +17,7 @@ OBJ    = $(OBJDIR)/Cell.o \
 		 $(OBJDIR)/gene_nbryo.o
 
 CPP = g++
-CFLAGS = -O2 -Wall
+CFLAGS = -g -Wall
 LDFLAGS =
 
 default: $(EXEC)
@@ -27,7 +28,7 @@ $(EXEC): $(OBJ)
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CPP) -fPIC $(CFLAGS) -c $< -o $@
 
-fitness: $(OBJDIR)/fitness_nbryo.o
+fitness: $(OBJDIR)/Coordinates.o $(OBJDIR)/fitness_nbryo.o
 	$(CPP) -shared $(CFLAGS) $(LDFLAGS) -o $(BINDIR)/fitness_nbryo.so $^
 
 mutator: $(OBJDIR)/Gene.o $(OBJDIR)/NUtility.o $(OBJDIR)/mutator_nbryo.o

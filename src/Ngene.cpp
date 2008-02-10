@@ -1,56 +1,60 @@
 #include "Ngene.h"
 
+//#define __DEBUG_MODE
+
 using std::vector;
 
-const char *NGENE_VERSION = "0.2008.02.01";
+const char *NGENE_VERSION = "0.2008.02.10";
 
 int main(int argc, char *argv[])
 {
-	char *ngene_conf = 0;
+	ConfigManager *config_manager;
 	if (argc > 1)
 	{
 		if (strcmp(argv[1], "--config") == 0)
 		{
-			printf("Starting Ngene v%s\n\nPreparing the environment:\n  * Running with configuration file: %s\n", NGENE_VERSION, argv[2]);
-			ngene_conf = argv[2];
+			printf("Starting Ngene v%s\n  * Running with configuration file: %s\n\nPreparing the environment:\n", NGENE_VERSION, argv[2]);
+			config_manager = new ConfigManager(argv[2]);
 		}
 		else
 		{
-			printf("Usage: Ngene --config <config file>\n");
+			printf("Usage: ngene [--config <config file>]\n");
 			return 0;
 		}
 	}
 	else
 	{
 		printf("Starting Ngene v%s\n\nPreparing the environment:\n", NGENE_VERSION);
-		ngene_conf = "ngene.conf";
+		config_manager = new ConfigManager("ngene.conf");
 	}
 
+#ifdef __DEBUG_MODE
+	printf("[Ngene.cpp] Loading configuration ... ");
+#endif
+
 	// Load configuration
-	ConfigManager *config_manager = new ConfigManager(ngene_conf);
-	if (!config_manager->is_loaded())
-	{
-		printf("  * Could not read from '%s'.\n\nAborting...\n", ngene_conf);
-		return -1;
-	}
-	const Config config = config_manager->config;
+	const Config config = config_manager->parse();
 	delete config_manager;
 	config_manager = 0;
+
+#ifdef __DEBUG_MODE
+	printf("done!\n[Ngene.cpp] Loading plugins ... ");
+#endif
 
 	// Load all plugins
 	PluginManager module (config);
 
+#ifdef __DEBUG_MODE
+	printf("done!\n[Ngene.cpp] Initializing logger ... \n");
+#endif
+
 	// Initialize logging
 	Logger logger;
-	try
-	{
-		logger.log(config, module.modules);
-	}
-	catch (char *e)
-	{
-		printf("  * %s\n\nAborting...\n", e);
-		return -1;
-	}
+	logger.log(config, module.modules);
+
+#ifdef __DEBUG_MODE
+	printf("[Ngene.cpp] Logger initialized!\n[Ngene.cpp] Initiating program and initial population ... ");
+#endif
 
 	// Initialize the mersenne twister random number generator
 	boost::mt19937 rand_gen ((unsigned)time(0));
@@ -81,10 +85,18 @@ int main(int argc, char *argv[])
 	mates.reserve(config.adult_pool_capacity);
 	module.seed = 0;
 
+#ifdef __DEBUG_MODE
+	printf("done!\n\n");
+#endif
+
 	printf("Evolution started: %i generations shall live and prosper!\n\n", config.doomsday);
 
 	logger.log(0, adults->rbegin()->fitness, population_fitness / adults->size(), adults->begin()->fitness);
 	ticks = clock();
+
+#ifdef __DEBUG_MODE
+	printf("[Ngene.cpp] Starting genetic algorithm\n");
+#endif
 
 	// Commence evolution
 	for (unsigned int generation = 1; generation < config.doomsday; generation++)
