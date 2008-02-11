@@ -23,13 +23,13 @@ void initiate(const char *parameters)
 	Nbryo::ticks = atoi(parameters);
 	Nbryo::name = "Nbryo (development time=";
 	Nbryo::name += parameters;
-	Nbryo::name += ')':
+	Nbryo::name += ')';
 	Nbryo::synthesizer = new Synthesizer();
 }
 
 const void *phenotype(const Genotype &genotype)
 {
-	vector<Gene> dna;
+	DNA dna;
 	for (Genotype::const_iterator i = genotype.begin(); i != genotype.end(); i++)
 		dna.push_back(boost::any_cast<Gene>(*i));
 
@@ -37,7 +37,14 @@ const void *phenotype(const Genotype &genotype)
 	for (unsigned int i = 0; i < Nbryo::ticks; i++)
 		o.increment_tick();
 
-	return o.phenotype();
+	/* For debugging purposes only
+	printf(">\n");
+	const map<Coordinates, CellType::Type> *organism = o.get_phenotype();
+	for (map<Coordinates, CellType::Type>::const_iterator i = organism->begin(); i != organism->end(); i++)
+		printf("%d %d %d %d\n", i->first.x, i->first.y, i->first.z, i->second);
+	/**/
+
+	return o.get_phenotype();
 }
 
 void seed(Genotype &genotype)

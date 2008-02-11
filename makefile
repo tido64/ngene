@@ -13,7 +13,7 @@ $(OBJDIR)/Logger.o \
 $(OBJDIR)/Ngene.o
 
 CPP = g++
-CFLAGS = -g -Wall
+CFLAGS = -O2 -Wall
 LDFLAGS = -ldl -lboost_filesystem
 
 default: $(EXEC)

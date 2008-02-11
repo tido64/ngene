@@ -17,7 +17,7 @@ OBJ    = $(OBJDIR)/Cell.o \
 		 $(OBJDIR)/gene_nbryo.o
 
 CPP = g++
-CFLAGS = -g -Wall
+CFLAGS = -O2 -Wall
 LDFLAGS =
 
 default: $(EXEC)

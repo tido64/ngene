@@ -13,10 +13,7 @@ void mutate(Genotype &genotype)
 			genotype.erase(genotype.begin() + NUtility::random(genotype.size()));
 	}
 	else // mutate a random property
-	{
-		Gene *gene = boost::unsafe_any_cast<Gene>(&genotype[0]);
-		gene ? gene->mutate() : throw "[mutator_nbryo] Failed casting to pointer\n";
-	}
+		boost::unsafe_any_cast<Gene>(&genotype[0])->mutate();
 }
 
 const char *name()
