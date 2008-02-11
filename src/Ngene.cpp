@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 
 	printf("Evolution started: %i generations shall live and prosper!\n\n", config.doomsday);
 
-	logger.log(0, adults->rbegin()->fitness, population_fitness / adults->size(), adults->begin()->fitness);
+	logger.log(1, adults->rbegin()->fitness, population_fitness / adults->size(), adults->begin()->fitness);
 	ticks = clock();
 
 #ifdef __DEBUG_MODE
@@ -99,15 +99,11 @@ int main(int argc, char *argv[])
 #endif
 
 	// Commence evolution
-	for (unsigned int generation = 1; generation < config.doomsday; generation++)
+	for (unsigned int generation = 2; generation <= config.doomsday; generation++)
 	{
 		// Mating season!
 		if (mates.size() < 2)
-		{
-			iter_tmp = adults->begin();
-			mates.push_back(iter_tmp);
-			mates.push_back(iter_tmp);
-		}
+			mates.assign(2, adults->begin());
 		offspring = new Population();
 		// The following loop has multithreading potential. Exploit!
 		while (offspring->size() < config.offspring_rate)

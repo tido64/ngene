@@ -7,9 +7,10 @@ using std::string;
 using std::stringstream;
 using std::vector;
 
-Organism::Organism(const DNA &d) : dna(d)
+Organism::Organism(const DNA &d) : dna(d)//, phenotype(0)
 {
 	this->cell_factory = new CellFactory(this);
+	//this->phenotype = new map<Coordinates, CellType::Type>();
 }
 
 Organism::~Organism()
@@ -32,6 +33,7 @@ void Organism::add_cell(Cell *c)
 		delete this->cells[c->get_location()];
 	}
 	this->cells[c->get_location()] = c;
+	//(*this->phenotype)[c->get_location()] = c->get_type();
 
 #else /*
 * In this algorithm, if the location is already occupied by a cell, the
@@ -40,7 +42,14 @@ void Organism::add_cell(Cell *c)
 	if (this->cells.find(c->get_location()) != this->cells.end())
 		delete c;
 	else
+	{
 		this->cells[c->get_location()] = c;
+		Coordinates coords = c->get_location();
+		coords.x += 3;
+		coords.y += 3;
+		coords.z += 3;
+		this->phenotype.insert(make_pair(coords, c->get_type()));
+	}
 #endif
 }
 
@@ -63,12 +72,9 @@ void Organism::increment_tick()
 			this->cells[i->first]->increment_tick();
 }
 
-const map<Coordinates, CellType::Type> *Organism::phenotype()
+const map<Coordinates, CellType::Type> *Organism::get_phenotype()
 {
-	map<Coordinates, CellType::Type> *ph = new map<Coordinates, CellType::Type>();
-	for (map<Coordinates, Cell *>::const_iterator i = this->cells.begin(); i != this->cells.end(); i++)
-		(*ph)[i->first] = i->second->get_type();
-	return ph;
+	return new map<Coordinates, CellType::Type>(this->phenotype);
 }
 
 unsigned int Organism::size()

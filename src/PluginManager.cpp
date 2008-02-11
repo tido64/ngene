@@ -61,4 +61,10 @@ void PluginManager::load_module(const Module::Type module_type, const string &fi
 		this->modules[module_type] = ((const char *(*)())dlsym(module, dl.c_str()))();
 		dlhandles.push_back(module);
 	}
+	else
+	{
+		dl = "Could not load ";
+		dl.append(filename);
+		throw dl.c_str();
+	}
 }

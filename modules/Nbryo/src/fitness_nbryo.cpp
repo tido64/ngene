@@ -42,6 +42,12 @@ void assess(Specimen &individual)
 				a = phenotype->find(check);
 				b = Nbryo::target.find(check);
 
+				/* For debugging purposes only
+				printf("Comparing <%d, %d, %d>: ", check.x, check.y, check.z);
+				a != phenotype->end() ? printf("%d ?= ", a->second) : printf("none ?= ");
+				b != Nbryo::target.end() ? printf("%d\n", b->second) : printf("none\n");
+				/**/
+
 				if (a != phenotype->end() && b != Nbryo::target.end())
 					points += a->second == b->second ? 2 : 1;
 				else if (a == phenotype->end() && b == Nbryo::target.end())
@@ -50,13 +56,14 @@ void assess(Specimen &individual)
 		}
 	}
 	individual.fitness = points == 0 ? 0 : (double)points / (double)(Nbryo::boundaries.x * Nbryo::boundaries.y * Nbryo::boundaries.z * 2);
+	//printf("Fitness: %.3f\n", individual.fitness);
 	delete phenotype;
 }
 
 void initiate(const char *parameters)
 {
 	stringstream config (parameters);
-	config >> Nbryo::name >> Nbryo::boundaries.x >> Nbryo::boundaries.y >> Nbryo::boundaries.z;
+	config >> Nbryo::name;
 
 	ifstream target_phenotype (Nbryo::name.c_str());
 	if (target_phenotype.is_open())
@@ -67,8 +74,11 @@ void initiate(const char *parameters)
 
 		string tmp;
 		getline(target_phenotype, tmp);
+		Nbryo::boundaries.x = atoi(&tmp[6]);
 		getline(target_phenotype, tmp);
+		Nbryo::boundaries.y = atoi(&tmp[6]);
 		getline(target_phenotype, tmp);
+		Nbryo::boundaries.z = atoi(&tmp[6]);
 
 		while (!target_phenotype.eof())
 		{

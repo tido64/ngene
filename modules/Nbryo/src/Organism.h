@@ -31,18 +31,18 @@ public:
 	/// Returns the type of cell occupied in given coordinates.
 	CellType::Type get_cell(const Coordinates &c);
 
+	const std::map<Coordinates, CellType::Type> *get_phenotype();
+
 	/// Fires a tick event. Currently, the cells are notified in the order
 	/// of their creation instead of "simultaneously".
 	virtual void increment_tick();
 
-	const std::map<Coordinates, CellType::Type> *phenotype();
-
 	unsigned int size();
 
 private:
-	std::map<Coordinates, Cell *> cells;		///< The cells this organism consists of
-	std::map<Coordinates, bool> working_cells;	///< The cells that are working in current tick
-	std::string output;
+	std::map<Coordinates, Cell *> cells;				///< The cells this organism consists of
+	std::map<Coordinates, bool> working_cells;			///< The cells that are working in current tick
+	std::map<Coordinates, CellType::Type> phenotype;	///< The phenotype of this organism
 };
 
 #endif
