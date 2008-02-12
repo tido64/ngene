@@ -86,15 +86,15 @@ protected:
 
 private:
 	const int id;
-	CellType::Type type;									///< This cell's type
-	DNA dna;												///< The dna of the organism this cell is part of
-	Coordinates coordinates;								///< The location of this cell
-	Hormones hormones;										///< Hormones regulate protein activity
-	Organism *organism;										///< The organism this cell is part of
-	std::vector<std::vector<Protein *> > active_proteins;	///< Categorized vector of active proteins
-	std::vector<unsigned int> dead_proteins;				///< Vector of dead proteins to be removed
-	std::vector<Protein> proteins;							///< Proteins control internal cell states, cell division, speciation and protein production
-	Ribosome *ribosome;										///< Ribosomes create proteins
+	CellType::Type type;										///< This cell's type
+	DNA dna;													///< The dna of the organism this cell is part of
+	Coordinates coordinates;									///< The location of this cell
+	Hormones hormones;											///< Hormones regulate protein activity
+	Organism *organism;											///< The organism this cell is part of
+	std::vector<std::vector<unsigned int> > active_proteins;	///< Categorized vector of active proteins
+	std::vector<unsigned int> dead_proteins;					///< Vector of dead proteins to be removed
+	std::vector<Protein> proteins;								///< Proteins control internal cell states, cell division, speciation and protein production
+	Ribosome *ribosome;											///< Ribosomes create proteins
 
 	/// From Wikipedia: Cytokinesis is a separate process that begins at the
 	/// same time as telophase. Cytokinesis is technically not even a phase of

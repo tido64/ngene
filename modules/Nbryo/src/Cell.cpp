@@ -28,7 +28,7 @@ void Cell::engage_cytokinesis()
 	this->active_proteins.reserve(ProteinType::number_of_types);
 	for (int i = 0; i < ProteinType::number_of_types; i++)
 	{
-		this->active_proteins.push_back(vector<Protein *>());
+		this->active_proteins.push_back(vector<unsigned int>());
 		this->active_proteins.rbegin()->reserve(this->MAX_NUMBER_OF_PROTEINS);
 	}
 	this->ribosome = new Ribosome(this);
@@ -61,8 +61,8 @@ void Cell::increment_tick()
 	regulate_proteins();
 	translate();
 	regulate_hormones();
-	//mitosis();
-	//speciate();
+	mitosis();
+	speciate();
 }
 
 void Cell::mitosis()
@@ -73,10 +73,10 @@ void Cell::mitosis()
 		vector<double> stimuli;
 		stimuli.assign(Direction::number_of_directions, 0.0);
 
-		vector<Protein *> *proteins = &this->active_proteins[ProteinType::mitotic];
-		for (vector<Protein *>::iterator p = proteins->begin(); p != proteins->end(); p++)
+		vector<unsigned int> *proteins = &this->active_proteins[ProteinType::mitotic];
+		for (vector<unsigned int>::iterator p = proteins->begin(); p != proteins->end(); p++)
 		{
-			const std::vector<double> *parameters = (*p)->get_parameters();
+			const std::vector<double> *parameters = this->proteins[*p].get_parameters();
 			for (unsigned int i = 0; i < Direction::number_of_directions; i++)
 				stimuli[i] += parameters->at(i);
 		}
@@ -96,7 +96,7 @@ void Cell::regulate_hormones()
 		vector<double> changes;
 		changes.assign(Hormone::number_of_types, 0);
 
-		vector<Protein *> *proteins = &this->active_proteins[ProteinType::regulatory];
+		vector<unsigned int> *proteins = &this->active_proteins[ProteinType::regulatory];
 
 		/* For debugging purposes only
 		printf("\n%d", ProteinType::regulatory);
@@ -105,9 +105,9 @@ void Cell::regulate_hormones()
 		printf("\n");
 		/**/
 
-		for (vector<Protein *>::iterator p = proteins->begin(); p != proteins->end(); p++)
+		for (vector<unsigned int>::iterator p = proteins->begin(); p != proteins->end(); p++)
 		{
-			const std::vector<double> *parameters = (*p)->get_parameters();
+			const std::vector<double> *parameters = this->proteins[*p].get_parameters();
 			for (unsigned int i = 0; i < parameters->size(); i++)
 				changes[i] += parameters->at(i);
 		}
@@ -121,7 +121,7 @@ void Cell::regulate_hormones()
 
 void Cell::regulate_proteins()
 {
-	for (vector<vector<Protein *> >::iterator i = this->active_proteins.begin(); i != this->active_proteins.end(); i++)
+	for (vector<vector<unsigned int> >::iterator i = this->active_proteins.begin(); i != this->active_proteins.end(); i++)
 		i->clear();
 
 	// Remove dead proteins
@@ -137,7 +137,7 @@ void Cell::regulate_proteins()
 
 		// If the protein is acive, it will effect the cell in some way later in this tick
 		if (this->proteins[i].is_active())
-			this->active_proteins[this->proteins[i].get_type()].push_back(&this->proteins[i]);
+			this->active_proteins[this->proteins[i].get_type()].push_back(i);
 	}
 }
 
@@ -148,9 +148,9 @@ void Cell::speciate()
 		// Accumulate stimuli from proteins
 		vector<double> stimuli;
 		stimuli.assign(CellType::number_of_types, 0.0);
-		for (vector<Protein *>::iterator i = this->active_proteins[ProteinType::speciation].begin(); i != this->active_proteins[ProteinType::speciation].end(); i++)
+		for (vector<unsigned int>::iterator i = this->active_proteins[ProteinType::speciation].begin(); i != this->active_proteins[ProteinType::speciation].end(); i++)
 		{
-			const vector<double> *parameters = (*i)->get_parameters();
+			const vector<double> *parameters = this->proteins[*i].get_parameters();
 			stimuli[(int)parameters->at(0)] += parameters->at(1);
 		}
 
@@ -180,10 +180,10 @@ void Cell::translate()
 	//			Check if gene sequence has protein promoter
 	if (!this->active_proteins[ProteinType::transcribing].empty() && this->proteins.size() < this->MAX_NUMBER_OF_PROTEINS)
 	{
-		vector<Protein *> *proteins = &this->active_proteins[ProteinType::transcribing];
-		for (vector<Protein *>::iterator p = proteins->begin(); p != proteins->end(); p++)
+		vector<unsigned int> *proteins = &this->active_proteins[ProteinType::transcribing];
+		for (vector<unsigned int>::iterator p = proteins->begin(); p != proteins->end(); p++)
 			for (unsigned int i = 0; i < this->dna.size(); i++)
-				if ((*p)->find_promoter(this->dna[i].get_sequence()))
+				if (this->proteins[*p].find_promoter(this->dna[i].get_sequence()))
 				{
 					this->ribosome->translate(&this->dna[i]);
 					if (this->proteins.size() >= this->MAX_NUMBER_OF_PROTEINS)
