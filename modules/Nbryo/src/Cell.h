@@ -1,7 +1,7 @@
 /// Code based off Johan Høye's [HOYE2006]. Rewritten in C++ for Ngene with
 /// modifications, hopefully making things simpler and faster.
 ///
-/// The purpose of ProteinAction.java and the algorithms using it, is now 
+/// The purpose of ProteinAction.java and the algorithms using it, is now
 /// served by the idea of an active protein and the cell's ability to "read"
 /// them in different situations.
 
@@ -23,8 +23,8 @@ class Cell
 	friend class Ribosome;
 
 public:
-	const unsigned int MAX_NUMBER_OF_PROTEINS;						///< The maximum amount of proteins allowed
-	const double STIMULUS_THRESHOLD;								///< The level of stimulus at which this cell will perform set action
+	const unsigned int MAX_NUMBER_OF_PROTEINS;				///< The maximum amount of proteins allowed
+	const double STIMULUS_THRESHOLD;						///< The level of stimulus at which this cell will perform set action
 
 	/// Used only to create the zygote.
 	Cell(Organism *host, const std::vector<Protein> &proteins);
@@ -43,8 +43,6 @@ public:
 	/// Returns a vector with the neighbours of this cell
 	/// \param[out] neighbourhood Stores the neighbour cell types
 	void get_neighbourhood(std::vector<CellType::Type> &neighbourhood) const;
-
-	const std::vector<Protein> *get_proteins() const;
 
 	/// Returns the type of this cell.
 	CellType::Type get_type() const;
@@ -66,8 +64,7 @@ protected:
 	/// threshold, the cell would divide in all six directions. Biologically,
 	/// this is not plausible.
 	/// - Cell division is bound by occupancy of the location and the
-	/// boundaries set in the beginning. The latter may give an unwanted effect
-	/// as it is not part of anything biological.
+	/// boundaries set in the beginning.
 	virtual void mitosis();
 
 	/// Adjusts the hormone concentrations (by secretion?)
@@ -84,20 +81,20 @@ protected:
 	virtual void speciate();
 
 	/// Directly translates (skipping transcription) genes that contain a given
-	/// promoter to create a polypeptide chain.
+	/// promoter to create a polypeptide chain, ie. protein.
 	virtual void translate();
 
 private:
 	const int id;
-	CellType::Type type;											///< This cell's type
-	DNA dna;														///< The dna of the organism this cell is part of
-	Coordinates coordinates;										///< The location of this cell
-	Hormones hormones;												///< Hormones regulate protein activity
-	Organism *organism;												///< The organism this cell is part of
-	std::vector<std::vector<Protein *> > active_proteins;			///< Categorized vector of active proteins
-	std::vector<std::vector<Protein>::iterator> dead_proteins;		///< Vector of dead proteins to be removed
-	std::vector<Protein> proteins;									///< Proteins control internal cell states, cell division, speciation and protein production
-	Ribosome *ribosome;												///< Ribosomes create proteins
+	CellType::Type type;									///< This cell's type
+	DNA dna;												///< The dna of the organism this cell is part of
+	Coordinates coordinates;								///< The location of this cell
+	Hormones hormones;										///< Hormones regulate protein activity
+	Organism *organism;										///< The organism this cell is part of
+	std::vector<std::vector<Protein *> > active_proteins;	///< Categorized vector of active proteins
+	std::vector<unsigned int> dead_proteins;				///< Vector of dead proteins to be removed
+	std::vector<Protein> proteins;							///< Proteins control internal cell states, cell division, speciation and protein production
+	Ribosome *ribosome;										///< Ribosomes create proteins
 
 	/// From Wikipedia: Cytokinesis is a separate process that begins at the
 	/// same time as telophase. Cytokinesis is technically not even a phase of

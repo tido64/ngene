@@ -1,6 +1,7 @@
 #include "Synthesizer.h"
 
 using std::pair;
+using std::random_shuffle;
 using std::string;
 using std::vector;
 
@@ -16,8 +17,8 @@ DNA Synthesizer::synthesize()
 	for (unsigned int i = 0; i < this->config.number_of_genes; i++)
 	{
 		// Create gene sequence
-		boost::dynamic_bitset<> sequence (this->config.promoter_length);
-		for (unsigned int b = 0; b < this->config.promoter_length; b++)
+		boost::dynamic_bitset<> sequence (this->config.gene_sequence_length);
+		for (unsigned int b = 0; b < this->config.gene_sequence_length; b++)
 			sequence[b] = NUtility::random() < 0.5;
 
 		// Initiate hormonal thresholds (most of these values will be low to ease development)
@@ -37,7 +38,8 @@ DNA Synthesizer::synthesize()
 		for (unsigned int i = 0; i < this->config.number_of_dont_care_neighbours; i++)
 			neighbours.push_back(CellType::number_of_types);
 		for (unsigned int i = this->config.number_of_dont_care_neighbours; i < Direction::number_of_directions; i++)
-			neighbours.push_back((CellType::Type)((int)NUtility::random(CellType::number_of_types + 2) - 1));
+			neighbours.push_back((CellType::Type)((int)NUtility::random(CellType::empty, CellType::number_of_types + 1)));
+		random_shuffle(neighbours.begin(), neighbours.end());
 
 		// The gene codes for the following protein
 		ProteinType::Type protein_type = (ProteinType::Type)NUtility::random(ProteinType::number_of_types);
@@ -87,7 +89,7 @@ vector<double> Synthesizer::generate_speciation_parameters(const pair<double, do
 {
 	vector<double> parameters;
 	parameters.reserve(2);
-	parameters.push_back(NUtility::random() * (stimuli->second - stimuli->first) + stimuli->first);
+	parameters.push_back(NUtility::random(stimuli->first, stimuli->second));
 	parameters.push_back(NUtility::random(this->config.number_of_cell_types));
 	return parameters;
 }

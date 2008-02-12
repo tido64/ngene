@@ -11,7 +11,7 @@
 class Ribosome
 {
 public:
-	Ribosome(Cell *host) : host(host) { };
+	Ribosome(Cell *host);
 
 	/// The ribosome translates an mRNA and generates a polypeptide chain.
 	/// While simulating it, transcribing DNA to mRNA is not necessary so it is

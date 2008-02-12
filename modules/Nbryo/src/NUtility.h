@@ -12,6 +12,8 @@ namespace NUtility
 
 	unsigned int random(unsigned int k);
 
+	double random(const double &min, const double &max);
+
 	template <class T>
 	std::string to_string(const T &stringify)
 	{

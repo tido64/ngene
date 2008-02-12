@@ -9,6 +9,7 @@
 namespace Nbryo
 {
 	unsigned int ticks;
+	Coordinates boundaries;
 	Synthesizer *synthesizer;
 	std::string name;
 }
@@ -20,7 +21,8 @@ using std::vector;
 
 void initiate(const char *parameters)
 {
-	Nbryo::ticks = atoi(parameters);
+	stringstream in (parameters);
+	in >> Nbryo::ticks >> Nbryo::boundaries.x >> Nbryo::boundaries.y >> Nbryo::boundaries.z;
 	Nbryo::name = "Nbryo (development time=";
 	Nbryo::name += parameters;
 	Nbryo::name += ')';
@@ -33,7 +35,7 @@ const void *phenotype(const Genotype &genotype)
 	for (Genotype::const_iterator i = genotype.begin(); i != genotype.end(); i++)
 		dna.push_back(boost::any_cast<Gene>(*i));
 
-	Organism o (dna);
+	Organism o (dna, Nbryo::boundaries);
 	for (unsigned int i = 0; i < Nbryo::ticks; i++)
 		o.increment_tick();
 

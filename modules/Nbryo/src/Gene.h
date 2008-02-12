@@ -10,8 +10,9 @@
 
 #include <boost/dynamic_bitset.hpp>
 #include "CellType.h"
+#include "Direction.h"
+#include "Mutable.h"
 #include "NUtility.h"
-#include "ProteinProperty.h"
 #include "ProteinType.h"
 
 class Gene

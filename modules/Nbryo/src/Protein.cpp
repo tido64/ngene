@@ -4,13 +4,13 @@
 using std::vector;
 
 Protein::Protein(const Gene *gene)
-	: type(gene->protein_type),
-	lifespan(gene->protein_lifespan),
-	promoter(gene->protein_promoter),
-	thresholds(gene->protein_thresholds),
-	neighbourhood(gene->protein_neighbourhood),
-	parameters(gene->protein_parameters)
-{ }
+: type(gene->protein_type), lifespan(gene->protein_lifespan), thresholds(gene->protein_thresholds), neighbourhood(gene->protein_neighbourhood)
+{
+	if (!gene->protein_promoter.empty())
+		this->promoter = gene->protein_promoter;
+	if (!gene->protein_parameters.empty())
+		this->parameters = gene->protein_parameters;
+}
 
 bool Protein::age()
 {
@@ -19,18 +19,25 @@ bool Protein::age()
 
 bool Protein::find_promoter(const boost::dynamic_bitset<> *sequence)
 {
+	/*for (unsigned int i = 0; i < sequence->size(); i++)
+		printf("%d", (*sequence)[i] ? 1 : 0);
+	printf("\n");
+	/**/
+
+	return true;
+
 	bool found = false;
-	for (unsigned int i = 0; i <= sequence->size() - this->promoter.size(); i++)
+	for (unsigned int i = 0; i < sequence->size() - this->promoter.size(); i++)
 	{
 		if ((*sequence)[i] == this->promoter[0])
 		{
+			found = true;
 			for (unsigned int j = 1; j < this->promoter.size(); j++)
 			{
-				found &= ((*sequence)[i] == this->promoter[j]);
-				if (found) break;
+				found &= ((*sequence)[i + j] == this->promoter[j]);
+				if (!found) break;
 			}
-			if (found)
-				break;
+			if (found) break;
 		}
 	}
 	return found;
@@ -72,8 +79,13 @@ void Protein::operator =(const Protein &p)
 {
 	this->type = p.type;
 	this->lifespan = p.lifespan;
-	this->promoter = p.promoter;
+
+	if (!p.promoter.empty())
+		this->promoter = p.promoter;
+
 	this->thresholds = p.thresholds;
 	this->neighbourhood = p.neighbourhood;
-	this->parameters = p.parameters;
+
+	if (!p.parameters.empty())
+		this->parameters = p.parameters;
 }

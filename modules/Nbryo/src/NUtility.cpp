@@ -9,3 +9,8 @@ unsigned int NUtility::random(unsigned int k)
 {
 	return (unsigned int)(random() * k);
 }
+
+double NUtility::random(const double &min, const double &max)
+{
+	return (max - min) * random() + min;
+}

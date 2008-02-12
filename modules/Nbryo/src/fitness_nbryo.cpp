@@ -26,12 +26,12 @@ void assess(Specimen &individual)
 	const map<Coordinates, CellType::Type> *phenotype
 		= (const map<Coordinates, CellType::Type> *)Ngene::phenotype(individual.genotype);
 
+	Coordinates check;
 	map<Coordinates, CellType::Type>::const_iterator a, b;
 
 	int points = 0;
 	for (int z = 0; z < Nbryo::boundaries.z; z++)
 	{
-		static Coordinates check;
 		check.z = z;
 		for (int y = 0; y < Nbryo::boundaries.y; y++)
 		{
@@ -46,17 +46,16 @@ void assess(Specimen &individual)
 				printf("Comparing <%d, %d, %d>: ", check.x, check.y, check.z);
 				a != phenotype->end() ? printf("%d ?= ", a->second) : printf("none ?= ");
 				b != Nbryo::target.end() ? printf("%d\n", b->second) : printf("none\n");
-				/**/
+				/*Bob*/
 
 				if (a != phenotype->end() && b != Nbryo::target.end())
-					points += a->second == b->second ? 2 : 1;
+					points += (a->second == b->second) ? 2 : 1;
 				else if (a == phenotype->end() && b == Nbryo::target.end())
 					points += 2;
 			}
 		}
 	}
-	individual.fitness = points == 0 ? 0 : (double)points / (double)(Nbryo::boundaries.x * Nbryo::boundaries.y * Nbryo::boundaries.z * 2);
-	//printf("Fitness: %.3f\n", individual.fitness);
+	individual.fitness = points <= 0 ? 0 : (double)points / (double)(Nbryo::boundaries.x * Nbryo::boundaries.y * Nbryo::boundaries.z * 2);
 	delete phenotype;
 }
 

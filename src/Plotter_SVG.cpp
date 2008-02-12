@@ -84,7 +84,7 @@ void Plotter_SVG::plot(const unsigned int generation, double min, double avg, do
 	avg = this->fitness_margin - avg * this->fitness_scale;
 	max = this->fitness_margin - max * this->fitness_scale;
 	min = this->fitness_margin - min * this->fitness_scale;
-	if (generation != 0)
+	if (generation != 1)
 	{
 		int p = generation - 1;
 		this->svg	<< "	<line class=\"max\" x1=\"" << this->generation_axis[p] << "\" y1=\"" << this->max << "\" x2=\"" << this->generation_axis[generation] << "\" y2=\"" << max << "\" />\n"

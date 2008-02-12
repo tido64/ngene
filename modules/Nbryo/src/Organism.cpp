@@ -7,7 +7,8 @@ using std::string;
 using std::stringstream;
 using std::vector;
 
-Organism::Organism(const DNA &d) : dna(d)//, phenotype(0)
+Organism::Organism(const DNA &d, const Coordinates &b)
+: dna(d), offset((b.x - 1) / 2, (b.y - 1) / 2, (b.z - 1) / 2)//, phenotype(0)
 {
 	this->cell_factory = new CellFactory(this);
 	//this->phenotype = new map<Coordinates, CellType::Type>();
@@ -44,11 +45,7 @@ void Organism::add_cell(Cell *c)
 	else
 	{
 		this->cells[c->get_location()] = c;
-		Coordinates coords = c->get_location();
-		coords.x += 3;
-		coords.y += 3;
-		coords.z += 3;
-		this->phenotype.insert(make_pair(coords, c->get_type()));
+		this->phenotype.insert(make_pair(c->get_location() + this->offset, c->get_type()));
 	}
 #endif
 }
