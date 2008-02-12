@@ -31,8 +31,6 @@ void Cell::engage_cytokinesis()
 		this->active_proteins.push_back(vector<Protein *>());
 		this->active_proteins.rbegin()->reserve(this->MAX_NUMBER_OF_PROTEINS);
 	}
-	for (vector<Protein>::iterator i = this->proteins.begin(); i != this->proteins.end(); i++)
-		i->make_aware(this);
 	this->ribosome = new Ribosome(this);
 }
 
@@ -53,11 +51,6 @@ void Cell::get_neighbourhood(vector<CellType::Type> &neighbourhood) const
 		neighbourhood.push_back(this->organism->get_cell(this->coordinates.look((Direction::direction)i)));
 }
 
-const vector<Protein> *Cell::get_proteins() const
-{
-	return &this->proteins;
-}
-
 CellType::Type Cell::get_type() const
 {
 	return this->type;
@@ -68,97 +61,115 @@ void Cell::increment_tick()
 	regulate_proteins();
 	translate();
 	regulate_hormones();
-	mitosis();
-	speciate();
+	//mitosis();
+	//speciate();
 }
 
 void Cell::mitosis()
 {
-	// Accumulate stimuli in each directions
-	vector<double> stimuli;
-	stimuli.assign(Direction::number_of_directions, 0.0);
-
-	vector<Protein *> *proteins = &this->active_proteins[ProteinType::mitotic];
-	for (vector<Protein *>::iterator p = proteins->begin(); p != proteins->end(); p++)
+	if (!this->active_proteins[ProteinType::mitotic].empty())
 	{
-		const std::vector<double> *parameters = (*p)->get_parameters();
-		for (unsigned int i = 0; i < Direction::number_of_directions; i++)
-			stimuli[i] += parameters->at(i);
-	}
+		// Accumulate stimuli in each directions
+		vector<double> stimuli;
+		stimuli.assign(Direction::number_of_directions, 0.0);
 
-	// Look to divide in all directions with enough stimulus
-	for (unsigned int i = 0; i < Direction::number_of_directions; i++)
-		if (stimuli[i] > this->STIMULUS_THRESHOLD)
-			this->organism->cell_factory->divide_cell(this, this->coordinates.look((Direction::direction)i));
+		vector<Protein *> *proteins = &this->active_proteins[ProteinType::mitotic];
+		for (vector<Protein *>::iterator p = proteins->begin(); p != proteins->end(); p++)
+		{
+			const std::vector<double> *parameters = (*p)->get_parameters();
+			for (unsigned int i = 0; i < Direction::number_of_directions; i++)
+				stimuli[i] += parameters->at(i);
+		}
+
+		// Look to divide in all directions with enough stimulus
+		for (unsigned int i = 0; i < Direction::number_of_directions; i++)
+			if (stimuli[i] > this->STIMULUS_THRESHOLD)
+				this->organism->cell_factory->divide_cell(this, this->coordinates.look((Direction::direction)i));
+	}
 }
 
 void Cell::regulate_hormones()
 {
-	// From active proteins, accumulate the changes that need to be made
-	vector<double> changes;
-	changes.assign(Hormone::number_of_types, 0);
-
-	vector<Protein *> *proteins = &this->active_proteins[ProteinType::regulatory];
-	for (vector<Protein *>::iterator p = proteins->begin(); p != proteins->end(); p++)
+	if (!this->active_proteins[ProteinType::regulatory].empty())
 	{
-		const std::vector<double> *parameters = (*p)->get_parameters();
-		for (unsigned int i = 0; i < parameters->size(); i++)
-			changes[i] += parameters->at(i);
-	}
+		// From active proteins, accumulate the changes that need to be made
+		vector<double> changes;
+		changes.assign(Hormone::number_of_types, 0);
 
-	// Apply the changes
-	for (unsigned int i = 0; i < changes.size(); i++)
-		if (changes[i] != 0)
-			this->hormones.adjust_concentration((Hormone::Type)i, changes[i]);
+		vector<Protein *> *proteins = &this->active_proteins[ProteinType::regulatory];
+
+		/* For debugging purposes only
+		printf("\n%d", ProteinType::regulatory);
+		for (vector<Protein *>::iterator p = proteins->begin(); p != proteins->end(); p++)
+			printf(": %d", (*p)->get_type());
+		printf("\n");
+		/**/
+
+		for (vector<Protein *>::iterator p = proteins->begin(); p != proteins->end(); p++)
+		{
+			const std::vector<double> *parameters = (*p)->get_parameters();
+			for (unsigned int i = 0; i < parameters->size(); i++)
+				changes[i] += parameters->at(i);
+		}
+
+		// Apply the changes
+		for (unsigned int i = 0; i < changes.size(); i++)
+			if (changes[i] != 0)
+				this->hormones.adjust_concentration((Hormone::Type)i, changes[i]);
+	}
 }
 
 void Cell::regulate_proteins()
 {
-	// Remove dead proteins
-	for (vector<vector<Protein>::iterator>::reverse_iterator i = this->dead_proteins.rbegin(); i != this->dead_proteins.rend(); i++)
-		this->proteins.erase(*i);
-	this->dead_proteins.clear();
-
 	for (vector<vector<Protein *> >::iterator i = this->active_proteins.begin(); i != this->active_proteins.end(); i++)
 		i->clear();
-	for (vector<Protein>::iterator i = this->proteins.begin(); i != this->proteins.end(); i++)
+
+	// Remove dead proteins
+	for (vector<unsigned int>::reverse_iterator i = this->dead_proteins.rbegin(); i != this->dead_proteins.rend(); i++)
+		this->proteins.erase(this->proteins.begin() + *i);
+	this->dead_proteins.clear();
+
+	for (unsigned int i = 0; i != this->proteins.size(); i++)
 	{
 		// Age the proteins and mark the dead/removable ones
-		if (i->age())
+		if (this->proteins[i].age())
 			this->dead_proteins.push_back(i);
 
-		// If the protein is active, it will effect the cell in some way later in this tick
-		if (i->is_active())
-			this->active_proteins[i->get_type()].push_back(&*i);
+		// If the protein is acive, it will effect the cell in some way later in this tick
+		if (this->proteins[i].is_active())
+			this->active_proteins[this->proteins[i].get_type()].push_back(&this->proteins[i]);
 	}
 }
 
 void Cell::speciate()
 {
-	// Accumulate stimuli from proteins
-	vector<double> stimuli;
-	stimuli.assign(CellType::number_of_types, 0.0);
-	for (vector<Protein *>::iterator i = this->active_proteins[ProteinType::speciation].begin(); i != this->active_proteins[ProteinType::speciation].end(); i++)
+	if (!this->active_proteins[ProteinType::speciation].empty())
 	{
-		const vector<double> *parameters = (*i)->get_parameters();
-		stimuli[(int)parameters->at(0)] += parameters->at(1);
-	}
-
-	// Find highest stimulus
-	int ct = this->type;
-	double highest = 0.0;
-	for (int i = 0; i < CellType::number_of_types; i++)
-	{
-		if (stimuli[i] > highest)
+		// Accumulate stimuli from proteins
+		vector<double> stimuli;
+		stimuli.assign(CellType::number_of_types, 0.0);
+		for (vector<Protein *>::iterator i = this->active_proteins[ProteinType::speciation].begin(); i != this->active_proteins[ProteinType::speciation].end(); i++)
 		{
-			ct = i;
-			highest = stimuli[i];
+			const vector<double> *parameters = (*i)->get_parameters();
+			stimuli[(int)parameters->at(0)] += parameters->at(1);
 		}
-	}
 
-	// Speciate only if the stimulus is above the threshold
-	if (stimuli[ct] > 0 && stimuli[ct] > this->STIMULUS_THRESHOLD)
-		this->type = (CellType::Type)ct;
+		// Find highest stimulus
+		int ct = this->type;
+		double highest = 0.0;
+		for (int i = 0; i < CellType::number_of_types; i++)
+		{
+			if (stimuli[i] > highest)
+			{
+				ct = i;
+				highest = stimuli[i];
+			}
+		}
+
+		// Speciate only if the stimulus is above the threshold
+		if (stimuli[ct] > 0 && stimuli[ct] > this->STIMULUS_THRESHOLD)
+			this->type = (CellType::Type)ct;
+	}
 }
 
 void Cell::translate()
@@ -167,7 +178,7 @@ void Cell::translate()
 	//	For every active protein:
 	//		For every gene:
 	//			Check if gene sequence has protein promoter
-	if (this->proteins.size() < this->MAX_NUMBER_OF_PROTEINS)
+	if (!this->active_proteins[ProteinType::transcribing].empty() && this->proteins.size() < this->MAX_NUMBER_OF_PROTEINS)
 	{
 		vector<Protein *> *proteins = &this->active_proteins[ProteinType::transcribing];
 		for (vector<Protein *>::iterator p = proteins->begin(); p != proteins->end(); p++)

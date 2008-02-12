@@ -18,7 +18,7 @@ ConfigManager::ConfigManager()
 		config_file.close();
 
 		this->number_of_genes = parse_config(config, "gp.genotype.dna.numberofgenes", progress);
-		this->promoter_length = parse_config(config, "gp.genotype.dna.gene.promotorlength", progress);
+		this->gene_sequence_length = parse_config(config, "gp.genotype.dna.gene.promotorlength", progress);
 
 		this->protein_lifespan = parse_config(config, "gp.protein.maxtimetolive", progress);
 		this->number_of_hormones = parse_config(config, "gp.protein.precondition.chemicaltype.no", progress);
@@ -41,10 +41,10 @@ ConfigManager::ConfigManager()
 		this->protein_stimuli.assign(ProteinType::number_of_types, make_pair(0, 0));
 		this->protein_weights.assign(ProteinType::number_of_types, 0);
 
-		parse_protein_config(config, "protein[0]", progress);	// mitotic
-		parse_protein_config(config, "protein[1]", progress);	// speciation
-		parse_protein_config(config, "protein[2]", progress);	// regulatory
-		parse_protein_config(config, "protein[3]", progress);	// transcribing
+		parse_protein_config(ProteinType::mitotic, config, "protein[0]", progress);
+		parse_protein_config(ProteinType::speciation, config, "protein[1]", progress);
+		parse_protein_config(ProteinType::regulatory, config, "protein[2]", progress);
+		parse_protein_config(ProteinType::transcribing, config, "protein[3]", progress);
 	}
 	else throw "Failed to read protein properties.";
 }
@@ -65,28 +65,28 @@ unsigned int ConfigManager::parse_config(string &config, string str, unsigned in
 	return atoi(config.substr(index, config.find_first_of('\n', index) - index).c_str());
 }
 
-void ConfigManager::parse_protein_config(string &config, string str, unsigned int &index)
+void ConfigManager::parse_protein_config(ProteinType::Type type, string &config, string str, unsigned int &index)
 {
 	index = config.find(str + ".init.weight", index);
-	if (config[index - 1] == '\n')
+	if (config[index - 1] != '#')
 	{
 		index = config.find_first_of('=', index) + 1;
-		this->protein_weights[ProteinType::mitotic] = atof(
+		this->protein_weights[type] = atof(
 			config.substr(index, config.find_first_of('\n', index) - index).c_str());
 
 		index = config.find(str + ".init.stimuli.min", index);
-		if (config[index - 1] == '\n')
+		if (config[index - 1] != '#')
 		{
 			index = config.find_first_of('=', index) + 1;
-			this->protein_stimuli[ProteinType::mitotic].first = atof(
+			this->protein_stimuli[type].first = atof(
 				config.substr(index, config.find_first_of('\n', index) - index).c_str());
 		}
 
 		index = config.find(str + ".init.stimuli.max", index);
-		if (config[index - 1] == '\n')
+		if (config[index - 1] != '#')
 		{
 			index = config.find_first_of('=', index) + 1;
-			this->protein_stimuli[ProteinType::mitotic].second = atof(
+			this->protein_stimuli[type].second = atof(
 				config.substr(index, config.find_first_of('\n', index) - index).c_str());
 		}
 	}

@@ -277,6 +277,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Mutable.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\NUtility.h"
 				>
 			</File>
@@ -286,10 +290,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Protein.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ProteinProperty.h"
 				>
 			</File>
 			<File

@@ -6,7 +6,6 @@
 
 #include <vector>
 #include <boost/dynamic_bitset.hpp>
-#include "ProteinType.h"
 
 class Cell;
 

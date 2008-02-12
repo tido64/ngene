@@ -30,5 +30,5 @@ private:
 	std::vector<std::pair<double, double> > protein_stimuli;	///< Max (second) and min (first) stimuli a protein can change in a cell
 
 	unsigned int parse_config(std::string &config, std::string str, unsigned int &index);
-	void parse_protein_config(std::string &config, std::string str, unsigned int &index);
+	void parse_protein_config(ProteinType::Type type, std::string &config, std::string str, unsigned int &index);
 };

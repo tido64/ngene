@@ -8,7 +8,7 @@
 #ifndef ORGANISM
 #define ORGANISM
 
-//#define CELL_OVERWRITE						///< Enables cell overwriting algorithm
+//#define CELL_OVERWRITE	///< Enables cell overwriting algorithm
 
 #include <map>
 #include <sstream>
@@ -19,10 +19,11 @@ class CellFactory;
 class Organism
 {
 public:
-	const DNA dna;							///< The organism's dna
-	CellFactory *cell_factory;				///< Responsible for creating all cells
+	const DNA dna;										///< The organism's dna
+	const Coordinates offset;							///< Internal organisms start at (0,0,0), but the viewer doesn't
+	CellFactory *cell_factory;							///< Responsible for creating all cells
 
-	Organism(const DNA &d);
+	Organism(const DNA &d, const Coordinates &boundaries);
 	virtual ~Organism();
 
 	/// Adds a cell to the organism.

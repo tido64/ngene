@@ -25,7 +25,7 @@ public:
 	virtual void divide_cell(const Cell *mother, const Coordinates &location);
 
 private:
-	Organism *host;				///< The organism that uses this factory
+	Organism *host;	///< The organism that uses this factory
 };
 
 #endif

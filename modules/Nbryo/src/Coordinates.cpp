@@ -1,6 +1,7 @@
 #include "Coordinates.h"
 
 Coordinates::Coordinates() : x(0), y(0), z(0) { }
+Coordinates::Coordinates(const Coordinates &c) : x(c.x), y(c.y), z(c.z) { }
 Coordinates::Coordinates(int x, int y, int z) : x(x), y(y), z(z) { }
 
 Coordinates Coordinates::look(Direction::direction d) const
@@ -24,6 +25,11 @@ Coordinates Coordinates::look(Direction::direction d) const
 	}
 }
 
+Coordinates Coordinates::operator +(const Coordinates &b) const
+{
+	return Coordinates (this->x + b.x, this->y + b.y, this->z + b.z);
+}
+
 bool Coordinates::operator <(const Coordinates &b) const
 {
 	if (this->z == b.z)
@@ -35,18 +41,6 @@ bool Coordinates::operator <(const Coordinates &b) const
 	}
 	else
 		return this->z < b.z;
-/*
-    for (int z=0;z<zLength;z++) {
-        for (int y=0;y<yLength;y++) {
-            for (int x=0;x<xLength;x++) {
-				Celltype cType = ctArray[x][y][z];
-				if (cType != null) {
-					result += x + " " + y + " " + z + " " + cType.ordinal() + "\n";
-				}
-			} 
-        }
-    }
-*/
 }
 
 bool Coordinates::operator ==(const Coordinates &b) const

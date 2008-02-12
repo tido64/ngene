@@ -17,7 +17,7 @@ OBJ    = $(OBJDIR)/Cell.o \
 		 $(OBJDIR)/gene_nbryo.o
 
 CPP = g++
-CFLAGS = -O2 -Wall
+CFLAGS = -g -Wall
 LDFLAGS =
 
 default: $(EXEC)
@@ -34,8 +34,10 @@ fitness: $(OBJDIR)/Coordinates.o $(OBJDIR)/fitness_nbryo.o
 mutator: $(OBJDIR)/Gene.o $(OBJDIR)/NUtility.o $(OBJDIR)/mutator_nbryo.o
 	$(CPP) -shared $(CFLAGS) $(LDFLAGS) -o $(BINDIR)/mutator_nbryo.so $^
 
+all: $(EXEC) fitness mutator
+
 clean:
-	rm -r $(OBJ)
+		rm -f $(OBJ)
 
 cleanall: clean
 	rm -f $(EXEC)

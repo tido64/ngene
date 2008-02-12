@@ -1,12 +1,16 @@
-#include "Direction.h"
 #include "Gene.h"
 
 using std::pair;
 using std::vector;
 
 Gene::Gene(const Gene &gene)
-: sequence(gene.sequence), protein_type(gene.protein_type), protein_lifespan(gene.protein_lifespan), protein_promoter(gene.protein_promoter), protein_thresholds(gene.protein_thresholds), protein_neighbourhood(gene.protein_neighbourhood), protein_parameters(gene.protein_parameters), number_of_cell_types(gene.number_of_cell_types), protein_stimuli(gene.protein_stimuli)
-{ }
+: sequence(gene.sequence), protein_type(gene.protein_type), protein_lifespan(gene.protein_lifespan), protein_thresholds(gene.protein_thresholds), protein_neighbourhood(gene.protein_neighbourhood), number_of_cell_types(gene.number_of_cell_types), protein_stimuli(gene.protein_stimuli)
+{
+	if (gene.protein_promoter.size() > 0)
+		this->protein_promoter = gene.protein_promoter;
+	if (gene.protein_parameters.size() > 0)
+		this->protein_parameters = gene.protein_parameters;
+}
 
 Gene::Gene(
 	const boost::dynamic_bitset<> &sequence,
@@ -37,34 +41,41 @@ const boost::dynamic_bitset<> *Gene::get_sequence() const
 void Gene::mutate()
 {
 	// Enter switch of DOOM!
-	switch (NUtility::random(ProteinProperty::number_of_properties))
+	switch (NUtility::random(Mutable::number_of_properties))
 	{
-		case ProteinProperty::lifespan: // increase/decrease lifespan of proteins
+		case Mutable::sequence: // mutate the dna sequence of this gene
+			this->sequence[NUtility::random(this->protein_promoter.size())].flip();
+			break;
+		case Mutable::lifespan: // increase/decrease lifespan of proteins
 			if (this->protein_lifespan == 0)
 				this->protein_lifespan++;
 			else
-				this->protein_lifespan += NUtility::random() < 0.5 ? 1 : -1;
+				NUtility::random() < 0.5 ? this->protein_lifespan++ : this->protein_lifespan--;
 			break;
-		case ProteinProperty::thresholds: // mutates the hormonal thresholds in proteins
+		case Mutable::thresholds: // mutates the hormonal thresholds in proteins
 			if (!this->protein_thresholds.empty())
-				this->protein_thresholds[NUtility::random(this->protein_thresholds.size())] += NUtility::random() * 0.2 - 0.1;
+				this->protein_thresholds[NUtility::random(this->protein_thresholds.size())] += NUtility::random(-0.1, 0.1);
 			break;
-		case ProteinProperty::neighbourhood:
-			this->protein_neighbourhood[NUtility::random(Direction::number_of_directions)] = (CellType::Type)((int)NUtility::random(CellType::number_of_types + 2) - 1);
+		case Mutable::neighbourhood:
+			this->protein_neighbourhood[NUtility::random(Direction::number_of_directions)] = (CellType::Type)((int)NUtility::random(-1, CellType::number_of_types + 1));
 			break;
 		default:
 			switch (this->protein_type)
 			{
 				case ProteinType::mitotic:
+					if (!this->protein_parameters.empty())
+						this->protein_parameters[NUtility::random(this->protein_parameters.size())]
+							= (NUtility::random() < 0.5) ? 0.0 : NUtility::random(this->protein_stimuli.first, this->protein_stimuli.second);
+					break;
 				case ProteinType::regulatory:
 					if (!this->protein_parameters.empty())
 						this->protein_parameters[NUtility::random(this->protein_parameters.size())]
-							= NUtility::random() * (this->protein_stimuli.second - this->protein_stimuli.first) + this->protein_stimuli.first;
+							= NUtility::random(this->protein_stimuli.first, this->protein_stimuli.second);
 					break;
 				case ProteinType::speciation:
 					if (NUtility::random() > 0.5) // mutate stimulus level
 						this->protein_parameters[0]
-							= NUtility::random() * (this->protein_stimuli.second - this->protein_stimuli.first) + this->protein_stimuli.first;
+							= NUtility::random(this->protein_stimuli.first, this->protein_stimuli.second);
 					else // mutate cell type
 						this->protein_parameters[1] = NUtility::random(this->number_of_cell_types);
 					break;
@@ -93,10 +104,16 @@ void Gene::operator =(const Gene &gene)
 	this->sequence = gene.sequence;
 	this->protein_type = gene.protein_type;
 	this->protein_lifespan = gene.protein_lifespan;
-	this->protein_promoter = gene.protein_promoter;
+
+	if (!gene.protein_promoter.empty())
+		this->protein_promoter = gene.protein_promoter;
+
 	this->protein_thresholds = gene.protein_thresholds;
 	this->protein_neighbourhood = gene.protein_neighbourhood;
-	this->protein_parameters = gene.protein_parameters;
+
+	if (!gene.protein_parameters.empty())
+		this->protein_parameters = gene.protein_parameters;
+
 	this->number_of_cell_types = gene.number_of_cell_types;
 	this->protein_stimuli = gene.protein_stimuli;
 }
