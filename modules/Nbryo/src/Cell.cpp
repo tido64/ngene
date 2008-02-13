@@ -70,11 +70,10 @@ void Cell::mitosis()
 	if (!this->active_proteins[ProteinType::mitotic].empty())
 	{
 		// Accumulate stimuli in each directions
-		vector<double> stimuli;
-		stimuli.assign(Direction::number_of_directions, 0.0);
+		vector<unsigned int>::iterator p = this->active_proteins[ProteinType::mitotic].begin();
+		vector<double> stimuli (*this->proteins[*p].get_parameters());
 
-		vector<unsigned int> *proteins = &this->active_proteins[ProteinType::mitotic];
-		for (vector<unsigned int>::iterator p = proteins->begin(); p != proteins->end(); p++)
+		for (p++; p != this->active_proteins[ProteinType::mitotic].end(); p++)
 		{
 			const std::vector<double> *parameters = this->proteins[*p].get_parameters();
 			for (unsigned int i = 0; i < Direction::number_of_directions; i++)
@@ -93,19 +92,10 @@ void Cell::regulate_hormones()
 	if (!this->active_proteins[ProteinType::regulatory].empty())
 	{
 		// From active proteins, accumulate the changes that need to be made
-		vector<double> changes;
-		changes.assign(Hormone::number_of_types, 0);
+		vector<unsigned int>::iterator p = this->active_proteins[ProteinType::regulatory].begin();
+		vector<double> changes (*this->proteins[*p].get_parameters());
 
-		vector<unsigned int> *proteins = &this->active_proteins[ProteinType::regulatory];
-
-		/* For debugging purposes only
-		printf("\n%d", ProteinType::regulatory);
-		for (vector<Protein *>::iterator p = proteins->begin(); p != proteins->end(); p++)
-			printf(": %d", (*p)->get_type());
-		printf("\n");
-		/**/
-
-		for (vector<unsigned int>::iterator p = proteins->begin(); p != proteins->end(); p++)
+		for (p++; p != this->active_proteins[ProteinType::regulatory].end(); p++)
 		{
 			const std::vector<double> *parameters = this->proteins[*p].get_parameters();
 			for (unsigned int i = 0; i < parameters->size(); i++)
@@ -180,8 +170,7 @@ void Cell::translate()
 	//			Check if gene sequence has protein promoter
 	if (!this->active_proteins[ProteinType::transcribing].empty() && this->proteins.size() < this->MAX_NUMBER_OF_PROTEINS)
 	{
-		vector<unsigned int> *proteins = &this->active_proteins[ProteinType::transcribing];
-		for (vector<unsigned int>::iterator p = proteins->begin(); p != proteins->end(); p++)
+		for (vector<unsigned int>::iterator p = this->active_proteins[ProteinType::transcribing].begin(); p != this->active_proteins[ProteinType::transcribing].end(); p++)
 			for (unsigned int i = 0; i < this->dna.size(); i++)
 				if (this->proteins[*p].find_promoter(this->dna[i].get_sequence()))
 				{

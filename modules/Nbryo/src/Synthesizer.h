@@ -12,6 +12,7 @@ public:
 
 private:
 	const ConfigManager config;
+	Random mt_rand;
 	std::string species;
 
 	std::vector<double> generate_protein_parameters(unsigned int n, const std::pair<double, double> *stimuli);

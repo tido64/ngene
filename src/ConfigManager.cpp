@@ -47,7 +47,10 @@ const Config ConfigManager::parse()
 		this->ngene_conf.close();
 	}
 	else
-		throw "Failed to open configuration file.";
+	{
+		printf("Failed to open configuration file.\n");
+		exit(-1);
+	}
 
 	return config;
 }

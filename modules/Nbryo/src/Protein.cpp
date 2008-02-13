@@ -17,24 +17,17 @@ bool Protein::age()
 	return this->lifespan-- == 0;
 }
 
-bool Protein::find_promoter(const boost::dynamic_bitset<> *sequence)
+bool Protein::find_promoter(const boost::dynamic_bitset<> &sequence)
 {
-	/*for (unsigned int i = 0; i < sequence->size(); i++)
-		printf("%d", (*sequence)[i] ? 1 : 0);
-	printf("\n");
-	/**/
-
-	return true;
-
 	bool found = false;
-	for (unsigned int i = 0; i < sequence->size() - this->promoter.size(); i++)
+	for (unsigned int i = 0; i < sequence.size() - this->promoter.size(); i++)
 	{
-		if ((*sequence)[i] == this->promoter[0])
+		if (sequence[i] == this->promoter[0])
 		{
 			found = true;
 			for (unsigned int j = 1; j < this->promoter.size(); j++)
 			{
-				found &= ((*sequence)[i + j] == this->promoter[j]);
+				found &= (sequence[i + j] == this->promoter[j]);
 				if (!found) break;
 			}
 			if (found) break;

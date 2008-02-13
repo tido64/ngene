@@ -56,11 +56,6 @@ int main(int argc, char *argv[])
 	printf("[Ngene.cpp] Logger initialized!\n[Ngene.cpp] Initiating program and initial population ... ");
 #endif
 
-	// Initialize the mersenne twister random number generator
-	boost::mt19937 rand_gen ((unsigned)time(0));
-	boost::uniform_real<double> rand_dist (0, 1);
-	boost::variate_generator<boost::mt19937 &, boost::uniform_real<double> > mt_rand (rand_gen, rand_dist);
-
 	double
 		population_fitness = 0,		///< The population's accumulated fitness
 		ticks;						///< Number of ticks elapsed since the beginning of execution
@@ -69,6 +64,8 @@ int main(int argc, char *argv[])
 		*offspring;					///< The offspring population
 	Population::iterator
 		iter_tmp;					///< A temporary iterator/pointer to an individual
+	Random
+		mt_rand;					///< Initializes the random number generator
 	vector<Population::iterator>
 		mates;
 
@@ -113,13 +110,13 @@ int main(int argc, char *argv[])
 				module.select(mates[0], *adults, generation);
 				module.select(mates[1], *adults, generation);
 			} while (mates[0] == mates[1]);
-			if (mt_rand() <= config.mating_rate)
+			if (mt_rand.next() <= config.mating_rate)
 			{
 				vector<Specimen> embryo (module.offspring_rate);
 				module.mate(embryo, *mates[0], *mates[1]);
 				for (vector<Specimen>::iterator fetus = embryo.begin(); fetus != embryo.end(); fetus++)
 				{
-					if (mt_rand() <= config.mutation_rate)
+					if (mt_rand.next() <= config.mutation_rate)
 						module.mutate(fetus->genotype);
 					module.assess_fitness(*fetus);
 					offspring->insert(*fetus);
@@ -170,7 +167,7 @@ int main(int argc, char *argv[])
 			// Replace lower citizens with prodigies
 			if (config.max_prodigies > 0)
 			{
-				for (int i = 0; i < (int)(mt_rand() * config.max_prodigies > offspring->size() ? offspring->size() : config.max_prodigies); i++)
+				for (int i = 0; i < (int)(mt_rand.next() * config.max_prodigies > offspring->size() ? offspring->size() : config.max_prodigies); i++)
 				{
 					module.select(iter_tmp, *offspring, generation);
 					adults->erase(--adults->end());

@@ -29,7 +29,11 @@ ConfigManager::ConfigManager()
 
 		this->development_time = parse_config(config, "development.ticks", progress);
 	}
-	else throw "Failed to read general properties.";
+	else
+	{
+		printf("\nFailed to read general properties.\n");
+		exit(-1);
+	}
 
 	config_file.open("protein.properties");
 	if (config_file.is_open())
@@ -46,7 +50,11 @@ ConfigManager::ConfigManager()
 		parse_protein_config(ProteinType::regulatory, config, "protein[2]", progress);
 		parse_protein_config(ProteinType::transcribing, config, "protein[3]", progress);
 	}
-	else throw "Failed to read protein properties.";
+	else
+	{
+		printf("\nFailed to read protein properties.\n");
+		exit(-1);
+	}
 }
 
 const pair<double, double> *ConfigManager::get_protein_stimuli(ProteinType::Type type) const
