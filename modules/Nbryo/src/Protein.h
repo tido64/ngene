@@ -20,7 +20,7 @@ public:
 	bool age();
 
 	/// Checks whether the dna sequence contains the promoter.
-	bool find_promoter(const boost::dynamic_bitset<> *sequence);
+	bool find_promoter(const boost::dynamic_bitset<> &sequence);
 
 	const std::vector<double> *get_parameters();
 

@@ -63,8 +63,7 @@ void PluginManager::load_module(const Module::Type module_type, const string &fi
 	}
 	else
 	{
-		dl = "Could not load ";
-		dl.append(filename);
-		throw dl.c_str();
+		printf("Could not load %s\n.", filename.c_str());
+		exit(-1);
 	}
 }

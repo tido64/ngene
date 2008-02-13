@@ -34,7 +34,7 @@ void Organism::add_cell(Cell *c)
 		delete this->cells[c->get_location()];
 	}
 	this->cells[c->get_location()] = c;
-	//(*this->phenotype)[c->get_location()] = c->get_type();
+	this->phenotype[c->get_location() + this->offset] = c->get_type();
 
 #else /*
 * In this algorithm, if the location is already occupied by a cell, the
@@ -44,7 +44,7 @@ void Organism::add_cell(Cell *c)
 		delete c;
 	else
 	{
-		this->cells[c->get_location()] = c;
+		this->cells.insert(make_pair(c->get_location(), c));
 		this->phenotype.insert(make_pair(c->get_location() + this->offset, c->get_type()));
 	}
 #endif

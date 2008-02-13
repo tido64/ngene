@@ -6,14 +6,15 @@ OBJDIR = obj
 SRCDIR = src
 EXEC = $(BINDIR)/$(TARGET)
 OBJ = $(OBJDIR)/ConfigManager.o \
-$(OBJDIR)/PluginManager.o \
-$(OBJDIR)/Plotter_SVG.o \
-$(OBJDIR)/PlotterFactory.o \
 $(OBJDIR)/Logger.o \
+$(OBJDIR)/PlotterFactory.o \
+$(OBJDIR)/Plotter_SVG.o \
+$(OBJDIR)/PluginManager.o \
+$(OBJDIR)/Random.o \
 $(OBJDIR)/Ngene.o
 
 CPP = g++
-CFLAGS = -g -Wall
+CFLAGS = -g -O2 -Wall
 LDFLAGS = -ldl -lboost_filesystem
 
 default: $(EXEC)

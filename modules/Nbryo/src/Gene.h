@@ -12,8 +12,8 @@
 #include "CellType.h"
 #include "Direction.h"
 #include "Mutable.h"
-#include "NUtility.h"
 #include "ProteinType.h"
+#include "../../../src/Random.h"
 
 class Gene
 {
@@ -42,7 +42,7 @@ public:
 		const std::vector<double> &protein_parameters);
 
 	/// Returns the dna sequence of this gene.
-	const boost::dynamic_bitset<> *get_sequence() const;
+	const boost::dynamic_bitset<> &get_sequence() const;
 
 	/// Randomly mutates a property of this gene (and effectively the protein).
 	/// Currently, there are no way to check that the mutated values are not
@@ -69,6 +69,8 @@ private:
 	std::vector<double> protein_thresholds;				///< The translated protein's hormonal thresholds
 	std::vector<CellType::Type> protein_neighbourhood;	///< The translated protein's criteria for a thriving neighbourhood
 	std::vector<double> protein_parameters;				///< The translated protein's parameters
+
+	Random mt_rand;										///< A random number generator
 
 	// Configuration (for the lack of a more elegant way)
 	unsigned int number_of_cell_types;					///< Number of cell types used in current run

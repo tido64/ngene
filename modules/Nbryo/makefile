@@ -9,9 +9,9 @@ OBJ    = $(OBJDIR)/Cell.o \
 		 $(OBJDIR)/Coordinates.o \
 		 $(OBJDIR)/Gene.o \
 		 $(OBJDIR)/Hormones.o \
-		 $(OBJDIR)/NUtility.o \
 		 $(OBJDIR)/Organism.o \
 		 $(OBJDIR)/Protein.o \
+		 $(OBJDIR)/Random.o \
 		 $(OBJDIR)/Ribosome.o \
 		 $(OBJDIR)/Synthesizer.o \
 		 $(OBJDIR)/gene_nbryo.o
@@ -25,13 +25,16 @@ default: $(EXEC)
 $(EXEC): $(OBJ)
 	$(CPP) -shared $(CFLAGS) $(LDFLAGS) -o $@ $^
 
+$(OBJDIR)/Random.o:
+	$(CPP) -fPIC -O2 -Wall -c ../../src/Random.cpp -o $@
+
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CPP) -fPIC $(CFLAGS) -c $< -o $@
 
 fitness: $(OBJDIR)/Coordinates.o $(OBJDIR)/fitness_nbryo.o
 	$(CPP) -shared $(CFLAGS) $(LDFLAGS) -o $(BINDIR)/fitness_nbryo.so $^
 
-mutator: $(OBJDIR)/Gene.o $(OBJDIR)/NUtility.o $(OBJDIR)/mutator_nbryo.o
+mutator: $(OBJDIR)/Gene.o $(OBJDIR)/Random.o $(OBJDIR)/mutator_nbryo.o
 	$(CPP) -shared $(CFLAGS) $(LDFLAGS) -o $(BINDIR)/mutator_nbryo.so $^
 
 all: $(EXEC) fitness mutator

@@ -39,19 +39,12 @@ const void *phenotype(const Genotype &genotype)
 	for (unsigned int i = 0; i < Nbryo::ticks; i++)
 		o.increment_tick();
 
-	/* For debugging purposes only
-	printf(">\n");
-	const map<Coordinates, CellType::Type> *organism = o.get_phenotype();
-	for (map<Coordinates, CellType::Type>::const_iterator i = organism->begin(); i != organism->end(); i++)
-		printf("%d %d %d %d\n", i->first.x, i->first.y, i->first.z, i->second);
-	/**/
-
 	return o.get_phenotype();
 }
 
 void seed(Genotype &genotype)
 {
-	DNA dna = Nbryo::synthesizer->synthesize();
+	DNA dna (Nbryo::synthesizer->synthesize());
 	for (DNA::const_iterator i = dna.begin(); i != dna.end(); i++)
 		genotype.push_back(*i);
 }
