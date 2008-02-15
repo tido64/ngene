@@ -3,9 +3,9 @@
 using std::string;
 
 Plotter_SVG::Plotter_SVG(string &filename, const std::vector<const char *> *modules, const Config *config)
+: fitness_margin(16), fitness_scale(240)
 {
 	filename += ".svg";
-	this->failed = true;
 	this->svg.open(filename.c_str());
 	if (this->svg.is_open())
 	{
@@ -59,8 +59,6 @@ Plotter_SVG::Plotter_SVG(string &filename, const std::vector<const char *> *modu
 					<< "	<use x=\"360\" y=\"128\" xlink:href=\"#config\" />\n"
 					<< "	<use x=\"16\" y=\"16\" width=\"320\" height=\"240\" xlink:href=\"#axes\" />\n"
 					<< "	<use x=\"300\" y=\"16\" xlink:href=\"#legends\" />\n";
-		this->fitness_margin = 16;
-		this->fitness_scale = 240;
 
 		double generation_scale = 320.0 / config->doomsday;
 		this->generation_axis.reserve(config->doomsday + 1);
@@ -69,7 +67,11 @@ Plotter_SVG::Plotter_SVG(string &filename, const std::vector<const char *> *modu
 			this->generation_axis.push_back(this->generation_axis[i] + generation_scale);
 			// generate ticks on the axes
 		this->fitness_margin += this->fitness_scale;
-		this->failed = false;
+	}
+	else
+	{
+		printf("Failed to initiate plotter. Please make sure you have writing privileges.\n");
+		exit(-1);
 	}
 }
 
@@ -79,17 +81,17 @@ Plotter_SVG::~Plotter_SVG()
 	this->svg.close();
 }
 
-void Plotter_SVG::plot(const unsigned int generation, double min, double avg, double max)
+void Plotter_SVG::plot(unsigned int generation, double min, double avg, double max)
 {
 	avg = this->fitness_margin - avg * this->fitness_scale;
 	max = this->fitness_margin - max * this->fitness_scale;
 	min = this->fitness_margin - min * this->fitness_scale;
-	if (generation != 1)
+	if (generation-- > 1)
 	{
-		int p = generation - 1;
-		this->svg	<< "	<line class=\"max\" x1=\"" << this->generation_axis[p] << "\" y1=\"" << this->max << "\" x2=\"" << this->generation_axis[generation] << "\" y2=\"" << max << "\" />\n"
-					<< "	<line class=\"avg\" x1=\"" << this->generation_axis[p] << "\" y1=\"" << this->avg << "\" x2=\"" << this->generation_axis[generation] << "\" y2=\"" << avg << "\" />\n"
-					<< "	<line class=\"min\" x1=\"" << this->generation_axis[p] << "\" y1=\"" << this->min << "\" x2=\"" << this->generation_axis[generation] << "\" y2=\"" << min << "\" />\n";
+		int prev = generation - 1;
+		this->svg	<< "	<line class=\"max\" x1=\"" << this->generation_axis[prev] << "\" y1=\"" << this->max << "\" x2=\"" << this->generation_axis[generation] << "\" y2=\"" << max << "\" />\n"
+					<< "	<line class=\"avg\" x1=\"" << this->generation_axis[prev] << "\" y1=\"" << this->avg << "\" x2=\"" << this->generation_axis[generation] << "\" y2=\"" << avg << "\" />\n"
+					<< "	<line class=\"min\" x1=\"" << this->generation_axis[prev] << "\" y1=\"" << this->min << "\" x2=\"" << this->generation_axis[generation] << "\" y2=\"" << min << "\" />\n";
 	}
 	this->avg = avg;
 	this->max = max;

@@ -3,10 +3,9 @@
 using std::max;
 using std::min;
 
-Hormones::Hormones() : MAX_CONCENTRATION(1.0), MIN_CONCENTRATION(0.0)
-{
-	this->concentrations.assign(Hormone::number_of_types, this->MIN_CONCENTRATION);
-}
+Hormones::Hormones()
+: MAX_CONCENTRATION(1.0), MIN_CONCENTRATION(0.0), concentrations(Hormone::number_of_types, this->MIN_CONCENTRATION)
+{ }
 
 void Hormones::adjust_concentration(Hormone::Type t, double n)
 {

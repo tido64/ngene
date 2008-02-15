@@ -21,6 +21,7 @@ namespace CellType
 		j,
 		k,
 		l,
+		any,
 		number_of_types
 	};
 }

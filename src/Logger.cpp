@@ -1,11 +1,10 @@
 #include "Logger.h"
 
-Logger::Logger()
+Logger::Logger() : plotter(0)
 {
 	boost::filesystem::create_directory("logs");
 	const std::time_t now = time(0);
 	strftime(this->timestamp, sizeof(this->timestamp), "./logs/%Y%m%d-%H%M%S", localtime(&now));
-	this->plotter = 0;
 }
 
 Logger::~Logger()
@@ -17,11 +16,6 @@ void Logger::log(const Config &config, const std::vector<const char *> &modules)
 {
 	PlotterFactory plotter_factory ((const char *)&this->timestamp, &config, &modules);
 	this->plotter = plotter_factory.get_plotter();
-	if (this->plotter->fail())
-	{
-		printf("Failed to initiate plotter. Make sure you have writing privileges.\n");
-		exit(-1);
-	}
 
 	printf("  * Species:           %s\n", modules[Module::gene]);
 	printf("  * Fitness assessor:  %s\n", modules[Module::fitness]);

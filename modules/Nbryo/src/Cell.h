@@ -65,24 +65,24 @@ protected:
 	/// this is not plausible.
 	/// - Cell division is bound by occupancy of the location and the
 	/// boundaries set in the beginning.
-	virtual void mitosis();
+	/*virtual*/ void mitosis();
 
 	/// Adjusts the hormone concentrations (by secretion?)
-	virtual void regulate_hormones();
+	/*virtual*/ void regulate_hormones();
 
 	/// Regulates the protein level in the cell. Basically removes dead
 	/// proteins and marks the active ones.
-	virtual void regulate_proteins();
+	/*virtual*/ void regulate_proteins();
 
 	/// Speciates the cell and gives it a distinct function and/or place. The
 	/// stimuli provided by the proteins are first accumulated. The cell type
 	/// with the highest stimulus must then exceed a threshold before the cell
 	/// morphs into given type.
-	virtual void speciate();
+	/*virtual*/ void speciate();
 
 	/// Directly translates (skipping transcription) genes that contain a given
 	/// promoter to create a polypeptide chain, ie. protein.
-	virtual void translate();
+	/*virtual*/ void translate();
 
 private:
 	const int id;

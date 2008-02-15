@@ -57,7 +57,7 @@ bool Protein::is_active()
 	vector<CellType::Type> current_neighbourhood;
 	this->host->get_neighbourhood(current_neighbourhood);
 	for (unsigned int i = 0; i < current_neighbourhood.size(); i++)
-		if (this->neighbourhood[i] != CellType::number_of_types && current_neighbourhood[i] != this->neighbourhood[i])
+		if (this->neighbourhood[i] != CellType::any && current_neighbourhood[i] != this->neighbourhood[i])
 			return false;
 
 	return true;
@@ -68,7 +68,7 @@ void Protein::make_aware(const Cell *host)
 	this->host = host;
 }
 
-void Protein::operator =(const Protein &p)
+Protein &Protein::operator =(const Protein &p)
 {
 	this->type = p.type;
 	this->lifespan = p.lifespan;
@@ -81,4 +81,6 @@ void Protein::operator =(const Protein &p)
 
 	if (!p.parameters.empty())
 		this->parameters = p.parameters;
+
+	return *this;
 }

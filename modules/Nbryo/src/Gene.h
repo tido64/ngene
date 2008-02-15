@@ -57,7 +57,7 @@ public:
 	/// Gene::mutate.
 	void set_protein_stimuli_level(const std::pair<double, double> *stimuli);
 
-	void operator =(const Gene &gene);
+	Gene &operator =(const Gene &gene);
 
 private:
 	boost::dynamic_bitset<> sequence;					///< The dna sequence with a promoter

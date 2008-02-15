@@ -57,7 +57,7 @@ void Gene::mutate()
 				this->protein_thresholds[mt_rand.next_int(this->protein_thresholds.size())] += mt_rand.next(-0.1, 0.1);
 			break;
 		case Mutable::neighbourhood:
-			this->protein_neighbourhood[mt_rand.next_int(Direction::number_of_directions)] = (CellType::Type)mt_rand.next_int(-1, CellType::number_of_types + 1);
+			this->protein_neighbourhood[mt_rand.next_int(Direction::number_of_directions)] = (CellType::Type)mt_rand.next_int(CellType::empty, CellType::number_of_types);
 			break;
 		default:
 			switch (this->protein_type)
@@ -73,11 +73,11 @@ void Gene::mutate()
 							= mt_rand.next(this->protein_stimuli.first, this->protein_stimuli.second);
 					break;
 				case ProteinType::speciation:
-					if (mt_rand.next() > 0.5) // mutate stimulus level
-						this->protein_parameters[0]
+					if (mt_rand.next() < 0.5) // mutate stimulus level
+						this->protein_parameters[1]
 							= mt_rand.next(this->protein_stimuli.first, this->protein_stimuli.second);
 					else // mutate cell type
-						this->protein_parameters[1] = mt_rand.next_int(this->number_of_cell_types);
+						this->protein_parameters[0] = mt_rand.next_int(this->number_of_cell_types);
 					break;
 				case ProteinType::transcribing: // flip a random bit in the promoter
 					this->protein_promoter.flip(mt_rand.next_int(this->protein_promoter.size()));
@@ -99,7 +99,7 @@ void Gene::set_protein_stimuli_level(const pair<double, double> *s)
 	this->protein_stimuli = *s;
 }
 
-void Gene::operator =(const Gene &gene)
+Gene &Gene::operator =(const Gene &gene)
 {
 	this->sequence = gene.sequence;
 	this->protein_type = gene.protein_type;
@@ -116,4 +116,6 @@ void Gene::operator =(const Gene &gene)
 
 	this->number_of_cell_types = gene.number_of_cell_types;
 	this->protein_stimuli = gene.protein_stimuli;
+
+	return *this;
 }

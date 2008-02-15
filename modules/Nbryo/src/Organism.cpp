@@ -23,31 +23,9 @@ Organism::~Organism()
 
 void Organism::add_cell(Cell *c)
 {
-#ifdef CELL_OVERWRITE /*
-* The following algorithm overwrites the location with a newly created
-* cell. The problem with this algorithm is that it may overwrite the
-* same cells every tick, preventing growth.
-*/
-	if (this->cells.find(c->get_location()) != this->cells.end())
-	{
-		this->working_cells[c->get_location()] = false;
-		delete this->cells[c->get_location()];
-	}
+	this->working_cells[c->get_location()] = false;
 	this->cells[c->get_location()] = c;
 	this->phenotype[c->get_location() + this->offset] = c->get_type();
-
-#else /*
-* In this algorithm, if the location is already occupied by a cell, the
-* newly created cell will be deleted.
-*/
-	if (this->cells.find(c->get_location()) != this->cells.end())
-		delete c;
-	else
-	{
-		this->cells.insert(make_pair(c->get_location(), c));
-		this->phenotype.insert(make_pair(c->get_location() + this->offset, c->get_type()));
-	}
-#endif
 }
 
 CellType::Type Organism::get_cell(const Coordinates &c)
@@ -72,6 +50,17 @@ void Organism::increment_tick()
 const map<Coordinates, CellType::Type> *Organism::get_phenotype()
 {
 	return new map<Coordinates, CellType::Type>(this->phenotype);
+}
+
+void Organism::remove_cell(const Coordinates &c)
+{
+	if (this->cells.find(c) != this->cells.end())
+	{
+		this->working_cells[c] = false;
+		delete this->cells[c];
+		this->cells.erase(c);
+		this->phenotype[c + this->offset] = CellType::empty;
+	}
 }
 
 unsigned int Organism::size()
