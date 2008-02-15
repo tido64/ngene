@@ -4,7 +4,7 @@
 
 using std::vector;
 
-const char *NGENE_VERSION = "0.2008.02.10";
+const char *NGENE_VERSION = "0.2008.02.14";
 
 int main(int argc, char *argv[])
 {

@@ -14,7 +14,7 @@ class Protein
 public:
 	Protein(const Gene *gene);
 
-	virtual ~Protein() { }
+	/*virtual*/ ~Protein() { }
 
 	/// Ages the protein and checks whether it died or not.
 	bool age();
@@ -27,12 +27,12 @@ public:
 	ProteinType::Type get_type();
 
 	/// Checks whether this protein is activated given current states
-	virtual bool is_active();
+	/*virtual*/ bool is_active();
 
 	/// Makes the protein aware of its host.
 	void make_aware(const Cell *host);
 
-	void operator =(const Protein &p);
+	Protein &operator =(const Protein &p);
 
 private:
 	ProteinType::Type type;						///< The type this protein belongs to

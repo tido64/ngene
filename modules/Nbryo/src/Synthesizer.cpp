@@ -40,9 +40,9 @@ DNA Synthesizer::synthesize()
 		vector<CellType::Type> neighbours;
 		neighbours.reserve(Direction::number_of_directions);
 		for (unsigned int i = 0; i < this->config.number_of_dont_care_neighbours; i++)
-			neighbours.push_back(CellType::number_of_types);
+			neighbours.push_back(CellType::any);
 		for (unsigned int i = this->config.number_of_dont_care_neighbours; i < Direction::number_of_directions; i++)
-			neighbours.push_back((CellType::Type)this->mt_rand.next_int(CellType::empty, CellType::number_of_types + 1));
+			neighbours.push_back((CellType::Type)this->mt_rand.next_int(CellType::empty, CellType::number_of_types));
 		random_shuffle(neighbours.begin(), neighbours.end());
 
 		// Pre-translate the gene (generate the protein's promoter or parameters)
@@ -90,8 +90,8 @@ vector<double> Synthesizer::generate_speciation_parameters(const pair<double, do
 {
 	vector<double> parameters;
 	parameters.reserve(2);
-	parameters.push_back(this->mt_rand.next(stimuli->first, stimuli->second));
 	parameters.push_back(this->mt_rand.next_int(this->config.number_of_cell_types));
+	parameters.push_back(this->mt_rand.next(stimuli->first, stimuli->second));
 	return parameters;
 }
 

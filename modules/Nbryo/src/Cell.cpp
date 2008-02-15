@@ -125,7 +125,7 @@ void Cell::regulate_proteins()
 		if (this->proteins[i].age())
 			this->dead_proteins.push_back(i);
 
-		// If the protein is acive, it will effect the cell in some way later in this tick
+		// If the protein is active, it will affect the cell in some way later in this tick
 		if (this->proteins[i].is_active())
 			this->active_proteins[this->proteins[i].get_type()].push_back(i);
 	}
@@ -136,8 +136,20 @@ void Cell::speciate()
 	if (!this->active_proteins[ProteinType::speciation].empty())
 	{
 		// Accumulate stimuli from proteins
-		vector<double> stimuli;
-		stimuli.assign(CellType::number_of_types, 0.0);
+
+/**
+* This code produces improved results for some reason ...
+
+		vector<unsigned int>::iterator p = this->active_proteins[ProteinType::speciation].begin();
+		vector<double> stimuli (this->proteins[*p].get_parameters());
+		for (p++; p != this->active_proteins[ProteinType::regulatory].end(); p++)
+		{
+			const vector<double> *parameters = this->proteins[*p].get_parameters();
+			stimuli[(int)parameters->at(1)] += parameters->at(0);
+		}
+*/
+
+		vector<double> stimuli (CellType::number_of_types - 1, 0.0);
 		for (vector<unsigned int>::iterator i = this->active_proteins[ProteinType::speciation].begin(); i != this->active_proteins[ProteinType::speciation].end(); i++)
 		{
 			const vector<double> *parameters = this->proteins[*i].get_parameters();
@@ -157,7 +169,7 @@ void Cell::speciate()
 		}
 
 		// Speciate only if the stimulus is above the threshold
-		if (stimuli[ct] > 0 && stimuli[ct] > this->STIMULUS_THRESHOLD)
+		if (stimuli[ct] >= 0 && stimuli[ct] > this->STIMULUS_THRESHOLD)
 			this->type = (CellType::Type)ct;
 	}
 }

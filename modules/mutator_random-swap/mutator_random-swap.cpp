@@ -1,8 +1,11 @@
 #include "../../src/Interfaces/Mutator.h"
+#include "../../src/Random.h"
 
 using std::string;
 using std::swap;
 using std::vector;
+
+Random mt_rand;
 
 void initiate(const char *parameters) { }
 
@@ -13,7 +16,5 @@ const char *name()
 
 void mutate(vector<boost::any> &genotype)
 {
-	swap(genotype[(int)(rand() / (RAND_MAX + 1.0) * genotype.size())],
-		genotype[(int)(rand() / (RAND_MAX + 1.0) * genotype.size())]);
+	swap(genotype[mt_rand.next_int(genotype.size())], genotype[mt_rand.next_int(genotype.size())]);
 }
-

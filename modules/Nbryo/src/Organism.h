@@ -24,10 +24,10 @@ public:
 	CellFactory *cell_factory;							///< Responsible for creating all cells
 
 	Organism(const DNA &d, const Coordinates &boundaries);
-	virtual ~Organism();
+	/*virtual*/ ~Organism();
 
 	/// Adds a cell to the organism.
-	virtual void add_cell(Cell *c);
+	void add_cell(Cell *c);
 
 	/// Returns the type of cell occupied in given coordinates.
 	CellType::Type get_cell(const Coordinates &c);
@@ -36,8 +36,11 @@ public:
 
 	/// Fires a tick event. Currently, the cells are notified in the order
 	/// of their creation instead of "simultaneously".
-	virtual void increment_tick();
+	/*virtual*/ void increment_tick();
 
+	/// Deletes the cell at given coordinates, if there is one.
+	void remove_cell(const Coordinates &c);
+	
 	unsigned int size();
 
 private:

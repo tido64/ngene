@@ -1,5 +1,7 @@
 #include "../../src/Interfaces/Mating.h"
-#include <cmath>
+#include "../../src/Random.h"
+
+Random mt_rand;
 
 void initiate(const char *parameters) { }
 
@@ -7,10 +9,10 @@ void mate(std::vector<Specimen> &children, const Specimen &parentA, const Specim
 {
 	unsigned int
 		size = (parentB.genotype.size() > parentA.genotype.size() ? parentA.genotype.size() : parentB.genotype.size()) - 1,
-		split = (unsigned int)floor((double)rand() / ((double)RAND_MAX + 1.0) * size);
+		split = mt_rand.next_int(size);
 
 	while (split == 0)
-		split = (unsigned int)floor((double)rand() / ((double)RAND_MAX + 1.0) * size);
+		split = mt_rand.next_int(size);
 
 	children[0].genotype = parentB.genotype;
 	children[1].genotype = parentA.genotype;

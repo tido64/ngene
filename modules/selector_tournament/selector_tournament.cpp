@@ -1,46 +1,42 @@
-#include "../../src/Interfaces/Selector.h"
 #include <cmath>
-#include <cstdlib>
-#include <ctime>
 #include <sstream>
+#include "../../src/Interfaces/Selector.h"
+#include "../../src/Random.h"
+
 
 namespace tournament
 {
 	std::string name;
 	unsigned int k;
 	double p;
-	double random()
-	{
-		return (double)rand() / ((double)RAND_MAX + 1.0);
-	}
+	Random mt_rand;
 }
 
 
-using std::multiset;
 using std::set;
 using std::string;
+using std::stringstream;
 
 void initiate(const char *parameters)
 {
-	std::istringstream parse (parameters);
-	parse >> tournament::k >> tournament::p;
-	std::ostringstream in_name;
-	in_name << "Tournament (k=" << tournament::k << ", p=" << tournament::p << ")";
-	tournament::name = in_name.str();
-	srand((unsigned int)time(NULL));
+	stringstream s (parameters);
+	s >> tournament::k >> tournament::p;
+	s.str("");
+	s << "Tournament (k=" << tournament::k << ", p=" << tournament::p << ")";
+	tournament::name = s.str();
 }
 
 void gene_select(Population::iterator &champ, Population &candidates, int generation)
 {
 	set<int> selection;
 	while (selection.size() < tournament::k)
-		selection.insert((int)(candidates.size() * tournament::random()));
+		selection.insert(tournament::mt_rand.next_int(candidates.size()));
 
 	int counter = 0;
 	champ = candidates.begin();
 	for (set<int>::iterator i = selection.begin(); i != selection.end(); i++)
 	{
-		if (tournament::random() <= tournament::p * pow(1.0 - tournament::p, counter++))
+		if (tournament::mt_rand.next() <= tournament::p * pow(1.0 - tournament::p, counter++))
 		{
 			for (int j = 0; j < *i; j++)
 				champ++;
