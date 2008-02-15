@@ -4,7 +4,7 @@ using std::max;
 using std::min;
 
 Hormones::Hormones()
-: MAX_CONCENTRATION(1.0), MIN_CONCENTRATION(0.0), concentrations(Hormone::number_of_types, this->MIN_CONCENTRATION)
+: MAX_CONCENTRATION(1.0), MIN_CONCENTRATION(0.0), concentrations(Hormone::number_of_types, MIN_CONCENTRATION)
 { }
 
 void Hormones::adjust_concentration(Hormone::Type t, double n)

@@ -187,7 +187,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\NUtility.cpp"
+				RelativePath="..\..\src\Random.cpp"
 				>
 			</File>
 		</Filter>
@@ -213,11 +213,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\NUtility.h"
+				RelativePath="..\..\src\ProteinType.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\ProteinType.h"
+				RelativePath="..\..\src\Random.h"
 				>
 			</File>
 		</Filter>
