@@ -121,10 +121,11 @@
 				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories="..\..\..\..\libs"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;NBRYO_EXPORTS"
+				StringPooling="true"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="false"
 				EnableFunctionLevelLinking="true"
-				RuntimeTypeInfo="false"
+				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -211,15 +212,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\NUtility.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Organism.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\Protein.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\src\Random.cpp"
 				>
 			</File>
 			<File
@@ -281,10 +282,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\NUtility.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Organism.h"
 				>
 			</File>
@@ -294,6 +291,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ProteinType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\src\Random.h"
 				>
 			</File>
 			<File

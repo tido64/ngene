@@ -207,15 +207,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\NUtility.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Organism.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\Protein.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Random.cpp"
 				>
 			</File>
 			<File
@@ -273,10 +273,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\NUtility.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Organism.h"
 				>
 			</File>
@@ -286,6 +282,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ProteinType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Random.h"
 				>
 			</File>
 			<File

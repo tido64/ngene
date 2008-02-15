@@ -205,6 +205,10 @@
 				RelativePath="..\..\src\PluginManager.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\..\src\Random.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -249,6 +253,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Plugins.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Random.h"
 				>
 			</File>
 			<File

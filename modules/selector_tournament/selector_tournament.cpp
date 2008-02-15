@@ -21,6 +21,7 @@ void initiate(const char *parameters)
 {
 	stringstream s (parameters);
 	s >> tournament::k >> tournament::p;
+	s.clear();
 	s.str("");
 	s << "Tournament (k=" << tournament::k << ", p=" << tournament::p << ")";
 	tournament::name = s.str();
