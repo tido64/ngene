@@ -153,7 +153,7 @@ void Cell::speciate()
 		for (vector<unsigned int>::iterator i = this->active_proteins[ProteinType::speciation].begin(); i != this->active_proteins[ProteinType::speciation].end(); i++)
 		{
 			const vector<double> *parameters = this->proteins[*i].get_parameters();
-			stimuli[(int)parameters->at(0)] += parameters->at(1);
+			stimuli[static_cast<int>(parameters->at(0))] += parameters->at(1);
 		}
 
 		// Find highest stimulus

@@ -6,9 +6,9 @@ using std::vector;
 Gene::Gene(const Gene &gene)
 : sequence(gene.sequence), protein_type(gene.protein_type), protein_lifespan(gene.protein_lifespan), protein_thresholds(gene.protein_thresholds), protein_neighbourhood(gene.protein_neighbourhood), number_of_cell_types(gene.number_of_cell_types), protein_stimuli(gene.protein_stimuli)
 {
-	if (gene.protein_promoter.size() > 0)
+	if (!gene.protein_promoter.empty())
 		this->protein_promoter = gene.protein_promoter;
-	if (gene.protein_parameters.size() > 0)
+	if (!gene.protein_parameters.empty())
 		this->protein_parameters = gene.protein_parameters;
 }
 

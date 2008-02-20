@@ -40,5 +40,5 @@ void Logger::log(const Population *population, GenotypeToStr *genotype_to_str)
 void Logger::log(double ticks)
 {
 	ticks /= CLOCKS_PER_SEC;
-	printf("Completed in %i minute(s) and %i second(s).\n\n", (int)(ticks / 60), (int)(ticks + 0.5) % 60);
+	printf("Completed in %i minute(s) and %i second(s).\n\n", static_cast<int>(ticks / 60), static_cast<int>(ticks + 0.5) % 60);
 }

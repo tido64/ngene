@@ -21,7 +21,7 @@ void initiate(const char *parameters)
 	Ngene::phtype = "The phenotype passed on okay.\n";
 }
 
-void *phenotype(const Genotype &gtype)
+const void *phenotype(const Genotype &gtype)
 {
 	return &Ngene::name;
 }

@@ -55,7 +55,7 @@ void assess(Specimen &individual)
 			}
 		}
 	}
-	individual.fitness = points <= 0 ? 0 : (double)points / (double)(Nbryo::boundaries.x * Nbryo::boundaries.y * Nbryo::boundaries.z * 2);
+	individual.fitness = points <= 0 ? 0 : static_cast<double>(points) / static_cast<double>(Nbryo::boundaries.x * Nbryo::boundaries.y * Nbryo::boundaries.z * 2);
 	delete phenotype;
 }
 

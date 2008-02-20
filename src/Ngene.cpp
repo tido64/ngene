@@ -4,7 +4,7 @@
 
 using std::vector;
 
-const char *NGENE_VERSION = "0.2008.02.14";
+const char *NGENE_VERSION = "0.2008.02.20";
 
 int main(int argc, char *argv[])
 {
@@ -152,7 +152,7 @@ int main(int argc, char *argv[])
 				else
 					iter_tmp->age++;
 			}
-			if ((int)mates.size() > 0)
+			if (mates.size() > 0)
 			{
 				for (vector<Population::iterator>::iterator i = mates.begin(); i != mates.end(); i++)
 					adults->erase(*i);
@@ -167,7 +167,7 @@ int main(int argc, char *argv[])
 			// Replace lower citizens with prodigies
 			if (config.max_prodigies > 0)
 			{
-				for (int i = 0; i < (int)(mt_rand.next() * config.max_prodigies > offspring->size() ? offspring->size() : config.max_prodigies); i++)
+				for (unsigned int i = 0; i < (config.max_prodigies > offspring->size()) ? mt_rand.next_int(offspring->size()) : mt_rand.next_int(config.max_prodigies); i++)
 				{
 					module.select(iter_tmp, *offspring, generation);
 					adults->erase(--adults->end());
