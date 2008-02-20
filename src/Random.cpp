@@ -14,12 +14,12 @@ double Random::next(double min, double max)
 	return this->mt_rand() * (max - min) + min;
 }
 
-int Random::next_int(int i)
+unsigned int Random::next_int(unsigned int i)
 {
-	return int(this->mt_rand() * i);
+	return static_cast<unsigned int>(this->mt_rand() * i);
 }
 
 int Random::next_int(int min, int max)
 {
-	return int(this->mt_rand() * (max - min) + min);
+	return static_cast<int>(this->mt_rand() * (max - min) + min);
 }

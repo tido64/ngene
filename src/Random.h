@@ -19,7 +19,7 @@ public:
 	double next(double min, double max);
 
 	/// Returns the next random integer within [0, i).
-	int next_int(int i);
+	unsigned int next_int(unsigned int i);
 
 	/// Returns the next random integer within [min, max).
 	int next_int(int min, int max);
