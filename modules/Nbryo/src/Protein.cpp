@@ -50,7 +50,7 @@ bool Protein::is_active()
 {
 	// Check the concentrations of hormones
 	for (unsigned int i = Hormone::a; i < this->thresholds.size(); i++)
-		if (this->host->get_hormones((Hormone::Type)i) > this->thresholds[i])
+		if (this->host->get_hormones(static_cast<Hormone::Type>(i)) > this->thresholds[i])
 			return false;
 
 	// Check the neighbourhood

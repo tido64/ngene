@@ -15,7 +15,5 @@ private:
 	Random mt_rand;
 	std::string species;
 
-	std::vector<double> generate_protein_parameters(unsigned int n, const std::pair<double, double> *stimuli);
-	std::vector<double> generate_speciation_parameters(const std::pair<double, double> *stimuli);
-	boost::dynamic_bitset<> generate_transcription_promoter(unsigned int length);
+	void generate_protein_parameters(std::vector<double> &parameters, unsigned int n, const std::pair<double, double> *stimuli);
 };

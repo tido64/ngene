@@ -30,16 +30,15 @@ public:
 		const ProteinType::Type protein_type,
 		const unsigned int protein_lifespan,
 		const std::vector<double> &protein_thresholds,
-		const std::vector<CellType::Type> &protein_neighbourhood,
-		const boost::dynamic_bitset<> &protein_promoter);
+		const std::vector<CellType::Type> &protein_neighbourhood);
 
-	Gene(
-		const boost::dynamic_bitset<> &sequence,
-		const ProteinType::Type protein_type,
-		const unsigned int protein_lifespan,
-		const std::vector<double> &protein_thresholds,
-		const std::vector<CellType::Type> &protein_neighbourhood,
-		const std::vector<double> &protein_parameters);
+	/// Sets the protein promoter as well as the number of cell types it can
+	/// be used to transcribe.
+	void ergo_proxy(const boost::dynamic_bitset<> &protein_promoter, const unsigned int number_of_cell_types);
+
+	/// Sets the protein parameters and the upper and lower boundaries of each
+	/// parameter.
+	void ergo_proxy(const std::vector<double> &protein_parameters, const std::pair<double, double> *stimuli_boundaries);
 
 	/// Returns the dna sequence of this gene.
 	const boost::dynamic_bitset<> &get_sequence() const;
@@ -49,13 +48,6 @@ public:
 	/// out of bounds. Time will tell whether this is disadvantageous or
 	/// beneficial.
 	void mutate();
-
-	/// Sets the number of cell types used in current run. Used by Gene::mutate.
-	void set_number_of_cell_types(unsigned int n);
-
-	/// Sets the max and min stimulus level a protein can provide. Used by
-	/// Gene::mutate.
-	void set_protein_stimuli_level(const std::pair<double, double> *stimuli);
 
 	Gene &operator =(const Gene &gene);
 

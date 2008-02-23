@@ -23,8 +23,8 @@ class Cell
 	friend class Ribosome;
 
 public:
-	const unsigned int MAX_NUMBER_OF_PROTEINS;				///< The maximum amount of proteins allowed
-	const double STIMULUS_THRESHOLD;						///< The level of stimulus at which this cell will perform set action
+	static const unsigned int MAX_NUMBER_OF_PROTEINS = 99;		///< The maximum amount of proteins allowed
+	static const double STIMULUS_THRESHOLD = 0.0;				///< The level of stimulus at which this cell will perform set action
 
 	/// Used only to create the zygote.
 	Cell(Organism *host, const std::vector<Protein> &proteins);
