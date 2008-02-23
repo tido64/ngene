@@ -42,12 +42,6 @@ void assess(Specimen &individual)
 				a = phenotype->find(check);
 				b = Nbryo::target.find(check);
 
-				/* For debugging purposes only
-				printf("Comparing <%d, %d, %d>: ", check.x, check.y, check.z);
-				a != phenotype->end() ? printf("%d ?= ", a->second) : printf("none ?= ");
-				b != Nbryo::target.end() ? printf("%d\n", b->second) : printf("none\n");
-				/*Bob*/
-
 				if (a != phenotype->end() && b != Nbryo::target.end())
 					points += (a->second == b->second) ? 2 : 1;
 				else if (a == phenotype->end() && b == Nbryo::target.end())
@@ -83,7 +77,7 @@ void initiate(const char *parameters)
 		{
 			int x, y, z, t;
 			target_phenotype >> x >> y >> z >> t;
-			Nbryo::target[Coordinates(x, y, z)] = (CellType::Type)t;
+			Nbryo::target[Coordinates(x, y, z)] = static_cast<CellType::Type>(t);
 		}
 		target_phenotype.close();
 	}

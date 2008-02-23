@@ -7,13 +7,13 @@ using std::string;
 using std::vector;
 
 Cell::Cell(Organism *host, const std::vector<Protein> &p)
-: MAX_NUMBER_OF_PROTEINS(99), STIMULUS_THRESHOLD(0.0), id(0), type(CellType::a), dna(host->dna), coordinates(0,0,0), organism(host), proteins(p)
+: id(0), type(CellType::a), dna(host->dna), organism(host), proteins(p)
 {
 	engage_cytokinesis();
 }
 
 Cell::Cell(int id, const Cell *mother, const Coordinates &c)
-: MAX_NUMBER_OF_PROTEINS(mother->MAX_NUMBER_OF_PROTEINS), STIMULUS_THRESHOLD(mother->STIMULUS_THRESHOLD), id(id), type(mother->type), dna(mother->dna), coordinates(c), organism(mother->organism), proteins(mother->proteins)
+: id(id), type(mother->type), dna(mother->dna), coordinates(c), organism(mother->organism), proteins(mother->proteins)
 {
 	engage_cytokinesis();
 }
@@ -29,7 +29,7 @@ void Cell::engage_cytokinesis()
 	for (int i = 0; i < ProteinType::number_of_types; i++)
 	{
 		this->active_proteins.push_back(vector<unsigned int>());
-		this->active_proteins.rbegin()->reserve(this->MAX_NUMBER_OF_PROTEINS);
+		this->active_proteins.rbegin()->reserve(MAX_NUMBER_OF_PROTEINS);
 	}
 	this->ribosome = new Ribosome(this);
 }
@@ -82,7 +82,7 @@ void Cell::mitosis()
 
 		// Look to divide in all directions with enough stimulus
 		for (unsigned int i = 0; i < Direction::number_of_directions; i++)
-			if (stimuli[i] > this->STIMULUS_THRESHOLD)
+			if (stimuli[i] > STIMULUS_THRESHOLD)
 				this->organism->cell_factory->divide_cell(this, this->coordinates.look((Direction::direction)i));
 	}
 }
@@ -105,7 +105,7 @@ void Cell::regulate_hormones()
 		// Apply the changes
 		for (unsigned int i = 0; i < changes.size(); i++)
 			if (changes[i] != 0)
-				this->hormones.adjust_concentration((Hormone::Type)i, changes[i]);
+				this->hormones.adjust_concentration(static_cast<Hormone::Type>(i), changes[i]);
 	}
 }
 
@@ -169,8 +169,8 @@ void Cell::speciate()
 		}
 
 		// Speciate only if the stimulus is above the threshold
-		if (stimuli[ct] >= 0 && stimuli[ct] > this->STIMULUS_THRESHOLD)
-			this->type = (CellType::Type)ct;
+		if (stimuli[ct] >= 0 && stimuli[ct] > STIMULUS_THRESHOLD)
+			this->type = static_cast<CellType::Type>(ct);
 	}
 }
 
@@ -180,14 +180,14 @@ void Cell::translate()
 	//	For every active protein:
 	//		For every gene:
 	//			Check if gene sequence has protein promoter
-	if (!this->active_proteins[ProteinType::transcribing].empty() && this->proteins.size() < this->MAX_NUMBER_OF_PROTEINS)
+	if (!this->active_proteins[ProteinType::transcribing].empty() && this->proteins.size() < MAX_NUMBER_OF_PROTEINS)
 	{
 		for (vector<unsigned int>::iterator p = this->active_proteins[ProteinType::transcribing].begin(); p != this->active_proteins[ProteinType::transcribing].end(); p++)
 			for (unsigned int i = 0; i < this->dna.size(); i++)
 				if (this->proteins[*p].find_promoter(this->dna[i].get_sequence()))
 				{
 					this->ribosome->translate(&this->dna[i]);
-					if (this->proteins.size() >= this->MAX_NUMBER_OF_PROTEINS)
+					if (this->proteins.size() >= MAX_NUMBER_OF_PROTEINS)
 						return;
 				}
 	}
