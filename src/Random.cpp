@@ -21,5 +21,5 @@ unsigned int Random::next_int(unsigned int i)
 
 int Random::next_int(int min, int max)
 {
-	return static_cast<int>(this->mt_rand() * (max - min) + min);
+	return static_cast<int>(this->mt_rand() * (max - min)) + min;
 }

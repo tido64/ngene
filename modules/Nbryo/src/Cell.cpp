@@ -6,6 +6,8 @@
 using std::string;
 using std::vector;
 
+const double Cell::STIMULUS_THRESHOLD (0.0);
+
 Cell::Cell(Organism *host, const std::vector<Protein> &p)
 : id(0), type(CellType::a), dna(host->dna), organism(host), proteins(p)
 {
@@ -48,7 +50,7 @@ void Cell::get_neighbourhood(vector<CellType::Type> &neighbourhood) const
 {
 	neighbourhood.reserve(Direction::number_of_directions);
 	for (int i = 0; i < Direction::number_of_directions; i++)
-		neighbourhood.push_back(this->organism->get_cell(this->coordinates.look((Direction::direction)i)));
+		neighbourhood.push_back(this->organism->get_cell(this->coordinates.look(static_cast<Direction::direction>(i))));
 }
 
 CellType::Type Cell::get_type() const
@@ -83,7 +85,7 @@ void Cell::mitosis()
 		// Look to divide in all directions with enough stimulus
 		for (unsigned int i = 0; i < Direction::number_of_directions; i++)
 			if (stimuli[i] > STIMULUS_THRESHOLD)
-				this->organism->cell_factory->divide_cell(this, this->coordinates.look((Direction::direction)i));
+				this->organism->cell_factory->divide_cell(this, this->coordinates.look(static_cast<Direction::direction>(i)));
 	}
 }
 

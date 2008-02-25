@@ -20,8 +20,6 @@ class Gene
 	friend class Protein;
 
 public:
-	Gene() { };
-
 	/// This constructor is required by boost::any. See Concept CopyConstructible.
 	Gene(const Gene &);
 
@@ -30,11 +28,12 @@ public:
 		const ProteinType::Type protein_type,
 		const unsigned int protein_lifespan,
 		const std::vector<double> &protein_thresholds,
-		const std::vector<CellType::Type> &protein_neighbourhood);
+		const std::vector<CellType::Type> &protein_neighbourhood,
+		const unsigned int number_of_cell_type);
 
 	/// Sets the protein promoter as well as the number of cell types it can
 	/// be used to transcribe.
-	void ergo_proxy(const boost::dynamic_bitset<> &protein_promoter, const unsigned int number_of_cell_types);
+	void ergo_proxy(const boost::dynamic_bitset<> &protein_promoter);
 
 	/// Sets the protein parameters and the upper and lower boundaries of each
 	/// parameter.
