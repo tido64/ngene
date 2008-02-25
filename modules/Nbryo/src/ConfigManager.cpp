@@ -17,7 +17,7 @@ ConfigManager::ConfigManager()
 		config_file >> config;
 		config_file.close();
 
-		this->number_of_genes = parse_config(config, "gp.genotype.dna.numberofgenes", progress);
+		this->number_of_genes = parse_config(config, "\ngp.genotype.dna.numberofgenes", progress);
 		this->gene_sequence_length = parse_config(config, "gp.genotype.dna.gene.promotorlength", progress);
 
 		this->protein_lifespan = parse_config(config, "gp.protein.maxtimetolive", progress);

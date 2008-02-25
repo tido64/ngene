@@ -38,7 +38,7 @@ DNA Synthesizer::synthesize()
 		for (unsigned int n = 0; n < this->config.number_of_dont_care_neighbours; n++)
 			neighbours[n] = CellType::any;
 		for (unsigned int n = this->config.number_of_dont_care_neighbours; n < Direction::number_of_directions; n++)
-			neighbours[n] = static_cast<CellType::Type>(this->mt_rand.next_int(CellType::empty, CellType::number_of_types));
+			neighbours[n] = static_cast<CellType::Type>(this->mt_rand.next_int(CellType::empty, this->config.number_of_cell_types));
 		random_shuffle(neighbours.begin(), neighbours.end());
 
 		dna.push_back(Gene(
@@ -46,7 +46,8 @@ DNA Synthesizer::synthesize()
 			protein_type,
 			this->mt_rand.next_int(this->config.protein_lifespan),
 			thresholds,
-			neighbours));
+			neighbours,
+			this->config.number_of_cell_types));
 
 		switch (protein_type)
 		{
@@ -70,7 +71,7 @@ DNA Synthesizer::synthesize()
 			case ProteinType::transcribing:
 				for (unsigned int i = 0; i < this->config.promoter_length; i++)
 					promoter[i] = this->mt_rand.next() < 0.5;
-				dna.rbegin()->ergo_proxy(promoter, this->config.number_of_cell_types);
+				dna.rbegin()->ergo_proxy(promoter);
 				break;
 			default:
 				exit(-1);

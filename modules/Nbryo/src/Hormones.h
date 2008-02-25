@@ -32,7 +32,7 @@ public:
 	double get_concentration(Hormone::Type t) const;
 
 private:
-	const double
+	static const double
 		MAX_CONCENTRATION,				///< Maximum allowed concentration of a hormone
 		MIN_CONCENTRATION;				///< Minimum allowed concentration of a hormone
 	std::vector<double> concentrations;	///< Stores all hormone concentrations
