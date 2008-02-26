@@ -61,8 +61,6 @@ private:
 	std::vector<CellType::Type> protein_neighbourhood;	///< The translated protein's criteria for a thriving neighbourhood
 	std::vector<double> protein_parameters;				///< The translated protein's parameters
 
-	Random mt_rand;										///< A random number generator
-
 	// Configuration (for the lack of a more elegant way)
 	unsigned int number_of_cell_types;					///< Number of cell types used in current run
 	std::pair<double, double> protein_stimuli;			///< Min (first) and max (second) stimulus

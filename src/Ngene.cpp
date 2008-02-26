@@ -64,8 +64,6 @@ int main(int argc, char *argv[])
 		*offspring;					///< The offspring population
 	Population::iterator
 		iter_tmp;					///< A temporary iterator/pointer to an individual
-	Random
-		mt_rand;					///< Initializes the random number generator
 	vector<Population::iterator>
 		mates;
 
@@ -110,13 +108,13 @@ int main(int argc, char *argv[])
 				module.select(mates[0], *adults, generation);
 				module.select(mates[1], *adults, generation);
 			} while (mates[0] == mates[1]);
-			if (mt_rand.next() <= config.mating_rate)
+			if (Random::Instance().next() <= config.mating_rate)
 			{
 				vector<Specimen> embryo (module.offspring_rate);
 				module.mate(embryo, *mates[0], *mates[1]);
 				for (vector<Specimen>::iterator fetus = embryo.begin(); fetus != embryo.end(); fetus++)
 				{
-					if (mt_rand.next() <= config.mutation_rate)
+					if (Random::Instance().next() <= config.mutation_rate)
 						module.mutate(fetus->genotype);
 					module.assess_fitness(*fetus);
 					offspring->insert(*fetus);
@@ -167,7 +165,7 @@ int main(int argc, char *argv[])
 			// Replace lower citizens with prodigies
 			if (config.max_prodigies > 0)
 			{
-				for (unsigned int i = 0; i < (config.max_prodigies > offspring->size()) ? mt_rand.next_int(offspring->size()) : mt_rand.next_int(config.max_prodigies); i++)
+				for (unsigned int i = 0; i < (config.max_prodigies > offspring->size()) ? Random::Instance().next_int(offspring->size()) : Random::Instance().next_int(config.max_prodigies); i++)
 				{
 					module.select(iter_tmp, *offspring, generation);
 					adults->erase(--adults->end());

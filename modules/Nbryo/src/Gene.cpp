@@ -44,51 +44,51 @@ const boost::dynamic_bitset<> &Gene::get_sequence() const
 void Gene::mutate()
 {
 	// Enter switch of DOOM!
-	switch (this->mt_rand.next_int(Mutable::number_of_properties))
+	switch (Random::Instance().next_int(Mutable::number_of_properties))
 	{
 		case Mutable::sequence: // mutate the dna sequence of this gene
-			this->sequence.flip(this->mt_rand.next_int(this->protein_promoter.size()));
+			this->sequence.flip(Random::Instance().next_int(this->protein_promoter.size()));
 			break;
 		case Mutable::lifespan: // increase/decrease lifespan of proteins
 			if (this->protein_lifespan == 0)
 				this->protein_lifespan++;
 			else
-				(this->mt_rand.next() < 0.5) ? this->protein_lifespan++ : this->protein_lifespan--;
+				(Random::Instance().next() < 0.5) ? this->protein_lifespan++ : this->protein_lifespan--;
 			break;
 		case Mutable::thresholds: // mutates the hormonal thresholds in proteins
 			if (!this->protein_thresholds.empty())
-				this->protein_thresholds[this->mt_rand.next_int(this->protein_thresholds.size())]
-					+= this->mt_rand.next(-0.1, 0.1);
+				this->protein_thresholds[Random::Instance().next_int(this->protein_thresholds.size())]
+					+= Random::Instance().next(-0.1, 0.1);
 			break;
 		case Mutable::neighbourhood:
-			this->protein_neighbourhood[this->mt_rand.next_int(Direction::number_of_directions)]
-				= static_cast<CellType::Type>(this->mt_rand.next_int(CellType::empty, this->number_of_cell_types));
+			this->protein_neighbourhood[Random::Instance().next_int(Direction::number_of_directions)]
+				= static_cast<CellType::Type>(Random::Instance().next_int(CellType::empty, this->number_of_cell_types));
 			break;
 		default:
 			switch (this->protein_type)
 			{
 				case ProteinType::mitotic:
 					if (!this->protein_parameters.empty())
-						this->protein_parameters[this->mt_rand.next_int(this->protein_parameters.size())]
-							= (this->mt_rand.next() < 0.5) ? 0.0 : this->mt_rand.next(this->protein_stimuli.first, this->protein_stimuli.second);
+						this->protein_parameters[Random::Instance().next_int(this->protein_parameters.size())]
+							= (Random::Instance().next() < 0.5) ? 0.0 : Random::Instance().next(this->protein_stimuli.first, this->protein_stimuli.second);
 					break;
 				case ProteinType::regulatory:
 					if (!this->protein_parameters.empty())
-						this->protein_parameters[this->mt_rand.next_int(this->protein_parameters.size())]
-							= this->mt_rand.next(this->protein_stimuli.first, this->protein_stimuli.second);
+						this->protein_parameters[Random::Instance().next_int(this->protein_parameters.size())]
+							= Random::Instance().next(this->protein_stimuli.first, this->protein_stimuli.second);
 					break;
 				case ProteinType::speciation:
-					if (this->mt_rand.next() < 0.5) // mutate stimulus level
+					if (Random::Instance().next() < 0.5) // mutate stimulus level
 						this->protein_parameters[1]
-							= this->mt_rand.next(this->protein_stimuli.first, this->protein_stimuli.second);
+							= Random::Instance().next(this->protein_stimuli.first, this->protein_stimuli.second);
 					else // mutate cell type
-						this->protein_parameters[0] = this->mt_rand.next_int(this->number_of_cell_types);
+						this->protein_parameters[0] = Random::Instance().next_int(this->number_of_cell_types);
 					break;
 				case ProteinType::transcribing: // flip a random bit in the promoter
-					this->protein_promoter.flip(this->mt_rand.next_int(this->protein_promoter.size()));
+					this->protein_promoter.flip(Random::Instance().next_int(this->protein_promoter.size()));
 					break;
 				default:
-					throw "Gene::mutate: This should never happen.";
+					break;
 			}
 			break;
 	}

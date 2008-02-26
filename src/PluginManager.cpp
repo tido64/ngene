@@ -56,7 +56,7 @@ void PluginManager::load_module(const Module::Type module_type, const string &fi
 				this->select = (Selector)dlsym(module, "gene_select");
 				break;
 			default:
-				throw "PluginManager::load_plugin: This should never happen.";
+				break;
 		}
 		this->modules[module_type] = ((const char *(*)())dlsym(module, dl.c_str()))();
 		dlhandles.push_back(module);

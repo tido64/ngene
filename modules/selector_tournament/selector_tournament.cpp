@@ -9,7 +9,6 @@ namespace tournament
 	std::string name;
 	unsigned int k;
 	double p;
-	Random mt_rand;
 }
 
 
@@ -31,13 +30,13 @@ void gene_select(Population::iterator &champ, Population &candidates, int genera
 {
 	set<int> selection;
 	while (selection.size() < tournament::k)
-		selection.insert(tournament::mt_rand.next_int(candidates.size()));
+		selection.insert(Random::Instance().next_int(candidates.size()));
 
 	int counter = 0;
 	champ = candidates.begin();
 	for (set<int>::iterator i = selection.begin(); i != selection.end(); i++)
 	{
-		if (tournament::mt_rand.next() <= tournament::p * pow(1.0 - tournament::p, counter++))
+		if (Random::Instance().next() <= tournament::p * pow(1.0 - tournament::p, counter++))
 		{
 			for (int j = 0; j < *i; j++)
 				champ++;
