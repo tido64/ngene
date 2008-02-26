@@ -4,6 +4,12 @@ Random::Random()
 : rand_dist(0, 1), mt_rand(rand_gen, rand_dist)
 { }
 
+Random &Random::Instance()
+{
+	static Random singleton;
+	return singleton;
+}
+
 double Random::next()
 {
 	return this->mt_rand();

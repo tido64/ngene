@@ -10,7 +10,7 @@
 class Random
 {
 public:
-	Random();
+	static Random &Instance();
 
 	/// Returns the next random real number.
 	double next();
@@ -28,6 +28,8 @@ private:
 	boost::mt19937 rand_gen;
 	boost::uniform_real<double> rand_dist;
 	boost::variate_generator<boost::mt19937 &, boost::uniform_real<double> > mt_rand;
+
+	Random();
 };
 
 #endif

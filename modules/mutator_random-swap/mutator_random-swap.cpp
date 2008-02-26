@@ -16,5 +16,7 @@ const char *name()
 
 void mutate(vector<boost::any> &genotype)
 {
-	swap(genotype[mt_rand.next_int(genotype.size())], genotype[mt_rand.next_int(genotype.size())]);
+	swap(
+		genotype[Random::Instance().next_int(genotype.size())],
+		genotype[Random::Instance().next_int(genotype.size())]);
 }
