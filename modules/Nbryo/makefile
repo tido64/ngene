@@ -40,7 +40,4 @@ mutator: $(OBJDIR)/Gene.o $(OBJDIR)/Random.o $(OBJDIR)/mutator_nbryo.o
 all: $(EXEC) fitness mutator
 
 clean:
-		rm -f $(OBJ)
-
-cleanall: clean
-	rm -f $(EXEC)
+		rm -f $(OBJ) $(OBJDIR)/fitness_nbryo.o $(OBJDIR)/mutator_nbryo.o

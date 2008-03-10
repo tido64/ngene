@@ -12,7 +12,6 @@ class ConfigManager
 {
 public:
 	unsigned int
-		development_time,				///< Time spent developing the organism (in ticks)
 		gene_sequence_length,			///< The length of the gene sequence
 		number_of_cell_types,			///< Number of different cell types to use
 		number_of_dont_care_neighbours,	///< Number of initial don't-care-neighbours

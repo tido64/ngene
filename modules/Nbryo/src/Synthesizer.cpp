@@ -1,5 +1,6 @@
 #include "Synthesizer.h"
 
+using std::min;
 using std::pair;
 using std::random_shuffle;
 using std::string;
@@ -12,11 +13,17 @@ DNA Synthesizer::synthesize()
 	DNA dna;
 	dna.reserve(this->config.number_of_genes);
 
-	boost::dynamic_bitset<> sequence (this->config.gene_sequence_length);
-	boost::dynamic_bitset<> promoter (this->config.promoter_length);
-	vector<double> thresholds (this->config.number_of_hormones, 0.0);
-	vector<CellType::Type> neighbours (Direction::number_of_directions, CellType::any);
-	vector<double> parameters;
+	boost::dynamic_bitset<>
+		sequence (this->config.gene_sequence_length),
+		promoter (this->config.promoter_length);
+
+	vector<CellType::Type>
+		neighbours (Direction::number_of_directions, CellType::any);
+
+	vector<double>
+		thresholds (this->config.number_of_hormones, 0.0),
+		parameters;
+
 	const pair<double, double> *stimuli = 0;
 
 	for (unsigned int i = 0; i < this->config.number_of_genes; i++)
@@ -32,11 +39,11 @@ DNA Synthesizer::synthesize()
 			thresholds[h] = (Random::Instance().next() < 0.5) ? 0.0 : Random::Instance().next() / 10.0;
 
 		// Initiate conditions for a thriving neighbourhood
-		for (unsigned int n = 0; n < this->config.number_of_dont_care_neighbours; n++)
+		for (unsigned int n = 0; n < min(this->config.number_of_dont_care_neighbours, static_cast<unsigned int>(Direction::number_of_directions)); n++)
 			neighbours[n] = CellType::any;
 		for (unsigned int n = this->config.number_of_dont_care_neighbours; n < Direction::number_of_directions; n++)
 			neighbours[n] = static_cast<CellType::Type>(Random::Instance().next_int(CellType::empty, this->config.number_of_cell_types));
-		random_shuffle(neighbours.begin(), neighbours.end());
+		random_shuffle(neighbours.begin(), neighbours.end(), Random::Instance());
 
 		dna.push_back(Gene(
 			sequence,
