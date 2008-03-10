@@ -150,8 +150,9 @@ void Cell::speciate()
 			stimuli[(int)parameters->at(1)] += parameters->at(0);
 		}
 */
+		int number_of_cell_types (this->dna.begin()->number_of_cell_types);
 
-		vector<double> stimuli (CellType::number_of_types - 1, 0.0);
+		vector<double> stimuli (number_of_cell_types, 0.0);
 		for (vector<unsigned int>::iterator i = this->active_proteins[ProteinType::speciation].begin(); i != this->active_proteins[ProteinType::speciation].end(); i++)
 		{
 			const vector<double> *parameters = this->proteins[*i].get_parameters();
@@ -161,7 +162,7 @@ void Cell::speciate()
 		// Find highest stimulus
 		int ct = this->type;
 		double highest = 0.0;
-		for (int i = 0; i < CellType::number_of_types; i++)
+		for (int i = 0; i < number_of_cell_types; i++)
 		{
 			if (stimuli[i] > highest)
 			{

@@ -4,6 +4,7 @@
 #ifndef RANDOM_GENERATOR
 #define RANDOM_GENERATOR
 
+#include <ctime>
 #include <boost/random/mersenne_twister.hpp>
 //#include <boost/random/uniform_01.hpp>
 #include <boost/random/uniform_real.hpp>

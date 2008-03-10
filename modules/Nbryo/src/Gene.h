@@ -20,6 +20,10 @@ class Gene
 	friend class Protein;
 
 public:
+	// Configuration (for the lack of a more elegant way)
+	unsigned int number_of_cell_types;					///< Number of cell types used in current run
+	std::pair<double, double> protein_stimuli;			///< Min (first) and max (second) stimulus
+
 	/// This constructor is required by boost::any. See Concept CopyConstructible.
 	Gene(const Gene &);
 
@@ -31,8 +35,7 @@ public:
 		const std::vector<CellType::Type> &protein_neighbourhood,
 		const unsigned int number_of_cell_type);
 
-	/// Sets the protein promoter as well as the number of cell types it can
-	/// be used to transcribe.
+	/// Sets the protein promoter.
 	void ergo_proxy(const boost::dynamic_bitset<> &protein_promoter);
 
 	/// Sets the protein parameters and the upper and lower boundaries of each
@@ -60,10 +63,6 @@ private:
 	std::vector<double> protein_thresholds;				///< The translated protein's hormonal thresholds
 	std::vector<CellType::Type> protein_neighbourhood;	///< The translated protein's criteria for a thriving neighbourhood
 	std::vector<double> protein_parameters;				///< The translated protein's parameters
-
-	// Configuration (for the lack of a more elegant way)
-	unsigned int number_of_cell_types;					///< Number of cell types used in current run
-	std::pair<double, double> protein_stimuli;			///< Min (first) and max (second) stimulus
 };
 
 #endif

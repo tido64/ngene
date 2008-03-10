@@ -6,7 +6,7 @@ using std::vector;
 Gene::Gene(const Gene &gene)
 : sequence(gene.sequence), protein_type(gene.protein_type), protein_lifespan(gene.protein_lifespan), protein_thresholds(gene.protein_thresholds), protein_neighbourhood(gene.protein_neighbourhood), number_of_cell_types(gene.number_of_cell_types)
 {
-	if (!gene.protein_parameters.empty())
+	if (this->protein_type != ProteinType::transcribing)
 	{
 		this->protein_parameters = gene.protein_parameters;
 		this->protein_stimuli = gene.protein_stimuli;
@@ -103,7 +103,7 @@ Gene &Gene::operator =(const Gene &gene)
 	this->protein_thresholds = gene.protein_thresholds;
 	this->protein_neighbourhood = gene.protein_neighbourhood;
 
-	if (!gene.protein_parameters.empty())
+	if (this->protein_type != ProteinType::transcribing)
 	{
 		this->protein_parameters = gene.protein_parameters;
 		this->protein_stimuli = gene.protein_stimuli;

@@ -1,3 +1,12 @@
+#if WIN32
+	#define WIN32_LEAN_AND_MEAN
+	#include <direct.h>
+	#include <stdlib.h>
+#else
+	#include <sys/stat.h>
+	#include <errno.h>
+#endif
+
 /// Logger takes care of properly logging every run. A log consists of a plot
 /// or graph, and an actual output of the fittest individual after an ended
 /// run. The outputs produced are typically stored with the following file
@@ -7,8 +16,7 @@
 ///
 /// where the file name follows YYYYMMdd-hhmmss (ie. date, then time).
 
-#include <boost/filesystem.hpp>
-
+#include <ctime>
 #include "PlotterFactory.h"
 #include "Plugins.h"
 

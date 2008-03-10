@@ -8,7 +8,7 @@ class Synthesizer
 {
 public:
 	Synthesizer();
-	DNA synthesize();
+	void synthesize(std::vector<boost::any> &genotype);
 
 private:
 	const ConfigManager config;
