@@ -26,8 +26,6 @@ ConfigManager::ConfigManager()
 
 		this->promoter_length = parse_config(config, "gp.protein.subpromotorlength", progress);
 		this->number_of_cell_types = parse_config(config, "gp.protein.celltype.no", progress);
-
-		this->development_time = parse_config(config, "development.ticks", progress);
 	}
 	else
 	{

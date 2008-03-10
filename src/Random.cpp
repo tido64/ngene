@@ -1,7 +1,8 @@
 #include "Random.h"
 
 Random::Random()
-: rand_dist(0, 1), mt_rand(rand_gen, rand_dist)
+//: mersenne_twister(time(0)), mt_rand(mersenne_twister)
+: mersenne_twister(time(0)), uniform_real_dist(0, 1), mt_rand(mersenne_twister, uniform_real_dist)
 { }
 
 Random &Random::Instance()
@@ -28,4 +29,9 @@ unsigned int Random::next_int(unsigned int i)
 int Random::next_int(int min, int max)
 {
 	return static_cast<int>(this->mt_rand() * (max - min)) + min;
+}
+
+int Random::operator ()(int i)
+{
+	return static_cast<int>(this->mt_rand() * i);
 }

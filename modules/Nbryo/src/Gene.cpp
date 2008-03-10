@@ -47,13 +47,13 @@ void Gene::mutate()
 	switch (Random::Instance().next_int(Mutable::number_of_properties))
 	{
 		case Mutable::sequence: // mutate the dna sequence of this gene
-			this->sequence.flip(Random::Instance().next_int(this->protein_promoter.size()));
+			this->sequence.flip(Random::Instance().next_int(this->sequence.size()));
 			break;
 		case Mutable::lifespan: // increase/decrease lifespan of proteins
-			if (this->protein_lifespan == 0)
+			if (this->protein_lifespan == 0 || Random::Instance().next() < 0.5)
 				this->protein_lifespan++;
 			else
-				(Random::Instance().next() < 0.5) ? this->protein_lifespan++ : this->protein_lifespan--;
+				this->protein_lifespan--;
 			break;
 		case Mutable::thresholds: // mutates the hormonal thresholds in proteins
 			if (!this->protein_thresholds.empty())

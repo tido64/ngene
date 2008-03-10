@@ -73,9 +73,9 @@ void initiate(const char *parameters)
 		getline(target_phenotype, tmp);
 		Nbryo::boundaries.z = atoi(&tmp[6]);
 
+		int x, y, z, t;
 		while (!target_phenotype.eof())
 		{
-			int x, y, z, t;
 			target_phenotype >> x >> y >> z >> t;
 			Nbryo::target[Coordinates(x, y, z)] = static_cast<CellType::Type>(t);
 		}

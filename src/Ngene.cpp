@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 		}
 		else
 		{
-			printf("Usage: ngene [--config <config file>]\n");
+			printf("Usage: %s [--config <config file>]\n", argv[0]);
 			return 0;
 		}
 	}

@@ -1,12 +1,11 @@
 TARGET = fitness_unsorted
-BIN = ../../bin/modules
+BINDIR = ../../bin/modules
+OBJDIR = ../../obj
+
 CPP = g++
 CFLAGS = -O2 -Wall -iquote../../src/Interfaces
 
 default: $(TARGET).so
 
-$(TARGET).o:
-	$(CPP) -fPIC -c $(TARGET).cpp
-
-$(TARGET).so: $(TARGET).o
-	$(CPP) -shared $(CFLAGS) -o $(BIN)/$(TARGET).so $(TARGET).cpp
+$(TARGET).so:
+	$(CPP) -shared $(CFLAGS) -o $(BINDIR)/$(TARGET).so $(TARGET).cpp
