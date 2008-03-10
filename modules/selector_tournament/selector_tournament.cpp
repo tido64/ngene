@@ -3,7 +3,6 @@
 #include "../../src/Interfaces/Selector.h"
 #include "../../src/Random.h"
 
-
 namespace tournament
 {
 	std::string name;

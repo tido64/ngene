@@ -44,9 +44,7 @@ const void *phenotype(const Genotype &genotype)
 
 void seed(Genotype &genotype)
 {
-	DNA dna (Nbryo::synthesizer->synthesize());
-	for (DNA::const_iterator i = dna.begin(); i != dna.end(); i++)
-		genotype.push_back(*i);
+	Nbryo::synthesizer->synthesize(genotype);
 }
 
 const char *species()

@@ -8,11 +8,8 @@ using std::vector;
 
 Synthesizer::Synthesizer() { }
 
-DNA Synthesizer::synthesize()
+void Synthesizer::synthesize(vector<boost::any> &genotype)
 {
-	DNA dna;
-	dna.reserve(this->config.number_of_genes);
-
 	boost::dynamic_bitset<>
 		sequence (this->config.gene_sequence_length),
 		promoter (this->config.promoter_length);
@@ -25,6 +22,8 @@ DNA Synthesizer::synthesize()
 		parameters;
 
 	const pair<double, double> *stimuli = 0;
+
+	genotype.reserve(this->config.number_of_genes);
 
 	for (unsigned int i = 0; i < this->config.number_of_genes; i++)
 	{
@@ -45,43 +44,44 @@ DNA Synthesizer::synthesize()
 			neighbours[n] = static_cast<CellType::Type>(Random::Instance().next_int(CellType::empty, this->config.number_of_cell_types));
 		random_shuffle(neighbours.begin(), neighbours.end(), Random::Instance());
 
-		dna.push_back(Gene(
+		Gene g = Gene(
 			sequence,
 			protein_type,
 			Random::Instance().next_int(this->config.protein_lifespan),
 			thresholds,
 			neighbours,
-			this->config.number_of_cell_types));
+			this->config.number_of_cell_types);
 
 		switch (protein_type)
 		{
 			case ProteinType::mitotic:
 				stimuli = this->config.get_protein_stimuli(protein_type);
 				generate_protein_parameters(parameters, Direction::number_of_directions, stimuli);
-				dna.rbegin()->ergo_proxy(parameters, stimuli);
+				g.ergo_proxy(parameters, stimuli);
 				break;
 			case ProteinType::regulatory:
 				stimuli = this->config.get_protein_stimuli(protein_type);
 				generate_protein_parameters(parameters, this->config.number_of_hormones, stimuli);
-				dna.rbegin()->ergo_proxy(parameters, stimuli);
+				g.ergo_proxy(parameters, stimuli);
 				break;
 			case ProteinType::speciation:
 				parameters.clear();
 				parameters.push_back(Random::Instance().next_int(this->config.number_of_cell_types));
 				stimuli = this->config.get_protein_stimuli(protein_type);
 				parameters.push_back(Random::Instance().next(stimuli->first, stimuli->second));
-				dna.rbegin()->ergo_proxy(parameters, stimuli);
+				g.ergo_proxy(parameters, stimuli);
 				break;
 			case ProteinType::transcribing:
 				for (unsigned int i = 0; i < this->config.promoter_length; i++)
 					promoter[i] = Random::Instance().next() < 0.5;
-				dna.rbegin()->ergo_proxy(promoter);
+				g.ergo_proxy(promoter);
 				break;
 			default:
 				exit(-1);
 		}
+
+		genotype.push_back(g);
 	}
-	return dna;
 }
 
 void Synthesizer::generate_protein_parameters(vector<double> &parameters, unsigned int n, const pair<double, double> *stimuli)

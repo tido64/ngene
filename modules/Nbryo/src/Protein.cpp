@@ -6,7 +6,7 @@ using std::vector;
 Protein::Protein(const Gene *gene)
 : type(gene->protein_type), lifespan(gene->protein_lifespan), thresholds(gene->protein_thresholds), neighbourhood(gene->protein_neighbourhood)
 {
-	if (!gene->protein_parameters.empty())
+	if (this->type != ProteinType::transcribing)
 		this->parameters = gene->protein_parameters;
 	else
 		this->promoter = gene->protein_promoter;
@@ -76,7 +76,7 @@ Protein &Protein::operator =(const Protein &p)
 	this->thresholds = p.thresholds;
 	this->neighbourhood = p.neighbourhood;
 	
-	if (!p.parameters.empty())
+	if (this->type != ProteinType::transcribing)
 		this->parameters = p.parameters;
 	else
 		this->promoter = p.promoter;
