@@ -1,4 +1,3 @@
-#include <string>
 #include <vector>
 #include <wx/arrstr.h>
 #include <wx/choice.h>
@@ -12,12 +11,11 @@ class ConfigModules : public wxPanel
 {
 public:
 	ConfigModules(wxWindow *parent);
+	const char *configuration();
 
 private:
 	std::vector<wxChoice *> modules;
 	std::vector<wxTextCtrl *> module_parameters;
-	wxBoxSizer *border;
-	wxFlexGridSizer *layout;
 
 	void find_modules();
 };

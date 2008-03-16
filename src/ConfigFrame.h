@@ -1,9 +1,10 @@
 #include <wx/filedlg.h>
 #include <wx/frame.h>
-#include <wx/menu.h>
-#include <wx/notebook.h>
+#include <wx/statline.h>
+#include <wx/toolbar.h>
 
 #include "ConfigGeneral.h"
+#include "ConfigIO.h"
 #include "ConfigModules.h"
 
 class ConfigFrame : public wxFrame
@@ -16,6 +17,9 @@ public:
 	void OnMenuFileOpen(wxCommandEvent &event);
 
 	/// Processes menu File|Save
+	void OnMenuFileSave(wxCommandEvent &event);
+
+	/// Processes menu File|Save as
 	void OnMenuFileSaveAs(wxCommandEvent &event);
 
 	/// Processes menu File|Quit
@@ -26,8 +30,6 @@ protected:
 
 private:
 	ConfigGeneral *general;
-	wxBoxSizer *sizer;
-	wxMenu *filemenu;
-	wxMenuBar *menubar;
-	wxNotebook *notebook;
+	ConfigModules *modules;
+	std::string curr_conf;
 };

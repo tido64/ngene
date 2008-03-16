@@ -10,12 +10,10 @@ class ConfigGeneral : public wxPanel
 {
 public:
 	ConfigGeneral(wxWindow *parent);
-	const std::string configuration();
+	const char *configuration();
 
 private:
-	wxBoxSizer *border;
 	wxCheckBox *elitism;
-	wxFlexGridSizer *layout;
 	wxSpinCtrl
 		*capacity,
 		*doomsday,
