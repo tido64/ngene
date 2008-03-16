@@ -3,20 +3,31 @@
 ConfigModules::ConfigModules(wxWindow *parent)
 : wxPanel(parent), modules(Module::number_of_types, 0), module_parameters(Module::number_of_types, 0)
 {
-	this->layout = new wxFlexGridSizer(6, 2, 4, 8);
-	this->layout->Add(new wxStaticText(this, -1, wxT("Module")));
-	this->layout->Add(new wxStaticText(this, -1, wxT("Parameter(s)")));
+	wxFlexGridSizer *layout = new wxFlexGridSizer(8, 2, 4, 8);
+	layout->SetFlexibleDirection(wxHORIZONTAL);
+	layout->Add(new wxStaticText(this, -1, wxT("Module")), 0, wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
+	layout->Add(new wxStaticText(this, -1, wxT("Parameter(s)")), 0, wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
 
 	find_modules();
 	for (int i = 0; i < Module::number_of_types; i++)
 	{
-		this->layout->Add(this->modules[static_cast<Module::Type>(i)]);
-		this->layout->Add(this->module_parameters[static_cast<Module::Type>(i)]);
+		layout->Add(this->modules[static_cast<Module::Type>(i)]);
+		layout->Add(this->module_parameters[static_cast<Module::Type>(i)]);
 	}
 
-	this->border = new wxBoxSizer(wxVERTICAL);
-	this->border->Add(this->layout, 0, wxEXPAND | wxALL, 5);
-	SetSizer(this->border);
+	// filler
+	layout->Add(new wxStaticText(this, -1, wxEmptyString), 0);
+	layout->Add(new wxStaticText(this, -1, wxEmptyString), 0);
+	layout->Add(new wxStaticText(this, -1, wxEmptyString), 0);
+
+	wxBoxSizer *border = new wxBoxSizer(wxVERTICAL);
+	border->Add(layout, 0, wxEXPAND | wxALL, 5);
+	SetSizer(border);
+}
+
+const char *ConfigModules::configuration()
+{
+	return "";
 }
 
 void ConfigModules::find_modules()
