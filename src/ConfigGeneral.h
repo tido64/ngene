@@ -10,7 +10,7 @@ class ConfigGeneral : public wxPanel
 {
 public:
 	ConfigGeneral(wxWindow *parent);
-	const char *configuration();
+	const std::string configuration();
 
 private:
 	wxCheckBox *elitism;

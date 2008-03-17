@@ -46,7 +46,7 @@ void ConfigFrame::OnMenuFileOpen(wxCommandEvent &event)
 
 void ConfigFrame::OnMenuFileSave(wxCommandEvent &event)
 {
-	ConfigIO::write(this->curr_conf.c_str(), this->general->configuration(), this->modules->configuration());
+	ConfigIO::write(this->curr_conf.c_str(), this->general->configuration().c_str(), this->modules->configuration().c_str());
 	SetStatusText(wxT("Saved to ") + wxString::FromAscii(this->curr_conf.c_str()));
 }
 

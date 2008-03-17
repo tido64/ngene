@@ -51,7 +51,7 @@ ConfigGeneral::ConfigGeneral(wxWindow *parent) : wxPanel(parent)
 	Connect(this->lifespan->GetId(), wxEVT_COMMAND_SPINCTRL_UPDATED, wxCommandEventHandler(ConfigGeneral::toggle_prodigy));
 }
 
-const char *ConfigGeneral::configuration()
+const string ConfigGeneral::configuration()
 {
 	stringstream c;
 	c	<< this->capacity->GetValue() << "\t\t# adult pool capacity\n"
@@ -62,7 +62,7 @@ const char *ConfigGeneral::configuration()
 		<< this->prodigies->GetValue() << "\t\t# max prodigies\n"
 		<< this->mutation_rate->GetValue() << "\t\t# mutation rate\n"
 		<< this->offspring_rate->GetValue() << "\t\t# offspring rate\n";
-	return c.str().c_str();
+	return c.str();
 }
 
 void ConfigGeneral::toggle_prodigy(wxCommandEvent &event)
