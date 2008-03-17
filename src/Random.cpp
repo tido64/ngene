@@ -1,8 +1,8 @@
 #include "Random.h"
 
 Random::Random()
-//: mersenne_twister(time(0)), mt_rand(mersenne_twister)
-: mersenne_twister(time(0)), uniform_real_dist(0, 1), mt_rand(mersenne_twister, uniform_real_dist)
+//: mersenne_twister(static_cast<boost::uint32_t>(time(0))), mt_rand(mersenne_twister)
+: mersenne_twister(static_cast<boost::uint32_t>(time(0))), uniform_real_dist(0, 1), mt_rand(mersenne_twister, uniform_real_dist)
 { }
 
 Random &Random::Instance()

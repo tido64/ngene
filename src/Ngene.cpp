@@ -1,7 +1,5 @@
 #include "Ngene.h"
 
-//#define __DEBUG_MODE
-
 using std::vector;
 
 const char *NGENE_VERSION = "0.1 (build/20080310)";
@@ -12,10 +10,7 @@ int main(int argc, char *argv[])
 	if (argc > 1)
 	{
 		if (strcmp(argv[1], "--config") == 0)
-		{
-			printf("Starting Ngene v%s\n  * Running with configuration file: %s\n\nPreparing the environment:\n", NGENE_VERSION, argv[2]);
 			config_manager = new ConfigManager(argv[2]);
-		}
 		else
 		{
 			printf("Usage: %s [--config <config file>]\n", argv[0]);
@@ -23,38 +18,21 @@ int main(int argc, char *argv[])
 		}
 	}
 	else
-	{
-		printf("Starting Ngene v%s\n\nPreparing the environment:\n", NGENE_VERSION);
 		config_manager = new ConfigManager("ngene.conf");
-	}
 
-#ifdef __DEBUG_MODE
-	printf("[Ngene.cpp] Loading configuration ... ");
-#endif
+	printf("Starting Ngene v%s\n\nPreparing the environment:\n", NGENE_VERSION);
 
 	// Load configuration
 	const Config config = config_manager->parse();
 	delete config_manager;
 	config_manager = 0;
 
-#ifdef __DEBUG_MODE
-	printf("done!\n[Ngene.cpp] Loading plugins ... ");
-#endif
-
 	// Load all plugins
 	PluginManager module (config);
-
-#ifdef __DEBUG_MODE
-	printf("done!\n[Ngene.cpp] Initializing logger ... \n");
-#endif
 
 	// Initialize logging
 	Logger logger;
 	logger.log(config, module.modules);
-
-#ifdef __DEBUG_MODE
-	printf("[Ngene.cpp] Logger initialized!\n[Ngene.cpp] Initiating program and initial population ... ");
-#endif
 
 	double
 		population_fitness = 0,		///< The population's accumulated fitness
@@ -80,18 +58,10 @@ int main(int argc, char *argv[])
 	mates.reserve(config.adult_pool_capacity);
 	module.seed = 0;
 
-#ifdef __DEBUG_MODE
-	printf("done!\n\n");
-#endif
-
 	printf("Evolution started: %i generations shall live and prosper!\n\n", config.doomsday);
 
 	logger.log(1, adults->rbegin()->fitness, population_fitness / adults->size(), adults->begin()->fitness);
 	ticks = clock();
-
-#ifdef __DEBUG_MODE
-	printf("[Ngene.cpp] Starting genetic algorithm\n");
-#endif
 
 	// Commence evolution
 	for (unsigned int generation = 2; generation <= config.doomsday; generation++)
@@ -165,7 +135,8 @@ int main(int argc, char *argv[])
 			// Replace lower citizens with prodigies
 			if (config.max_prodigies > 0)
 			{
-				for (unsigned int i = 0; i < (config.max_prodigies > offspring->size()) ? Random::Instance().next_int(offspring->size()) : Random::Instance().next_int(config.max_prodigies); i++)
+				unsigned int prodigies = (config.max_prodigies > offspring->size()) ? Random::Instance().next_int(offspring->size()) : Random::Instance().next_int(config.max_prodigies);
+				for (unsigned int i = 0; i < prodigies; i++)
 				{
 					module.select(iter_tmp, *offspring, generation);
 					adults->erase(--adults->end());

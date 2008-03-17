@@ -3,7 +3,7 @@
 Logger::Logger() : plotter(0)
 {
 #if WIN32
-	if (mkdir("logs") == - 1 && errno != EEXIST)
+	if (_mkdir("logs") == - 1 && errno != EEXIST)
 #else
 	if (mkdir("logs", 0775) == -1 && errno != EEXIST)
 #endif

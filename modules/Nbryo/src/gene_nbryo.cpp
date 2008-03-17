@@ -29,7 +29,7 @@ void initiate(const char *parameters)
 	Nbryo::synthesizer = new Synthesizer();
 }
 
-const void *phenotype(const Genotype &genotype)
+void *phenotype(const Genotype &genotype)
 {
 	DNA dna;
 	for (Genotype::const_iterator i = genotype.begin(); i != genotype.end(); i++)
@@ -39,7 +39,8 @@ const void *phenotype(const Genotype &genotype)
 	for (unsigned int i = 0; i < Nbryo::ticks; i++)
 		o.increment_tick();
 
-	return o.get_phenotype();
+	void *ptr = new map<Coordinates, CellType::Type>(o.get_phenotype());
+	return ptr;
 }
 
 void seed(Genotype &genotype)

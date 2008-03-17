@@ -24,7 +24,7 @@ using std::stringstream;
 void assess(Specimen &individual)
 {
 	const map<Coordinates, CellType::Type> *phenotype
-		= (const map<Coordinates, CellType::Type> *)Ngene::phenotype(individual.genotype);
+		= static_cast<map<Coordinates, CellType::Type> *>(Ngene::phenotype(individual.genotype));
 
 	Coordinates check;
 	map<Coordinates, CellType::Type>::const_iterator a, b;
@@ -55,15 +55,12 @@ void assess(Specimen &individual)
 
 void initiate(const char *parameters)
 {
-	stringstream config (parameters);
-	config >> Nbryo::name;
-
-	ifstream target_phenotype (Nbryo::name.c_str());
+	ifstream target_phenotype (parameters);
 	if (target_phenotype.is_open())
 	{
-		config.clear();
-		config << "Nbryo fitness module (target=" << Nbryo::name << ")";
-		Nbryo::name = config.str();
+		Nbryo::name = "Nbryo fitness module (target=";
+		Nbryo::name += parameters;
+		Nbryo::name += ")";
 
 		string tmp;
 		getline(target_phenotype, tmp);
@@ -80,6 +77,11 @@ void initiate(const char *parameters)
 			Nbryo::target[Coordinates(x, y, z)] = static_cast<CellType::Type>(t);
 		}
 		target_phenotype.close();
+	}
+	else
+	{
+		printf("  * Failed to open target phenotype: %s\n", parameters);
+		exit(-1);
 	}
 }
 
