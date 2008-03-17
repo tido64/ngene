@@ -8,8 +8,6 @@
 #ifndef ORGANISM
 #define ORGANISM
 
-//#define CELL_OVERWRITE	///< Enables cell overwriting algorithm
-
 #include <map>
 #include <sstream>
 #include "Cell.h"
@@ -32,7 +30,7 @@ public:
 	/// Returns the type of cell occupied in given coordinates.
 	CellType::Type get_cell(const Coordinates &c);
 
-	const std::map<Coordinates, CellType::Type> *get_phenotype();
+	const std::map<Coordinates, CellType::Type> &get_phenotype();
 
 	/// Fires a tick event. Currently, the cells are notified in the order
 	/// of their creation instead of "simultaneously".

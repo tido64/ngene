@@ -38,7 +38,7 @@ CellType::Type Organism::get_cell(const Coordinates &c)
 
 void Organism::increment_tick()
 {
-	// This algorithm prevents newly added/removed cells from ever being noticed of a tick
+	// This algorithm prevents newly added/removed cells from being noticed of a tick
 	this->working_cells.clear();
 	for (map<Coordinates, Cell *>::iterator i = this->cells.begin(); i != this->cells.end(); i++)
 		this->working_cells[i->first] = true;
@@ -47,9 +47,9 @@ void Organism::increment_tick()
 			this->cells[i->first]->increment_tick();
 }
 
-const map<Coordinates, CellType::Type> *Organism::get_phenotype()
+const map<Coordinates, CellType::Type> &Organism::get_phenotype()
 {
-	return new map<Coordinates, CellType::Type>(this->phenotype);
+	return this->phenotype;
 }
 
 void Organism::remove_cell(const Coordinates &c)

@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="mating_one-point-crossover"
-	ProjectGUID="{6DDE3C2D-2D1F-4E14-81A0-79F7A397B29A}"
-	RootNamespace="mating_onepointcrossover"
+	Name="selector_tournament"
+	ProjectGUID="{FC219E7D-4CBE-4C21-95BC-A8194BEBEFD0}"
+	RootNamespace="selector_tournament"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -61,7 +61,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\include\libboost_filesystem-vc80-mt-sgd-1_34_1.lib"
 				OutputFile="..\..\bin\modules\$(ProjectName).dll"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
@@ -122,7 +121,7 @@
 				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories="..\..\libs"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -139,7 +138,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\include\libboost_filesystem-vc80-mt-s-1_34_1.lib"
 				OutputFile="..\..\bin\modules\$(ProjectName).dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
@@ -147,6 +145,8 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				ImportLibrary="$(IntDir)\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -181,11 +181,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\modules\mating_one-point-crossover\mating_one-point-crossover.cpp"
+				RelativePath="..\..\src\Random.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Random.cpp"
+				RelativePath="..\..\modules\selector_tournament\selector_tournament.cpp"
 				>
 			</File>
 		</Filter>

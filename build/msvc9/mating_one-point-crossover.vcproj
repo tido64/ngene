@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="fitness_nbryo"
-	ProjectGUID="{6AE2CE76-B89E-4E52-B6BF-542DB4E50D07}"
-	RootNamespace="fitness_nbryo"
+	Name="mating_one-point-crossover"
+	ProjectGUID="{6DDE3C2D-2D1F-4E14-81A0-79F7A397B29A}"
+	RootNamespace="mating_onepointcrossover"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\..\..\bin\modules"
+			OutputDirectory="..\..\bin\$(ConfigurationName)"
 			IntermediateDirectory="..\..\obj\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
@@ -41,8 +41,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\libs"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;FITNESS_NBRYO_EXPORTS"
+				AdditionalIncludeDirectories="..\..\libs"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="..\..\..\..\bin\modules\$(ProjectName).dll"
+				OutputFile="..\..\bin\modules\$(ProjectName).dll"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)\$(TargetName).pdb"
@@ -93,7 +93,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\..\..\bin\modules"
+			OutputDirectory="..\..\bin\$(ConfigurationName)"
 			IntermediateDirectory="..\..\obj\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
@@ -118,9 +118,10 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\..\..\..\libs"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;FITNESS_NBRYO_EXPORTS"
-				RuntimeLibrary="2"
+				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories="..\..\libs"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -137,13 +138,14 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="..\..\..\..\bin\modules\$(ProjectName).dll"
+				OutputFile="..\..\bin\modules\$(ProjectName).dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)\$(TargetName).pdb"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
 				ImportLibrary="$(IntDir)\$(TargetName).lib"
 				TargetMachine="1"
 			/>
@@ -179,11 +181,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\src\Coordinates.cpp"
+				RelativePath="..\..\modules\mating_one-point-crossover\mating_one-point-crossover.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\fitness_nbryo.cpp"
+				RelativePath="..\..\src\Random.cpp"
 				>
 			</File>
 		</Filter>
@@ -193,11 +195,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\src\CellType.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Coordinates.h"
+				RelativePath="..\..\src\Random.h"
 				>
 			</File>
 		</Filter>

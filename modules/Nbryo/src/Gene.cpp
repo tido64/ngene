@@ -4,7 +4,7 @@ using std::pair;
 using std::vector;
 
 Gene::Gene(const Gene &gene)
-: sequence(gene.sequence), protein_type(gene.protein_type), protein_lifespan(gene.protein_lifespan), protein_thresholds(gene.protein_thresholds), protein_neighbourhood(gene.protein_neighbourhood), number_of_cell_types(gene.number_of_cell_types)
+: number_of_cell_types(gene.number_of_cell_types), sequence(gene.sequence), protein_type(gene.protein_type), protein_lifespan(gene.protein_lifespan), protein_thresholds(gene.protein_thresholds), protein_neighbourhood(gene.protein_neighbourhood)
 {
 	if (this->protein_type != ProteinType::transcribing)
 	{
@@ -22,7 +22,7 @@ Gene::Gene(
 	const vector<double> &th,
 	const vector<CellType::Type> &n,
 	const unsigned int no)
-: sequence(s), protein_type(t), protein_lifespan(l), protein_thresholds(th), protein_neighbourhood(n), number_of_cell_types(no)
+: number_of_cell_types(no), sequence(s), protein_type(t), protein_lifespan(l), protein_thresholds(th), protein_neighbourhood(n)
 { }
 
 void Gene::ergo_proxy(const boost::dynamic_bitset<> &p)

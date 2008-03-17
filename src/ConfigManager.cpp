@@ -68,11 +68,7 @@ string ConfigManager::get_conf()
 
 bool ConfigManager::is_true(const string &b)
 {
-	if (b[0] == '1'
-		|| ((b[0] == 'T' || b[0] == 't')
-			&& (b[1] == 'R' || b[1] == 'r')
-			&& (b[2] == 'U' || b[2] == 'u')
-			&& (b[3] == 'E' || b[3] == 'e')))
+	if (b[0] == '1' || ((b[0] == 'T' || b[0] == 't') && (b[1] == 'R' || b[1] == 'r') && (b[2] == 'U' || b[2] == 'u') && (b[3] == 'E' || b[3] == 'e')))
 		return true;
 	else
 		return false;
