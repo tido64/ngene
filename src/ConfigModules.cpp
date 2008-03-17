@@ -1,5 +1,8 @@
 #include "ConfigModules.h"
 
+using std::string;
+using std::stringstream;
+
 ConfigModules::ConfigModules(wxWindow *parent)
 : wxPanel(parent), modules(Module::number_of_types, 0), module_parameters(Module::number_of_types, 0)
 {
@@ -25,9 +28,29 @@ ConfigModules::ConfigModules(wxWindow *parent)
 	SetSizer(border);
 }
 
-const char *ConfigModules::configuration()
+const string ConfigModules::configuration()
 {
-	return "";
+	stringstream m;
+	m	<< "# gene module\n"
+		<< this->modules[Module::gene]->GetStringSelection().ToAscii() << '\n'
+		<< this->module_parameters[Module::gene]->GetValue().ToAscii() << '\n'
+		<< '\n'
+		<< "# fitness module\n"
+		<< this->modules[Module::fitness]->GetStringSelection().ToAscii() << '\n'
+		<< this->module_parameters[Module::fitness]->GetValue().ToAscii() << '\n'
+		<< '\n'
+		<< "# mating module\n"
+		<< this->modules[Module::mating]->GetStringSelection().ToAscii() << '\n'
+		<< this->module_parameters[Module::mating]->GetValue().ToAscii() << '\n'
+		<< '\n'
+		<< "# mutator module\n"
+		<< this->modules[Module::mutator]->GetStringSelection().ToAscii() << '\n'
+		<< this->module_parameters[Module::mutator]->GetValue().ToAscii() << '\n'
+		<< '\n'
+		<< "# selector module\n"
+		<< this->modules[Module::selector]->GetStringSelection().ToAscii() << '\n'
+		<< this->module_parameters[Module::selector]->GetValue().ToAscii() << '\n';
+	return m.str().c_str();
 }
 
 void ConfigModules::find_modules()
