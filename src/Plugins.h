@@ -7,7 +7,7 @@
 typedef void (*Fitness)(Specimen &);
 
 /// A pointer to \ref Genotype.h::phenotype.
-typedef void *(*Phenotype)(const Genotype &);
+typedef void (*Phenotype)(boost::any &phenotype, const Genotype &);
 
 /// A pointer to \ref Genotype.h::seed.
 typedef void (*GenerateGenotype)(Genotype &);

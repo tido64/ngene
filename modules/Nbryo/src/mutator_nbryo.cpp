@@ -13,7 +13,7 @@ void mutate(Genotype &genotype)
 			genotype.erase(genotype.begin() + Random::Instance().next_int(genotype.size()));
 	}
 	else // mutate a random property
-		boost::unsafe_any_cast<Gene>(&genotype[0])->mutate();
+		boost::unsafe_any_cast<Gene>(&genotype[Random::Instance().next_int(genotype.size())])->mutate();
 }
 
 const char *name()

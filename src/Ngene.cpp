@@ -1,8 +1,11 @@
 #include "Ngene.h"
 
+using std::max_element;
+using std::min_element;
+using std::sort;
 using std::vector;
 
-const char *NGENE_VERSION = "0.1 (build/20080310)";
+const char *NGENE_VERSION = "0.1 (build/20080320)";
 
 int main(int argc, char *argv[])
 {
@@ -36,6 +39,8 @@ int main(int argc, char *argv[])
 
 	double
 		population_fitness = 0,		///< The population's accumulated fitness
+		population_max = 0,			///< The population's max fitness
+		population_min = 0,			///< The population's min fitness
 		ticks;						///< Number of ticks elapsed since the beginning of execution
 	Population
 		*adults = new Population(),	///< The adult population
@@ -44,23 +49,30 @@ int main(int argc, char *argv[])
 		iter_tmp;					///< A temporary iterator/pointer to an individual
 	vector<Population::iterator>
 		mates;
+	adults->reserve(config.adult_pool_capacity);
+	mates.reserve(config.adult_pool_capacity);
 
 	// Prepare the initial population
+	Specimen specimen;
+	specimen.age = 1;
 	for (unsigned int i = 0; i < config.adult_pool_capacity; i++)
 	{
-		Specimen specimen;
-		specimen.age = 1;
+		specimen.genotype.clear();
 		module.seed(specimen.genotype);
 		module.assess_fitness(specimen);
+		adults->push_back(specimen);
+
+		if (specimen.fitness > population_max)
+			population_max = specimen.fitness;
+		else if (specimen.fitness < population_min)
+			population_min = specimen.fitness;
 		population_fitness += specimen.fitness;
-		adults->insert(specimen);
 	}
-	mates.reserve(config.adult_pool_capacity);
 	module.seed = 0;
 
 	printf("Evolution started: %i generations shall live and prosper!\n\n", config.doomsday);
 
-	logger.log(1, adults->rbegin()->fitness, population_fitness / adults->size(), adults->begin()->fitness);
+	logger.log(1, population_min, population_fitness / adults->size(), population_max);
 	ticks = clock();
 
 	// Commence evolution
@@ -70,6 +82,7 @@ int main(int argc, char *argv[])
 		if (mates.size() < 2)
 			mates.assign(2, adults->begin());
 		offspring = new Population();
+		offspring->reserve(config.offspring_rate);
 		// The following loop has multithreading potential. Exploit!
 		while (offspring->size() < config.offspring_rate)
 		{
@@ -87,31 +100,23 @@ int main(int argc, char *argv[])
 					if (Random::Instance().next() <= config.mutation_rate)
 						module.mutate(fetus->genotype);
 					module.assess_fitness(*fetus);
-					offspring->insert(*fetus);
+					offspring->push_back(*fetus);
 				}
 			}
 		}
 
-		if (config.lifespan < 2) // replace the adults with offspring
+		if (config.lifespan < 2) // replace the adult population with its offspring
 		{
 			if (config.elitism)
 			{
-				offspring->erase(--offspring->end());
-				offspring->insert(*adults->begin());
+				offspring->erase(min_element(offspring->begin(), offspring->end()));
+				offspring->push_back(*max_element(adults->begin(), adults->end()));
 			}
 			delete adults;
 			adults = offspring;
 		}
 		else // age the adult pool and replace offspring with old adults
 		{
-			mates.clear();
-			for (Population::iterator i = --adults->end(); i != adults->begin(); i--)
-			{
-				if(i->age >= config.lifespan)
-					mates.push_back(i);
-				else
-					i->age++;
-			}
 			if (!config.elitism)
 			{
 				iter_tmp = adults->begin();
@@ -120,14 +125,25 @@ int main(int argc, char *argv[])
 				else
 					iter_tmp->age++;
 			}
+			else
+				sort(adults->begin(), adults->end());
+			mates.clear();
+			for (Population::iterator i = --adults->end(); i != adults->begin(); i--)
+			{
+				if(i->age >= config.lifespan)
+					mates.push_back(i);
+				else
+					i->age++;
+			}
 			if (mates.size() > 0)
 			{
 				for (vector<Population::iterator>::iterator i = mates.begin(); i != mates.end(); i++)
 					adults->erase(*i);
-				for (unsigned int i = adults->size(); i != config.adult_pool_capacity; i++)
+				for (unsigned int i = adults->size(); i < config.adult_pool_capacity; i++)
 				{
 					module.select(iter_tmp, *offspring, generation);
-					adults->insert(*iter_tmp)->age = 1;
+					adults->push_back(*iter_tmp);
+					(--adults->end())->age = 1;
 					offspring->erase(iter_tmp);
 				}
 			}
@@ -136,11 +152,13 @@ int main(int argc, char *argv[])
 			if (config.max_prodigies > 0)
 			{
 				unsigned int prodigies = (config.max_prodigies > offspring->size()) ? Random::Instance().next_int(offspring->size()) : Random::Instance().next_int(config.max_prodigies);
+				sort(adults->begin(), adults->end());
 				for (unsigned int i = 0; i < prodigies; i++)
 				{
 					module.select(iter_tmp, *offspring, generation);
 					adults->erase(--adults->end());
-					adults->insert(*iter_tmp)->age = 1;
+					adults->push_back(*iter_tmp);
+					(--adults->end())->age = 1;
 					offspring->erase(iter_tmp);
 				}
 			}
@@ -150,8 +168,14 @@ int main(int argc, char *argv[])
 		// Gather statistics
 		population_fitness = 0;
 		for (Population::iterator i = adults->begin(); i != adults->end(); i++)
+		{
+			if (specimen.fitness > population_max)
+				population_max = specimen.fitness;
+			else if (specimen.fitness < population_min)
+				population_min = specimen.fitness;
 			population_fitness += i->fitness;
-		logger.log(generation, adults->rbegin()->fitness, population_fitness / adults->size(), adults->begin()->fitness);
+		}
+		logger.log(generation, population_min, population_fitness / adults->size(), population_max);
 	}
 	ticks = clock() - ticks;
 	logger.log(adults, &module.genotype_to_str);

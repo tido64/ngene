@@ -29,7 +29,7 @@ void initiate(const char *parameters)
 	Nbryo::synthesizer = new Synthesizer();
 }
 
-void *phenotype(const Genotype &genotype)
+void phenotype(boost::any &phenotype, const Genotype &genotype)
 {
 	DNA dna;
 	for (Genotype::const_iterator i = genotype.begin(); i != genotype.end(); i++)
@@ -39,8 +39,7 @@ void *phenotype(const Genotype &genotype)
 	for (unsigned int i = 0; i < Nbryo::ticks; i++)
 		o.increment_tick();
 
-	void *ptr = new map<Coordinates, CellType::Type>(o.get_phenotype());
-	return ptr;
+	phenotype = o.get_phenotype();
 }
 
 void seed(Genotype &genotype)
@@ -55,15 +54,16 @@ const char *species()
 
 const char *str(const Genotype &genotype)
 {
-	const map<Coordinates, CellType::Type> *organism
-		= (const map<Coordinates, CellType::Type> *)phenotype(genotype);
+	boost::any phenotype_container;
+	phenotype(phenotype_container, genotype);
+	map<Coordinates, CellType::Type>
+		organism (*boost::unsafe_any_cast<map<Coordinates, CellType::Type> >(&phenotype_container));
 
 	stringstream o;
-	for (map<Coordinates, CellType::Type>::const_iterator i = organism->begin(); i != organism->end(); i++)
+	for (map<Coordinates, CellType::Type>::const_iterator i = organism.begin(); i != organism.end(); i++)
 		o << i->first.x << " " << i->first.y << " " << i->first.z << " " << i->second << "\n";
 	Nbryo::name = o.str();
 
-	delete organism;
 	delete Nbryo::synthesizer;
 	return Nbryo::name.c_str();
 }

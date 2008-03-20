@@ -18,7 +18,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="..\..\..\..\bin\modules"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="..\..\obj\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
 			>
@@ -44,7 +44,7 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;NBRYO_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
@@ -65,6 +65,7 @@
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)\$(TargetName).pdb"
 				SubSystem="2"
+				ImportLibrary="$(IntDir)\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -95,7 +96,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="..\..\..\..\bin\modules"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="..\..\obj\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -119,7 +120,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\libs"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;NBRYO_EXPORTS"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
@@ -142,6 +143,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				ImportLibrary="$(IntDir)\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -215,7 +217,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Random.cpp"
+				RelativePath="..\..\..\..\src\Random.cpp"
 				>
 			</File>
 			<File
@@ -285,7 +287,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Random.h"
+				RelativePath="..\..\..\..\src\Random.h"
 				>
 			</File>
 			<File
