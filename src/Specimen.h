@@ -3,7 +3,6 @@
 #ifndef SPECIMEN_INTERFACE
 #define SPECIMEN_INTERFACE
 
-#include <set>
 #include <vector>
 #include <boost/any.hpp>
 
@@ -24,7 +23,6 @@ public:
 	}
 };
 
-//typedef std::vector<Specimen> Population;
-typedef std::multiset<Specimen> Population;
+typedef std::vector<Specimen> Population;
 
 #endif

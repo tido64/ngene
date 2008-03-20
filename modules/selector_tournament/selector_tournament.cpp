@@ -1,4 +1,5 @@
 #include <cmath>
+#include <set>
 #include <sstream>
 #include "../../src/Interfaces/Selector.h"
 #include "../../src/Random.h"
@@ -9,7 +10,6 @@ namespace tournament
 	unsigned int k;
 	double p;
 }
-
 
 using std::set;
 using std::string;
@@ -32,13 +32,11 @@ void gene_select(Population::iterator &champ, Population &candidates, int genera
 		selection.insert(Random::Instance().next_int(candidates.size()));
 
 	int counter = 0;
-	champ = candidates.begin();
 	for (set<int>::iterator i = selection.begin(); i != selection.end(); i++)
 	{
 		if (Random::Instance().next() <= tournament::p * pow(1.0 - tournament::p, counter++))
 		{
-			for (int j = 0; j < *i; j++)
-				champ++;
+			champ = candidates.begin() + *i;
 			return;
 		}
 	}

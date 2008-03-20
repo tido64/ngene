@@ -17,7 +17,7 @@ extern "C"
 	/// Returns the phenotype of given genotype.
 	/// \param[out]	phenotype	The phenotype returned
 	/// \param		genotype	The genotype of the wanted phenotype
-	void GENOTYPE_INTERFACE *phenotype(const Genotype &genotype);
+	void GENOTYPE_INTERFACE phenotype(boost::any &phenotype, const Genotype &genotype);
 
 	/// Generates a random genotype.
 	/// \param[out] genotype The newly generated genotype

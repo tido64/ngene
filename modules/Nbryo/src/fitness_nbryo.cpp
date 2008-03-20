@@ -8,26 +8,28 @@
 #include "CellType.h"
 #include "Coordinates.h"
 
+typedef std::map<Coordinates, CellType::Type> CellMap;
+
 namespace Nbryo
 {
 	Coordinates boundaries;
-	std::map<Coordinates, CellType::Type> target;
+	CellMap target;
 	std::string name;
 }
 
 using std::ifstream;
 using std::getline;
-using std::map;
 using std::string;
 using std::stringstream;
 
 void assess(Specimen &individual)
 {
-	const map<Coordinates, CellType::Type> *phenotype
-		= static_cast<map<Coordinates, CellType::Type> *>(Ngene::phenotype(individual.genotype));
+	boost::any phenotype_container;
+	Ngene::phenotype(phenotype_container, individual.genotype);
+	CellMap phenotype (*boost::unsafe_any_cast<CellMap>(&phenotype_container));
 
 	Coordinates check;
-	map<Coordinates, CellType::Type>::const_iterator a, b;
+	CellMap::const_iterator a, b;
 
 	int points = 0;
 	for (int z = 0; z < Nbryo::boundaries.z; z++)
@@ -39,18 +41,17 @@ void assess(Specimen &individual)
 			for (int x = 0; x < Nbryo::boundaries.x; x++)
 			{
 				check.x = x;
-				a = phenotype->find(check);
+				a = phenotype.find(check);
 				b = Nbryo::target.find(check);
 
-				if (a != phenotype->end() && b != Nbryo::target.end())
+				if (a != phenotype.end() && b != Nbryo::target.end())
 					points += (a->second == b->second) ? 2 : 1;
-				else if (a == phenotype->end() && b == Nbryo::target.end())
+				else if (a == phenotype.end() && b == Nbryo::target.end())
 					points += 2;
 			}
 		}
 	}
-	individual.fitness = points <= 0 ? 0 : static_cast<double>(points) / static_cast<double>(Nbryo::boundaries.x * Nbryo::boundaries.y * Nbryo::boundaries.z * 2);
-	delete phenotype;
+	individual.fitness = (points <= 0) ? 0 : static_cast<double>(points) / static_cast<double>(Nbryo::boundaries.x * Nbryo::boundaries.y * Nbryo::boundaries.z * 2);
 }
 
 void initiate(const char *parameters)
