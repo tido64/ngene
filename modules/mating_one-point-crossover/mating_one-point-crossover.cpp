@@ -5,17 +5,16 @@ void initiate(const char *parameters) { }
 
 void mate(std::vector<Specimen> &children, const Specimen &parentA, const Specimen &parentB)
 {
-	unsigned int
-		size = (parentB.genotype.size() > parentA.genotype.size() ? parentA.genotype.size() - 1 : parentB.genotype.size() - 1) + 1,
-		split = Random::Instance().next_int(size);
+	unsigned int split = Random::Instance().next_int((parentA.genotype.size() < parentB.genotype.size())
+		? parentA.genotype.size() - 1 : parentB.genotype.size() - 1) + 1;
 
-	children[0].genotype = parentB.genotype;
-	children[1].genotype = parentA.genotype;
-	for (unsigned int i = 0; i < split; i++)
-	{
-		children[0].genotype[i] = parentA.genotype[i];
-		children[1].genotype[i] = parentB.genotype[i];
-	}
+	children[0].genotype.reserve(parentB.genotype.size());
+	children[0].genotype.assign(parentA.genotype.begin(), parentA.genotype.begin() + split);
+	children[0].genotype.insert(children[0].genotype.end(), parentB.genotype.begin() + split, parentB.genotype.end());
+
+	children[1].genotype.reserve(parentA.genotype.size());
+	children[1].genotype.assign(parentB.genotype.begin(), parentB.genotype.begin() + split);
+	children[1].genotype.insert(children[1].genotype.end(), parentA.genotype.begin() + split, parentA.genotype.end());
 }
 
 const char *name()

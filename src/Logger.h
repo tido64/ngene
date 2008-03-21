@@ -41,9 +41,9 @@ public:
 	/// Towards the end of a run, another file is created to output the
 	/// solutions found. In the current implementation, only the best is
 	/// actually written to file.
-	/// \param population The population of the last generation
+	/// \param best The best speicmen in the population
 	/// \param genotype_to_str A pointer to a function that converts a genotype to string
-	void log(const Population *population, GenotypeToStr *genotype_to_str);
+	void log(const Specimen &best, GenotypeToStr *genotype_to_str);
 
 	/// Logs the time used for this run.
 	/// \param ticks The ticks accumulated for this run.
