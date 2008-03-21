@@ -40,6 +40,7 @@ void gene_select(Population::iterator &champ, Population &candidates, int genera
 			return;
 		}
 	}
+	champ = best_specimen(candidates.begin(), candidates.end());
 }
 
 const char *name()

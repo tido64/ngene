@@ -1,11 +1,9 @@
 #include "Ngene.h"
 
-using std::max_element;
-using std::min_element;
 using std::sort;
 using std::vector;
 
-const char *NGENE_VERSION = "0.1 (build/20080320)";
+const char *NGENE_VERSION = "0.1 (build/20080321)";
 
 int main(int argc, char *argv[])
 {
@@ -40,17 +38,18 @@ int main(int argc, char *argv[])
 	double
 		population_fitness = 0,		///< The population's accumulated fitness
 		population_max = 0,			///< The population's max fitness
-		population_min = 0,			///< The population's min fitness
+		population_min = std::numeric_limits<double>::max(),	///< The population's min fitness
 		ticks;						///< Number of ticks elapsed since the beginning of execution
 	Population
 		*adults = new Population(),	///< The adult population
-		*offspring;					///< The offspring population
+		*offspring,					///< The offspring population
+		embryo (module.offspring_rate);
 	Population::iterator
 		iter_tmp;					///< A temporary iterator/pointer to an individual
 	vector<Population::iterator>
 		mates;
-	adults->reserve(config.adult_pool_capacity);
 	mates.reserve(config.adult_pool_capacity);
+	adults->reserve(config.adult_pool_capacity);
 
 	// Prepare the initial population
 	Specimen specimen;
@@ -93,13 +92,15 @@ int main(int argc, char *argv[])
 			} while (mates[0] == mates[1]);
 			if (Random::Instance().next() <= config.mating_rate)
 			{
-				vector<Specimen> embryo (module.offspring_rate);
+				for (Population::iterator i = embryo.begin(); i != embryo.end(); i++)
+					i->genotype.clear();
 				module.mate(embryo, *mates[0], *mates[1]);
 				for (vector<Specimen>::iterator fetus = embryo.begin(); fetus != embryo.end(); fetus++)
 				{
 					if (Random::Instance().next() <= config.mutation_rate)
 						module.mutate(fetus->genotype);
 					module.assess_fitness(*fetus);
+					fetus->age = 0;
 					offspring->push_back(*fetus);
 				}
 			}
@@ -109,56 +110,52 @@ int main(int argc, char *argv[])
 		{
 			if (config.elitism)
 			{
-				offspring->erase(min_element(offspring->begin(), offspring->end()));
-				offspring->push_back(*max_element(adults->begin(), adults->end()));
+				offspring->erase(worst_specimen(offspring->begin(), offspring->end()));
+				offspring->push_back(*best_specimen(adults->begin(), adults->end()));
 			}
 			delete adults;
 			adults = offspring;
+			offspring = 0;
 		}
 		else // age the adult pool and replace offspring with old adults
 		{
+			iter_tmp = adults->begin();
 			if (!config.elitism)
-			{
-				iter_tmp = adults->begin();
-				if(iter_tmp->age >= config.lifespan)
+				if(iter_tmp->age++ >= config.lifespan)
 					adults->erase(iter_tmp);
-				else
-					iter_tmp->age++;
-			}
 			else
 				sort(adults->begin(), adults->end());
 			mates.clear();
-			for (Population::iterator i = --adults->end(); i != adults->begin(); i--)
+
+			// Start block: Needs optimization
+			for (Population::iterator i = ++iter_tmp; i != adults->end(); i--)
 			{
 				if(i->age >= config.lifespan)
 					mates.push_back(i);
 				else
 					i->age++;
 			}
-			if (mates.size() > 0)
+			for (vector<Population::iterator>::reverse_iterator i = mates.rbegin(); i != mates.rend(); i++)
 			{
-				for (vector<Population::iterator>::iterator i = mates.begin(); i != mates.end(); i++)
-					adults->erase(*i);
-				for (unsigned int i = adults->size(); i < config.adult_pool_capacity; i++)
-				{
-					module.select(iter_tmp, *offspring, generation);
-					adults->push_back(*iter_tmp);
-					(--adults->end())->age = 1;
-					offspring->erase(iter_tmp);
-				}
+				adults->erase(*i);
+				module.select(iter_tmp, *offspring, generation);
+				adults->push_back(*iter_tmp);
+				adults->rend()->age = 1;
+				offspring->erase(iter_tmp);
 			}
+			// End block
 
-			// Replace lower citizens with prodigies
-			if (config.max_prodigies > 0)
+			if (config.max_prodigies > 0) // Replace lower citizens with prodigies
 			{
 				unsigned int prodigies = (config.max_prodigies > offspring->size()) ? Random::Instance().next_int(offspring->size()) : Random::Instance().next_int(config.max_prodigies);
 				sort(adults->begin(), adults->end());
 				for (unsigned int i = 0; i < prodigies; i++)
+					adults->pop_back();
+				for (unsigned int i = 0; i < prodigies; i++)
 				{
 					module.select(iter_tmp, *offspring, generation);
-					adults->erase(--adults->end());
 					adults->push_back(*iter_tmp);
-					(--adults->end())->age = 1;
+					adults->rbegin()->age = 1;
 					offspring->erase(iter_tmp);
 				}
 			}
@@ -166,19 +163,26 @@ int main(int argc, char *argv[])
 		}
 
 		// Gather statistics
+		population_max = 0;
+		population_min = std::numeric_limits<double>::max();
 		population_fitness = 0;
 		for (Population::iterator i = adults->begin(); i != adults->end(); i++)
 		{
 			if (specimen.fitness > population_max)
-				population_max = specimen.fitness;
+				population_max = i->fitness;
 			else if (specimen.fitness < population_min)
-				population_min = specimen.fitness;
+				population_min = i->fitness;
 			population_fitness += i->fitness;
 		}
 		logger.log(generation, population_min, population_fitness / adults->size(), population_max);
+		if (population_max == 1.0)
+		{
+			printf("Perfect specimen found. ");
+			break;
+		}
 	}
 	ticks = clock() - ticks;
-	logger.log(adults, &module.genotype_to_str);
+	logger.log(*best_specimen(adults->begin(), adults->end()), &module.genotype_to_str);
 	logger.log(ticks);
 	delete adults;
 	return 0;
