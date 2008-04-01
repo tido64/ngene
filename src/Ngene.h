@@ -1,3 +1,4 @@
+#include <limits>
 #include "ConfigManager.h"
 #include "PluginManager.h"
 #include "Logger.h"

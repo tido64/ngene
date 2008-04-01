@@ -4,17 +4,17 @@ OBJDIR = obj
 SRCDIR = src
 EXEC   = $(BINDIR)/$(TARGET)
 OBJ    = $(OBJDIR)/Cell.o \
-		 $(OBJDIR)/CellFactory.o \
-		 $(OBJDIR)/ConfigManager.o \
-		 $(OBJDIR)/Coordinates.o \
-		 $(OBJDIR)/Gene.o \
-		 $(OBJDIR)/Hormones.o \
-		 $(OBJDIR)/Organism.o \
-		 $(OBJDIR)/Protein.o \
-		 $(OBJDIR)/Random.o \
-		 $(OBJDIR)/Ribosome.o \
-		 $(OBJDIR)/Synthesizer.o \
-		 $(OBJDIR)/gene_nbryo.o
+$(OBJDIR)/CellFactory.o \
+$(OBJDIR)/ConfigManager.o \
+$(OBJDIR)/Coordinates.o \
+$(OBJDIR)/Gene.o \
+$(OBJDIR)/Hormones.o \
+$(OBJDIR)/Organism.o \
+$(OBJDIR)/Protein.o \
+$(OBJDIR)/Random.o \
+$(OBJDIR)/Ribosome.o \
+$(OBJDIR)/Synthesizer.o \
+$(OBJDIR)/gene_nbryo.o
 
 CPP = g++
 CFLAGS = -g -O2 -Wall
@@ -40,4 +40,4 @@ mutator: $(OBJDIR)/Gene.o $(OBJDIR)/Random.o $(OBJDIR)/mutator_nbryo.o
 all: $(EXEC) fitness mutator
 
 clean:
-		rm -f $(OBJ) $(OBJDIR)/fitness_nbryo.o $(OBJDIR)/mutator_nbryo.o
+	rm -f $(OBJ) $(OBJDIR)/fitness_nbryo.o $(OBJDIR)/mutator_nbryo.o
