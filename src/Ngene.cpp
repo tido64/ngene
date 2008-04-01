@@ -3,7 +3,7 @@
 using std::sort;
 using std::vector;
 
-const char *NGENE_VERSION = "0.1 (build/20080321)";
+const char *NGENE_VERSION = "0.1.1 (build/20080401)";
 
 int main(int argc, char *argv[])
 {
@@ -44,8 +44,6 @@ int main(int argc, char *argv[])
 		*adults = new Population(),	///< The adult population
 		*offspring,					///< The offspring population
 		embryo (module.offspring_rate);
-	Population::iterator
-		iter_tmp;					///< A temporary iterator/pointer to an individual
 	vector<Population::iterator>
 		mates;
 	mates.reserve(config.adult_pool_capacity);
@@ -63,7 +61,7 @@ int main(int argc, char *argv[])
 
 		if (specimen.fitness > population_max)
 			population_max = specimen.fitness;
-		else if (specimen.fitness < population_min)
+		if (specimen.fitness < population_min)
 			population_min = specimen.fitness;
 		population_fitness += specimen.fitness;
 	}
@@ -78,8 +76,6 @@ int main(int argc, char *argv[])
 	for (unsigned int generation = 2; generation <= config.doomsday; generation++)
 	{
 		// Mating season!
-		if (mates.size() < 2)
-			mates.assign(2, adults->begin());
 		offspring = new Population();
 		offspring->reserve(config.offspring_rate);
 		// The following loop has multithreading potential. Exploit!
@@ -108,46 +104,38 @@ int main(int argc, char *argv[])
 
 		if (config.lifespan < 2) // replace the adult population with its offspring
 		{
-			if (config.elitism)
-			{
-				offspring->erase(worst_specimen(offspring->begin(), offspring->end()));
-				offspring->push_back(*best_specimen(adults->begin(), adults->end()));
-			}
+			if (config.elitism) // replace worst fit offspring with best fit adult
+				*worst_specimen(offspring->begin(), offspring->end()) = *best_specimen(adults->begin(), adults->end());
 			delete adults;
 			adults = offspring;
 			offspring = 0;
 		}
 		else // age the adult pool and replace offspring with old adults
 		{
-			iter_tmp = adults->begin();
+			Population::iterator iter_tmp, start;
 			if (!config.elitism)
-				if(iter_tmp->age++ >= config.lifespan)
-					adults->erase(iter_tmp);
+				start = adults->begin();
 			else
+			{
 				sort(adults->begin(), adults->end());
-			mates.clear();
-
-			// Start block: Needs optimization
-			for (Population::iterator i = ++iter_tmp; i != adults->end(); i--)
+				start = adults->begin() + 1;
+			}
+			for (Population::iterator i = start; i != adults->end(); i++)
 			{
 				if(i->age >= config.lifespan)
-					mates.push_back(i);
+				{
+					module.select(iter_tmp, *offspring, generation);
+					*i = *iter_tmp;
+					i->age = 1;
+					offspring->erase(iter_tmp);
+				}
 				else
 					i->age++;
 			}
-			for (vector<Population::iterator>::reverse_iterator i = mates.rbegin(); i != mates.rend(); i++)
-			{
-				adults->erase(*i);
-				module.select(iter_tmp, *offspring, generation);
-				adults->push_back(*iter_tmp);
-				adults->rend()->age = 1;
-				offspring->erase(iter_tmp);
-			}
-			// End block
-
 			if (config.max_prodigies > 0) // Replace lower citizens with prodigies
 			{
-				unsigned int prodigies = (config.max_prodigies > offspring->size()) ? Random::Instance().next_int(offspring->size()) : Random::Instance().next_int(config.max_prodigies);
+				unsigned int prodigies = (config.max_prodigies > offspring->size())
+					? Random::Instance().next_int(offspring->size()) : Random::Instance().next_int(config.max_prodigies);
 				sort(adults->begin(), adults->end());
 				for (unsigned int i = 0; i < prodigies; i++)
 					adults->pop_back();
@@ -163,14 +151,13 @@ int main(int argc, char *argv[])
 		}
 
 		// Gather statistics
-		population_max = 0;
 		population_min = std::numeric_limits<double>::max();
-		population_fitness = 0;
+		population_fitness = population_max = 0;
 		for (Population::iterator i = adults->begin(); i != adults->end(); i++)
 		{
-			if (specimen.fitness > population_max)
+			if (i->fitness > population_max)
 				population_max = i->fitness;
-			else if (specimen.fitness < population_min)
+			if (i->fitness < population_min)
 				population_min = i->fitness;
 			population_fitness += i->fitness;
 		}

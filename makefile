@@ -15,7 +15,7 @@ $(OBJDIR)/Ngene.o
 
 CPP = g++
 CFLAGS = -g -O2 -Wall
-LDFLAGS = -ldl -lboost_filesystem
+LDFLAGS = -ldl
 
 default: $(EXEC)
 
