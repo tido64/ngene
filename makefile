@@ -14,8 +14,8 @@ $(OBJDIR)/Random.o \
 $(OBJDIR)/Ngene.o
 
 CPP = g++
-CFLAGS = -g -O2 -Wall
-LDFLAGS = -ldl
+CFLAGS = -g -O2 -Wall -fopenmp
+LDFLAGS = -ldl -lgomp
 
 default: $(EXEC)
 

@@ -5,8 +5,6 @@ using std::string;
 using std::swap;
 using std::vector;
 
-Random mt_rand;
-
 void initiate(const char *parameters) { }
 
 const char *name()
