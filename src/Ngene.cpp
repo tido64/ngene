@@ -3,7 +3,7 @@
 using std::sort;
 using std::vector;
 
-const char *NGENE_VERSION = "0.1.1 (build/20080401)";
+const char *NGENE_VERSION = "0.1.1 (build/20080429)";
 
 int main(int argc, char *argv[])
 {
@@ -78,12 +78,11 @@ int main(int argc, char *argv[])
 		// Mating season!
 		offspring = new Population();
 		offspring->reserve(config.offspring_rate);
-		// The following loop has multithreading potential. Exploit!
-		while (offspring->size() < config.offspring_rate)
+		do
 		{
+			module.select(mates[0], *adults, generation);
 			do
 			{
-				module.select(mates[0], *adults, generation);
 				module.select(mates[1], *adults, generation);
 			} while (mates[0] == mates[1]);
 			if (Random::Instance().next() <= config.mating_rate)
@@ -91,15 +90,16 @@ int main(int argc, char *argv[])
 				for (Population::iterator i = embryo.begin(); i != embryo.end(); i++)
 					i->genotype.clear();
 				module.mate(embryo, *mates[0], *mates[1]);
-				for (vector<Specimen>::iterator fetus = embryo.begin(); fetus != embryo.end(); fetus++)
-				{
-					if (Random::Instance().next() <= config.mutation_rate)
-						module.mutate(fetus->genotype);
-					module.assess_fitness(*fetus);
-					fetus->age = 0;
-					offspring->push_back(*fetus);
-				}
+				offspring->insert(offspring->end(), embryo.begin(), embryo.end());
 			}
+		} while (offspring->size() < config.offspring_rate);
+		#pragma omp parallel for
+		for (int i = 0; i < static_cast<int>(offspring->size()); i++)
+		{
+			if (Random::Instance().next() <= config.mutation_rate)
+				module.mutate(offspring->at(i).genotype);
+			module.assess_fitness(offspring->at(i));
+			offspring->at(i).age = 0;
 		}
 
 		if (config.lifespan < 2) // replace the adult population with its offspring
