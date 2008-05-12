@@ -3,20 +3,20 @@
 using std::sort;
 using std::vector;
 
-const char *NGENE_VERSION = "0.1.1 (build/20080429)";
+const char *NGENE_VERSION = "0.1.1 (build/20080506)";
 
 int main(int argc, char *argv[])
 {
 	ConfigManager *config_manager;
 	if (argc > 1)
 	{
-		if (strcmp(argv[1], "--config") == 0)
-			config_manager = new ConfigManager(argv[2]);
-		else
+		if (strcmp(argv[1], "--help") == 0)
 		{
-			printf("Usage: %s [--config <config file>]\n", argv[0]);
+			printf("Usage: %s [config file]\n", argv[0]);
 			return 0;
 		}
+		else
+			config_manager = new ConfigManager(argv[1]);
 	}
 	else
 		config_manager = new ConfigManager("ngene.conf");
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 		population_fitness = 0,		///< The population's accumulated fitness
 		population_max = 0,			///< The population's max fitness
 		population_min = std::numeric_limits<double>::max(),	///< The population's min fitness
-		ticks;						///< Number of ticks elapsed since the beginning of execution
+		time;						///< Time elapsed since the beginning of execution
 	Population
 		*adults = new Population(),	///< The adult population
 		*offspring,					///< The offspring population
@@ -50,27 +50,29 @@ int main(int argc, char *argv[])
 	adults->reserve(config.adult_pool_capacity);
 
 	// Prepare the initial population
-	Specimen specimen;
-	specimen.age = 1;
-	for (unsigned int i = 0; i < config.adult_pool_capacity; i++)
 	{
-		specimen.genotype.clear();
-		module.seed(specimen.genotype);
-		module.assess_fitness(specimen);
-		adults->push_back(specimen);
+		Specimen specimen;
+		specimen.age = 1;
+		for (unsigned int i = 0; i < config.adult_pool_capacity; i++)
+		{
+			specimen.genotype.clear();
+			module.seed(specimen.genotype);
+			module.assess_fitness(specimen);
+			adults->push_back(specimen);
 
-		if (specimen.fitness > population_max)
-			population_max = specimen.fitness;
-		if (specimen.fitness < population_min)
-			population_min = specimen.fitness;
-		population_fitness += specimen.fitness;
+			if (specimen.fitness > population_max)
+				population_max = specimen.fitness;
+			if (specimen.fitness < population_min)
+				population_min = specimen.fitness;
+			population_fitness += specimen.fitness;
+		}
+		module.seed = 0;
 	}
-	module.seed = 0;
 
 	printf("Evolution started: %i generations shall live and prosper!\n\n", config.doomsday);
 
 	logger.log(1, population_min, population_fitness / adults->size(), population_max);
-	ticks = clock();
+	time = omp_get_wtime();
 
 	// Commence evolution
 	for (unsigned int generation = 2; generation <= config.doomsday; generation++)
@@ -168,9 +170,8 @@ int main(int argc, char *argv[])
 			break;
 		}
 	}
-	ticks = clock() - ticks;
-	logger.log(*best_specimen(adults->begin(), adults->end()), &module.genotype_to_str);
-	logger.log(ticks);
+	time = omp_get_wtime() - time;
+	logger.log(*best_specimen(adults->begin(), adults->end()), &module.genotype_to_str, time);
 	delete adults;
 	return 0;
 }
