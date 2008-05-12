@@ -38,15 +38,12 @@ void Logger::log(const unsigned int generation, const double min, const double a
 	printf(" %i:\tmin: %.4f\tavg: %.4f\tmax: %.4f\n", generation, min, avg, max);
 }
 
-void Logger::log(const Specimen &best, GenotypeToStr *genotype_to_str)
+void Logger::log(const Specimen &best, GenotypeToStr *genotype_to_str, double time)
 {
 	std::ofstream output (strcat(this->timestamp, ".output"));
 	output << (*genotype_to_str)(best.genotype) << "\n";
 	output.close();
-}
 
-void Logger::log(double ticks)
-{
-	ticks /= CLOCKS_PER_SEC;
-	printf("Completed in %i minute(s) and %i second(s).\n\n", static_cast<int>(ticks / 60), static_cast<int>(ticks + 0.5) % 60);
+	printf("Completed in %i minute(s) and %i second(s).\n\n",
+		static_cast<int>(time / 60), static_cast<int>(time + 0.5) % 60);
 }

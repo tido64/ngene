@@ -40,14 +40,12 @@ public:
 
 	/// Towards the end of a run, another file is created to output the
 	/// solutions found. In the current implementation, only the best is
-	/// actually written to file.
+	/// actually written to file. Additionally, the log outputs the time spent
+	/// on current run.
 	/// \param best The best speicmen in the population
 	/// \param genotype_to_str A pointer to a function that converts a genotype to string
-	void log(const Specimen &best, GenotypeToStr *genotype_to_str);
-
-	/// Logs the time used for this run.
-	/// \param ticks The ticks accumulated for this run.
-	void log(double ticks);
+	/// \param time The time spent on this run.
+	void log(const Specimen &best, GenotypeToStr *genotype_to_str, double time);
 
 private:
 	char timestamp[64];	///< The time at which this run started
