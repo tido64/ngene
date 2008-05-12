@@ -14,13 +14,16 @@ $(OBJDIR)/Random.o \
 $(OBJDIR)/Ngene.o
 
 CPP = g++
-CFLAGS = -g -O2 -Wall -fopenmp
+CFLAGS = -g -O3 -Wall -fopenmp
 LDFLAGS = -ldl -lgomp
 
 default: $(EXEC)
 
 $(EXEC): $(OBJ)
-	$(CPP) $(CFLAGS) $(LDFLAGS) -o $@ $^
+	$(CPP) $(LDFLAGS) -o $@ $^
+
+$(OBJDIR)/Ngene.o: $(SRCDIR)/Ngene.cpp
+	$(CPP) -DSIMPLE $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CPP) $(CFLAGS) -c $< -o $@

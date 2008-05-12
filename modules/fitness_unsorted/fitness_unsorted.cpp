@@ -31,7 +31,5 @@ void initiate(const char *parameters) { }
 
 const char *name()
 {
-	string *name = (string *)Ngene::phenotype(Genotype());
-	printf("From fitness_unsorted: %s", name->c_str());
 	return "Unsorted";
 }
