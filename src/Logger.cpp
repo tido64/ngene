@@ -32,10 +32,26 @@ void Logger::log(const Config &config, const std::vector<const char *> &modules)
 	printf("  * Selector:          %s\n\n", modules[Module::selector]);
 }
 
-void Logger::log(const unsigned int generation, const double min, const double avg, const double max)
+bool Logger::log(const unsigned int generation, const Population &pop)
 {
+	double
+		avg = 0.0,
+		max = 0.0,
+		min = std::numeric_limits<double>::max();
+
+	for (Population::const_iterator i = pop.begin(); i != pop.end(); i++)
+	{
+		if (i->fitness > max)
+			max = i->fitness;
+		else if (i->fitness < min)
+			min = i->fitness;
+		avg += i->fitness;
+	}
+	avg /= pop.size();
+
 	this->plotter->plot(generation, min, avg, max);
 	printf(" %i:\tmin: %.4f\tavg: %.4f\tmax: %.4f\n", generation, min, avg, max);
+	return max == 1.0;
 }
 
 void Logger::log(const Specimen &best, GenotypeToStr *genotype_to_str, double time)

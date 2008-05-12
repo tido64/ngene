@@ -33,10 +33,9 @@ public:
 
 	/// Logs the progression of the run for each generation.
 	/// \param generation The current generation
-	/// \param min The lowest fitness of current generation
-	/// \param avg The average fitness of current generation
-	/// \param max The highest fitness of current generation
-	void log(const unsigned int generation, const double min, const double avg, const double max);
+	/// \param population The current population
+	/// \return Returns true if a perfect specimen was found
+	bool log(const unsigned int generation, const Population &);
 
 	/// Towards the end of a run, another file is created to output the
 	/// solutions found. In the current implementation, only the best is
