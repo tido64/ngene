@@ -64,6 +64,6 @@ void PluginManager::load_module(const Module::Type module_type, const string &fi
 	else
 	{
 		printf("  * Could not load %s\n\n", filename.c_str());
-		exit(-1);
+		abort();
 	}
 }

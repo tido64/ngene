@@ -9,7 +9,7 @@ Logger::Logger() : plotter(0)
 #endif
 	{
 		printf("  * Failed to create directory for logs: %s\n", strerror(errno));
-		exit(-1);
+		abort();
 	}
 	const std::time_t now = time(0);
 	strftime(this->timestamp, sizeof(this->timestamp), "./logs/%Y%m%d-%H%M%S", localtime(&now));

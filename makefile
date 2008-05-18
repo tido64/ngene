@@ -25,6 +25,9 @@ $(EXEC): $(OBJ)
 $(OBJDIR)/Ngene.o: $(SRCDIR)/Ngene.cpp
 	$(CPP) -DSIMPLE $(CFLAGS) -c $< -o $@
 
+$(OBJDIR)/Random.o: $(SRCDIR)/Random.cpp
+	$(CPP) -g0 -O3 -Wall -c $< -o $@
+
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CPP) $(CFLAGS) -c $< -o $@
 

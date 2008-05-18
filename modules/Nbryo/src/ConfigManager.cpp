@@ -30,7 +30,7 @@ ConfigManager::ConfigManager()
 	else
 	{
 		printf("\nFailed to read general properties.\n");
-		exit(-1);
+		abort();
 	}
 
 	config_file.open("protein.properties");
@@ -51,7 +51,7 @@ ConfigManager::ConfigManager()
 	else
 	{
 		printf("\nFailed to read protein properties.\n");
-		exit(-1);
+		abort();
 	}
 }
 

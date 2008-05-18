@@ -14,8 +14,10 @@
 ///
 /// where the file name follows YYYYMMdd-hhmmss (ie. date, then time).
 
+#include <cerrno>
+#include <cstring>
 #include <ctime>
-#include <errno.h>
+#include <limits>
 #include "PlotterFactory.h"
 #include "Plugins.h"
 
