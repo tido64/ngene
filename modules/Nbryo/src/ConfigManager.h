@@ -1,6 +1,7 @@
 /// This config class parses Johan's configuration files, and in time Nbryo's
 /// own config format.
 
+#include <cstdlib>
 #include <fstream>
 #include <string>
 #include <utility>

@@ -1,5 +1,6 @@
 /// An implementation of IPlotter that outputs SVG files.
 
+#include <cstdlib>
 #include <fstream>
 #include "IPlotter.h"
 #include "ModuleType.h"

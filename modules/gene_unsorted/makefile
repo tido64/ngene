@@ -3,7 +3,7 @@ BINDIR = ../../bin/modules
 OBJDIR = ../../obj
 
 CPP = g++
-CFLAGS = -O2 -Wall -iquote../../src/Interfaces
+CFLAGS = -g0 -O3 -Wall -iquote../../src/Interfaces
 
 default: $(TARGET).so
 

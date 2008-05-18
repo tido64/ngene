@@ -71,7 +71,7 @@ Plotter_SVG::Plotter_SVG(string &filename, const std::vector<const char *> *modu
 	else
 	{
 		printf("Failed to initiate plotter. Please make sure you have writing privileges.\n");
-		exit(-1);
+		abort();
 	}
 }
 

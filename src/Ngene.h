@@ -1,4 +1,3 @@
-#include <limits>
 #include <omp.h>
 #include "ConfigManager.h"
 #include "PluginManager.h"
