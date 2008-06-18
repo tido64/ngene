@@ -17,8 +17,8 @@ $(OBJDIR)/Synthesizer.o \
 $(OBJDIR)/gene_nbryo.o
 
 CPP = g++
-CFLAGS = -g -O2 -Wall
-LDFLAGS =
+CFLAGS = -g -O2 -Wall -fPIC
+LDFLAGS = -shared
 
 default: $(EXEC)
 
@@ -26,16 +26,16 @@ $(EXEC): $(OBJ)
 	$(CPP) -shared $(LDFLAGS) -o $@ $^
 
 $(OBJDIR)/Random.o:
-	$(CPP) -fPIC -g0 -O3 -Wall -c ../../src/Random.cpp -o $@
+	$(CPP) -g0 -O3 -Wall -fPIC -c ../../src/Random.cpp -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
-	$(CPP) -fPIC $(CFLAGS) -c $< -o $@
+	$(CPP) $(CFLAGS) -c $< -o $@
 
 fitness: $(OBJDIR)/Coordinates.o $(OBJDIR)/fitness_nbryo.o
-	$(CPP) -shared $(LDFLAGS) -o $(BINDIR)/fitness_nbryo.so $^
+	$(CPP) $(LDFLAGS) -o $(BINDIR)/fitness_nbryo.so $^
 
 mutator: $(OBJDIR)/Gene.o $(OBJDIR)/Random.o $(OBJDIR)/mutator_nbryo.o
-	$(CPP) -shared $(LDFLAGS) -o $(BINDIR)/mutator_nbryo.so $^
+	$(CPP) $(LDFLAGS) -o $(BINDIR)/mutator_nbryo.so $^
 
 all: $(EXEC) fitness mutator
 
