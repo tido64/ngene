@@ -1,9 +1,9 @@
 #ifndef FITNESS_INTERFACE
 
 #ifdef WIN32
-	#define FITNESS_INTERFACE __declspec(dllexport)	// export DLL information
+#	define FITNESS_INTERFACE __declspec(dllexport)	// export DLL information
 #else
-	#define FITNESS_INTERFACE
+#	define FITNESS_INTERFACE
 #endif
 
 #include "../Plugins.h"

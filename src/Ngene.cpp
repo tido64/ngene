@@ -4,14 +4,14 @@ using std::sort;
 using std::string;
 using std::vector;
 
-const char *NGENE_VERSION = "0.1.1 (build/20080512)";
+const char *NGENE_VERSION = "0.1.1 (build/20080618)";
 
 int main(int argc, char *argv[])
 {
 	string config_file ("ngene.conf");
 	if (argc > 1)
 	{
-		if (strcmp(argv[1], "--help") == 0)
+		if ((strcmp(argv[1], "--help") == 0) | (strcmp(argv[1], "-h") == 0))
 		{
 			printf("Usage: %s [config file]\n", argv[0]);
 			return 0;
@@ -71,19 +71,28 @@ int main(int argc, char *argv[])
 		offspring.clear();
 		do
 		{
+			// Select two *different* specimens for mating
 			module.select(mates[0], adults, generation);
 			do
 			{
 				module.select(mates[1], adults, generation);
 			} while (mates[0] == mates[1]);
+
 			if (Random::Instance().next() <= config.mating_rate)
 			{
+				// Empty the embryonic vessels
 				for (Population::iterator i = embryo.begin(); i != embryo.end(); i++)
 					i->genotype.clear();
+
+				// Make the specimens mate and insert the embryos into the vessels
 				module.mate(embryo, *mates[0], *mates[1]);
+
+				// Insert the embryos into the offspring vector for evaluation
 				offspring.insert(offspring.end(), embryo.begin(), embryo.end());
 			}
 		} while (offspring.size() < config.offspring_rate);
+
+		// (Randomly mutate and) assess the fitness of each offspring
 		#pragma omp parallel for
 		for (int i = 0; i < static_cast<int>(offspring.size()); i++)
 		{
@@ -93,51 +102,50 @@ int main(int argc, char *argv[])
 			offspring[i].age = 0;
 		}
 
-		#ifdef SIMPLE // replace the adult population with its offspring
-
-		if (config.elitism) // replace worst fit offspring with best fit adult
-			*worst_specimen(offspring.begin(), offspring.end()) = *best_specimen(adults.begin(), adults.end());
-		adults.swap(offspring);
-
-		#elif defined(LIFESPAN) // age the adult pool and replace offspring with old adults
-
-		Population::iterator
-			iter_tmp,
-			start = adults.begin();
-		if (config.elitism)
+		if (config.lifespan > 1)
 		{
-			start++;
-			sort(adults.begin(), adults.end());
-		}
-		for (Population::iterator i = start; i != adults.end(); i++)
-		{
-			if(i->age >= config.lifespan)
+			Population::iterator
+				iter_tmp,
+				start = adults.begin();
+			if (config.elitism)
 			{
-				module.select(iter_tmp, offspring, generation);
-				*i = *iter_tmp;
-				i->age = 1;
-				offspring->erase(iter_tmp);
+				start++;
+				sort(adults.begin(), adults.end());
 			}
-			else
-				i->age++;
-		}
-		if (config.max_prodigies > 0) // Replace lower citizens with prodigies
-		{
-			unsigned int prodigies = (config.max_prodigies > offspring.size())
-				? Random::Instance().next_int(offspring.size()) : Random::Instance().next_int(config.max_prodigies);
-			sort(adults.begin(), adults.end());
-			for (unsigned int i = 0; i < prodigies; i++)
-				adults.pop_back();
-			for (unsigned int i = 0; i < prodigies; i++)
+			for (Population::iterator i = start; i != adults.end(); i++)
 			{
-				module.select(iter_tmp, offspring, generation);
-				adults.push_back(*iter_tmp);
-				adults.rbegin()->age = 1;
-				offspring.erase(iter_tmp);
+				if(i->age >= config.lifespan)
+				{
+					module.select(iter_tmp, offspring, generation);
+					*i = *iter_tmp;
+					i->age = 1;
+					offspring.erase(iter_tmp);
+				}
+				else
+					i->age++;
+			}
+			if (config.max_prodigies > 0) // Replace lower citizens with prodigies
+			{
+				unsigned int prodigies = (config.max_prodigies > offspring.size())
+					? Random::Instance().next_int(offspring.size()) : Random::Instance().next_int(config.max_prodigies);
+				sort(adults.begin(), adults.end());
+				for (unsigned int i = 0; i < prodigies; i++)
+					adults.pop_back();
+				for (unsigned int i = 0; i < prodigies; i++)
+				{
+					module.select(iter_tmp, offspring, generation);
+					adults.push_back(*iter_tmp);
+					adults.rbegin()->age = 1;
+					offspring.erase(iter_tmp);
+				}
 			}
 		}
-
-		#endif
+		else
+		{
+			if (config.elitism) // replace worst fit offspring with best fit adult
+				*worst_specimen(offspring.begin(), offspring.end()) = *best_specimen(adults.begin(), adults.end());
+			adults.swap(offspring);
+		}
 
 		if (logger.log(generation, adults))
 		{
