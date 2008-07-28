@@ -4,29 +4,29 @@ OBJDIR = obj
 SRCDIR = src
 EXEC   = $(BINDIR)/$(TARGET)
 OBJ    = $(OBJDIR)/Cell.o \
-$(OBJDIR)/CellFactory.o \
-$(OBJDIR)/ConfigManager.o \
-$(OBJDIR)/Coordinates.o \
-$(OBJDIR)/Gene.o \
-$(OBJDIR)/Hormones.o \
-$(OBJDIR)/Organism.o \
-$(OBJDIR)/Protein.o \
-$(OBJDIR)/Random.o \
-$(OBJDIR)/Ribosome.o \
-$(OBJDIR)/Synthesizer.o \
-$(OBJDIR)/gene_nbryo.o
+	$(OBJDIR)/CellFactory.o \
+	$(OBJDIR)/ConfigManager.o \
+	$(OBJDIR)/Coordinates.o \
+	$(OBJDIR)/Gene.o \
+	$(OBJDIR)/Hormones.o \
+	$(OBJDIR)/Organism.o \
+	$(OBJDIR)/Protein.o \
+	$(OBJDIR)/Random.o \
+	$(OBJDIR)/Ribosome.o \
+	$(OBJDIR)/Synthesizer.o \
+	$(OBJDIR)/gene_nbryo.o
 
 CPP = g++
-CFLAGS = -g -O2 -Wall -fPIC
+CFLAGS = -g -O2 -Wall -Werror -fPIC
 LDFLAGS = -shared
 
 default: $(EXEC)
 
 $(EXEC): $(OBJ)
-	$(CPP) -shared $(LDFLAGS) -o $@ $^
+	$(CPP) $(LDFLAGS) -o $@ $^
 
 $(OBJDIR)/Random.o:
-	$(CPP) -g0 -O3 -Wall -fPIC -c ../../src/Random.cpp -o $@
+	$(CPP) -g0 -O3 -Wall -Werror -fPIC -s -c ../../src/Random.cpp -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CPP) $(CFLAGS) -c $< -o $@

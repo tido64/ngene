@@ -1,7 +1,7 @@
 #ifdef WIN32
-	#define MUTATION_INTERFACE __declspec(dllexport)	// export DLL information
+#	define MUTATION_INTERFACE __declspec(dllexport)	// export DLL information
 #else
-	#define MUTATION_INTERFACE
+#	define MUTATION_INTERFACE
 #endif
 
 #include <string>

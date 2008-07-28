@@ -11,9 +11,9 @@ The program is provided as is without any warranties or indemnity whatsoever.
 Dependencies
 ============
 
-The code has been compiled and tested on Windows and Unix-based operating
-systems. However, there shouldn't be any problem to use this on other platforms
-as the code is supposed to be platform independent.
+The code has been compiled and tested on Windows and some Unix-based operating
+systems. However, there shouldn't be any problem to use Ngene on other
+platforms as the code is meant to be platform independent.
 
 Boost C++ Libraries (>= 1.34.1)
 -------------------------------
@@ -43,7 +43,7 @@ OpenMP (optional)
 -----------------
 Take advantage of your multi-core/-processor to speed up the evolution. This is
 entirely optional and will not break the code in anyway if you don't have the
-opportunity to use it.
+opportunity or any wish to use it.
 
 Windows:
 

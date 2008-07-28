@@ -1,7 +1,7 @@
 #ifdef WIN32
-	#define GENOTYPE_INTERFACE __declspec(dllexport)	// export DLL information
+#	define GENOTYPE_INTERFACE __declspec(dllexport)	// export DLL information
 #else
-	#define GENOTYPE_INTERFACE
+#	define GENOTYPE_INTERFACE
 #endif
 
 #include <string>

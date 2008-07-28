@@ -1,8 +1,9 @@
 #if WIN32
-	#define WIN32_LEAN_AND_MEAN
-	#include <direct.h>
+#	define WIN32_LEAN_AND_MEAN
+#	define _CRT_SECURE_NO_WARNINGS
+#	include <direct.h>
 #else
-	#include <sys/stat.h>
+#	include <sys/stat.h>
 #endif
 
 /// Logger takes care of properly logging every run. A log consists of a plot

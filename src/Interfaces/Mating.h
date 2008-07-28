@@ -1,7 +1,7 @@
 #ifdef WIN32
-	#define MATING_INTERFACE __declspec(dllexport)	// export DLL information
+#	define MATING_INTERFACE __declspec(dllexport)	// export DLL information
 #else
-	#define MATING_INTERFACE
+#	define MATING_INTERFACE
 #endif
 
 #include <map>

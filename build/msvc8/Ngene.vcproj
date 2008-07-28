@@ -121,6 +121,8 @@
 				AdditionalIncludeDirectories="..\..\libs"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="0"
+				EnableEnhancedInstructionSet="2"
+				OpenMP="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
@@ -267,6 +269,14 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File
+				RelativePath="..\..\makefile"
+				>
+			</File>
+			<File
+				RelativePath="..\..\readme.txt"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Interfaces"

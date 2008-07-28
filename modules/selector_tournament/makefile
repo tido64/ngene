@@ -3,7 +3,7 @@ BINDIR = ../../bin/modules
 OBJDIR = ../../obj
 
 CPP = g++
-CFLAGS = -g0 -O3 -Wall -iquote../../src/Interfaces -fPIC
+CFLAGS = -g0 -O3 -Wall -Werror -iquote../../src/Interfaces -fPIC
 
 default: $(TARGET).so
 
@@ -14,5 +14,4 @@ $(OBJDIR)/%.o: %.cpp
 	$(CPP) $(CFLAGS) -c $< -o $@
 
 $(TARGET).so: $(OBJDIR)/Random.o $(OBJDIR)/$(TARGET).o
-	$(CPP) -shared -o $(BINDIR)/$@ $^
-	strip $(BINDIR)/$@
+	$(CPP) -s -shared -o $(BINDIR)/$@ $^
