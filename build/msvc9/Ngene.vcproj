@@ -294,6 +294,26 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Development"
+			>
+			<File
+				RelativePath="..\..\src\Development\AbstractDevelopment.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Development\Cell.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Development\Coordinates.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Development\Organism.h"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
