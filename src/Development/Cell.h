@@ -1,15 +1,16 @@
 #ifndef CELL
 #define CELL
 
+#include <list>
 #include "Coordinates.h"
 #include "Protein.h"
 
 struct Cell
 {
 	int type;
-	Coordinates coords;
+	std::list<Protein> proteins;
 	std::vector<double> chemicals;
-	std::vector<Protein> proteins;
+	Coordinates coords;
 };
 
 #endif

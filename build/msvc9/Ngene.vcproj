@@ -313,6 +313,10 @@
 				RelativePath="..\..\src\Development\Organism.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\src\Development\Protein.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

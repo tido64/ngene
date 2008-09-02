@@ -1,7 +1,13 @@
+#ifndef PROTEIN
+#define PROTEIN
+
 #include <vector>
 
 struct Protein
 {
-	int meta, type;
-	std::vector<double> parameters;
+	int life, meta, type;
+	std::vector<int> neighbourhood_criteria;
+	std::vector<double> chemical_criteria, parameters;
 };
+
+#endif
