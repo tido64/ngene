@@ -1,3 +1,5 @@
+/// A generic organism able to hold its dna and cells.
+
 #ifndef ORGANISM
 #define ORGANISM
 
@@ -7,12 +9,11 @@
 class Organism
 {
 public:
-	Cell *active_cell;						///< The cell undergoing changes
-	std::map<Coordinates, Cell> cells;		///< The organism's cells
-	std::map<Coordinates, Cell> new_cells;	///< The organism's new cells
 	const Genotype genotype;				///< The organism's dna
+	std::map<Coordinates, Cell> cells;		///< The organism's cells
 
-	Organism(Genotype g) : genotype(g) {}
+	Organism(Genotype g) : genotype(g) { }
+	//Organism(Organism o) : genotype(o.genotype), cells(o.cells) { }
 };
 
 #endif

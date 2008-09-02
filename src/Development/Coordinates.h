@@ -1,8 +1,6 @@
 #ifndef COORDINATES
 #define COORDINATES
 
-#include "Direction.h"
-
 class Coordinates
 {
 public:
@@ -10,30 +8,39 @@ public:
 		y,	///< The y component of a cell's location
 		z;	///< The z component of a cell's location
 
-	Coordinates::Coordinates() : x(0), y(0), z(0) { }
-	Coordinates::Coordinates(const Coordinates &c) : x(c.x), y(c.y), z(c.z) { }
-	Coordinates::Coordinates(int x, int y) : x(x), y(y), z(0) { }
-	Coordinates::Coordinates(int x, int y, int z) : x(x), y(y), z(z) { }
+	Coordinates() : x(0), y(0), z(0) { }
+	Coordinates(const Coordinates &c) : x(c.x), y(c.y), z(c.z) { }
+	Coordinates(int x, int y) : x(x), y(y), z(0) { }
+	Coordinates(int x, int y, int z) : x(x), y(y), z(z) { }
 
-	Coordinates look(Direction::direction d) const
+	Coordinates above() const
 	{
-		switch (d)
-		{
-			case Direction::top:
-				return Coordinates(this->x, this->y + 1, this->z);
-			case Direction::bottom:
-				return Coordinates(this->x, this->y - 1, this->z);
-			case Direction::left:
-				return Coordinates(this->x - 1, this->y, this->z);
-			case Direction::right:
-				return Coordinates(this->x + 1, this->y, this->z);
-			case Direction::front:
-				return Coordinates(this->x, this->y, this->z + 1);
-			case Direction::back:
-				return Coordinates(this->x, this->y, this->z - 1);
-			default:
-				return Coordinates(this->x, this->y, this->z);
-		}
+		return Coordinates(this->x, this->y + 1, this->z);
+	}
+
+	Coordinates below() const
+	{
+		return Coordinates(this->x, this->y - 1, this->z);
+	}
+
+	Coordinates left() const
+	{
+		return Coordinates(this->x - 1, this->y, this->z);
+	}
+
+	Coordinates right() const
+	{
+		return Coordinates(this->x + 1, this->y, this->z);
+	}
+
+	Coordinates front() const
+	{
+		return Coordinates(this->x, this->y, this->z + 1);
+	}
+
+	Coordinates back() const
+	{
+		return Coordinates(this->x, this->y, this->z - 1);
 	}
 
 	Coordinates operator +(const Coordinates &b) const

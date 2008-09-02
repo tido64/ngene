@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArtDev3D.N", "ArtDev3D.N.vcproj", "{1A99D9AE-C0AC-4826-AD34-3E3F418D6220}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A99D9AE-C0AC-4826-AD34-3E3F418D6220}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1A99D9AE-C0AC-4826-AD34-3E3F418D6220}.Debug|Win32.Build.0 = Debug|Win32
+		{1A99D9AE-C0AC-4826-AD34-3E3F418D6220}.Release|Win32.ActiveCfg = Release|Win32
+		{1A99D9AE-C0AC-4826-AD34-3E3F418D6220}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
