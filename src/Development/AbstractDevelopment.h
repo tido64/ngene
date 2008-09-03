@@ -15,7 +15,7 @@ protected:
 	}
 
 public:
-	void evolve(Genotype g)
+	void evolve(const Genotype &g)
 	{
 		if (this->organism != 0)
 			delete this->organism;

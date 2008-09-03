@@ -176,7 +176,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ConfigManager.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Gene.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gene_artdevn.h"
 				>
 			</File>
 			<File
@@ -188,11 +196,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Setup.h"
+				RelativePath="..\..\..\..\src\Random.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Synthesizer.h"
+				RelativePath="..\..\src\Setup.h"
 				>
 			</File>
 		</Filter>
@@ -201,6 +209,10 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File
+				RelativePath="..\..\makefile"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Source Files"
@@ -212,11 +224,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ConfigManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Gene.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\gene_artdevn.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Synthesizer.cpp"
+				RelativePath="..\..\..\..\src\Random.cpp"
 				>
 			</File>
 		</Filter>
