@@ -1,45 +1,59 @@
 #include "Gene.h"
 
-using std::pair;
-using std::vector;
+using std::random_shuffle;
 
-Gene::Gene(const Gene &gene)
-: number_of_cell_types(gene.number_of_cell_types), sequence(gene.sequence), protein_type(gene.protein_type), protein_lifespan(gene.protein_lifespan), protein_thresholds(gene.protein_thresholds), protein_neighbourhood(gene.protein_neighbourhood)
+Gene::Gene(const Setup *s) : sequence(s->gene_sequence_length), setup(s)
 {
-	if (this->protein_type != ProteinType::transcribing)
+	for (unsigned int i = 0; i < this->setup->gene_sequence_length; i++)
+		this->sequence[i] = Random::Instance().next() < 0.5;
+
+	// initiate conditions for a comfortable environment
+	this->protein.chemical_criteria.reserve(this->setup->cell_types_number);
+	for (unsigned int i = 0; i < this->setup->cell_types_number; i++)
+		this->protein.chemical_criteria.push_back(
+			(Random::Instance().next() < 0.5) ? 0.0 : Random::Instance().next() / 10.0);
+
+	// initiate conditions for a thriving neighbourhood
+	this->protein.neighbourhood_criteria.reserve(DIRECTIONS);
+	for (unsigned int i = 0; i < this->setup->dont_care_neighbours; i++)
+		this->protein.neighbourhood_criteria.push_back(static_cast<int>(CellType::any));
+	for (unsigned int i = this->setup->dont_care_neighbours; i < DIRECTIONS; i++)
+		this->protein.neighbourhood_criteria.push_back(
+			Random::Instance().next_int(
+				static_cast<int>(CellType::empty),
+				static_cast<int>(this->setup->cell_types_number)));
+	random_shuffle(
+		this->protein.neighbourhood_criteria.begin(),
+		this->protein.neighbourhood_criteria.end(),
+		Random::Instance());
+
+	this->protein.type = Random::Instance().next_int(ProteinType::number_of_types);
+
+	switch(this->protein.type)
 	{
-		this->protein_parameters = gene.protein_parameters;
-		this->protein_stimuli = gene.protein_stimuli;
+		case ProteinType::mitotic:
+			this->protein.parameters.reserve(DIRECTIONS);
+			for (unsigned int i = 0; i < DIRECTIONS; i++)
+				this->protein.parameters.push_back(
+					(Random::Instance().next() < 0.5) ? 0.0 : Random::Instance().next(this->setup->min_stimuli, this->setup->max_stimuli));
+			break;
+		case ProteinType::regulatory:
+			this->protein.parameters.reserve(this->setup->cell_types_number);
+			for (unsigned int i = 0; i < this->setup->cell_types_number; i++)
+				this->protein.parameters.push_back(
+					(Random::Instance().next() < 0.5) ? 0.0 : Random::Instance().next(this->setup->min_stimuli, this->setup->max_stimuli));
+			break;
+		case ProteinType::speciation:
+			this->protein.parameters.push_back(Random::Instance().next(this->setup->min_stimuli, this->setup->max_stimuli));
+			this->protein.meta = Random::Instance().next_int(this->setup->cell_types_number);
+			break;
+		case ProteinType::transcribing:
+			this->protein.meta = Random::Instance().next_int(2 << this->setup->promoter_length);
+			break;
 	}
-	else
-		this->protein_promoter = gene.protein_promoter;
 }
 
-Gene::Gene(
-	const boost::dynamic_bitset<> &s,
-	const ProteinType::Type t,
-	const unsigned int l,
-	const vector<double> &th,
-	const vector<CellType::Type> &n,
-	const unsigned int no)
-: number_of_cell_types(no), sequence(s), protein_type(t), protein_lifespan(l), protein_thresholds(th), protein_neighbourhood(n)
-{ }
-
-void Gene::ergo_proxy(const boost::dynamic_bitset<> &p)
-{
-	this->protein_promoter = p;
-}
-
-void Gene::ergo_proxy(const vector<double> &p, const pair<double, double> *s)
-{
-	this->protein_parameters = p;
-	this->protein_stimuli = *s;
-}
-
-const boost::dynamic_bitset<> &Gene::get_sequence() const
-{
-	return this->sequence;
-}
+Gene::Gene(const Gene &g) : sequence(g.sequence), setup(g.setup), protein(g.protein) { }
 
 void Gene::mutate()
 {
@@ -50,42 +64,38 @@ void Gene::mutate()
 			this->sequence.flip(Random::Instance().next_int(this->sequence.size()));
 			break;
 		case Mutable::lifespan: // increase/decrease lifespan of proteins
-			if (this->protein_lifespan == 0 || Random::Instance().next() < 0.5)
-				this->protein_lifespan++;
+			if ((this->protein.life == 0) | (Random::Instance().next() < 0.5))
+				this->protein.life++;
 			else
-				this->protein_lifespan--;
+				this->protein.life--;
 			break;
-		case Mutable::thresholds: // mutates the hormonal thresholds in proteins
-			if (!this->protein_thresholds.empty())
-				this->protein_thresholds[Random::Instance().next_int(this->protein_thresholds.size())]
-					+= Random::Instance().next(-0.1, 0.1);
+		case Mutable::thresholds: // mutates the chemical criteria
+			this->protein.chemical_criteria[Random::Instance().next_int(this->protein.chemical_criteria.size())]
+				+= Random::Instance().next(-0.1, 0.1);
 			break;
 		case Mutable::neighbourhood:
-			this->protein_neighbourhood[Random::Instance().next_int(Direction::number_of_directions)]
-				= static_cast<CellType::Type>(Random::Instance().next_int(CellType::empty, this->number_of_cell_types));
+			this->protein.neighbourhood_criteria[Random::Instance().next_int(this->protein.neighbourhood_criteria.size())]
+				= Random::Instance().next_int(CellType::empty, this->setup->cell_types_number);
 			break;
 		default:
-			switch (this->protein_type)
+			switch (this->protein.type)
 			{
 				case ProteinType::mitotic:
-					if (!this->protein_parameters.empty())
-						this->protein_parameters[Random::Instance().next_int(this->protein_parameters.size())]
-							= (Random::Instance().next() < 0.5) ? 0.0 : Random::Instance().next(this->protein_stimuli.first, this->protein_stimuli.second);
+					this->protein.parameters[Random::Instance().next_int(this->protein.parameters.size())]
+						= (Random::Instance().next() < 0.5) ? 0.0 : Random::Instance().next(this->setup->min_stimuli, this->setup->max_stimuli);
 					break;
 				case ProteinType::regulatory:
-					if (!this->protein_parameters.empty())
-						this->protein_parameters[Random::Instance().next_int(this->protein_parameters.size())]
-							= Random::Instance().next(this->protein_stimuli.first, this->protein_stimuli.second);
+					this->protein.parameters[Random::Instance().next_int(this->protein.parameters.size())]
+						= Random::Instance().next(this->setup->min_stimuli, this->setup->max_stimuli);
 					break;
 				case ProteinType::speciation:
 					if (Random::Instance().next() < 0.5) // mutate stimulus level
-						this->protein_parameters[1]
-							= Random::Instance().next(this->protein_stimuli.first, this->protein_stimuli.second);
+						this->protein.parameters[0] = Random::Instance().next(this->setup->min_stimuli, this->setup->max_stimuli);
 					else // mutate cell type
-						this->protein_parameters[0] = Random::Instance().next_int(this->number_of_cell_types);
+						this->protein.meta = Random::Instance().next_int(this->setup->cell_types_number);
 					break;
 				case ProteinType::transcribing: // flip a random bit in the promoter
-					this->protein_promoter.flip(Random::Instance().next_int(this->protein_promoter.size()));
+					this->protein.meta ^= 1 << Random::Instance().next_int(this->setup->promoter_length);
 					break;
 				default:
 					break;
@@ -94,23 +104,9 @@ void Gene::mutate()
 	}
 }
 
-Gene &Gene::operator =(const Gene &gene)
+Gene & Gene::operator =(const Gene &gene)
 {
 	this->sequence = gene.sequence;
-	this->protein_type = gene.protein_type;
-	this->protein_lifespan = gene.protein_lifespan;
-
-	this->protein_thresholds = gene.protein_thresholds;
-	this->protein_neighbourhood = gene.protein_neighbourhood;
-
-	if (this->protein_type != ProteinType::transcribing)
-	{
-		this->protein_parameters = gene.protein_parameters;
-		this->protein_stimuli = gene.protein_stimuli;
-	}
-	else
-		this->protein_promoter = gene.protein_promoter;
-
-	this->number_of_cell_types = gene.number_of_cell_types;
+	this->protein = gene.protein;
 	return *this;
 }

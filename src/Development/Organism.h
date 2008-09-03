@@ -12,7 +12,7 @@ public:
 	const Genotype genotype;				///< The organism's dna
 	std::map<Coordinates, Cell> cells;		///< The organism's cells
 
-	Organism(Genotype g) : genotype(g) { }
+	Organism(const Genotype &g) : genotype(g) { }
 	//Organism(Organism o) : genotype(o.genotype), cells(o.cells) { }
 };
 

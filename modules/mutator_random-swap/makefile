@@ -1,6 +1,6 @@
 TARGET = mutator_random-swap
 BINDIR = ../../bin/modules
-OBJDIR = ../../obj
+OBJDIR = ../../build/unix
 
 CPP = g++
 CFLAGS = -g0 -O3 -Wall -Werror -iquote../../src/Interfaces -fPIC
