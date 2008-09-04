@@ -2,6 +2,7 @@
 
 using std::list;
 using std::map;
+using std::stringstream;
 using std::vector;
 
 void ArtDev3D::execute()
@@ -44,7 +45,7 @@ void ArtDev3D::execute()
 		if (!active_proteins[ProteinType::regulatory].empty())
 			regulate_chemical_levels(cell, active_proteins[ProteinType::regulatory]);
 		if (!active_proteins[ProteinType::mitotic].empty())
-			cell_division(cell, active_proteins[ProteinType::mitotic]);
+			mitosis(cell, active_proteins[ProteinType::mitotic]);
 		if (!active_proteins[ProteinType::speciation].empty())
 			metamorphosis(cell, active_proteins[ProteinType::speciation]);
 
@@ -58,26 +59,7 @@ void ArtDev3D::execute()
 	this->new_cells.clear();
 }
 
-const char *ArtDev3D::to_string()
-{
-	//const char *str(const vector<boost::any> &genotype)
-
-	//boost::any phenotype_container;
-	//phenotype(phenotype_container, genotype);
-	//map<Coordinates, CellType::Type>
-	//	organism (*boost::unsafe_any_cast<map<Coordinates, CellType::Type> >(&phenotype_container));
-
-	//stringstream o;
-	//for (map<Coordinates, CellType::Type>::const_iterator i = organism.begin(); i != organism.end(); i++)
-	//	o << i->first.x << " " << i->first.y << " " << i->first.z << " " << i->second << "\n";
-	//N::name = o.str();
-
-	//return N::name.c_str();
-	return 0;
-}
-
-
-void ArtDev3D::cell_division(Cell *cell, ProteinListIterators &proteins)
+void ArtDev3D::mitosis(Cell *cell, ProteinListIterators &proteins)
 {
 	vector<double> stimuli (DIRECTIONS, 0.0);
 	for (unsigned int p = 0; p < proteins.size(); p++)

@@ -1,3 +1,5 @@
+/// Mutables defines the properties that can be mutated.
+
 #ifndef MUTABLES
 #define MUTABLES
 

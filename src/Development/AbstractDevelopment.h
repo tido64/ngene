@@ -4,7 +4,7 @@
 class AbstractDevelopment
 {
 protected:
-	unsigned int ticks;
+	const unsigned int ticks;
 	Organism *organism;
 
 	AbstractDevelopment(int t) : ticks(t) { }
@@ -25,4 +25,9 @@ public:
 	}
 
 	virtual void execute() = 0;
+
+	Organism *get_organism()
+	{
+		return this->organism;
+	}
 };
