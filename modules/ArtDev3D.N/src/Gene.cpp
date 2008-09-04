@@ -63,7 +63,7 @@ void Gene::mutate()
 		case Mutable::sequence: // mutate the dna sequence of this gene
 			this->sequence.flip(Random::Instance().next_int(this->sequence.size()));
 			break;
-		case Mutable::lifespan: // increase/decrease lifespan of proteins
+		case Mutable::lifespan: // increase or decrease the lifespan of the protein
 			if ((this->protein.life == 0) | (Random::Instance().next() < 0.5))
 				this->protein.life++;
 			else
@@ -73,7 +73,7 @@ void Gene::mutate()
 			this->protein.chemical_criteria[Random::Instance().next_int(this->protein.chemical_criteria.size())]
 				+= Random::Instance().next(-0.1, 0.1);
 			break;
-		case Mutable::neighbourhood:
+		case Mutable::neighbourhood: // mutates the neighbourhood criteria
 			this->protein.neighbourhood_criteria[Random::Instance().next_int(this->protein.neighbourhood_criteria.size())]
 				= Random::Instance().next_int(CellType::empty, this->setup->cell_types_number);
 			break;

@@ -6,8 +6,8 @@
 /// modifications, hopefully making things simpler and faster.
 ///
 /// The gene is a dna sequence that codes a protein. The sequence includes a
-/// promoter that a protein recognizes and triggers an action. The translation
-/// of this gene is done beforehand to reduce cpu cycles.
+/// promoter that a protein recognizes and triggers the transcription. The
+/// translation of a gene is done beforehand to reduce cpu cycles.
 
 #ifndef GENE
 #define GENE
@@ -26,18 +26,20 @@
 class Gene
 {
 private:
-	boost::dynamic_bitset<> sequence;
-	const Setup *setup;
-	Protein protein;
+	boost::dynamic_bitset<> sequence;	///< The DNA sequence of this gene
+	const Setup *setup;					///< Parameters the mutation abides by
+	Protein protein;					///< The protein this gene translates into
 
 public:
+	/// Creates a gene with random properties.
 	Gene(const Setup *s);
+
+	/// Duplicates the given gene.
 	Gene(const Gene &g);
 
 	/// Randomly mutates a property of this gene (and effectively the protein).
-	/// Currently, there are no way to check that the mutated values are not
-	/// out of bounds. Time will tell whether this is disadvantageous or
-	/// beneficial.
+	/// Currently, the mutated values for chemical criteria are not bounds
+	/// checked.
 	void mutate();
 
 	Gene &operator =(const Gene &gene);
