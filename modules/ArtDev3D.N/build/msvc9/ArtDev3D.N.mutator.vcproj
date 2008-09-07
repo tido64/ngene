@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="Ngene"
-	ProjectGUID="{6D5EDD05-D40A-4859-B9F1-421997B15488}"
-	RootNamespace="Ngene"
+	Name="ArtDev3D.N.mutator"
+	ProjectGUID="{D5718DFA-C385-435E-89A0-E6A8D5774768}"
+	RootNamespace="ArtDev3DNmutator"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -18,9 +18,9 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\bin\$(ConfigurationName)"
-			IntermediateDirectory="..\..\obj\$(ConfigurationName)"
-			ConfigurationType="1"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
 			CharacterSet="1"
 			>
 			<Tool
@@ -41,8 +41,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\libs"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				AdditionalIncludeDirectories="..\..\..\..\libs"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ARTDEV3DNMUTATOR_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -61,13 +61,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="..\..\bin\$(ProjectName).exe"
 				LinkIncremental="2"
-				EnableUAC="false"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(IntDir)\$(TargetName).pdb"
-				SubSystem="1"
-				RandomizedBaseAddress="1"
+				SubSystem="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -94,9 +90,9 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\bin\$(ConfigurationName)"
-			IntermediateDirectory="..\..\obj\$(ConfigurationName)"
-			ConfigurationType="1"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -119,11 +115,9 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\..\libs"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS"
-				RuntimeLibrary="0"
-				BufferSecurityCheck="false"
-				EnableFunctionLevelLinking="false"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;ARTDEV3DNMUTATOR_EXPORTS"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -139,15 +133,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="..\..\bin\$(ProjectName).exe"
 				LinkIncremental="1"
-				EnableUAC="false"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(IntDir)\$(TargetName).pdb"
-				SubSystem="1"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="1"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -182,35 +172,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\src\Algorithm.cpp"
+				RelativePath="..\..\src\Gene.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\ConfigManager.cpp"
+				RelativePath="..\..\src\mutator_artdevn.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Logger.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Ngene.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Plotter_SVG.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\PlotterFactory.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\PluginManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Random.cpp"
+				RelativePath="..\..\..\..\src\Random.cpp"
 				>
 			</File>
 		</Filter>
@@ -220,55 +190,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\src\Algorithm.h"
+				RelativePath="..\..\src\Gene.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Config.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ConfigManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\IPlotter.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Logger.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ModuleType.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Ngene.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Plotter_SVG.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\PlotterFactory.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\PluginManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Plugins.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Random.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Specimen.h"
+				RelativePath="..\..\..\..\src\Random.h"
 				>
 			</File>
 		</Filter>
@@ -277,58 +203,6 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
-			<File
-				RelativePath="..\..\makefile"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Interfaces"
-			>
-			<File
-				RelativePath="..\..\src\Interfaces\Fitness.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Interfaces\Genotype.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Interfaces\Mating.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Interfaces\Mutator.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Interfaces\Selector.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Development"
-			>
-			<File
-				RelativePath="..\..\src\Development\AbstractDevelopment.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Development\Cell.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Development\Coordinates.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Development\Organism.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Development\Protein.h"
-				>
-			</File>
 		</Filter>
 	</Files>
 	<Globals>

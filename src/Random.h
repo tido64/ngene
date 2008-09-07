@@ -1,5 +1,9 @@
 /// This is the Mersenne Twister random number generator.
 /// uniform_01 is not used because it currently is buggier than uniform_real.
+///
+/// Note: The singleton pattern implemented here is neither thread-safe nor
+/// unique across shared libraries (unless you send a pointer to it, of
+/// course).
 
 #ifndef RANDOM_GENERATOR
 #define RANDOM_GENERATOR

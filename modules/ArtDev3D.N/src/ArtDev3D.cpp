@@ -134,8 +134,8 @@ void ArtDev3D::transcribe_proteins(Cell *cell, ProteinListIterators &proteins)
 		for (Genotype::const_iterator g = this->organism->genotype.begin(); g != this->organism->genotype.end(); g++)
 		{
 			Gene gene = boost::any_cast<Gene>(g);
-			// check for matching promoter
-			// if matching: transcribe proteins
+			if (Ngene::bitstring_find(proteins[p]->meta, gene.setup->promoter_length, gene.get_sequence(), gene.setup->gene_sequence_length) > -1)
+				cell->proteins.push_back(Protein (*gene.get_protein()));
 		}
 	}
 }

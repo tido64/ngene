@@ -1,4 +1,4 @@
-/// A generic organism able to hold its dna and cells.
+/// A generic organism to be used in development systems.
 
 #ifndef ORGANISM
 #define ORGANISM
@@ -13,7 +13,6 @@ public:
 	std::map<Coordinates, Cell> cells;		///< The organism's cells
 
 	Organism(const Genotype &g) : genotype(g) { }
-	//Organism(Organism o) : genotype(o.genotype), cells(o.cells) { }
 };
 
 #endif

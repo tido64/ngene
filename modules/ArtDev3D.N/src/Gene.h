@@ -15,9 +15,9 @@
 #define DIRECTIONS 6
 
 #include "../../../src/Development/Protein.h"
+#include "../../../src/Algorithm.h"
 #include "../../../src/Random.h"
 #include <algorithm>
-#include <boost/dynamic_bitset.hpp>
 #include "CellType.h"
 #include "Mutable.h"
 #include "ProteinType.h"
@@ -26,16 +26,23 @@
 class Gene
 {
 private:
-	boost::dynamic_bitset<> sequence;	///< The DNA sequence of this gene
-	const Setup *setup;					///< Parameters the mutation abides by
-	Protein protein;					///< The protein this gene translates into
+	unsigned int sequence;	///< The DNA sequence of this gene
+	Protein protein;		///< The protein this gene translates into
 
 public:
+	const Setup *setup;		///< Parameters the mutation abides by
+
 	/// Creates a gene with random properties.
 	Gene(const Setup *s);
 
 	/// Duplicates the given gene.
 	Gene(const Gene &g);
+
+	/// Returns a constant pointer to the protein.
+	const Protein *get_protein();
+
+	/// Returns the dna sequence of this gene.
+	unsigned int get_sequence();
 
 	/// Randomly mutates a property of this gene (and effectively the protein).
 	/// Currently, the mutated values for chemical criteria are not bounds
