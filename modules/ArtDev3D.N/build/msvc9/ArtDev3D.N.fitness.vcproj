@@ -1,11 +1,12 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="ArtDev3D.N"
-	ProjectGUID="{1A99D9AE-C0AC-4826-AD34-3E3F418D6220}"
+	Name="ArtDev3D.N.fitness"
+	ProjectGUID="{3D62E903-8CC9-4F88-86EF-374EE42DDF41}"
+	RootNamespace="ArtDev3DNfitness"
 	Keyword="Win32Proj"
-	TargetFrameworkVersion="0"
+	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
 		<Platform
@@ -17,9 +18,10 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="Debug"
-			IntermediateDirectory="Debug"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -40,13 +42,12 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\libs"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ARTDEV3DN_EXPORTS;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ARTDEV3DNFITNESS_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -89,9 +90,11 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="Release"
-			IntermediateDirectory="Release"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -110,12 +113,14 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\libs"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;ARTDEV3DN_EXPORTS;"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="../../../include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;ARTDEV3DNFITNESS_EXPORTS"
 				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -129,7 +134,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -163,86 +168,26 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
-			<File
-				RelativePath="..\..\..\..\src\Algorithm.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ArtDev3D.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CellType.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ConfigManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Gene.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Mutable.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ProteinType.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\src\Random.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Setup.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-			>
-			<File
-				RelativePath="..\..\makefile"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\..\src\Algorithm.cpp"
+				RelativePath="..\..\src\fitness_artdevn.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\..\src\ArtDev3D.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ConfigManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Gene.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gene_artdevn.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\src\Random.cpp"
-				>
-			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
 		</Filter>
 	</Files>
 	<Globals>

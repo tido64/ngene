@@ -2,10 +2,10 @@
 
 using std::random_shuffle;
 
-Gene::Gene(const Setup *s) : sequence(s->gene_sequence_length), setup(s)
+Gene::Gene(const Setup *s) : setup(s)
 {
-	for (unsigned int i = 0; i < this->setup->gene_sequence_length; i++)
-		this->sequence[i] = Random::Instance().next() < 0.5;
+	// generate a random bitstring
+	this->sequence = Random::Instance().next_int(2 << this->setup->gene_sequence_length);
 
 	// initiate conditions for a comfortable environment
 	this->protein.chemical_criteria.reserve(this->setup->cell_types_number);
@@ -53,7 +53,17 @@ Gene::Gene(const Setup *s) : sequence(s->gene_sequence_length), setup(s)
 	}
 }
 
-Gene::Gene(const Gene &g) : sequence(g.sequence), setup(g.setup), protein(g.protein) { }
+Gene::Gene(const Gene &g) : sequence(g.sequence), protein(g.protein), setup(g.setup) { }
+
+const Protein *Gene::get_protein()
+{
+	return &this->protein;
+}
+
+unsigned int Gene::get_sequence()
+{
+	return this->sequence;
+}
 
 void Gene::mutate()
 {
@@ -61,7 +71,7 @@ void Gene::mutate()
 	switch (Random::Instance().next_int(Mutable::number_of_properties))
 	{
 		case Mutable::sequence: // mutate the dna sequence of this gene
-			this->sequence.flip(Random::Instance().next_int(this->sequence.size()));
+			this->sequence = Ngene::bitstring_flip(this->sequence, Random::Instance().next_int(this->setup->gene_sequence_length));
 			break;
 		case Mutable::lifespan: // increase or decrease the lifespan of the protein
 			if ((this->protein.life == 0) | (Random::Instance().next() < 0.5))
@@ -95,7 +105,7 @@ void Gene::mutate()
 						this->protein.meta = Random::Instance().next_int(this->setup->cell_types_number);
 					break;
 				case ProteinType::transcribing: // flip a random bit in the promoter
-					this->protein.meta ^= 1 << Random::Instance().next_int(this->setup->promoter_length);
+					this->protein.meta = Ngene::bitstring_flip(this->protein.meta, Random::Instance().next_int(this->setup->promoter_length));
 					break;
 				default:
 					break;

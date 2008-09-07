@@ -1,4 +1,17 @@
-#include "gene_artdevn.h"
+#include "../../../src/Interfaces/Genotype.h"
+#include <sstream>
+
+#include "ArtDev3D.h"
+#include "ConfigManager.h"
+
+namespace N
+{
+	unsigned int ticks;
+	std::string name;
+	Coordinates boundaries;
+	Setup setup;
+	ArtDev3D artdev3d;
+}
 
 using std::map;
 using std::stringstream;
@@ -22,7 +35,7 @@ void phenotype(boost::any &phenotype, const Genotype &genotype)
 	phenotype = N::artdev3d.get_organism()->cells;
 }
 
-void seed(vector<boost::any> &genotype)
+void seed(Genotype &genotype)
 {
 	for (unsigned int i = 0; i < N::setup.genes_number ; i++)
 		genotype.push_back(Gene (&N::setup));

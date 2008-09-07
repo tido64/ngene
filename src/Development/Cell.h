@@ -1,3 +1,5 @@
+/// A generic cell in a generic organism.
+
 #ifndef CELL
 #define CELL
 
@@ -7,10 +9,10 @@
 
 struct Cell
 {
-	int type;
-	std::list<Protein> proteins;
-	std::vector<double> chemicals;
-	Coordinates coords;
+	int type;						///< The type of this cell
+	std::list<Protein> proteins;	///< The proteins in this cell
+	std::vector<double> chemicals;	///< The chemicals in this cell
+	Coordinates coords;				///< The location of this cell
 };
 
 #endif
