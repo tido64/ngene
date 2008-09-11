@@ -25,5 +25,5 @@ extern "C"
 	const char MATING_INTERFACE *name();
 
 	/// Returns the number of offspring this module produces.
-	const int MATING_INTERFACE offspring();
+	const unsigned int MATING_INTERFACE offspring();
 }

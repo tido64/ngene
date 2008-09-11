@@ -1,0 +1,32 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[hang,small,bf]{caption}
+\usepackage[top=2.5cm,right=2.5cm,bottom=2.5cm,left=2.5cm]{geometry}
+\usepackage{graphicx}
+%\usepackage{hyperref}
+\usepackage{ifpdf}
+\usepackage{url}
+\usepackage[utf8]{inputenc}
+\usepackage[UKenglish]{babel}
+\title{}
+\author{Tommy Anh Tuan Nguyen}
+\date{\today}
+\ifpdf
+\pdfinfo {
+	/Author (Tommy Anh Tuan Nguyen)
+	/Title ()
+	/Subject ()
+	/Keywords (development, genetic algorithm)
+	/CreationDate (D:20080909223146)
+}
+\fi
+\graphicspath{{./graphics/}}
+\begin{document}
+	\maketitle
+	\newpage
+	\tableofcontents
+
+	\include{Implementation}
+
+	\bibliographystyle{ieeetr}
+	\bibliography{Bibliography}
+\end{document}

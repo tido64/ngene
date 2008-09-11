@@ -25,6 +25,7 @@ public:
 		if (this->organism != 0)
 			delete this->organism;
 		this->organism = new Organism(g);
+		initialize();
 		for (unsigned int i = 0; i < ticks; i++)
 			execute();
 	}
@@ -37,4 +38,8 @@ public:
 	{
 		return this->organism;
 	}
+
+	/// System dependent initialization of the organism to develop. Must be
+	/// implemented.
+	virtual void initialize() = 0;
 };

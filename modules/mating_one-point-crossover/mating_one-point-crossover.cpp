@@ -22,7 +22,7 @@ const char *name()
 	return "One-point Crossover";
 }
 
-const int offspring()
+const unsigned int offspring()
 {
 	return 2;
 }
