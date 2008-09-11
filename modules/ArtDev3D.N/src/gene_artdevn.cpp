@@ -52,8 +52,12 @@ const char *str(const Genotype &genotype)
 
 	Organism *o (N::artdev3d.get_organism());
 	stringstream ss;
+	printf("\nOptimus prime:\n");
 	for (map<Coordinates, Cell>::const_iterator i = o->cells.begin(); i != o->cells.end(); i++)
+	{
+		printf("(%d, %d, %d) : %d\n", i->first.x, i->first.y, i->first.z, i->second.type);
 		ss << i->first.x << " " << i->first.y << " " << i->first.z << " " << i->second.type << "\n";
+	}
 	N::name = ss.str();
 
 	return N::name.c_str();

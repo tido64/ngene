@@ -4,6 +4,7 @@
 #include "ProteinType.h"
 
 typedef std::vector< std::list<Protein>::iterator > ProteinListIterators;
+typedef std::vector<Gene> Genome;
 
 class ArtDev3D : public AbstractDevelopment
 {
@@ -15,6 +16,18 @@ private:
 		min_chemical_concentration,			///< The lowest number of chemical concentration
 		min_stimuli_level;					///< The minimum stimuli threshold to activate a protein
 	std::map<Coordinates, Cell> new_cells;	///< Array of new cells to add to the organism after a tick
+	Genome genome;							///< Translated genotype (casted from boost::any)
+
+	/// Part of mitosis(), performs the actual cell duplication and inserts the
+	/// new cell into given location if possible. No cells are created if the
+	/// given location is already occupied by another cell.
+	void divide_cell(Cell *cell, Coordinates location);
+
+	/// Speciates the cell and gives it a distinct function and/or place. The
+	/// stimuli provided by the proteins are first accumulated. The cell type
+	/// with the highest stimulus must then exceed a threshold before the cell
+	/// morphs into given type.
+	void metamorphosis(Cell *cell, ProteinListIterators &activated_proteins);
 
 	/// The mitotic phase refers to mitosis and cytokinesis in which (1) a
 	/// mother cell duplicates its chromosomes in the nucleus and (2) divides
@@ -30,17 +43,6 @@ private:
 	/// boundaries set in the beginning.
 	void mitosis(Cell *cell, ProteinListIterators &activated_proteins);
 
-	/// Part of mitosis(), performs the actual cell duplication and inserts the
-	/// new cell into given location if possible. No cells are created if the
-	/// given location is already occupied by another cell.
-	void divide_cell(Cell *cell, Coordinates location);
-
-	/// Speciates the cell and gives it a distinct function and/or place. The
-	/// stimuli provided by the proteins are first accumulated. The cell type
-	/// with the highest stimulus must then exceed a threshold before the cell
-	/// morphs into given type.
-	void metamorphosis(Cell *cell, ProteinListIterators &activated_proteins);
-
 	/// Regulates the chemical levels in the cell.
 	void regulate_chemical_levels(Cell *cell, ProteinListIterators &activated_proteins);
 
@@ -52,4 +54,5 @@ public:
 	ArtDev3D() : AbstractDevelopment(10), max_protein_number(99), max_chemical_concentration(1.0), min_chemical_concentration(0.0), min_stimuli_level(0.0) { }
 	ArtDev3D(int t) : AbstractDevelopment(t), max_protein_number(99), max_chemical_concentration(1.0), min_chemical_concentration(0.0), min_stimuli_level(0.0) { }
 	void execute();
+	void initialize();
 };
