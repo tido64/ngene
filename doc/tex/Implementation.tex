@@ -1,10 +1,10 @@
 \section{Implementation}
 
 \subsection{About Ngene}
-Ngene is a generic, multipurpose genetic algorithm written in C++ with heavy focus on performance. The engine is divided into logical modules that can be interchanged or extended upon in order to fit the intended goal and purpose, all without the need to recompile a single line of code.
+\emph{Ngene} is a flexible, generic, multipurpose genetic algorithm written in C++ with heavy emphasis on performance and flexibility. The engine is divided into logical modules that can be interchanged or extended upon in order to fit the intended goal and purpose.
 
-\subsubsection{Design}
-The program is broken into the following modules:
+\subsubsection{Modular Design}
+The design is broken into the following modules:
 
 \begin{itemize}
 	\item (core) - The genetic algorithm itself
@@ -15,72 +15,81 @@ The program is broken into the following modules:
 	\item Selector - Selects a random genotype
 \end{itemize}
 
-The purpose of this is, as mentioned earlier, to make it more flexible with regards to the use of different modules with different experiments. For example, I used the \emph{tournament} selection module for most of the experiments I did on this thesis. I didn't have to recompile the same piece of code everytime I made a change in, say, the genotype module. This keeps the code cleaner and easier to maintain as well as it cuts down on the compilation time.
+Of these modules, only the core, or the genetic algorithm itself, is currently not interchangeable though this might be changed in the future. All modules are loaded into memory when the program is executed and kept there until termination. This modular design is essential when it comes to making the engine available for all purposes. For example, while the \emph{tournament} selection module is suitable for most of the experiements in this thesis, others may want to run a comparison test between many selection modules. This is easily done by simply specifying which module to use in a configuration file. There is no need to recompile a single line of code. This modular design also keeps the code cleaner and easier to maintain.
 
-A problem with writing a generic genetic algorithm in a strongly typed programming language as C++, is that different studies require different datatypes to be passed around the system. A simple program that sorts numbers, for instance, needs to pass around an array with integers while another one may require the use of a class or custom datatype. In a higher level language such as Python, a container is already available that can store any type of data:
+\subsubsection{Boost C++ Libraries}
+\emph{Boost}\footnote{\url{http://www.boost.org/}} is a collection of libraries that is meant to complement the C++ Standard Library. Ngene makes use of this collection in order to solve problems others already have. This not only saves time and effort, it also guarantees that a certain piece of code works as it should.
+
+\paragraph{\textbf{Boost.Any}}\cite{henney2001}
+A problem with writing a generic genetic algorithm in a strongly typed programming language as C++, is that different studies require different data types to be passed around the system. A simple program that sorts numbers, for instance, needs to pass around an array with integers while another one may require the use of a class or custom datatype. In a higher level language such as Python, a container is already available that can store any type of data:
 
 \begin{verbatim}
->>> foo = 1
+>>> foo = 1 + 2
 >>> print foo
+3
 >>> foo = "awesome"
 >>> print foo
 awesome
 >>> _
 \end{verbatim}
 
-Such a container is unfortunately not readily available in C++ and must be implemented in order for the modular design to work. Fortunately, this has already been done and is freely available as part of \emph{Boost C++ Libraries}\footnote{http://www.boost.org/}. \emph{Boost.Any}\cite{henney2001} is a container not very different from the one found in Python and only requires a type-casting before the data can be handled the normal way.
+Such a container is unfortunately not readily available in C++ and must be implemented in order for the modular design to work. Fortunately, this has already been done and is freely available as part of \emph{Boost}. \emph{Boost.Any} is a container not very different from the one found in Python and only requires a type-casting before the data can be handled as normal.
+
+\paragraph{\textbf{Boost Random Number Library}}\cite{maurer2000}
+Another problem with genetic algorithms and development in general is implementing a good pseudo-random number generator. This is pretty much required to achieve good results. Ngene uses the implementation of \emph{Mersenne twister} pseudo-random number generator found in the Boost libraries.
 
 \subsubsection{Brief System Overview}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8]{diagram_ngene}
+	\includegraphics[scale=0.9]{diagram_ngene}
 	\caption{Overview of Ngene}
 	\label{fig:diagram_ngene}
 \end{figure}
 
 Figure~\ref{fig:diagram_ngene} shows a brief overview of how Ngene is put together.
 
-When the program starts up, \texttt{Ngene} will pass on any parameters to the \texttt{ConfigManager}, which will start parsing the configuration file, and then pass on the parsed configuration to the \texttt{PluginManager}.
+When the program starts up, Ngene will start parsing a configuration file. It finds this file either via the path passed as parameter on execution, or it will simply start looking for the default one. The module responsible for this, \texttt{ConfigManager}, will create a structure storing the configuration and pass it to \texttt{PluginManager}.
 
-The \texttt{PluginManager} handles all loading and unloading of the modules specified in a configuration file. It also acts as an interface for the engine to communicate with the modules. The advantage of doing it this way, is that it enables swapping of modules without the need to recompile the whole code. The \texttt{PluginManager} will automatically unload all loaded modules when it is destroyed on program exit.
+\texttt{PluginManager} handles all loading and unloading of modules specified in a configuration file. If all modules load successfully, it also acts as an interface through which the core communicates with the modules. In future versions, there may be a possibility to swap modules, for instance, half way through an evolution. \texttt{PluginManager} will automatically unload modules and release all resources when it is destroyed on program exit.
 
-Next, the \texttt{Logger} is instantiated. This class makes sure that it has writing access in order to output the best specimen and plot a graph of the whole process. What the \texttt{Logger} should output is left to the author of the \texttt{Genotype} module and could be anything from a simple text file to a proprietary file format. The \texttt{Plotter} currently only supports SVG\footnote{Scalable Vector Graphics - http://www.w3.org/Graphics/SVG/}.
+Ngene talks with its modules via pre-defined interfaces as can be seen directly under \texttt{PluginManager} in figure~\ref{fig:diagram_ngene}. All methods in these modules must be implemented in order to be compatible with Ngene. A more detailed description of what these methods do and sample code can be found in the system documentation. Besides these restrictions, a user can extend the system in any way they see fit.
 
-Finally, the engine will start producing random genotypes, or \texttt{Specimen}s, before starting the evolution. This process ends when a perfect \texttt{Specimen} is found, e.g. \texttt{fitness = 1.0}, or the number of generations has been reached. The \texttt{Logger} will then produce twofiles, and the program exits.
+All logging of runs are done in \texttt{Logger}. On first call, it will make sure that the user has writing privileges and, on successive calls, plot a graph of the progression. When the program terminates, it will also create a file output of the best specimen. The format of this file is left to the author of the \texttt{Genotype} module. It could be anything from a simple text file to a proprietary format. At writing moment, \texttt{Plotter} only saves the graphs as SVG\footnote{Scalable Vector Graphics - \url{http://www.w3.org/Graphics/SVG/}} though other formats can be easily added.
 
-\texttt{Ngene} talks with its modules via pre-defined interfaces. All modules must implement these in order to be compatible with \texttt{Ngene}. A more detailed description and sample code can be found in the system documentation. Besides these restrictions, a user can extend the system in any way they see fit.
+The genetic algorithm starts by populating the adult population, a responsibility of the \texttt{Genotype} module. The randomly generated genotypes are stored in \texttt{Specimen}s in an array, or vector, that will make up the adult population. When this vector is full (a configurable value), the genetic algorithm will run for a given number of generations (also configurable) or until a perfect \texttt{Specimen} is found, e.g. \texttt{fitness = 1.0}.
 
 
 \subsection{Ngene Development Framework}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8]{diagram_ndevframe}
+	\includegraphics[scale=0.9]{diagram_ndevframe}
 	\caption{Overview of Ngene Development Framework}
 	\label{fig:diagram_ndevframe}
 \end{figure}
 
-To further extend the genetic algorithm already implemented in \emph{Ngene}, a generic development framework has also been put into place. This framework consists of an abstract class that must be implemented and a few pre-defined classes that the user may choose to use (see fig.~\ref{fig:diagram_ndevframe}). However, when comparing two development models, it is best to use as much common code as possible to eliminate more hidden factors. A common \texttt{Message} class is also available for information exchange between all \texttt{Cell}s (see fig.~\ref{fig:diagram_ndevframe_msg}).
+To further extend the genetic algorithm already implemented in Ngene, a generic development framework has also been put into place. This framework consists of an abstract class that must be implemented and a few pre-defined classes that the user has to use (see fig.~\ref{fig:diagram_ndevframe}). This is to ensure that different development models will have a common ground on which it will be easier to compare one to another. The \texttt{Organism} and its ``components'', \texttt{Cell} and \texttt{Protein}, are meant to do exactly this. A common base code will eliminate factors that may influence a comparison. A \texttt{Message} class is also available for information exchange between all \texttt{Cell}s (see fig.~\ref{fig:diagram_ndevframe_msg}).
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8]{diagram_ndevframe_msg}
-	\caption{A common message implementation should eliminate some factors involving what information is exchanged between the organism's cells.}
+	\includegraphics[scale=0.9]{diagram_ndevframe_msg}
+	\caption{A common message implementation should eliminate factors involving what information is exchanged between the organism's cells.}
 	\label{fig:diagram_ndevframe_msg}
 \end{figure}
 
-A module can be created by inheriting \texttt{AbstractDevelopment} and implementing the required methods, \texttt{execute()} and \texttt{initialize()}. The latter is executed everytime a new organism is to be developed, while the former function is run every tick (see fig.~\ref{fig:diagram_ndevframe_ex}). 
+A module can be created by inheriting \texttt{AbstractDevelopment} and implementing the required methods, \texttt{execute()} and \texttt{initialize()}. The latter is executed everytime a new organism is to be developed and used to instantiate initial values for the organism like creating the zygote. \texttt{execute()} is called every tick and is used to exchange cell messages, update cells, and perform cell program. For an example, see figure~\ref{fig:diagram_ndevframe_ex}.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8]{diagram_ndevframe_ex}
-	\caption{It's awesome.}
+	\includegraphics[scale=0.9]{diagram_ndevframe_ex}
+	\caption{An example of how one can implement \texttt{MyDevExperiment}.}
 	\label{fig:diagram_ndevframe_ex}
 \end{figure}
 
 
 \subsubsection{Johan H{\o}ye's Model}
-Based on Johan H{\o}ye's master's thesis\cite{hoye2006}, his model has been ported to this new framework.
+A simpler (and hopefully faster) version of Johan H{\o}ye's master's thesis\cite{hoye2006} model was implemented with the help of the framework. Though simpler, all logical operations are still kept intact and was not altered in any way.
 
+Due to lack of documentation, porting his code from Java to C++ has been a rather dirty job. Many biology concepts made their way into his code, making it very messy and difficult to read at times. There are classes for pretty much every concept such as \texttt{Cell}, \texttt{Protein} and even \texttt{Proteincollection} and \texttt{ChangeChemicalConcentrationInCellProtein}. Because of how the hierarchy is built up, functions may call other functions which again call different functions, and so on, to perform simple operations. These functions are usually called many times in a single cell during a single tick, putting a strain on the call stack when there are a lot more cells in an organism, more ticks in a development process, and many organism in a population. Parts of the effort in porting this model over to the new framework has been spent on flattening the structure a bit, hopefully making it simpler and easier to understand. In many cases, it was simply substituting a class, such as \texttt{Chemicalconcentrations}, with an STL container. After all, the golden rule of programming is to not write custom containers unless absolutely necessary.
 
 \subsubsection{Julian F. Miller's Model}
-This model is based a number of works such as \cite{ecal2003}.
+This model is based a number of works such as \cite{ecal2003}. There are no official documentation or source code of it, so all work is based solely on descriptions of how it works.
