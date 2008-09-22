@@ -1,5 +1,5 @@
 #ifndef COORDINATES
-#define COORDINATES
+#define COORDINATES 10
 
 class Coordinates
 {
@@ -8,19 +8,37 @@ public:
 		y,	///< The y component of a cell's location
 		z;	///< The z component of a cell's location
 
-	Coordinates() : x(0), y(0), z(0) { }
+	Coordinates(int x = 0, int y = 0, int z = 0) : x(x), y(y), z(z) { }
 	Coordinates(const Coordinates &c) : x(c.x), y(c.y), z(c.z) { }
-	Coordinates(int x, int y) : x(x), y(y), z(0) { }
-	Coordinates(int x, int y, int z) : x(x), y(y), z(z) { }
 
 	Coordinates above() const
 	{
 		return Coordinates(this->x, this->y + 1, this->z);
 	}
 
+	Coordinates above_left() const
+	{
+		return Coordinates(this->x - 1, this->y + 1, this->z);
+	}
+
+	Coordinates above_right() const
+	{
+		return Coordinates(this->x + 1, this->y + 1, this->z);
+	}
+
 	Coordinates below() const
 	{
 		return Coordinates(this->x, this->y - 1, this->z);
+	}
+
+	Coordinates below_left() const
+	{
+		return Coordinates(this->x - 1, this->y - 1, this->z);
+	}
+
+	Coordinates below_right() const
+	{
+		return Coordinates(this->x + 1, this->y - 1, this->z);
 	}
 
 	Coordinates left() const

@@ -21,13 +21,13 @@ private:
 	/// Part of mitosis(), performs the actual cell duplication and inserts the
 	/// new cell into given location if possible. No cells are created if the
 	/// given location is already occupied by another cell.
-	void divide_cell(Cell *cell, Coordinates location);
+	void cell_division(Cell &cell, const Coordinates &location);
 
 	/// Speciates the cell and gives it a distinct function and/or place. The
 	/// stimuli provided by the proteins are first accumulated. The cell type
 	/// with the highest stimulus must then exceed a threshold before the cell
 	/// morphs into given type.
-	void metamorphosis(Cell *cell, ProteinListIterators &activated_proteins);
+	void metamorphosis(Cell &cell, ProteinListIterators &activated_proteins);
 
 	/// The mitotic phase refers to mitosis and cytokinesis in which (1) a
 	/// mother cell duplicates its chromosomes in the nucleus and (2) divides
@@ -41,18 +41,23 @@ private:
 	/// this is not plausible.
 	/// - Cell division is bound by occupancy of the location and the
 	/// boundaries set in the beginning.
-	void mitosis(Cell *cell, ProteinListIterators &activated_proteins);
+	void mitosis(Cell &cell, ProteinListIterators &activated_proteins);
 
 	/// Regulates the chemical levels in the cell.
-	void regulate_chemical_levels(Cell *cell, ProteinListIterators &activated_proteins);
+	void regulate_chemical_levels(Cell &cell, ProteinListIterators &activated_proteins);
 
 	/// Transcribes the genes that contain a given promoter to create a new
 	/// polypeptide chain, ie. protein.
-	void transcribe_proteins(Cell *cell, ProteinListIterators &activated_proteins);
+	void transcribe_proteins(Cell &cell, ProteinListIterators &activated_proteins);
 
 public:
-	ArtDev3D() : AbstractDevelopment(10), max_protein_number(99), max_chemical_concentration(1.0), min_chemical_concentration(0.0), min_stimuli_level(0.0) { }
-	ArtDev3D(int t) : AbstractDevelopment(t), max_protein_number(99), max_chemical_concentration(1.0), min_chemical_concentration(0.0), min_stimuli_level(0.0) { }
-	void execute();
-	void initialize();
+	ArtDev3D(int t = 10) :
+		AbstractDevelopment(t),
+		max_protein_number(99),
+		max_chemical_concentration(1.0),
+		min_chemical_concentration(0.0),
+		min_stimuli_level(0.0) { }
+
+	void execute(Cell &);
+	void initialize(Organism *);
 };
