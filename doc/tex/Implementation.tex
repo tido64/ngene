@@ -89,7 +89,86 @@ A module can be created by inheriting \texttt{AbstractDevelopment} and implement
 \subsubsection{Johan H{\o}ye's Model}
 A simpler (and hopefully faster) version of Johan H{\o}ye's master's thesis\cite{hoye2006} model was implemented with the help of the framework. Though simpler, all logical operations are still kept intact and was not altered in any way.
 
-Due to lack of documentation, porting his code from Java to C++ has been a rather dirty job. Many biology concepts made their way into his code, making it very messy and difficult to read at times. There are classes for pretty much every concept such as \texttt{Cell}, \texttt{Protein} and even \texttt{Proteincollection} and \texttt{ChangeChemicalConcentrationInCellProtein}. Because of how the hierarchy is built up, functions may call other functions which again call different functions, and so on, to perform simple operations. These functions are usually called many times in a single cell during a single tick, putting a strain on the call stack when there are a lot more cells in an organism, more ticks in a development process, and many organism in a population. Parts of the effort in porting this model over to the new framework has been spent on flattening the structure a bit, hopefully making it simpler and easier to understand. In many cases, it was simply substituting a class, such as \texttt{Chemicalconcentrations}, with an STL container. After all, the golden rule of programming is to not write custom containers unless absolutely necessary.
+Due to lack of documentation, porting his code from Java to C++ has been a rather dirty job. Many biology concepts made their way into his code, making it very messy and difficult to read at times. There are classes for pretty much every concept such as \texttt{Cell}, \texttt{Protein} and even \texttt{Proteincollection} and \texttt{ChangeChemicalConcentrationInCellProtein}. Because of how the hierarchy is built up, functions may call other functions which again call different functions, and so on, to perform simple operations. These functions are often called many times in a single cell during a single tick, putting a strain on the call stack when there are a lot more cells in an organism, more ticks in a development process, and many organism in a population that are to evolve over generations. Parts of the effort in porting this model over to the new framework has been spent on flattening the structure a bit, hopefully making it simpler and easier to understand. In many cases, it was simply substituting a class, such as \texttt{Chemicalconcentrations}, with an STL container. After all, the golden rule of programming is to not write custom containers unless deemed absolutely necessary.
+
+There are a couple of issues that Johan may have missed when he wrote his thesis. A lot of papers in this field agree to a certain degree that cells develop simultaneously, i.e. for all development that is based on neighbouring cells' states, an information exchange between all cells should occur first, and any other cellular operations last. However, in Johan's model, this is not implemented. The following snippets from his code should demonstrate this issue.
+
+\begin{verbatimtab}
+development/model/DevelopmentProsess.java:287-307:
+
+/*
+ * Performs a tick.
+ * The development prosess steps one step forwards.
+ */
+private boolean doTick() {
+	int cTime = getCurrentTick();
+	int dTime = this.numberOfTicks;
+	boolean success = false;
+
+	if(cTime < dTime) {
+		[...]
+		this.currentOrganism.tickEvent(); //< Development occurs here
+		this.currentTick++;
+		success = true;
+	} else {
+		setActive(false);
+	}
+	return success;
+}
+\end{verbatimtab}
+
+A tick signalises the organism to start doing something. Here, a tick event is triggered in an organism a certain amount of times.
+
+\begin{verbatimtab}
+development/model/framework/organism/Organism.java:90-101:
+
+/**
+ * Informs all cells in this organism of a tick event.
+ * Each time this method is called, the development proceeds one step.
+ * This method should be called each time a tick happens in
+ * {@link DevelopmentProsess}
+ */
+public void tickEvent() {
+	[...]
+	// notify each cell of the tick
+	for (Cell c : cells) {
+		c.tickEvent();
+	}
+}
+\end{verbatimtab}
+
+The organism receives the event and then relays this tick event to all cells inside of it. This occurs in the order in which the cells were added to the array.
+
+\begin{verbatimtab}
+development/model/framework/cell/Cell.java:275-293:
+
+/**
+ * Handles the actions this cell must do each tick.
+ * The order in which the different processes are carried out may have a great
+ * effect on the behaviour of the cell. Great care must be taken if changing
+ * this method!
+ *
+ */
+public final void tickEvent() {
+	[...]
+
+	// Clears all requested actions
+	resetRequestedActions();
+
+	// This cells protein collection is doing their action
+	pc.tickEvent();
+
+	// This cell is doing its action
+	doAction();
+}
+\end{verbatimtab}
+
+Here we see that all requested actions by this cell's proteins are deleted before new actions can be requested. This happens in \texttt{pc.tickEvent()}: First, all dead proteins are removed from the collection and the remaining are aged. Finally, these proteins can request an action upon the cell based on chemical levels in the cell, as well as criteria based on neighbouring cells' types. These queued actions are accumulated and realised in \texttt{doAction()}.
+
+We see that \texttt{Cell.tickEvent()} performs both the information gathering and all the actions as a single function while they should've been split up and run in two different loops. The problem here is that a single cell may get ``newer'' information from a neighbouring cell that already has been processed mixed up with ``older'' information from unprocessed cells, what it should've based its actions on.
+
+For the purpose of my thesis, \texttt{doAction()} has been extracted out of \texttt{Cell.tickEvent()} and is called separately in another loop. This may or may not have a consequence in the outcome of the runs. The experiments conducted will show whether or not this is the case.
+
 
 \subsubsection{Julian F. Miller's Model}
-This model is based a number of works such as \cite{ecal2003}. There are no official documentation or source code of it, so all work is based solely on descriptions of how it works.
+This model is based a number of works such as \cite{mteurogp2000} and \cite{ecal2003}. There are no official documentation or source code of it, so all work is based solely on descriptions of how it works.

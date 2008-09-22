@@ -322,6 +322,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Development\Message.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Development\Organism.h"
 				>
 			</File>

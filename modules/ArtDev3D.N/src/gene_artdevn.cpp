@@ -32,7 +32,7 @@ void initiate(const char *parameters)
 void phenotype(boost::any &phenotype, const Genotype &genotype)
 {
 	N::artdev3d.evolve(genotype);
-	phenotype = N::artdev3d.get_organism()->cells;
+	phenotype = N::artdev3d.get_organism();
 }
 
 void seed(Genotype &genotype)
@@ -50,10 +50,10 @@ const char *str(const Genotype &genotype)
 {
 	N::artdev3d.evolve(genotype);
 
-	Organism *o (N::artdev3d.get_organism());
+	map<Coordinates, Cell> o (N::artdev3d.get_organism());
 	stringstream ss;
 	printf("\nOptimus prime:\n");
-	for (map<Coordinates, Cell>::const_iterator i = o->cells.begin(); i != o->cells.end(); i++)
+	for (map<Coordinates, Cell>::const_iterator i = o.begin(); i != o.end(); i++)
 	{
 		printf("(%d, %d, %d) : %d\n", i->first.x, i->first.y, i->first.z, i->second.type);
 		ss << i->first.x << " " << i->first.y << " " << i->first.z << " " << i->second.type << "\n";
