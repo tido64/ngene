@@ -9,8 +9,8 @@
 class Organism
 {
 public:
-	const Genotype genotype;				///< The organism's dna
-	std::map<Coordinates, Cell> cells;		///< The organism's cells
+	const Genotype genotype;			///< The organism's dna
+	std::map<Coordinates, Cell> cells;	///< The organism's cells
 
 	Organism(const Genotype &g) : genotype(g) { }
 };

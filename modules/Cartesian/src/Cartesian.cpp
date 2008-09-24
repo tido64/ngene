@@ -13,7 +13,26 @@ double Cartesian::diffuse(const double lvl, const vector<Message> &in)
 
 void Cartesian::execute(Cell &c)
 {
-	unsigned int fn (NUMBER_OF_FUNCTIONS >> 1);
+	for (vector<unsigned int>::iterator i = this->system.begin(); i != this->system.end(); i++)
+	{
+		switch (*i)
+		{
+			case ADD:
+				break;
+			case AND:
+				break;
+			case DIV:
+				break;
+			case MUL:
+				break;
+			case OR:
+				break;
+			case SUB:
+				break;
+			case XOR:
+				break;
+		}
+	}
 }
 
 void Cartesian::initialize(Organism *o)

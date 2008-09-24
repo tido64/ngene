@@ -1,6 +1,6 @@
 /*
-- Some organisms start with 7 cells...
-- CellType gets mutated?
+X Some organisms start with 7 cells...
+X CellType gets mutated?
 - Specimens have low fitness because offset is not accounted for
 I Is iteration occurring in the right sequence?????
 - Neighbourhood check is not implemented!!
@@ -49,13 +49,25 @@ void ArtDev3D::execute(Cell &c)
 	}
 
 	if (!active_proteins[ProteinType::transcribing].empty() & (c.proteins.size() < this->max_protein_number))
+	{
+		//printf("Transcribing proteins...\n");
 		transcribe_proteins(c, active_proteins[ProteinType::transcribing]);
+	}
 	if (!active_proteins[ProteinType::regulatory].empty())
+	{
+		//printf("Regulating chemicals...\n");
 		regulate_chemical_levels(c, active_proteins[ProteinType::regulatory]);
+	}
 	if (!active_proteins[ProteinType::mitotic].empty())
+	{
+		//printf("Mitosis in progress...\n");
 		mitosis(c, active_proteins[ProteinType::mitotic]);
+	}
 	if (!active_proteins[ProteinType::speciation].empty())
+	{
+		//printf("Metamorphosis in progress...\n");
 		metamorphosis(c, active_proteins[ProteinType::speciation]);
+	}
 
 	// remove dead proteins
 	for (ProteinListIterators::reverse_iterator i = dead_proteins.rbegin(); i != dead_proteins.rend(); i++)

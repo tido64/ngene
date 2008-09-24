@@ -1,4 +1,4 @@
-default: clean
+default:
 	rubber -d main.tex
 
 clean:

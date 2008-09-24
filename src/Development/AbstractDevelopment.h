@@ -15,7 +15,7 @@ private:
 	{
 		for (std::map<Coordinates, Cell>::iterator i = this->organism->cells.begin(); i != this->organism->cells.end(); i++)
 		{
-			Message m (i->second);
+			Message m (i->second.type, i->second.chemicals, i->second.coords);
 			if (this->organism->cells.find(i->first.above()) != this->organism->cells.end())
 				this->organism->cells[i->first.above()].messages[From::below] = m;
 			if (this->organism->cells.find(i->first.above_left()) != this->organism->cells.end())
