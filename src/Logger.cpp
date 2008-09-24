@@ -60,6 +60,7 @@ void Logger::log(const Specimen &best, GenotypeToStr *genotype_to_str, double ti
 	output << (*genotype_to_str)(best.genotype) << "\n";
 	output.close();
 
+	time /= CLOCKS_PER_SEC;
 	printf("Completed in %i minute(s) and %i second(s).\n\n",
 		static_cast<int>(time / 60), static_cast<int>(time + 0.5) % 60);
 }

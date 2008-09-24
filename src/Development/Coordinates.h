@@ -1,5 +1,23 @@
 #ifndef COORDINATES
-#define COORDINATES 10
+#define COORDINATES
+
+namespace From
+{
+	enum Type
+	{
+		above,
+		above_left,
+		above_right,
+		left,
+		right,
+		below,
+		below_left,
+		below_right,
+		front,
+		back,
+		MAXIMUM_NEIGHBOURS
+	};
+}
 
 class Coordinates
 {

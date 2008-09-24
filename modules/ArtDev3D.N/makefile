@@ -11,7 +11,7 @@ OBJ    = $(OBJDIR)/ArtDev3D.o \
 	$(OBJDIR)/Random.o
 
 CPP = g++
-CFLAGS = -g -O2 -Wall -Werror -fPIC
+CFLAGS = -g -O0 -Wall -Werror -fPIC
 LDFLAGS = -shared
 
 default: $(EXEC)

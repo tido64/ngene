@@ -4,7 +4,7 @@ using std::sort;
 using std::string;
 using std::vector;
 
-const char *NGENE_VERSION = "0.1.1 (build/20080618)";
+const char *NGENE_VERSION = "0.1.1 (build/20080922)";
 
 int main(int argc, char *argv[])
 {
@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 	printf("Evolution started: %i generations shall live and prosper!\n\n", config.doomsday);
 
 	logger.log(1, adults);
-	time = omp_get_wtime();
+	time = clock();
 
 	// Commence evolution
 	for (unsigned int generation = 2; generation <= config.doomsday; generation++)
@@ -153,7 +153,7 @@ int main(int argc, char *argv[])
 			break;
 		}
 	}
-	time = omp_get_wtime() - time;
+	time = clock() - time;
 	logger.log(*best_specimen(adults.begin(), adults.end()), &module.genotype_to_str, time);
 	return 0;
 }

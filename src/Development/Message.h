@@ -3,24 +3,8 @@
 #ifndef MESSAGE
 #define MESSAGE
 
-#include "Cell.h"
-
-namespace From
-{
-	enum Type
-	{
-		above,
-		above_left,
-		above_right,
-		left,
-		right,
-		below,
-		below_left,
-		below_right,
-		front,
-		back
-	};
-}
+#include <vector>
+#include "Coordinates.h"
 
 struct Message
 {
@@ -31,10 +15,10 @@ struct Message
 	Message() :
 		type(-1) { }
 
-	Message(const Cell &c) :
-		type(c.type),
-		chemicals(c.chemicals),
-		coords(c.coords) { }
+	Message(const int t, const std::vector<double> &ch, const Coordinates &co) :
+		type(t),
+		chemicals(ch),
+		coords(co) { }
 };
 
 #endif

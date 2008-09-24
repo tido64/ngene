@@ -4,10 +4,8 @@
 #define CELL
 
 #include <list>
-#include "Coordinates.h"
+#include "Message.h"
 #include "Protein.h"
-
-struct Message;
 
 struct Cell
 {
@@ -18,6 +16,7 @@ struct Cell
 	std::vector<Message> messages;	///< Messages from the neighbouring cells in the current tick
 
 	Cell() :
+		type(-1),
 		messages(COORDINATES) { }
 
 	Cell(const Cell &c, const Coordinates &l) :
@@ -25,7 +24,5 @@ struct Cell
 		coords(l),
 		messages(COORDINATES) { }
 };
-
-#include "Message.h"
 
 #endif
