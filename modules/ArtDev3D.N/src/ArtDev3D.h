@@ -51,12 +51,13 @@ private:
 	void transcribe_proteins(Cell &cell, ProteinListIterators &activated_proteins);
 
 public:
-	ArtDev3D(int t = 10) :
-		AbstractDevelopment(t),
+	ArtDev3D(int ticks, unsigned int ctypes, double min_stimuli) :
+		AbstractDevelopment(ticks),
 		max_protein_number(99),
+		cell_types(ctypes),
 		max_chemical_concentration(1.0),
 		min_chemical_concentration(0.0),
-		min_stimuli_level(0.0) { }
+		min_stimuli_level(min_stimuli) { }
 
 	void execute(Cell &);
 	void initialize(Organism *);

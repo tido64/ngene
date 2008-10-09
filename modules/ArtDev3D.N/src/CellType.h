@@ -1,5 +1,5 @@
-#ifndef CELLTYPE
-#define CELLTYPE
+#ifndef CELLTYPE_H_
+#define CELLTYPE_H_
 
 namespace CellType
 {

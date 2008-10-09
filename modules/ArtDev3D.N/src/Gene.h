@@ -1,5 +1,5 @@
 #if defined( WIN32) && defined(_DEBUG)
-#pragma warning(disable: 4267)
+#	pragma warning(disable: 4267)
 #endif
 
 /// Code based off Johan Høye's [HOYE2006]. Rewritten in C++ for Ngene with
@@ -9,8 +9,8 @@
 /// promoter that a protein recognizes and triggers the transcription. The
 /// translation of a gene is done beforehand to reduce cpu cycles.
 
-#ifndef GENE
-#define GENE
+#ifndef GENE_H_
+#define GENE_H_
 
 #define DIRECTIONS 6
 

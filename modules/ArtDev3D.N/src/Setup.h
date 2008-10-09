@@ -1,5 +1,5 @@
-#ifndef SETUP
-#define SETUP
+#ifndef SETUP_H_
+#define SETUP_H_
 
 struct Setup
 {
