@@ -1,7 +1,7 @@
 /// A generic organism to be used in development systems.
 
-#ifndef ORGANISM
-#define ORGANISM
+#ifndef ORGANISM_H_
+#define ORGANISM_H_
 
 #include <map>
 #include "Cell.h"
