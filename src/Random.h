@@ -5,8 +5,8 @@
 /// unique across shared libraries (unless you send a pointer to it, of
 /// course).
 
-#ifndef RANDOM_GENERATOR
-#define RANDOM_GENERATOR
+#ifndef RANDOM_H_
+#define RANDOM_H_
 
 #include <ctime>
 #include <boost/random/mersenne_twister.hpp>

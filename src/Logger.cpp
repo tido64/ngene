@@ -8,8 +8,8 @@ Logger::Logger() : plotter(0)
 	if (mkdir("logs", 0775) == -1 && errno != EEXIST)
 #endif
 	{
-		printf("  * Failed to create directory for logs: %s\n", strerror(errno));
-		abort();
+		printf("==> Failed to create directory for logs: %s\n", strerror(errno));
+		exit(-1);
 	}
 	const std::time_t now = time(0);
 	strftime(this->timestamp, sizeof(this->timestamp), "./logs/%Y%m%d-%H%M%S", localtime(&now));

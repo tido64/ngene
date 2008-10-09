@@ -48,8 +48,8 @@ const Config ConfigManager::parse()
 	}
 	else
 	{
-		printf("Failed to open configuration file.\n");
-		abort();
+		printf("==> Failed to open configuration file.\n");
+		exit(-1);
 	}
 
 	return config;

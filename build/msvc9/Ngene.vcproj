@@ -190,6 +190,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\InterruptHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Logger.cpp"
 				>
 			</File>
@@ -229,6 +233,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ConfigManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\InterruptHandler.h"
 				>
 			</File>
 			<File
@@ -279,6 +287,14 @@
 			>
 			<File
 				RelativePath="..\..\makefile"
+				>
+			</File>
+			<File
+				RelativePath="..\..\bin\ngene.conf"
+				>
+			</File>
+			<File
+				RelativePath="..\..\bin\ngene.xml"
 				>
 			</File>
 		</Filter>

@@ -2,8 +2,8 @@
 /// ConfigManager, but should be accessible by the whole system once the
 /// ConfigManager object is instantiated.
 
-#ifndef CONFIG_STRUCT
-#define CONFIG_STRUCT
+#ifndef CONFIG_H_
+#define CONFIG_H_
 
 #include <string>
 #include <vector>

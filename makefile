@@ -6,6 +6,7 @@ OBJDIR = build/unix
 SRCDIR = src
 EXEC = $(BINDIR)/$(TARGET)
 OBJ = $(OBJDIR)/ConfigManager.o \
+	$(OBJDIR)/InterruptHandler.o \
 	$(OBJDIR)/Logger.o \
 	$(OBJDIR)/PlotterFactory.o \
 	$(OBJDIR)/Plotter_SVG.o \

@@ -1,7 +1,7 @@
 /// An individual carrying a specific genotype in a population.
 
-#ifndef SPECIMEN_INTERFACE
-#define SPECIMEN_INTERFACE
+#ifndef SPECIMEN_H_
+#define SPECIMEN_H_
 
 #include <algorithm>
 #include <vector>

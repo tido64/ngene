@@ -4,10 +4,12 @@ using std::sort;
 using std::string;
 using std::vector;
 
-const char *NGENE_VERSION = "0.1.1 (build/20080922)";
+const char *NGENE_VERSION = "1.1.81009";
 
 int main(int argc, char *argv[])
 {
+	InterruptHandler interrupt_handler;
+
 	string config_file ("ngene.conf");
 	if (argc > 1)
 	{
@@ -152,6 +154,8 @@ int main(int argc, char *argv[])
 			printf("Perfect specimen found. ");
 			break;
 		}
+		else if (USER_INTERVENTION)
+			break;
 	}
 	time = clock() - time;
 	logger.log(*best_specimen(adults.begin(), adults.end()), &module.genotype_to_str, time);
