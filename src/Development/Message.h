@@ -1,7 +1,7 @@
 /// A common message used to exchange information between cells.
 
-#ifndef MESSAGE
-#define MESSAGE
+#ifndef MESSAGE_H_
+#define MESSAGE_H_
 
 #include <vector>
 #include "Coordinates.h"

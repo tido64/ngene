@@ -1,7 +1,7 @@
 /// A generic protein commonly used in development systems.
 
-#ifndef PROTEIN
-#define PROTEIN
+#ifndef PROTEIN_H_
+#define PROTEIN_H_
 
 #include <vector>
 

@@ -1,5 +1,5 @@
-#ifndef COORDINATES
-#define COORDINATES
+#ifndef COORDINATES_H_
+#define COORDINATES_H_
 
 namespace From
 {
@@ -15,7 +15,7 @@ namespace From
 		below_right,
 		front,
 		back,
-		MAXIMUM_NEIGHBOURS
+		ALL_NEIGHBOURS
 	};
 }
 
