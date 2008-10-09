@@ -3,8 +3,8 @@
 /// by the parameter sent to it. It will then populate a Config object that
 /// will be publically accessible.
 
-#ifndef CONFIGMANAGER
-#define CONFIGMANAGER
+#ifndef CONFIGMANAGER_H_
+#define CONFIGMANAGER_H_
 
 #include <fstream>
 #include <boost/algorithm/string/trim.hpp>

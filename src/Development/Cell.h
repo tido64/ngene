@@ -1,7 +1,7 @@
 /// A generic cell in a generic organism.
 
-#ifndef CELL
-#define CELL
+#ifndef CELL_H_
+#define CELL_H_
 
 #include <list>
 #include "Message.h"
@@ -17,12 +17,14 @@ struct Cell
 
 	Cell() :
 		type(-1),
-		messages(COORDINATES) { }
+		messages(From::ALL_NEIGHBOURS) { }
 
-	Cell(const Cell &c, const Coordinates &l) :
+	Cell(const Cell &c, const Coordinates &loc) :
 		type(c.type),
-		coords(l),
-		messages(COORDINATES) { }
+		proteins(c.proteins),
+		chemicals(c.chemicals.size(), 0.0),
+		coords(loc),
+		messages(From::ALL_NEIGHBOURS) { }
 };
 
 #endif

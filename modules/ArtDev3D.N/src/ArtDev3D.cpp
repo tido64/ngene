@@ -1,9 +1,9 @@
 /*
-X Some organisms start with 7 cells...
-X CellType gets mutated?
+? Some organisms start with 7 cells...
+? CellType gets mutated?
 - Specimens have low fitness because offset is not accounted for
 I Is iteration occurring in the right sequence?????
-- Neighbourhood check is not implemented!!
+I Neighbourhood check is not implemented!!
 */
 
 #include "ArtDev3D.h"
@@ -15,7 +15,7 @@ using std::vector;
 
 void ArtDev3D::cell_division(Cell &cell, const Coordinates &location)
 {
-	if (exists(location) && queued(location))
+	if (!exists(location) && !queued(location))
 		divide_cell(cell, location);
 }
 
@@ -92,6 +92,8 @@ void ArtDev3D::metamorphosis(Cell &cell, ProteinListIterators &proteins)
 {
 	double tmp (0.0);
 	vector<double> tally (this->cell_types, 0.0);
+
+	//printf("There are %u cell types and tally size is %u but %u parameters\n", this->cell_types, tally.size(), proteins[0]->parameters.size());
 
 	for (unsigned int p = 0; p < proteins.size(); p++)
 		tally[proteins[p]->meta] += proteins[p]->parameters[0];

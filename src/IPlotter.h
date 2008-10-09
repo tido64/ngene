@@ -3,8 +3,8 @@
 /// progression of the population. The name of the output file is
 /// typically the date and time the run was initiated.
 
-#ifndef PLOTTER_INTERFACE
-#define PLOTTER_INTERFACE
+#ifndef IPLOTTER_H_
+#define IPLOTTER_H_
 
 #include "Config.h"
 

@@ -13,6 +13,7 @@ namespace N
 	ArtDev3D artdev3d;
 }
 
+using std::endl;
 using std::map;
 using std::stringstream;
 using std::vector;
@@ -48,15 +49,25 @@ const char *species()
 
 const char *str(const Genotype &genotype)
 {
-	N::artdev3d.evolve(genotype);
-
-	map<Coordinates, Cell> o (N::artdev3d.get_organism());
 	stringstream ss;
-	printf("\nOptimus prime:\n");
-	for (map<Coordinates, Cell>::const_iterator i = o.begin(); i != o.end(); i++)
+	ss << "sizeX=" << N::boundaries.x << endl
+		<< "sizeY=" << N::boundaries.y << endl
+		<< "sizeZ=" << N::boundaries.z << endl;
+
+	N::artdev3d.evolve(genotype);
+	map<Coordinates, Cell> o (N::artdev3d.get_organism());
+
+	Coordinates offset (N::boundaries.x >> 1, N::boundaries.y >> 1, N::boundaries.z >> 1);
+	for (map<Coordinates, Cell>::iterator i = o.begin(); i != o.end(); i++)
 	{
-		printf("(%d, %d, %d) : %d\n", i->first.x, i->first.y, i->first.z, i->second.type);
-		ss << i->first.x << " " << i->first.y << " " << i->first.z << " " << i->second.type << "\n";
+		Coordinates tmp (i->first.x + offset.x, i->first.y + offset.y, i->first.z + offset.z);
+
+		if (tmp.x >= 0 & tmp.x <= N::boundaries.x 
+			& tmp.y >= 0 & tmp.y <= N::boundaries.y
+			& tmp.z >= 0 & tmp.z <= N::boundaries.z)
+		{
+			ss << tmp.x << " " << tmp.y << " " << tmp.z << " " << i->second.type << endl;
+		}
 	}
 	N::name = ss.str();
 

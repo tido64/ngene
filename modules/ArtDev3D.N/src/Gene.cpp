@@ -27,6 +27,7 @@ Gene::Gene(const Setup *s) : setup(s)
 		this->protein.neighbourhood_criteria.end(),
 		Random::Instance());
 
+	this->protein.life = Random::Instance().next_int(this->setup->max_protein_lifespan);
 	this->protein.type = Random::Instance().next_int(ProteinType::number_of_types);
 
 	switch(this->protein.type)

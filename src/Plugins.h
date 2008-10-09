@@ -1,5 +1,5 @@
-#ifndef PLUGINS
-#define PLUGINS
+#ifndef PLUGINS_H_
+#define PLUGINS_H_
 
 #include "Specimen.h"
 
