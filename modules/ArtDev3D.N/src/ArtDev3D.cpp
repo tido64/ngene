@@ -1,11 +1,3 @@
-/*
-? Some organisms start with 7 cells...
-? CellType gets mutated?
-- Specimens have low fitness because offset is not accounted for
-I Is iteration occurring in the right sequence?????
-I Neighbourhood check is not implemented!!
-*/
-
 #include "ArtDev3D.h"
 
 using std::list;
@@ -49,25 +41,13 @@ void ArtDev3D::execute(Cell &c)
 	}
 
 	if (!active_proteins[ProteinType::transcribing].empty() & (c.proteins.size() < this->max_protein_number))
-	{
-		//printf("Transcribing proteins...\n");
 		transcribe_proteins(c, active_proteins[ProteinType::transcribing]);
-	}
 	if (!active_proteins[ProteinType::regulatory].empty())
-	{
-		//printf("Regulating chemicals...\n");
 		regulate_chemical_levels(c, active_proteins[ProteinType::regulatory]);
-	}
 	if (!active_proteins[ProteinType::mitotic].empty())
-	{
-		//printf("Mitosis in progress...\n");
 		mitosis(c, active_proteins[ProteinType::mitotic]);
-	}
 	if (!active_proteins[ProteinType::speciation].empty())
-	{
-		//printf("Metamorphosis in progress...\n");
 		metamorphosis(c, active_proteins[ProteinType::speciation]);
-	}
 
 	// remove dead proteins
 	for (ProteinListIterators::reverse_iterator i = dead_proteins.rbegin(); i != dead_proteins.rend(); i++)
@@ -90,10 +70,11 @@ void ArtDev3D::initialize(Organism *o)
 
 void ArtDev3D::metamorphosis(Cell &cell, ProteinListIterators &proteins)
 {
+	if (this->cell_types < 2)
+		return;
+
 	double tmp (0.0);
 	vector<double> tally (this->cell_types, 0.0);
-
-	//printf("There are %u cell types and tally size is %u but %u parameters\n", this->cell_types, tally.size(), proteins[0]->parameters.size());
 
 	for (unsigned int p = 0; p < proteins.size(); p++)
 		tally[proteins[p]->meta] += proteins[p]->parameters[0];

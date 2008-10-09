@@ -1,7 +1,7 @@
 /// Mutables defines the properties that can be mutated.
 
-#ifndef MUTABLES
-#define MUTABLES
+#ifndef MUTABLE_H_
+#define MUTABLE_H_
 
 namespace Mutable
 {

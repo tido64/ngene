@@ -1,5 +1,5 @@
-#ifndef PROTEINTYPE
-#define PROTEINTYPE
+#ifndef PROTEINTYPE_H_
+#define PROTEINTYPE_H_
 
 namespace ProteinType
 {

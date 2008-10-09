@@ -1,5 +1,5 @@
 #if defined( WIN32) && defined(_DEBUG)
-#pragma warning(disable: 4267)
+#	pragma warning(disable: 4267)
 #endif
 
 /// This config class parses Johan's configuration files, and in time Nbryo's

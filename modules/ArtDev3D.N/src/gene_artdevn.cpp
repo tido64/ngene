@@ -1,3 +1,5 @@
+/*-- Boundaries are implemented in output-writer and not development module --*/
+
 #include "../../../src/Interfaces/Genotype.h"
 #include <sstream>
 
@@ -10,7 +12,7 @@ namespace N
 	std::string name;
 	Coordinates boundaries;
 	Setup setup;
-	ArtDev3D artdev3d;
+	ArtDev3D *artdev3d;
 }
 
 using std::endl;
@@ -28,12 +30,14 @@ void initiate(const char *parameters)
 
 	ConfigManager config_manager;
 	N::setup = config_manager.get_setup();
+
+	N::artdev3d = new ArtDev3D (N::ticks, N::setup.cell_types_number, N::setup.min_stimuli);
 }
 
 void phenotype(boost::any &phenotype, const Genotype &genotype)
 {
-	N::artdev3d.evolve(genotype);
-	phenotype = N::artdev3d.get_organism();
+	N::artdev3d->evolve(genotype);
+	phenotype = N::artdev3d->get_organism();
 }
 
 void seed(Genotype &genotype)
@@ -54,17 +58,18 @@ const char *str(const Genotype &genotype)
 		<< "sizeY=" << N::boundaries.y << endl
 		<< "sizeZ=" << N::boundaries.z << endl;
 
-	N::artdev3d.evolve(genotype);
-	map<Coordinates, Cell> o (N::artdev3d.get_organism());
+	N::artdev3d->evolve(genotype);
+	map<Coordinates, Cell> o (N::artdev3d->get_organism());
+	delete N::artdev3d;
 
 	Coordinates offset (N::boundaries.x >> 1, N::boundaries.y >> 1, N::boundaries.z >> 1);
 	for (map<Coordinates, Cell>::iterator i = o.begin(); i != o.end(); i++)
 	{
 		Coordinates tmp (i->first.x + offset.x, i->first.y + offset.y, i->first.z + offset.z);
 
-		if (tmp.x >= 0 & tmp.x <= N::boundaries.x 
-			& tmp.y >= 0 & tmp.y <= N::boundaries.y
-			& tmp.z >= 0 & tmp.z <= N::boundaries.z)
+		if (tmp.x >= 0 & tmp.x < N::boundaries.x 
+			& tmp.y >= 0 & tmp.y < N::boundaries.y
+			& tmp.z >= 0 & tmp.z < N::boundaries.z)
 		{
 			ss << tmp.x << " " << tmp.y << " " << tmp.z << " " << i->second.type << endl;
 		}
