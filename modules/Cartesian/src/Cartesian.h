@@ -1,14 +1,18 @@
 #include "../../../src/Development/AbstractDevelopment.h"
 #include "../../../src/Development/Organism.h"
-#include "Functions.h"
+#include "Function.h"
 
 class Cartesian : public AbstractDevelopment
 {
 private:
-	std::vector<unsigned int> system;
+	const unsigned int l, n;
+	std::vector<unsigned int> nodes;
+	std::vector<Function *> system;
 
 public:
-	Cartesian(int t = 10) : AbstractDevelopment(t) { }
+	Cartesian(const unsigned int t, const unsigned int l, const unsigned int n);
+	~Cartesian();
+
 	double diffuse(const double lvl, const std::vector<Message> &in);
 
 	// Implements AbstractDevelopment's methods
