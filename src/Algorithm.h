@@ -3,8 +3,13 @@
 #ifndef ALGORITHM_H_
 #define ALGORITHM_H_
 
-namespace Ngene
+#include <cmath>
+#include <sstream>
+
+namespace ngene
 {
+	const double ln2 = log(2.0);
+
 	/// Searches for an occurrence of a substring inside a bitstring. Algorithm
 	/// makes use of bit-operations.
 	/// \param needle         The substring to find
@@ -21,6 +26,20 @@ namespace Ngene
 	inline unsigned int bitstring_flip(unsigned int bits, unsigned int flip_index)
 	{
 		return bits ^ (1 << flip_index);
+	}
+
+	inline double log2(const unsigned int x)
+	{
+		return log(static_cast<double>(x)) / ln2;
+	}
+
+	/// Converts any basic type to string.
+	template <class T>
+	inline std::string to_string(const T& t)
+	{
+		std::stringstream ss;
+		ss << t;
+		return ss.str();
 	}
 }
 

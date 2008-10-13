@@ -72,7 +72,7 @@ void Gene::mutate()
 	switch (Random::Instance().next_int(Mutable::number_of_properties))
 	{
 		case Mutable::sequence: // mutate the dna sequence of this gene
-			this->sequence = Ngene::bitstring_flip(this->sequence, Random::Instance().next_int(this->setup->gene_sequence_length));
+			this->sequence = ngene::bitstring_flip(this->sequence, Random::Instance().next_int(this->setup->gene_sequence_length));
 			break;
 		case Mutable::lifespan: // increase or decrease the lifespan of the protein
 			if ((this->protein.life == 0) | (Random::Instance().next() < 0.5))
@@ -106,7 +106,7 @@ void Gene::mutate()
 						this->protein.meta = Random::Instance().next_int(this->setup->cell_types_number);
 					break;
 				case ProteinType::transcribing: // flip a random bit in the promoter
-					this->protein.meta = Ngene::bitstring_flip(this->protein.meta, Random::Instance().next_int(this->setup->promoter_length));
+					this->protein.meta = ngene::bitstring_flip(this->protein.meta, Random::Instance().next_int(this->setup->promoter_length));
 					break;
 				default:
 					break;

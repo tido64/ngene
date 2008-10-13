@@ -1,9 +1,11 @@
-TARGET = gene_crtesian.so
+TARGET = gene_cartesian.so
 BINDIR = ../../bin/modules
 OBJDIR = build/unix
 SRCDIR = src
 EXEC   = $(BINDIR)/$(TARGET)
-OBJ    = $(OBJDIR)/Cartesian.o
+OBJ    = $(OBJDIR)/Cartesian.o \
+	$(OBJDIR)/Algorithm.o \
+	$(OBJDIR)/gene_cartesian.o
 
 CPP = g++
 CFLAGS = -g -O0 -Wall -Werror -fPIC

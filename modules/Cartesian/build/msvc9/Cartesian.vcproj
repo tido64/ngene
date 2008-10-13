@@ -173,7 +173,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\..\..\src\Algorithm.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Cartesian.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gene_cartesian.cpp"
 				>
 			</File>
 		</Filter>
@@ -183,11 +191,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\..\..\..\src\Algorithm.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Cartesian.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Functions.h"
+				RelativePath="..\..\src\Function.h"
 				>
 			</File>
 		</Filter>
@@ -196,6 +208,58 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File
+				RelativePath="..\..\makefile"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Functions"
+			>
+			<File
+				RelativePath="..\..\src\Functions\add.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Functions\and.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Functions\div.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Functions\mul.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Functions\mux.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Functions\nand.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Functions\nor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Functions\or.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Functions\sub.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Functions\xnor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Functions\xor.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

@@ -131,6 +131,6 @@ void ArtDev3D::transcribe_proteins(Cell &cell, ProteinListIterators &proteins)
 {
 	for (unsigned int p = 0; p < proteins.size(); p++)
 		for (Genome::iterator g = this->genome.begin(); g != this->genome.end(); g++)
-			if (Ngene::bitstring_find(proteins[p]->meta, g->setup->promoter_length, g->get_sequence(), g->setup->gene_sequence_length) > -1)
+			if (ngene::bitstring_find(proteins[p]->meta, g->setup->promoter_length, g->get_sequence(), g->setup->gene_sequence_length) > -1)
 				cell.proteins.push_back(Protein (*g->get_protein()));
 }

@@ -1,6 +1,6 @@
 #include "Algorithm.h"
 
-int Ngene::bitstring_find(unsigned int needle, unsigned int needle_size, unsigned int haystack, unsigned int haystack_size)
+int ngene::bitstring_find(unsigned int needle, unsigned int needle_size, unsigned int haystack, unsigned int haystack_size)
 {
 	if (needle_size < haystack_size)
 	{
