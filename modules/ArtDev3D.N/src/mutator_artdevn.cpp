@@ -5,15 +5,16 @@ void initiate(const char *parameters) { }
 
 void mutate(Genotype &genotype)
 {
+	int idx = Random::Instance().next_int(genotype.size());
 	if (Random::Instance().next() < 0.5) // duplicate or delete gene
 	{
 		if (Random::Instance().next() < 0.7) // duplicate
-			genotype.push_back(genotype[Random::Instance().next_int(genotype.size())]);
+			genotype.push_back(genotype[idx]);
 		else if (genotype.size() > 1) // erase
-			genotype.erase(genotype.begin() + Random::Instance().next_int(genotype.size()));
+			genotype.erase(genotype.begin() + idx);
 	}
 	else // mutate a random property
-		boost::unsafe_any_cast<Gene>(&genotype[Random::Instance().next_int(genotype.size())])->mutate();
+		boost::unsafe_any_cast<Gene>(&genotype[idx])->mutate();
 }
 
 const char *name()

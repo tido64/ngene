@@ -67,9 +67,9 @@ const char *str(const Genotype &genotype)
 	{
 		Coordinates tmp (i->first.x + offset.x, i->first.y + offset.y, i->first.z + offset.z);
 
-		if (tmp.x >= 0 & tmp.x < N::boundaries.x 
-			& tmp.y >= 0 & tmp.y < N::boundaries.y
-			& tmp.z >= 0 & tmp.z < N::boundaries.z)
+		if ((tmp.x >= 0) & (tmp.x < N::boundaries.x)
+			& (tmp.y >= 0) & (tmp.y < N::boundaries.y)
+			& (tmp.z >= 0) & (tmp.z < N::boundaries.z))
 		{
 			ss << tmp.x << " " << tmp.y << " " << tmp.z << " " << i->second.type << endl;
 		}

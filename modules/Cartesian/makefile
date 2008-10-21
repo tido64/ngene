@@ -5,6 +5,7 @@ SRCDIR = src
 EXEC   = $(BINDIR)/$(TARGET)
 OBJ    = $(OBJDIR)/Cartesian.o \
 	$(OBJDIR)/Algorithm.o \
+	$(OBJDIR)/Random.o \
 	$(OBJDIR)/gene_cartesian.o
 
 CPP = g++
@@ -22,7 +23,13 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 $(OBJDIR)/%.o: ../../src/%.cpp
 	$(CPP) -g0 -O3 -Wall -Werror -fPIC -s -c $< -o $@
 
+fitness: $(OBJDIR)/fitness_cartesian.o
+	$(CPP) $(LDFLAGS) -o $(BINDIR)/fitness_cartesian.so $^
+
+mutator: $(OBJDIR)/Random.o $(OBJDIR)/mutator_cartesian.o
+	$(CPP) $(LDFLAGS) -o $(BINDIR)/mutator_cartesian.so $^
+
 all: $(EXEC) fitness mutator
 
 clean:
-	rm -f $(OBJ)
+	rm -f $(OBJ) $(OBJDIR)/mutator_cartesian.o

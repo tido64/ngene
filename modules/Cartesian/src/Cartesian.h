@@ -6,7 +6,8 @@ class Cartesian : public AbstractDevelopment
 {
 private:
 	const unsigned int l, n;
-	std::vector<unsigned int> nodes;
+	const double MAX_CHEMICALS;
+	std::vector<unsigned int> nodes, output;
 	std::vector<Function *> system;
 
 public:

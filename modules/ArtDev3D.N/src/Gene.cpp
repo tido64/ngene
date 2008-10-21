@@ -44,7 +44,7 @@ Gene::Gene(const Setup *s) : setup(s)
 				this->protein.parameters.push_back(
 					(Random::Instance().next() < 0.5) ? 0.0 : Random::Instance().next(this->setup->min_stimuli, this->setup->max_stimuli));
 			break;
-		case ProteinType::speciation:
+		case ProteinType::metamorphic:
 			this->protein.parameters.push_back(Random::Instance().next(this->setup->min_stimuli, this->setup->max_stimuli));
 			this->protein.meta = Random::Instance().next_int(this->setup->cell_types_number);
 			break;
@@ -80,6 +80,10 @@ void Gene::mutate()
 			else
 				this->protein.life--;
 			break;
+		case Mutable::promoter: // flip a bit in the promoter
+			if (this->protein.type == ProteinType::transcribing)
+				this->protein.meta = ngene::bitstring_flip(this->protein.meta, Random::Instance().next_int(this->setup->promoter_length));
+			break;
 		case Mutable::thresholds: // mutates the chemical criteria
 			this->protein.chemical_criteria[Random::Instance().next_int(this->protein.chemical_criteria.size())]
 				+= Random::Instance().next(-0.1, 0.1);
@@ -99,14 +103,11 @@ void Gene::mutate()
 					this->protein.parameters[Random::Instance().next_int(this->protein.parameters.size())]
 						= Random::Instance().next(this->setup->min_stimuli, this->setup->max_stimuli);
 					break;
-				case ProteinType::speciation:
+				case ProteinType::metamorphic:
 					if (Random::Instance().next() < 0.5) // mutate stimulus level
 						this->protein.parameters[0] = Random::Instance().next(this->setup->min_stimuli, this->setup->max_stimuli);
 					else // mutate cell type
 						this->protein.meta = Random::Instance().next_int(this->setup->cell_types_number);
-					break;
-				case ProteinType::transcribing: // flip a random bit in the promoter
-					this->protein.meta = ngene::bitstring_flip(this->protein.meta, Random::Instance().next_int(this->setup->promoter_length));
 					break;
 				default:
 					break;

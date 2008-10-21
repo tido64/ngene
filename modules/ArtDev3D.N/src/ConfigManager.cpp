@@ -44,7 +44,7 @@ ConfigManager::ConfigManager()
 		this->protein_weights.assign(ProteinType::number_of_types, 0);
 
 		parse_protein_config(ProteinType::mitotic, config, "protein[0]", progress);
-		parse_protein_config(ProteinType::speciation, config, "protein[1]", progress);
+		parse_protein_config(ProteinType::metamorphic, config, "protein[1]", progress);
 		parse_protein_config(ProteinType::regulatory, config, "protein[2]", progress);
 		parse_protein_config(ProteinType::transcribing, config, "protein[3]", progress);
 	}

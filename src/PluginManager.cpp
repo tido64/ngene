@@ -42,7 +42,7 @@ void PluginManager::load_module(const Module::Type module_type, const string &fi
 				dl = "species";
 				break;
 			case Module::fitness:
-				((void (*)(Phenotype *fn))dlsym(module, "assign_phenotype_function"))(&this->phenotype);
+				((void (*)(Phenotype *fn))dlsym(module, "assign_functions"))(&this->phenotype);
 				this->assess_fitness = (Fitness)dlsym(module, "assess");
 				break;
 			case Module::mating:

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<config>
+	<adult_pool_capacity>100</adult_pool_capacity>
+	<doomsday>50</doomsday>
+	<elitism>false</elitism>
+	<lifespan>1</lifespan>
+	<mating_rate>0.9</mating_rate>
+	<max_prodigies>50</max_prodigies>
+	<mutation_rate>0.2</mutation_rate>
+	<offspring_rate>120</offspring_rate>
+	<module type="gene">
+		<path>gene_unsorted.so</path>
+		<parameters>10</parameters>
+	</module>
+	<module type="fitness">
+		<path>fitness_unsorted.so</path>
+		<parameters>10</parameters>
+	</module>
+	<module type="mating">
+		<path>mating_one-point-crossover.so</path>
+		<parameters></parameters>
+	</module>
+	<module type="mutator">
+		<path>mutator_random-swap.so</path>
+		<parameters></parameters>
+	</module>
+	<module type="selector">
+		<path>selector_tournament.so</path>
+		<parameters>4 0.8</parameters>
+	</module>
+</config>

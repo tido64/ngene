@@ -7,8 +7,7 @@ class Function
 {
 public:
 	virtual ~Function() { };
-	virtual int exec(const int, const int) = 0;
-	virtual void prep(const int) = 0;
+	virtual int exec(const int, const int, const int) = 0;
 };
 
 enum Functions

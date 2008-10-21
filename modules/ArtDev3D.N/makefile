@@ -34,4 +34,4 @@ mutator: $(OBJDIR)/Gene.o $(OBJDIR)/Random.o $(OBJDIR)/mutator_artdevn.o
 all: $(EXEC) fitness mutator
 
 clean:
-	rm -f $(OBJ) $(OBJDIR)/fitness_artdev3d.o $(OBJDIR)/mutator_artdev3d.o
+	rm -f $(OBJ) $(OBJDIR)/fitness_artdevn.o $(OBJDIR)/mutator_artdevn.o

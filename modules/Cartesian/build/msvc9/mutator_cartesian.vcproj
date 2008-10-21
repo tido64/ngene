@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="Cartesian"
-	ProjectGUID="{B5F748FD-CCE2-4DDE-AB1C-7334AECC14AF}"
-	RootNamespace="Cartesian"
+	Name="mutator_cartesian"
+	ProjectGUID="{84689095-5640-4180-8C84-C64351BA4589}"
+	RootNamespace="mutator_cartesian"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -41,8 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\libs"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CARTESIAN_EXPORTS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;MUTATOR_CARTESIAN_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -115,8 +114,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\..\..\libs"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CARTESIAN_EXPORTS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;MUTATOR_CARTESIAN_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -173,15 +171,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\..\src\Algorithm.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Cartesian.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gene_cartesian.cpp"
+				RelativePath="..\..\src\mutator_cartesian.cpp"
 				>
 			</File>
 			<File
@@ -195,18 +185,6 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\..\..\src\Algorithm.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Cartesian.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Function.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\..\src\Random.h"
 				>
 			</File>
@@ -216,58 +194,6 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
-			<File
-				RelativePath="..\..\makefile"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Functions"
-			>
-			<File
-				RelativePath="..\..\src\Functions\add.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Functions\and.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Functions\div.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Functions\mul.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Functions\mux.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Functions\nand.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Functions\nor.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Functions\or.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Functions\sub.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Functions\xnor.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Functions\xor.h"
-				>
-			</File>
 		</Filter>
 	</Files>
 	<Globals>
