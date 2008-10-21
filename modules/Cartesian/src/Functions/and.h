@@ -4,12 +4,10 @@
 class bit_and : public Function
 {
 public:
-	int exec(const int a, const int b)
+	int exec(const int a, const int b, const int ctrl)
 	{
 		return a & b;
 	}
-
-	void prep(const int x) { }
 };
 
 #endif

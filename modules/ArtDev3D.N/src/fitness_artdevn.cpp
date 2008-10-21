@@ -3,8 +3,8 @@
 #include "../../../src/Interfaces/Fitness.h"
 #include "../../../src/Development/Cell.h"
 #include <fstream>
-#include <sstream>
 #include <map>
+#include <sstream>
 
 namespace N
 {
@@ -23,7 +23,7 @@ using std::stringstream;
 void assess(Specimen &individual)
 {
 	boost::any phenotype_container;
-	Ngene::phenotype(phenotype_container, individual.genotype);
+	ngene::phenotype(phenotype_container, individual.genotype);
 	map<Coordinates, Cell> specimen (*boost::unsafe_any_cast< map<Coordinates, Cell> >(&phenotype_container));
 
 	//for (map<Coordinates, Cell>::iterator i = specimen.begin(); i != specimen.end(); i++)

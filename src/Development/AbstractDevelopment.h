@@ -107,9 +107,10 @@ protected:
 	/// before the end of a tick.
 	/// \param c The cell to divide
 	/// \param l The location to place the new cell
-	void divide_cell(const Cell &c, const Coordinates &l)
+	Cell &divide_cell(const Cell &c, const Coordinates &l)
 	{
 		this->cell_buffer[l] = Cell (c, l);
+		return this->cell_buffer[l];
 	}
 
 	/// The cell program that is run with each tick. Must be implemented.

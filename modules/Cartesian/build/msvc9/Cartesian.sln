@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C++ Express 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cartesian", "Cartesian.vcproj", "{B5F748FD-CCE2-4DDE-AB1C-7334AECC14AF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mutator_cartesian", "mutator_cartesian.vcproj", "{84689095-5640-4180-8C84-C64351BA4589}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fitness_cartesian", "fitness_cartesian.vcproj", "{7E1DDBC6-5A8C-4943-9454-8A7F47F657DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -13,6 +17,14 @@ Global
 		{B5F748FD-CCE2-4DDE-AB1C-7334AECC14AF}.Debug|Win32.Build.0 = Debug|Win32
 		{B5F748FD-CCE2-4DDE-AB1C-7334AECC14AF}.Release|Win32.ActiveCfg = Release|Win32
 		{B5F748FD-CCE2-4DDE-AB1C-7334AECC14AF}.Release|Win32.Build.0 = Release|Win32
+		{84689095-5640-4180-8C84-C64351BA4589}.Debug|Win32.ActiveCfg = Debug|Win32
+		{84689095-5640-4180-8C84-C64351BA4589}.Debug|Win32.Build.0 = Debug|Win32
+		{84689095-5640-4180-8C84-C64351BA4589}.Release|Win32.ActiveCfg = Release|Win32
+		{84689095-5640-4180-8C84-C64351BA4589}.Release|Win32.Build.0 = Release|Win32
+		{7E1DDBC6-5A8C-4943-9454-8A7F47F657DA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7E1DDBC6-5A8C-4943-9454-8A7F47F657DA}.Debug|Win32.Build.0 = Debug|Win32
+		{7E1DDBC6-5A8C-4943-9454-8A7F47F657DA}.Release|Win32.ActiveCfg = Release|Win32
+		{7E1DDBC6-5A8C-4943-9454-8A7F47F657DA}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

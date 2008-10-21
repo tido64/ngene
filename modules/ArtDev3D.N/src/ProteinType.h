@@ -7,7 +7,7 @@ namespace ProteinType
 	{
 		mitotic,
 		regulatory,
-		speciation,
+		metamorphic,
 		transcribing,
 		number_of_types
 	};

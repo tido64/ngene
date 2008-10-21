@@ -46,8 +46,8 @@ void ArtDev3D::execute(Cell &c)
 		regulate_chemical_levels(c, active_proteins[ProteinType::regulatory]);
 	if (!active_proteins[ProteinType::mitotic].empty())
 		mitosis(c, active_proteins[ProteinType::mitotic]);
-	if (!active_proteins[ProteinType::speciation].empty())
-		metamorphosis(c, active_proteins[ProteinType::speciation]);
+	if (!active_proteins[ProteinType::metamorphic].empty())
+		metamorphosis(c, active_proteins[ProteinType::metamorphic]);
 
 	// remove dead proteins
 	for (ProteinListIterators::reverse_iterator i = dead_proteins.rbegin(); i != dead_proteins.rend(); i++)
