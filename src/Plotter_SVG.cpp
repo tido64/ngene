@@ -2,8 +2,8 @@
 
 using std::string;
 
-Plotter_SVG::Plotter_SVG(string &filename, const std::vector<const char *> *modules, const Config *config)
-: fitness_margin(16), fitness_scale(240)
+Plotter_SVG::Plotter_SVG(string &filename, const std::vector<const char *> *modules, const Config *config):
+	fitness_margin(16), fitness_scale(240)
 {
 	filename += ".svg";
 	this->svg.open(filename.c_str());
@@ -31,7 +31,7 @@ Plotter_SVG::Plotter_SVG(string &filename, const std::vector<const char *> *modu
 					<< "			<text x=\"0\" y=\"64\">Selector: " << modules->at(Module::selector) << "</text>\n"
 					<< "		</g>\n"
 					<< "		<g id=\"config\">\n"
-					<< "			<text x=\"0\" y=\"0\">Individuals: " << config->adult_pool_capacity << "</text>\n"
+					<< "			<text x=\"0\" y=\"0\">Individuals: " << config->capacity << "</text>\n"
 					<< "			<text x=\"0\" y=\"16\">Generations: " << config->doomsday << "</text>\n"
 					<< "			<text x=\"0\" y=\"32\">Mating rate: " << config->mating_rate << "</text>\n"
 					<< "			<text x=\"0\" y=\"48\">Mutation rate: " << config->mutation_rate << "</text>\n"

@@ -1,75 +1,111 @@
 #include "ConfigManager.h"
+#include "Config.h"
+#include "ModuleType.h"
 
-using std::ifstream;
+using std::map;
 using std::string;
-using std::vector;
 
-ConfigManager::ConfigManager(const char *cf) : conf_file(cf) { }
-
-const Config ConfigManager::parse()
+const void *ConfigManager::parse()
 {
-	Config config;
-	this->ngene_conf.open(this->conf_file);
-	if (this->ngene_conf.is_open())
-	{
-		config.module_path.assign(Module::number_of_types, "");
-		config.parameters.assign(Module::number_of_types, "");
+	Config *cfg (new Config());
 
-		config.adult_pool_capacity = atoi(get_conf().c_str());
-		config.doomsday = atoi(get_conf().c_str());
-		if (is_true(get_conf()))
-			config.elitism = true;
-		else
-			config.elitism = false;
-		config.lifespan = atoi(get_conf().c_str());
-		config.mating_rate = atof(get_conf().c_str());
-		config.max_prodigies = atoi(get_conf().c_str()) + 1;
-		config.mutation_rate = atof(get_conf().c_str());
-		config.offspring_rate = atoi(get_conf().c_str());
-
-		config.module_path[Module::gene] = get_conf();
-		config.parameters[Module::gene] = get_conf();
-
-		config.module_path[Module::fitness] = get_conf();
-		config.parameters[Module::fitness] = get_conf();
-
-		config.module_path[Module::mating] = get_conf();
-		config.parameters[Module::mating] = get_conf();
-
-		config.module_path[Module::mutator] = get_conf();
-		config.parameters[Module::mutator] = get_conf();
-
-		config.module_path[Module::selector] = get_conf();
-		config.parameters[Module::selector] = get_conf();
-
-		config.plotter = "SVG";
-
-		this->ngene_conf.close();
-	}
+	if (this->conf.find("capacity") == this->conf.end())
+		cfg->capacity = 100;
 	else
+		cfg->capacity = atoi(this->conf["capacity"].c_str());
+
+	if (this->conf.find("generations") == this->conf.end())
+		cfg->doomsday = 50;
+	else
+		cfg->doomsday = atoi(this->conf["generations"].c_str());
+
+	if (this->conf.find("elitism") == this->conf.end())
+		cfg->elitism = false;
+	else
+		cfg->elitism = (atoi(this->conf["elitism"].c_str()) == 1) ? true : false;
+
+	if (this->conf.find("lifespan") == this->conf.end())
+		cfg->lifespan = 1;
+	else
+		cfg->lifespan = atoi(this->conf["lifespan"].c_str());
+
+	if (this->conf.find("mating rate") == this->conf.end())
+		cfg->mating_rate = 0.9;
+	else
+		cfg->mating_rate = atof(this->conf["mating rate"].c_str());
+
+	if (this->conf.find("mutation rate") == this->conf.end())
+		cfg->mutation_rate = 0.2;
+	else
+		cfg->mutation_rate = atof(this->conf["mutation rate"].c_str());
+
+	if (this->conf.find("offspring rate") == this->conf.end())
+		cfg->offspring_rate = static_cast<unsigned int>(cfg->capacity + cfg->capacity * 0.1);
+	else
+		cfg->offspring_rate = atoi(this->conf["offspring rate"].c_str());
+
+	if (this->conf.find("prodigies") == this->conf.end())
+		cfg->prodigies = static_cast<unsigned int>(cfg->capacity * 0.3);
+	else
+		cfg->prodigies = atoi(this->conf["prodigies"].c_str());
+
+	cfg->module_path.assign(Module::number_of_types, "");
+	cfg->parameters.assign(Module::number_of_types, "");
+
+	if (this->conf.find("genotype:path") == this->conf.end())
 	{
-		printf("==> Failed to open configuration file.\n");
+		printf("==> No path was found for the genotype module\n");
 		exit(-1);
 	}
-
-	return config;
-}
-
-string ConfigManager::get_conf()
-{
-	string tmp;
-	do
-	{
-		getline(this->ngene_conf, tmp);
-		boost::algorithm::trim(tmp);
-	} while (tmp.size() == 0 || tmp[0] == '#');
-	return tmp;
-}
-
-bool ConfigManager::is_true(const string &b)
-{
-	if (b[0] == '1' || ((b[0] == 'T' || b[0] == 't') && (b[1] == 'R' || b[1] == 'r') && (b[2] == 'U' || b[2] == 'u') && (b[3] == 'E' || b[3] == 'e')))
-		return true;
 	else
-		return false;
+	{
+		cfg->module_path[Module::gene] = this->conf["genotype:path"];
+		cfg->parameters[Module::gene] = this->conf["genotype:parameters"];
+	}
+
+	if (this->conf.find("fitness:path") == this->conf.end())
+	{
+		printf("==> No path was found for the fitness module\n");
+		exit(-1);
+	}
+	else
+	{
+		cfg->module_path[Module::fitness] = this->conf["fitness:path"];
+		cfg->parameters[Module::fitness] = this->conf["fitness:parameters"];
+	}
+
+	if (this->conf.find("mating:path") == this->conf.end())
+	{
+		printf("==> No path was found for the mating module\n");
+		exit(-1);
+	}
+	else
+	{
+		cfg->module_path[Module::mating] = this->conf["mating:path"];
+		cfg->parameters[Module::mating] = this->conf["mating:parameters"];
+	}
+
+	if (this->conf.find("mutator:path") == this->conf.end())
+	{
+		printf("==> No path was found for the mutator module\n");
+		exit(-1);
+	}
+	else
+	{
+		cfg->module_path[Module::mutator] = this->conf["mutator:path"];
+		cfg->parameters[Module::mutator] = this->conf["mutator:parameters"];
+	}
+
+	if (this->conf.find("selector:path") == this->conf.end())
+	{
+		printf("==> No path was found for the selector module\n");
+		exit(-1);
+	}
+	else
+	{
+		cfg->module_path[Module::selector] = this->conf["selector:path"];
+		cfg->parameters[Module::selector] = this->conf["selector:parameters"];
+	}
+
+	return cfg;
 }

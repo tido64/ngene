@@ -9,8 +9,8 @@
 /// or graph, and an actual output of the fittest individual after an ended
 /// run. The outputs produced are typically stored with the following file
 /// names:
-/// - 20071220-201435.svg		(plot/graph)
-/// - 20071220-201435.output	(best fit individual)
+/// - 20071220-201435.svg    (plot/graph)
+/// - 20071220-201435.output (best fit individual)
 ///
 /// where the file name follows YYYYMMdd-hhmmss (ie. date, then time).
 
@@ -29,13 +29,13 @@ public:
 
 	/// Starts the log with some information about this run, ie. modules loaded
 	/// and configuration.
-	/// \param modules The list of modules loaded
-	/// \param config The configuration
-	void log(const Config &config, const std::vector<const char *> &modules);
+	/// \param modules  The list of modules loaded
+	/// \param config   The configuration
+	void log(const Config *config, const std::vector<const char *> &modules);
 
 	/// Logs the progression of the run for each generation.
-	/// \param generation The current generation
-	/// \param population The current population
+	/// \param generation  The current generation
+	/// \param population  The current population
 	/// \return Returns true if a perfect specimen was found
 	bool log(const unsigned int generation, const Population &);
 
@@ -43,10 +43,9 @@ public:
 	/// solutions found. In the current implementation, only the best is
 	/// actually written to file. Additionally, the log outputs the time spent
 	/// on current run.
-	/// \param best The best speicmen in the population
-	/// \param genotype_to_str A pointer to a function that converts a genotype to string
-	/// \param time The time spent on this run.
-	void log(const Specimen &best, GenotypeToStr *genotype_to_str, double time);
+	/// \param best  The best speicmen in the population
+	/// \param time  The time spent on this run
+	void log(const char *best, double time);
 
 private:
 	char timestamp[64];	///< The time at which this run started

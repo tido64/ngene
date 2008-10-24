@@ -20,9 +20,9 @@ Logger::~Logger()
 	delete this->plotter;
 }
 
-void Logger::log(const Config &config, const std::vector<const char *> &modules)
+void Logger::log(const Config *config, const std::vector<const char *> &modules)
 {
-	PlotterFactory plotter_factory ((const char *)&this->timestamp, &config, &modules);
+	PlotterFactory plotter_factory ((const char *)&this->timestamp, config, &modules);
 	this->plotter = plotter_factory.get_plotter();
 
 	printf("  * Species:           %s\n", modules[Module::gene]);
@@ -54,10 +54,10 @@ bool Logger::log(const unsigned int generation, const Population &pop)
 	return max == 1.0;
 }
 
-void Logger::log(const Specimen &best, GenotypeToStr *genotype_to_str, double time)
+void Logger::log(const char *best, double time)
 {
 	std::ofstream output (strcat(this->timestamp, ".output"));
-	output << (*genotype_to_str)(best.genotype) << "\n";
+	output << best << "\n";
 	output.close();
 
 	time /= CLOCKS_PER_SEC;

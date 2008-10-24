@@ -12,13 +12,13 @@ extern "C"
 {
 	/// Sets up the module and makes sure it is ready for use. Every module is
 	/// initiated this way.
-	/// \param parameters The parameters needed to correctly set up the module
+	/// \param parameters  The parameters needed to correctly set up the module
 	void MATING_INTERFACE initiate(const char *parameters);
 
 	/// Crosses over two individuals and produces offspring.
-	/// \param[out] children The child(ren) produced
-	/// \param parentA The first individual of the cross over process
-	/// \param parentB The other individual of the cross over process
+	/// \param[out] children  The child(ren) produced
+	/// \param parentA        The first individual of the cross over process
+	/// \param parentB        The other individual of the cross over process
 	void MATING_INTERFACE mate(std::vector<Specimen> &children, const Specimen &parentA, const Specimen &parentB);
 
 	/// Returns the name of this module.

@@ -12,6 +12,8 @@ IPlotter *PlotterFactory::get_plotter()
 	{
 		if (this->config->plotter.compare("SVG") == 0)
 			this->plotter = new Plotter_SVG(this->log_file, this->modules, this->config);
+		else
+			this->plotter = new Plotter_SVG(this->log_file, this->modules, this->config);
 	}
 	return this->plotter;
 }

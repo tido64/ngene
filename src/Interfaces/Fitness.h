@@ -18,11 +18,11 @@ extern "C"
 {
 	/// Assess an individual. The genotype is extracted through
 	/// individual.genotype, and the fitness is given to individual.fitness.
-	/// \param[in,out] individual The individual to assess
+	/// \param[in,out]  individual The individual to assess
 	void FITNESS_INTERFACE assess(Specimen &individual);
 
 	/// Sends a pointer to function Genotype::phenotype, needed by
-	/// Fitness::assess.
+	/// \ref Fitness.h::assess.
 	void FITNESS_INTERFACE assign_functions(Phenotype *fn)
 	{
 		ngene::phenotype = *fn;
@@ -30,7 +30,7 @@ extern "C"
 
 	/// Sets up the module and makes sure it is ready for use. Every module is
 	/// initiated this way.
-	/// \param parameters The parameters needed to correctly set up the module
+	/// \param parameters  The parameters needed to correctly set up the module
 	void FITNESS_INTERFACE initiate(const char *parameters);
 
 	/// Returns the name of this module.
