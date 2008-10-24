@@ -21,7 +21,7 @@ class PluginManager
 {
 public:
 	int offspring_rate;					///< The number of offspring produced each generation
-	std::vector<const char *> modules;	///< Stores the names of the modules loaded
+	std::vector<const char *> modules;	///< Stores the names of the loaded modules
 
 	Fitness assess_fitness;				///< Assesses an individual
 	GenerateGenotype seed;				///< Randomly generates an individual
@@ -33,8 +33,8 @@ public:
 
 	/// Loads the modules specificed by the config file and readies an
 	/// interface for the modules accessible for the rest of the system.
-	/// \param config The configuration to abide by
-	PluginManager(const Config &config);
+	/// \param config  The configuration to abide by
+	PluginManager(const Config *config);
 	~PluginManager();
 
 private:

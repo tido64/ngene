@@ -3,15 +3,14 @@
 using std::string;
 using std::vector;
 
-PluginManager::PluginManager(const Config &config)
-: modules(Module::number_of_types, 0)
+PluginManager::PluginManager(const Config *config): modules(Module::number_of_types, 0)
 {
 	this->dlhandles.reserve(Module::number_of_types);
-	this->load_module(Module::gene, config.module_path[Module::gene], config.parameters[Module::gene]);
-	this->load_module(Module::fitness, config.module_path[Module::fitness], config.parameters[Module::fitness]);
-	this->load_module(Module::mating, config.module_path[Module::mating], config.parameters[Module::mating]);
-	this->load_module(Module::mutator, config.module_path[Module::mutator], config.parameters[Module::mutator]);
-	this->load_module(Module::selector, config.module_path[Module::selector], config.parameters[Module::selector]);
+	this->load_module(Module::gene, config->module_path[Module::gene], config->parameters[Module::gene]);
+	this->load_module(Module::fitness, config->module_path[Module::fitness], config->parameters[Module::fitness]);
+	this->load_module(Module::mating, config->module_path[Module::mating], config->parameters[Module::mating]);
+	this->load_module(Module::mutator, config->module_path[Module::mutator], config->parameters[Module::mutator]);
+	this->load_module(Module::selector, config->module_path[Module::selector], config->parameters[Module::selector]);
 }
 
 PluginManager::~PluginManager()

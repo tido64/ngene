@@ -4,7 +4,7 @@ using std::sort;
 using std::string;
 using std::vector;
 
-const char *NGENE_VERSION = "1.1.81019";
+const char *NGENE_VERSION = "1.1.81024";
 
 int main(int argc, char *argv[])
 {
@@ -21,12 +21,11 @@ int main(int argc, char *argv[])
 		else
 			config_file = argv[1];
 	}
-
-	printf("Starting Ngene v%s\n\nPreparing the environment:\n", NGENE_VERSION);
+	printf("Starting Ngene v%s\n", NGENE_VERSION);
 
 	// Load configuration
 	ConfigManager *config_manager = new ConfigManager(config_file.c_str());
-	const Config config = config_manager->parse();
+	const Config *config = static_cast<const Config *>(config_manager->parse());
 	delete config_manager;
 	config_manager = 0;
 
@@ -37,21 +36,36 @@ int main(int argc, char *argv[])
 	Logger logger;
 	logger.log(config, module.modules);
 
-	double time;	///< Time elapsed since the beginning of execution
+	// Initialize constants and containers
+	const bool
+		elitism = config->elitism;
+	const unsigned int
+		capacity = config->capacity,
+		doomsday = config->doomsday,
+		lifespan = config->lifespan,
+		offspring_rate = config->offspring_rate,
+		prodigies = config->prodigies;
+	double
+		mating_rate = config->mating_rate,
+		mutation_rate = config->mutation_rate,
+		time;
+	delete config;
+	config = 0;
+
 	Population
-		adults,		///< The adult population
-		offspring,	///< The offspring population
+		adults,
+		offspring,
 		embryo (module.offspring_rate);
 	vector<Population::iterator>
 		mates;
-	mates.reserve(config.adult_pool_capacity);
-	adults.reserve(config.adult_pool_capacity);
+	adults.reserve(capacity);
+	mates.reserve(capacity);
 
 	// Prepare the initial population
 	{
 		Specimen specimen;
 		specimen.age = 1;
-		for (unsigned int i = 0; i < config.adult_pool_capacity; i++)
+		for (unsigned int i = 0; i < capacity; i++)
 		{
 			specimen.genotype.clear();
 			module.seed(specimen.genotype);
@@ -61,13 +75,13 @@ int main(int argc, char *argv[])
 		module.seed = 0;
 	}
 
-	printf("Evolution started: %i generations shall live and prosper!\n\n", config.doomsday);
+	printf("Evolution started: %i generations shall live and prosper!\n\n", doomsday);
 
 	logger.log(1, adults);
 	time = clock();
 
 	// Commence evolution
-	for (unsigned int generation = 2; generation <= config.doomsday; generation++)
+	for (unsigned int generation = 2; generation <= doomsday; generation++)
 	{
 		// Mating season!
 		offspring.clear();
@@ -80,7 +94,7 @@ int main(int argc, char *argv[])
 				module.select(mates[1], adults, generation);
 			} while (mates[0] == mates[1]);
 
-			if (Random::Instance().next() <= config.mating_rate)
+			if (Random::Instance().next() <= mating_rate)
 			{
 				// Empty the embryonic vessels
 				for (Population::iterator i = embryo.begin(); i != embryo.end(); i++)
@@ -92,31 +106,29 @@ int main(int argc, char *argv[])
 				// Insert the embryos into the offspring vector for evaluation
 				offspring.insert(offspring.end(), embryo.begin(), embryo.end());
 			}
-		} while (offspring.size() < config.offspring_rate);
+		} while (offspring.size() < offspring_rate);
 
 		// (Randomly mutate and) assess the fitness of each offspring
 		#pragma omp parallel for
 		for (int i = 0; i < static_cast<int>(offspring.size()); i++)
 		{
-			if (Random::Instance().next() <= config.mutation_rate)
+			if (Random::Instance().next() <= mutation_rate)
 				module.mutate(offspring[i].genotype);
 			module.assess_fitness(offspring[i]);
 			offspring[i].age = 0;
 		}
 
-		if (config.lifespan > 1)
+		if (lifespan > 1)
 		{
-			Population::iterator
-				iter_tmp,
-				start = adults.begin();
-			if (config.elitism)
+			Population::iterator iter_tmp, start = adults.begin();
+			if (elitism)
 			{
-				start++;
 				sort(adults.begin(), adults.end());
+				start = adults.begin() + 1;
 			}
 			for (Population::iterator i = start; i != adults.end(); i++)
 			{
-				if(i->age >= config.lifespan)
+				if(i->age >= lifespan)
 				{
 					module.select(iter_tmp, offspring, generation);
 					*i = *iter_tmp;
@@ -126,14 +138,14 @@ int main(int argc, char *argv[])
 				else
 					i->age++;
 			}
-			if (config.max_prodigies > 0) // Replace lower citizens with prodigies
+			if (prodigies > 0) // Replace lower citizens with prodigies
 			{
-				unsigned int prodigies = (config.max_prodigies > offspring.size())
-					? Random::Instance().next_int(offspring.size()) : Random::Instance().next_int(config.max_prodigies);
+				unsigned int current_prodigies = (prodigies > offspring.size())
+					? Random::Instance().next_int(offspring.size()) : Random::Instance().next_int(prodigies);
 				sort(adults.begin(), adults.end());
-				for (unsigned int i = 0; i < prodigies; i++)
+				for (unsigned int i = 0; i < current_prodigies; i++)
 					adults.pop_back();
-				for (unsigned int i = 0; i < prodigies; i++)
+				for (unsigned int i = 0; i < current_prodigies; i++)
 				{
 					module.select(iter_tmp, offspring, generation);
 					adults.push_back(*iter_tmp);
@@ -144,11 +156,12 @@ int main(int argc, char *argv[])
 		}
 		else
 		{
-			if (config.elitism) // replace worst fit offspring with best fit adult
+			if (elitism) // replace worst fit offspring with best fit adult
 				*worst_specimen(offspring.begin(), offspring.end()) = *best_specimen(adults.begin(), adults.end());
 			adults.swap(offspring);
 		}
 
+		// Terminate if a perfect specimen is found or user canceled
 		if (logger.log(generation, adults))
 		{
 			printf("Perfect specimen found. ");
@@ -158,6 +171,6 @@ int main(int argc, char *argv[])
 			break;
 	}
 	time = clock() - time;
-	logger.log(*best_specimen(adults.begin(), adults.end()), &module.genotype_to_str, time);
+	logger.log(module.genotype_to_str(best_specimen(adults.begin(), adults.end())->genotype), time);
 	return 0;
 }
