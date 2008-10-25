@@ -62,18 +62,15 @@ int main(int argc, char *argv[])
 	mates.reserve(capacity);
 
 	// Prepare the initial population
+	for (unsigned int i = 0; i < capacity; i++)
 	{
 		Specimen specimen;
+		module.seed(specimen.genotype);
+		module.assess_fitness(specimen);
 		specimen.age = 1;
-		for (unsigned int i = 0; i < capacity; i++)
-		{
-			specimen.genotype.clear();
-			module.seed(specimen.genotype);
-			module.assess_fitness(specimen);
-			adults.push_back(specimen);
-		}
-		module.seed = 0;
+		adults.push_back(specimen);
 	}
+	module.seed = 0;
 
 	printf("Evolution started: %i generations shall live and prosper!\n\n", doomsday);
 
@@ -171,6 +168,6 @@ int main(int argc, char *argv[])
 			break;
 	}
 	time = clock() - time;
-	logger.log(module.genotype_to_str(best_specimen(adults.begin(), adults.end())->genotype), time);
+	logger.log(module.gtoa(best_specimen(adults.begin(), adults.end())->genotype), time);
 	return 0;
 }

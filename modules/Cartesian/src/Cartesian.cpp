@@ -4,8 +4,10 @@ using std::map;
 using std::vector;
 
 Cartesian::Cartesian(const unsigned int t, const unsigned int l, const unsigned int n) :
-	AbstractDevelopment(t), l(l), n(n), MAX_CHEMICALS(255), output(10), system(NUMBER_OF_FUNCTIONS)
+	AbstractDevelopment(t), l(l), n(n), MAX_CHEMICALS(255)
 {
+	this->output.reserve(10);
+	this->system.reserve(NUMBER_OF_FUNCTIONS);
 	this->system.push_back(new cgp::add());
 	this->system.push_back(new cgp::bit_and());
 	this->system.push_back(new cgp::div());
@@ -102,7 +104,11 @@ void Cartesian::initialize(Organism *o)
 	// extract indices for the input
 	this->nodes.clear();
 	for (unsigned int i = 0; i < o->genotype.size() - output_nodes; i++)
-		this->nodes.push_back(boost::any_cast<unsigned int>(o->genotype[i]));
+	{
+		// BUG: casting fails because it mixes up the signs?
+		printf(" %d", i);
+		this->nodes.push_back(boost::any_cast<int>(o->genotype[i]));
+	}
 
 	// extract indices for the output
 	this->output.clear();

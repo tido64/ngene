@@ -32,7 +32,7 @@ public:
 	int next_int(int min, int max);
 
 	/// Required by [lib.alg.random.shuffle]
-	int operator ()(int);
+	unsigned int operator ()(unsigned int);
 
 private:
 	boost::mt19937 mersenne_twister;

@@ -1,13 +1,15 @@
 #if WIN32
-	#define WIN32_LEAN_AND_MEAN
-	#include <windows.h>
-	#undef max
-	#define dlhandle HMODULE
-	#define dlsym GetProcAddress
-	#define dlclose FreeLibrary
+#	define WIN32_LEAN_AND_MEAN
+#	include <windows.h>
+#	undef max
+#	define dlhandle HMODULE		//< Custom type definition to make dynamic library loading cross-platform
+#	define dlsym GetProcAddress	//< Custom type definition to make dynamic library loading cross-platform
+#	define dlclose FreeLibrary	//< Custom type definition to make dynamic library loading cross-platform
 #else
-	#include <dlfcn.h>
-	typedef void * dlhandle;	//< Custom type definition to make dynamic library loading cross-platform
+#	include <dlfcn.h>
+
+typedef void * dlhandle;	//< Custom type definition to make dynamic library loading cross-platform
+
 #endif
 
 /// Handles all module loading and acts as an interface for the rest of the
@@ -16,6 +18,7 @@
 #include "Config.h"
 #include "ModuleType.h"
 #include "Plugins.h"
+#include "Random.h"
 
 class PluginManager
 {
@@ -24,8 +27,8 @@ public:
 	std::vector<const char *> modules;	///< Stores the names of the loaded modules
 
 	Fitness assess_fitness;				///< Assesses an individual
-	GenerateGenotype seed;				///< Randomly generates an individual
-	GenotypeToStr genotype_to_str;		///< Returns a string representing the individual
+	Seed seed;							///< Randomly generates an individual
+	GenotypeToStr gtoa;					///< Returns a string representing the genotype/individual
 	Mating mate;						///< Crosses over two individuals' genes
 	Mutator mutate;						///< Mutates a genotype
 	Phenotype phenotype;				///< Returns the phenotype of given genotype

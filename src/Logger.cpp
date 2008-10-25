@@ -50,7 +50,7 @@ bool Logger::log(const unsigned int generation, const Population &pop)
 	avg /= pop.size();
 
 	this->plotter->plot(generation, min, avg, max);
-	printf(" %i:\tmin: %.4f\tavg: %.4f\tmax: %.4f\n", generation, min, avg, max);
+	printf(" %i:\tavg: %.4f\tmax: %.4f\n", generation, avg, max);
 	return max == 1.0;
 }
 
@@ -61,6 +61,6 @@ void Logger::log(const char *best, double time)
 	output.close();
 
 	time /= CLOCKS_PER_SEC;
-	printf("Completed in %i minute(s) and %i second(s).\n\n",
+	printf("Completed in %i minute(s) and %i second(s).\n",
 		static_cast<int>(time / 60), static_cast<int>(time + 0.5) % 60);
 }

@@ -3,7 +3,7 @@
 using std::string;
 using std::vector;
 
-PluginManager::PluginManager(const Config *config): modules(Module::number_of_types, 0)
+PluginManager::PluginManager(const Config *config) : modules(Module::number_of_types, 0)
 {
 	this->dlhandles.reserve(Module::number_of_types);
 	this->load_module(Module::gene, config->module_path[Module::gene], config->parameters[Module::gene]);
@@ -32,37 +32,42 @@ void PluginManager::load_module(const Module::Type module_type, const string &fi
 	{
 		dl = "name";
 		((void (*)(const char *))dlsym(module, "initiate"))(parameters.c_str());
-		switch (module_type)
+		if (module_type == Module::fitness)
 		{
-			case Module::gene:
-				this->phenotype = (Phenotype)dlsym(module, "phenotype");
-				this->seed = (GenerateGenotype)dlsym(module, "seed");
-				this->genotype_to_str = (GenotypeToStr)dlsym(module, "str");
-				dl = "species";
-				break;
-			case Module::fitness:
-				((void (*)(Phenotype *fn))dlsym(module, "assign_functions"))(&this->phenotype);
-				this->assess_fitness = (Fitness)dlsym(module, "assess");
-				break;
-			case Module::mating:
-				this->mate = (Mating)dlsym(module, "mate");
-				this->offspring_rate = ((offspring_produced)dlsym(module, "offspring"))();
-				break;
-			case Module::mutator:
-				this->mutate = (Mutator)dlsym(module, "mutate");
-				break;
-			case Module::selector:
-				this->select = (Selector)dlsym(module, "gene_select");
-				break;
-			default:
-				break;
+			((void (*)(Phenotype *))dlsym(module, "assign_functions"))(&this->phenotype);
+			this->assess_fitness = (Fitness)dlsym(module, "assess");
+		}
+		else
+		{
+			((void (*)(Random *))dlsym(module, "assign_functions"))(&Random::Instance());
+			switch (module_type)
+			{
+				case Module::gene:
+					this->phenotype = (Phenotype)dlsym(module, "phenotype");
+					this->seed = (Seed)dlsym(module, "seed");
+					this->gtoa = (GenotypeToStr)dlsym(module, "str");
+					dl = "species";
+					break;
+				case Module::mating:
+					this->mate = (Mating)dlsym(module, "mate");
+					this->offspring_rate = ((offspring_produced)dlsym(module, "offspring"))();
+					break;
+				case Module::mutator:
+					this->mutate = (Mutator)dlsym(module, "mutate");
+					break;
+				case Module::selector:
+					this->select = (Selector)dlsym(module, "gene_select");
+					break;
+				default:
+					break;
+			}
 		}
 		this->modules[module_type] = ((const char *(*)())dlsym(module, dl.c_str()))();
 		dlhandles.push_back(module);
 	}
 	else
 	{
-		printf("==> Failed to load %s\n\n", filename.c_str());
+		printf("==> Failed to load %s\n", filename.c_str());
 		exit(-1);
 	}
 }

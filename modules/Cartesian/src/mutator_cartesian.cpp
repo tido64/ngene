@@ -1,5 +1,4 @@
 #include "../../../src/Interfaces/Mutator.h"
-#include "../../../src/Random.h"
 #include "Function.h"
 
 namespace cgp
@@ -11,14 +10,13 @@ void initiate(const char *parameters) { }
 
 void mutate(Genotype &genotype)
 {
-	int address = Random::Instance().next_int(genotype.size());
+	int address = ngene::random->next_int(genotype.size());
 	if (address % 4 == 3) // change function adress
-		genotype[address] = Random::Instance().next_int(NUMBER_OF_FUNCTIONS);
+		genotype[address] = ngene::random->next_int(NUMBER_OF_FUNCTIONS);
 	else // change input adress
 	{
-		int in = *boost::unsafe_any_cast<int>(&genotype[address]);
-		in -= Random::Instance().next_int(1, in);
-		genotype[address] = in;
+		int in = *boost::unsafe_any_cast<unsigned int>(&genotype[address]);
+		genotype[address] = in - ngene::random->next_int(1, in);
 	}
 }
 

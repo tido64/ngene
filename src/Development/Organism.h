@@ -4,6 +4,7 @@
 #define ORGANISM_H_
 
 #include <map>
+#include "../Specimen.h"
 #include "Cell.h"
 
 class Organism

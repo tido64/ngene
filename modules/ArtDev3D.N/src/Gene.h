@@ -26,6 +26,7 @@
 class Gene
 {
 private:
+	Random *random;			///< Random number generator
 	unsigned int sequence;	///< The DNA sequence of this gene
 	Protein protein;		///< The protein this gene translates into
 
@@ -33,7 +34,7 @@ public:
 	const Setup *setup;		///< Parameters the mutation abides by
 
 	/// Creates a gene with random properties.
-	Gene(const Setup *s);
+	Gene(const Setup *s, Random *r);
 
 	/// Duplicates the given gene.
 	Gene(const Gene &g);

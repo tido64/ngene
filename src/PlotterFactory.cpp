@@ -2,8 +2,8 @@
 
 using std::vector;
 
-PlotterFactory::PlotterFactory(const char *filename, const Config *c, const vector<const char *> *m)
-: config(c), modules(m), plotter(0), log_file(filename)
+PlotterFactory::PlotterFactory(const char *filename, const Config *c, const vector<const char *> *m) :
+	config(c), modules(m), plotter(0), log_file(filename)
 { }
 
 IPlotter *PlotterFactory::get_plotter()

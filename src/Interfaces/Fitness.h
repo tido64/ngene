@@ -1,5 +1,4 @@
 #ifndef FITNESS_INTERFACE
-
 #ifdef WIN32
 #	define FITNESS_INTERFACE __declspec(dllexport)	// export DLL information
 #else
@@ -18,14 +17,14 @@ extern "C"
 {
 	/// Assess an individual. The genotype is extracted through
 	/// individual.genotype, and the fitness is given to individual.fitness.
-	/// \param[in,out]  individual The individual to assess
+	/// \param[in,out] individual  The individual to assess
 	void FITNESS_INTERFACE assess(Specimen &individual);
 
-	/// Sends a pointer to function Genotype::phenotype, needed by
+	/// Sends a pointer to function \ref Genotype.h::phenotype, needed by
 	/// \ref Fitness.h::assess.
-	void FITNESS_INTERFACE assign_functions(Phenotype *fn)
+	void FITNESS_INTERFACE assign_functions(Phenotype *fn_phenotype)
 	{
-		ngene::phenotype = *fn;
+		ngene::phenotype = *fn_phenotype;
 	}
 
 	/// Sets up the module and makes sure it is ready for use. Every module is
