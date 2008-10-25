@@ -43,7 +43,7 @@ void phenotype(boost::any &phenotype, const Genotype &genotype)
 void seed(Genotype &genotype)
 {
 	for (unsigned int i = 0; i < N::setup.genes_number ; i++)
-		genotype.push_back(Gene (&N::setup));
+		genotype.push_back(Gene (&N::setup, ngene::random));
 }
 
 const char *species()

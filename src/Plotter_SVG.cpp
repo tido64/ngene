@@ -2,7 +2,7 @@
 
 using std::string;
 
-Plotter_SVG::Plotter_SVG(string &filename, const std::vector<const char *> *modules, const Config *config):
+Plotter_SVG::Plotter_SVG(string &filename, const std::vector<const char *> *modules, const Config *config) :
 	fitness_margin(16), fitness_scale(240)
 {
 	filename += ".svg";

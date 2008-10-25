@@ -1,11 +1,10 @@
 #include "../../src/Interfaces/Mating.h"
-#include "../../src/Random.h"
 
 void initiate(const char *parameters) { }
 
 void mate(std::vector<Specimen> &children, const Specimen &parentA, const Specimen &parentB)
 {
-	unsigned int split = Random::Instance().next_int((parentA.genotype.size() < parentB.genotype.size())
+	unsigned int split = ngene::random->next_int((parentA.genotype.size() < parentB.genotype.size())
 		? parentA.genotype.size() - 1 : parentB.genotype.size() - 1) + 1;
 
 	children[0].genotype.reserve(parentB.genotype.size());
@@ -19,7 +18,7 @@ void mate(std::vector<Specimen> &children, const Specimen &parentA, const Specim
 
 const char *name()
 {
-	return "One-point Crossover";
+	return "One-point crossover";
 }
 
 const unsigned int offspring()

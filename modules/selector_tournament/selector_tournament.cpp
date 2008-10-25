@@ -2,7 +2,6 @@
 #include <set>
 #include <sstream>
 #include "../../src/Interfaces/Selector.h"
-#include "../../src/Random.h"
 
 namespace tournament
 {
@@ -29,12 +28,12 @@ void gene_select(Population::iterator &champ, Population &candidates, int genera
 {
 	set<int> selection;
 	while (selection.size() < tournament::k)
-		selection.insert(Random::Instance().next_int(candidates.size()));
+		selection.insert(ngene::random->next_int(candidates.size()));
 
 	int counter = 0;
 	for (set<int>::iterator i = selection.begin(); i != selection.end(); i++)
 	{
-		if (Random::Instance().next() <= tournament::p * pow(1.0 - tournament::p, counter++))
+		if (ngene::random->next() <= tournament::p * pow(1.0 - tournament::p, counter++))
 		{
 			champ = candidates.begin() + *i;
 			return;

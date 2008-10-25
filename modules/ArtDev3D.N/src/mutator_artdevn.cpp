@@ -5,10 +5,10 @@ void initiate(const char *parameters) { }
 
 void mutate(Genotype &genotype)
 {
-	int idx = Random::Instance().next_int(genotype.size());
+	int idx = ngene::random->next_int(genotype.size());
 	if (Random::Instance().next() < 0.5) // duplicate or delete gene
 	{
-		if (Random::Instance().next() < 0.7) // duplicate
+		if (ngene::random->next() < 0.7) // duplicate
 			genotype.push_back(genotype[idx]);
 		else if (genotype.size() > 1) // erase
 			genotype.erase(genotype.begin() + idx);

@@ -8,7 +8,7 @@
 
 namespace ngene
 {
-	const double ln2 = log(2.0);
+	const double ln2 = log(2.0);	///< Constant used to convert log base 10 to base 2
 
 	/// Searches for an occurrence of a substring inside a bitstring. Algorithm
 	/// makes use of bit-operations.
@@ -28,12 +28,13 @@ namespace ngene
 		return bits ^ (1 << flip_index);
 	}
 
+	/// Returns the logarithm base 2 of a number.
 	inline double log2(const unsigned int x)
 	{
 		return log(static_cast<double>(x)) / ln2;
 	}
 
-	/// Converts any basic type to string.
+	/// Converts any basic data type to string.
 	template <class T>
 	inline std::string to_string(const T& t)
 	{

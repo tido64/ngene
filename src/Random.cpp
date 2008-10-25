@@ -33,7 +33,7 @@ int Random::next_int(int min, int max)
 	return static_cast<int>(this->mt_rand() * (max - min)) + min;
 }
 
-int Random::operator ()(int i)
+unsigned int Random::operator ()(unsigned int i)
 {
-	return static_cast<int>(this->mt_rand() * i);
+	return static_cast<unsigned int>(this->mt_rand() * i);
 }

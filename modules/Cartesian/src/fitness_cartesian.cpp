@@ -48,24 +48,34 @@ void assess(Specimen &individual)
 
 void initiate(const char *parameters)
 {
+	std::vector<std::string> tmp;
 	std::ifstream target (parameters);
 	if (!target.is_open())
 	{
 		printf("==> Failed to open target phenotype: %s\n", parameters);
-		exit(-1);
+		printf("==> Falling back to: French Flag\n");
+
+		// 00 = empty, 01 = blue, 10 = red, 11 = white
+		tmp.push_back("0000000000000");
+		tmp.push_back("0011133322200");
+		tmp.push_back("0011133322200");
+		tmp.push_back("0011133322200");
+		tmp.push_back("0011133322200");
+		tmp.push_back("0000000000000");
+	}
+	else
+	{
+		do
+		{
+			tmp.push_back("");
+		} while (std::getline(target, tmp.back()));
 	}
 
-	std::vector<std::string> tmp;
-	do
-	{
-		tmp.push_back("");
-	} while (std::getline(target, tmp.back()));
-
-	cgp::target.resize(tmp.front().size());
-	for (unsigned int x = 0; x < tmp.front().size(); x++)
+	cgp::target.reserve(tmp.front().size());
+	for (unsigned int x = 0; x < tmp.size(); x++)
 	{
 		cgp::target.push_back(std::vector<unsigned int> (tmp.size()));
-		for (unsigned int y = 0; y < tmp.size(); y++)
+		for (unsigned int y = 0; y < tmp.front().size(); y++)
 			cgp::target[x].push_back(tmp[x][y]);
 	}
 	cgp::offset.x = cgp::target.size() / 2;

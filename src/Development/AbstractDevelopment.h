@@ -1,7 +1,6 @@
 /// The generic development framework that any system has to extend. Contains
 /// all the necessary entry points for Ngene.
 
-#include "../Interfaces/Genotype.h"
 #include "Organism.h"
 
 class AbstractDevelopment
