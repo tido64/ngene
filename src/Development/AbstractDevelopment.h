@@ -12,6 +12,7 @@ private:
 	/// Exchange information between all cells. Called internally.
 	void exchange()
 	{
+		Message empty;
 		std::map<Coordinates, Cell>::const_iterator r;
 		for (std::map<Coordinates, Cell>::iterator i = this->organism->cells.begin(); i != this->organism->cells.end(); i++)
 		{
@@ -21,61 +22,61 @@ private:
 			if (r != this->organism->cells.end())
 				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
 			else
-				i->second.messages.push_back(Message ());
+				i->second.messages.push_back(empty);
 
 			r = this->organism->cells.find(i->first.above_left());
 			if (r != this->organism->cells.end())
 				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
 			else
-				i->second.messages.push_back(Message ());
+				i->second.messages.push_back(empty);
 
 			r = this->organism->cells.find(i->first.above_right());
 			if (r != this->organism->cells.end())
 				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
 			else
-				i->second.messages.push_back(Message ());
+				i->second.messages.push_back(empty);
 
 			r = this->organism->cells.find(i->first.left());
 			if (r != this->organism->cells.end())
 				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
 			else
-				i->second.messages.push_back(Message ());
+				i->second.messages.push_back(empty);
 
 			r = this->organism->cells.find(i->first.right());
 			if (r != this->organism->cells.end())
 				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
 			else
-				i->second.messages.push_back(Message ());
+				i->second.messages.push_back(empty);
 
 			r = this->organism->cells.find(i->first.below());
 			if (r != this->organism->cells.end())
 				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
 			else
-				i->second.messages.push_back(Message ());
+				i->second.messages.push_back(empty);
 
 			r = this->organism->cells.find(i->first.below_left());
 			if (r != this->organism->cells.end())
 				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
 			else
-				i->second.messages.push_back(Message ());
+				i->second.messages.push_back(empty);
 
 			r = this->organism->cells.find(i->first.below_right());
 			if (r != this->organism->cells.end())
 				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
 			else
-				i->second.messages.push_back(Message ());
+				i->second.messages.push_back(empty);
 
 			r = this->organism->cells.find(i->first.front());
 			if (r != this->organism->cells.end())
 				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
 			else
-				i->second.messages.push_back(Message ());
+				i->second.messages.push_back(empty);
 
 			r = this->organism->cells.find(i->first.back());
 			if (r != this->organism->cells.end())
 				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
 			else
-				i->second.messages.push_back(Message ());
+				i->second.messages.push_back(empty);
 		}
 	}
 

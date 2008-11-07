@@ -6,7 +6,7 @@ class div : public Function
 public:
 	int exec(const int a, const int b, const int ctrl)
 	{
-		return a / b;
+		return (b == 0) ? 0 : a / b;
 	}
 };
 

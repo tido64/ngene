@@ -7,7 +7,7 @@ int ngene::bitstring_find(unsigned int needle, unsigned int needle_size, unsigne
 		needle <<= haystack_size - needle_size;
 		for (unsigned int i = 0; i < haystack_size - needle_size; i++)
 		{
-			if ((haystack ^ needle) == 0)
+			if ((haystack & needle) == needle)
 				return i;
 			needle >>= 1;
 		}
