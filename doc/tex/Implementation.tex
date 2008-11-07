@@ -1,7 +1,9 @@
 \section{Implementation}
 
 \subsection{About Ngene}
-\emph{Ngene} is a flexible, generic, multi-purpose genetic algorithm written in C++ with heavy emphasis on performance and flexibility. The engine is divided into logical modules that can be interchanged or extended upon in order to fit the intended goal and purpose.
+\emph{Ngene} is a flexible, generic, multi-purpose genetic algorithm engine written in C++ with heavy emphasis on performance and flexibility. The engine is divided into logical modules that can be interchanged or extended upon in order to fit the intended goal.
+
+The engine started out as an assignment for a sub-symbolic artificial intelligence course. It was written in Python, and 
 
 \subsubsection{Modular Design}
 The design is broken into the following modules:
@@ -15,13 +17,18 @@ The design is broken into the following modules:
 	\item Selector - Selects a random genotype
 \end{itemize}
 
-Of these modules, only the core, or the genetic algorithm itself, is currently not interchangeable though this might be changed in the future. All modules are loaded into memory when the program is executed and kept there until termination. This modular design is essential when it comes to making the engine available for all purposes. For example, while the \emph{tournament} selection module is suitable for most of the experiments in this thesis, others may want to run a comparison test between many selection modules. This is easily done by simply specifying which module to use in a configuration file. There is no need to recompile a single line of code. This modular design also keeps the code cleaner and easier to maintain.
+All modules are loaded into memory when the program is executed and kept there until the program is terminated. This modular design is essential when it comes to making the engine available for all purposes. For example, while \emph{tournament} selection is suitable for most of the experiments in this thesis, other users may want to run a comparison test between different selection methods. This is easily achieved by simply specifying which module to use in a configuration file. There is no need to recompile a single line of code unless a new module is required. This modular design also keeps the code cleaner and easier to maintain.
+
+\subsection{Why C++?}
+Choosing a programming language depends on what kind of programme you want to write. A simple program with no special requirements can be written in any language. However performance becomes essential, there are really only two ways to code: In assembly (or machine code) or C/C++. Unlike languages that depend on a virtual machine (C\#, Java), or an interpreter (Common LISP, Python), code written in C/C++ is compiled directly to machine code before executed, usually yielding a much better performance.
+
+Being a middle level language, C++ has many disadvantages when compared to today's higher level programming languages. For instance, all memory management must be explicitly handled in the code because C++ lacks a garbage collection found typically in C\# or Java. This means that we have to be careful of memory leaks and accessing valid memory addresses. Furthermore, C++ doesn't come with as big a convenience library as those found in aforementioned languages. Such a library would eliminate rewriting often used algorithms. Fortunately, efforts are being made to improve the language through external libraries.
 
 \subsubsection{Boost C++ Libraries}
-\emph{Boost}\footnote{\url{http://www.boost.org/}} is a collection of libraries that is meant to complement the C++ Standard Library. Ngene makes use of this collection in order to solve problems others already have. This not only saves time and effort, it also guarantees that a certain piece of code works as it should.
+\emph{Boost}\footnote{\url{http://www.boost.org/}} is a collection of libraries which complement the C++ Standard Library. Ngene makes use of this collection, saving time and effort, and guaranteeing that such code works as it should.
 
 \paragraph{\textbf{Boost.Any}}\cite{henney2001}
-A problem with writing a generic genetic algorithm in a strongly typed programming language as C++, is that different studies require different data types to be passed around the system. A simple program that sorts numbers, for instance, needs to pass around an array with integers while another one may require the use of a class or custom data type. In a higher level language such as Python, a container is already available that can store any type of data:
+A problem with writing a generic genetic algorithm in a strongly typed programming language such as C++, is that different studies require different data types to be passed around the system. A simple program that sorts numbers, for instance, needs to pass around an array with integers while another one may require the use of a class or custom data type. In a higher level language such as Python, a container is already available that can store any type of data:
 
 \begin{verbatim}
 >>> foo = 1 + 2
@@ -36,7 +43,7 @@ awesome
 Such a container is unfortunately not readily available in C++ and must be implemented in order for the modular design to work. Fortunately, this has already been done and is freely available as part of \emph{Boost}. \emph{Boost.Any} is a container not very different from the one found in Python and only requires a type-casting before the data can be handled as normal.
 
 \paragraph{\textbf{Boost Random Number Library}}\cite{maurer2000}
-Another problem with genetic algorithms and development in general is implementing a good pseudo-random number generator. This is pretty much required to achieve good results. Ngene uses the implementation of \emph{Mersenne twister} pseudo-random number generator found in the Boost libraries.
+Another problem with genetic algorithms and development in general is implementing a good pseudo-random number generator. Ngene uses the implementation of \emph{Mersenne twister} pseudo-random number generator found in the Boost libraries.
 
 \subsubsection{Brief System Overview}
 \begin{figure}[!ht]
@@ -50,13 +57,13 @@ Figure~\ref{fig:diagram_ngene} shows a brief overview of how Ngene is put togeth
 
 When the program starts up, Ngene will start parsing a configuration file. It finds this file either via the path passed as parameter on execution, or it will simply start looking for the default one. The module responsible for this, \texttt{ConfigManager}, will create a structure storing the configuration and pass it to \texttt{PluginManager}.
 
-\texttt{PluginManager} handles all loading and unloading of modules specified in a configuration file. If all modules load successfully, it also acts as an interface through which the core communicates with the modules. In future versions, there may be a possibility to swap modules, for instance, half way through an evolution. \texttt{PluginManager} will automatically unload modules and release all resources when it is destroyed on program exit.
+\texttt{PluginManager} handles all loading and unloading of modules specified in a configuration file. If all modules load successfully, it also acts as an interface through which the core communicates with the modules. \texttt{PluginManager} will automatically unload modules and release all resources when the program exits.
 
-Ngene talks with its modules via predefined interfaces as can be seen directly under \texttt{PluginManager} in figure~\ref{fig:diagram_ngene}. All methods in these modules must be implemented in order to be compatible with Ngene. A more detailed description of what these methods do and sample code can be found in the system documentation. Besides these restrictions, a user can extend the system in any way they see fit.
+Ngene talks with its modules via predefined interfaces, as can be seen directly under \texttt{PluginManager} in figure~\ref{fig:diagram_ngene}. All methods in these modules must be implemented in order to be compatible with Ngene. A more detailed description of what these methods do and sample code can be found in the system documentation. Besides these restrictions, a user can extend the system in any way they see fit.
 
-All logging of runs are done in \texttt{Logger}. On first call, it will make sure that the user has writing privileges and, on successive calls, plot a graph of the progression. When the program terminates, it will also create a file output of the best specimen. The format of this file is left to the author of the \texttt{Genotype} module. It could be anything from a simple text file to a proprietary format. At writing moment, \texttt{Plotter} only saves the graphs as SVG\footnote{Scalable Vector Graphics - \url{http://www.w3.org/Graphics/SVG/}} though other formats can be easily added.
+All logging of runs are done in \texttt{Logger}. On first call, it will make sure that the user has writing privileges and, on successive calls, plot a graph of the progression. When the program terminates, it will also create a file output of the best specimen - the format of which is specified in the \texttt{Genotype} module. The format can be anything from a simple text file to a proprietary format specified by the user.
 
-The genetic algorithm starts by populating the adult population, a responsibility of the \texttt{Genotype} module. The randomly generated genotypes are stored in \texttt{Specimen}s in an array, or vector, that will make up the adult population. When this vector is full (a configurable value), the genetic algorithm will run for a given number of generations (also configurable) or until a perfect \texttt{Specimen} is found, e.g. \texttt{fitness = 1.0}.
+The genetic algorithm starts by populating the adult population, a responsibility of the \texttt{Genotype} module. The randomly generated genotypes are stored in \texttt{Specimen}s in an array, or vector, that will make up the adult population. When this vector is full (a configurable value), the genetic algorithm will run for a given number of generations (also configurable) or until a perfect \texttt{Specimen} is found, i.e. \texttt{fitness = 1.0}.
 
 
 \subsection{Ngene Development Framework}
@@ -117,10 +124,10 @@ A quick glance at the comparison table and the \texttt{<ext/hash\_map>} may seem
 The \texttt{<map>} was chosen over the \texttt{<vector>} because despite its better access and insertion times, required more time to find all of a cell's neighbours. This could've be remedied by creating and maintaining a neighbours list for every cell. However, this would make insertion $O(n)$ as opposed to $O(log~n)$ of the \texttt{<map>}.
 
 
-\subsubsection{Johan H{\o}ye's Model}
-A simpler (and hopefully faster) version of Johan H{\o}ye's master's thesis\cite{hoye2006} model was implemented with the help of the framework. Though simpler, all logical operations are still kept intact and was not altered in any way.
+\subsubsection{ArtDev3D}
+A simpler (and hopefully faster) version of Johan H{\o}ye's master's thesis\cite{hoye2006} model was implemented within the framework. Though simpler, all logical operations are still kept intact.
 
-Due to lack of proper system documentation, porting his code from Java to C++ has been a rather dirty job. Many biology concepts made their way into his code, making it very messy and difficult to read at times. There are classes for pretty much every concept such as \texttt{Cell}, \texttt{Protein} and even \texttt{Proteincollection} and \texttt{ChangeChemicalConcentrationInCellProtein}. Because of how the hierarchy is built up, functions may call other functions which again call different functions, and so on, to perform simple operations. These functions are often called many times in a single cell during a single tick, putting a strain on the call stack when there are a lot more cells in an organism, more ticks in a development process, and many organism in a population that are to evolve over generations. Parts of the effort in porting this model over to the new framework has been spent on flattening the structure a bit, hopefully making it simpler and easier to understand. In many cases, it was simply substituting a class, such as \texttt{Chemicalconcentrations}, with an STL container. After all, the golden rule of programming is to not write custom containers unless deemed absolutely necessary.
+Due to lack of proper system documentation, porting the code from Java to C++ has been a rather cumbersome job. Many biology concepts made their way into his code, making it very messy and difficult to read at times. There are classes for pretty much every concept such as \texttt{Cell}, \texttt{Protein} and even \texttt{Proteincollection} and \texttt{ChangeChemicalConcentrationInCellProtein}. Because of how the hierarchy is built up, functions may call other functions which again call different functions, and so on, to perform simple operations. These functions are often called many times in a single cell during a single tick, putting a strain on the call stack when there are a lot more cells in an organism, more ticks in a development process, and many organism in a population that are to evolve over generations. Parts of the effort in porting this model over to the new framework has been spent on flattening the structure a bit, hopefully making it simpler and easier to understand. In many cases, it was simply substituting a class, such as \texttt{Chemicalconcentrations}, with an STL container. After all, the golden rule of programming is to not write custom containers unless deemed absolutely necessary.
 
 There are a couple of issues that Johan may have missed when he wrote his thesis. A lot of papers in this field agree to a certain degree that cells develop simultaneously, i.e. for all development that is based on neighbouring cells' states, an information exchange between all cells should occur first, and any other cellular operations last. However, in Johan's model, this is not implemented. The following snippets from his code should demonstrate this issue.
 

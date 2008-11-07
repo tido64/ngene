@@ -26,10 +26,13 @@ $(OBJDIR)/%.o: ../../src/%.cpp
 fitness: $(OBJDIR)/fitness_cartesian.o
 	$(CPP) $(LDFLAGS) -o $(BINDIR)/fitness_cartesian.so $^
 
+mating: $(OBJDIR)/Random.o $(OBJDIR)/mating_cartesian.o
+	$(CPP) $(LDFLAGS) -o $(BINDIR)/mating_cartesian.so $^
+
 mutator: $(OBJDIR)/Random.o $(OBJDIR)/mutator_cartesian.o
 	$(CPP) $(LDFLAGS) -o $(BINDIR)/mutator_cartesian.so $^
 
 all: $(EXEC) fitness mutator
 
 clean:
-	rm -f $(OBJ) $(OBJDIR)/mutator_cartesian.o
+	rm -f $(OBJ) $(OBJDIR)/fitness_cartesian.o $(OBJDIR)/mating_cartesian.o $(OBJDIR)/mutator_cartesian.o

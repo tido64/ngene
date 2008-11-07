@@ -15,16 +15,16 @@ struct Cell
 	Coordinates coords;				///< The location of this cell
 	std::vector<Message> messages;	///< Messages from the neighbouring cells in the current tick
 
-	Cell() :
-		type(-1),
-		messages(From::ALL_NEIGHBOURS) { }
+	Cell() : type(-1)
+	{
+		this->messages.reserve(From::ALL_NEIGHBOURS);
+	}
 
 	Cell(const Cell &c, const Coordinates &loc) :
-		type(c.type),
-		proteins(c.proteins),
-		chemicals(c.chemicals.size(), 0.0),
-		coords(loc),
-		messages(From::ALL_NEIGHBOURS) { }
+		type(c.type), proteins(c.proteins), chemicals(c.chemicals.size(), 0.0), coords(loc)
+	{
+		this->messages.reserve(From::ALL_NEIGHBOURS);
+	}
 };
 
 #endif

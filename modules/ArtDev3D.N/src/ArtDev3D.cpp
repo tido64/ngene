@@ -112,6 +112,10 @@ void ArtDev3D::mitosis(Cell &cell, ProteinListIterators &proteins)
 
 void ArtDev3D::regulate_chemical_levels(Cell &cell, ProteinListIterators &proteins)
 {
+	// TODO: Check out how this works in ArtDev3D. Chemical number vs. cell type number??
+	if (cell.chemicals.size() == 0)
+		return;
+
 	// Adjust all chemical levels accordingly
 	for (unsigned int p = 0; p < proteins.size(); p++)
 		for (unsigned int i = 0; i < proteins[p]->parameters.size(); i++)

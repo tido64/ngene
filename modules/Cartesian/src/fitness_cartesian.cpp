@@ -23,11 +23,13 @@ void assess(Specimen &individual)
 	int points = 0;
 	Coordinates slot;
 	std::map<Coordinates, Cell>::const_iterator s_result;
-	for (unsigned int y = 0; y < cgp::target.front().size(); y++)
+
+	for (unsigned int x = 0; x < cgp::target.size(); x++)
 	{
-		slot.y = y + cgp::offset.y;
-		slot.x = cgp::offset.x;
-		for (unsigned int x = 0; x < cgp::target.size(); x++)
+		slot.x = x - cgp::offset.x;
+		slot.y = 0 - cgp::offset.y;
+		//printf("==> Checking [%d][%d", slot.x, slot.y);
+		for (unsigned int y = 0; y < cgp::target[x].size(); y++)
 		{
 			s_result = specimen.find(slot);
 			if (s_result != specimen.end())
@@ -40,10 +42,12 @@ void assess(Specimen &individual)
 				if (cgp::target[x][y] == 0)
 					points += 2;
 			}
-			slot.x++;
+			slot.y++;
+			//printf(", %d", slot.y);
 		}
+		//printf("]\n");
 	}
-	individual.fitness = points;
+	individual.fitness = points / cgp::baseline;
 }
 
 void initiate(const char *parameters)
@@ -56,28 +60,32 @@ void initiate(const char *parameters)
 		printf("==> Falling back to: French Flag\n");
 
 		// 00 = empty, 01 = blue, 10 = red, 11 = white
-		tmp.push_back("0000000000000");
-		tmp.push_back("0011133322200");
-		tmp.push_back("0011133322200");
-		tmp.push_back("0011133322200");
-		tmp.push_back("0011133322200");
-		tmp.push_back("0000000000000");
+		tmp.push_back("111333222");
+		tmp.push_back("111333222");
+		tmp.push_back("111333222");
+		tmp.push_back("111333222");
 	}
 	else
 	{
 		do
 		{
 			tmp.push_back("");
-		} while (std::getline(target, tmp.back()));
+		} while (getline(target, tmp.back()));
 	}
 
+	char c;
 	cgp::target.reserve(tmp.front().size());
 	for (unsigned int x = 0; x < tmp.size(); x++)
 	{
-		cgp::target.push_back(std::vector<unsigned int> (tmp.size()));
-		for (unsigned int y = 0; y < tmp.front().size(); y++)
-			cgp::target[x].push_back(tmp[x][y]);
+		cgp::target.push_back(std::vector<unsigned int> ());
+		cgp::target.back().reserve(tmp[x].size());
+		for (unsigned int y = 0; y < tmp[x].size(); y++)
+		{
+			c = tmp[x][y];
+			cgp::target[x].push_back(atoi(&c));
+		}
 	}
+	cgp::baseline = cgp::target.size() * cgp::target.front().size() * 2;
 	cgp::offset.x = cgp::target.size() / 2;
 	cgp::offset.y = cgp::target.front().size() / 2;
 }
