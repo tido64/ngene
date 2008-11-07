@@ -15,8 +15,8 @@ OBJ = $(OBJDIR)/ConfigManager.o \
 	$(OBJDIR)/Ngene.o
 
 CPP = g++
-CFLAGS = -g -O3 -Wall -Werror -fopenmp
-LDFLAGS = -ldl -lgomp
+CFLAGS = -g -O3 -Wall #-Werror -fopenmp
+LDFLAGS = -ldl #-lgomp
 
 default: $(EXEC)
 
