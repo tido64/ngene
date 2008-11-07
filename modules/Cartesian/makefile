@@ -9,7 +9,7 @@ OBJ    = $(OBJDIR)/Cartesian.o \
 	$(OBJDIR)/gene_cartesian.o
 
 CPP = g++
-CFLAGS = -g -O0 -Wall -Werror -fPIC
+CFLAGS = -g -O3 -Wall -Werror -fPIC
 LDFLAGS = -shared
 
 default: $(EXEC)

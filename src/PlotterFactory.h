@@ -1,6 +1,7 @@
 /// Lazy-instantiates and returns an instance (implementation) of IPlotter.
 /// Used by Logger to create graphs as part of the log.
 
+#include "Plotter_Dummy.h"
 #include "Plotter_SVG.h"
 
 class PlotterFactory
