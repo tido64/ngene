@@ -256,6 +256,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Plotter_Dummy.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Plotter_SVG.h"
 				>
 			</File>

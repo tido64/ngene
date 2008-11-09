@@ -93,9 +93,9 @@ void Cartesian::execute(Cell &c)
 	unsigned int x, y, z;
 	for (unsigned int i = 0; i < this->nodes.size(); i += 4)
 	{
-		x = input[this->nodes[i]];
-		y = input[this->nodes[i + 1]];
-		z = input[this->nodes[i + 2]];
+		x = input[this->nodes[i]] & this->MAX_CHEMICALS;
+		y = input[this->nodes[i + 1]] & this->MAX_CHEMICALS;
+		z = input[this->nodes[i + 2]] & this->MAX_CHEMICALS;
 		input.push_back(this->system[this->nodes[i + 3]]->exec(x, y, z));
 	}
 
