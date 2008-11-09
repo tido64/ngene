@@ -20,8 +20,8 @@ Boost C++ Libraries (>= 1.34.1)
 
 Windows:
 
-	You will need to download Boost C++ Libraries and copy the header files to
-	the libs/ folder. You can obtain it from the following url:
+	You will need to download Boost C++ Libraries and copy the header files
+	to the libs/ folder. You can obtain it from the following url:
 
 	http://www.boost.org/
 
@@ -31,8 +31,9 @@ Windows:
 
 Unix:
 
-	For most package-based distros, you can get the libboost-dev package from
-	the repositories. Otherwise, you can obtain Boost header files from:
+	For most package-based distros, you can get the libboost-dev package
+	from the repositories. Otherwise, you can obtain Boost header files
+	from:
 
 	http://www.boost.org/
 
@@ -48,10 +49,11 @@ opportunity or any wish to use it.
 Windows:
 
 	In Visual Studio, you will need to specify the /openmp flag. For other
-	compilers, please check your manual or try looking it up on the Internet.
+	compilers, please check your manual or try looking it up on the
+	Internet.
 
 
 Unix:
 
-	Just make sure you use a compiler that supports OpenMP. From what I know,
-	GCC >= 4.2 supports it.
+	Just make sure you use a compiler that supports OpenMP. From what I
+	know, GCC >= 4.2 supports it.
