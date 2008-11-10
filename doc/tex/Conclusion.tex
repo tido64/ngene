@@ -1,14 +1,24 @@
 \section{Conclusion}
 
-\subsection{Future Work}
+\subsection{Further Work}
 
 \subsubsection{Improvements to Ngene}
+There are some aspects of the engine that I would have changed or improved but did not have the time to do so.
 
-Of these modules, only the core, or the genetic algorithm itself, is currently not interchangeable though this might be changed in the future. 
+\begin{itemize}
+	\itemsep=0pt
+	\item \textbf{Making the core interchangeable}
 
-In future versions, there may be a possibility to swap modules, for instance, half way through an evolution.
+	The genetic algorithm itself should be implemented as a separate module, making it possible to change algorithm at any time.
 
-At writing moment, \texttt{Plotter} only saves the graphs as SVG\footnote{Scalable Vector Graphics - \url{http://www.w3.org/Graphics/SVG/}} though other formats can be easily added.
+	\item \textbf{Ability to swap modules mid-experiment}
+
+	The possibility to swap modules based on circumstances in a population, for instance, half way through an evolution or when the population is converging.
+
+	\item \textbf{Further optimizations}
+
+	 The use of \texttt{<map>} comes with a penalty as mentioned in chapter~\ref{tbl:speed}. A 3d implementation of a \texttt{vector} should be considered as it would give constant lookup time and negate the need to search for a neighbour element.
+\end{itemize}
 
 \subsubsection{Other models}
 

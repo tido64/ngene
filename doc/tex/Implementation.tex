@@ -3,12 +3,13 @@
 \subsection{About Ngene}
 \emph{Ngene} is a flexible, generic, multi-purpose genetic algorithm engine written in C++ with heavy emphasis on performance and flexibility. The engine is divided into logical modules that can be interchanged or extended upon in order to fit the intended goal.
 
-The engine started out as an assignment for a sub-symbolic artificial intelligence course. It was written in Python, and 
+The prototype for this engine started out as an assignment for a sub-symbolic artificial intelligence course. It was written in Python, which later proved to be too slow for this kind of application, and later partially ported to C++ because I wanted to learn the language at the time. The engine was finally picked up again, and completed for the purpose of this thesis.
 
 \subsubsection{Modular Design}
 The design is broken into the following modules:
 
 \begin{itemize}
+	\itemsep=0pt
 	\item (core) - The genetic algorithm itself
 	\item Fitness - Assesses the fitness of a genotype
 	\item Genotype - Produces the genotype and translates them to phenotype
@@ -19,13 +20,13 @@ The design is broken into the following modules:
 
 All modules are loaded into memory when the program is executed and kept there until the program is terminated. This modular design is essential when it comes to making the engine available for all purposes. For example, while \emph{tournament} selection is suitable for most of the experiments in this thesis, other users may want to run a comparison test between different selection methods. This is easily achieved by simply specifying which module to use in a configuration file. There is no need to recompile a single line of code unless a new module is required. This modular design also keeps the code cleaner and easier to maintain.
 
-\subsection{Why C++?}
-Choosing a programming language depends on what kind of programme you want to write. A simple program with no special requirements can be written in any language. However performance becomes essential, there are really only two ways to code: In assembly (or machine code) or C/C++. Unlike languages that depend on a virtual machine (C\#, Java), or an interpreter (Common LISP, Python), code written in C/C++ is compiled directly to machine code before executed, usually yielding a much better performance.
+\subsubsection{Why C++?}
+Choosing a programming language depends on what kind of application you want to write. A simple program with no special requirements can be written in any language. For instance, a mail client written in Python will perform equally well as any other client because the focus lies on fetching and displaying e-mails and the ability to manage them in a clear way. The features are what are expected of such an application. However, when performance becomes essential, there are really only two ways to code: In assembly (or machine code) or C/C+. Unlike languages that depend on a virtual machine (C\#, Java), or an interpreter (Common LISP, Python), code written in C/C++ is compiled directly to machine code before executed, usually yielding much better performance.
 
-Being a middle level language, C++ has many disadvantages when compared to today's higher level programming languages. For instance, all memory management must be explicitly handled in the code because C++ lacks a garbage collection found typically in C\# or Java. This means that we have to be careful of memory leaks and accessing valid memory addresses. Furthermore, C++ doesn't come with as big a convenience library as those found in aforementioned languages. Such a library would eliminate rewriting often used algorithms. Fortunately, efforts are being made to improve the language through external libraries.
+C++ is thought of as being a middle level language: It has the advantages of both the lower (machine code) and higher level languages, but also the inherent disadvantages. For example, all memory management must be explicitly handled in the code because C++ lacks a garbage collection found typically in C\# or Java. This means that we have to be careful of memory leaks and access of invalid memory addresses. Furthermore, C++ doesn't come with as big a convenience library as those found in aforementioned languages. Such a library would eliminate rewriting often used algorithms. Fortunately, efforts are being made to ease the implementation through external libraries.
 
 \subsubsection{Boost C++ Libraries}
-\emph{Boost}\footnote{\url{http://www.boost.org/}} is a collection of libraries which complement the C++ Standard Library. Ngene makes use of this collection, saving time and effort, and guaranteeing that such code works as it should.
+\emph{Boost}\footnote{\url{http://www.boost.org/}} is a collection of libraries which complement the C++ Standard Library (STL). Ngene makes use of this collection, saving time and effort, and guaranteeing that such code works as it should.
 
 \paragraph{\textbf{Boost.Any}}\cite{henney2001}
 A problem with writing a generic genetic algorithm in a strongly typed programming language such as C++, is that different studies require different data types to be passed around the system. A simple program that sorts numbers, for instance, needs to pass around an array with integers while another one may require the use of a class or custom data type. In a higher level language such as Python, a container is already available that can store any type of data:
@@ -53,17 +54,22 @@ Another problem with genetic algorithms and development in general is implementi
 	\label{fig:diagram_ngene}
 \end{figure}
 
-Figure~\ref{fig:diagram_ngene} shows a brief overview of how Ngene is put together.
+Figure~\ref{fig:diagram_ngene} shows a brief overview of how Ngene is put together. At startup, three of these parts are responsible for what must happen before anything can be run in accordance with the user's parameters. \texttt{ConfigManager} takes care of reading the configuration file and makes sure that all other parts have access to and will understand what it is told to do. Once it has played its part, \texttt{PluginManager} should be able to load relevant modules and \texttt{Logger} will know whether or not it should plot a fitness/generation graph of a population or just write some text to a file.
 
-When the program starts up, Ngene will start parsing a configuration file. It finds this file either via the path passed as parameter on execution, or it will simply start looking for the default one. The module responsible for this, \texttt{ConfigManager}, will create a structure storing the configuration and pass it to \texttt{PluginManager}.
+The genetic algorithm is very simple:
+\begin{enumerate}
+	\itemsep=0pt
+	\item An initial population is randomly generated.
+	\item \texttt{Specimen}s are randomly selected for crossover.
+	\item Repeat step 2 until the offspring population is of satisfactory size.
+	\item Replace adult population with offspring population.
+	\item Repeat process from step 2 until the maximum number of generations is reached, or a perfect \texttt{Specimen} is found.
+	\item Write log/graph and final \texttt{Specimen} to disk.
+\end{enumerate}
 
-\texttt{PluginManager} handles all loading and unloading of modules specified in a configuration file. If all modules load successfully, it also acts as an interface through which the core communicates with the modules. \texttt{PluginManager} will automatically unload modules and release all resources when the program exits.
+The final step is the responsibility of \texttt{Logger}. \texttt{Logger} has no knowledge of what format the \texttt{Specimen} should be written as. Be it a text file, an image or a proprietary format, it will simply request the \texttt{Genotype} module to give it some data to write to disk. The output format is actually hard-coded into each \texttt{Genotype} module. Because this rarely changes for a single experiment and/or model, otherwise a new module must be written anyway, this has no real impact on users.
 
-Ngene talks with its modules via predefined interfaces, as can be seen directly under \texttt{PluginManager} in figure~\ref{fig:diagram_ngene}. All methods in these modules must be implemented in order to be compatible with Ngene. A more detailed description of what these methods do and sample code can be found in the system documentation. Besides these restrictions, a user can extend the system in any way they see fit.
-
-All logging of runs are done in \texttt{Logger}. On first call, it will make sure that the user has writing privileges and, on successive calls, plot a graph of the progression. When the program terminates, it will also create a file output of the best specimen - the format of which is specified in the \texttt{Genotype} module. The format can be anything from a simple text file to a proprietary format specified by the user.
-
-The genetic algorithm starts by populating the adult population, a responsibility of the \texttt{Genotype} module. The randomly generated genotypes are stored in \texttt{Specimen}s in an array, or vector, that will make up the adult population. When this vector is full (a configurable value), the genetic algorithm will run for a given number of generations (also configurable) or until a perfect \texttt{Specimen} is found, i.e. \texttt{fitness = 1.0}.
+\texttt{PluginManager}, along with the responsibilities of loading and releasing modules, will also act as a layer between the modules and the algorithm itself. The engine will never have to bother with the specifics of each module, but rather be able to just tell what a module ought to do. Of course, this requires that the modules follow certain specifications in order to be compatible with this layer. These are described in more detail in the system documentation for Ngene.
 
 
 \subsection{Ngene Development Framework}
@@ -74,9 +80,9 @@ The genetic algorithm starts by populating the adult population, a responsibilit
 	\label{fig:diagram_ndevframe}
 \end{figure}
 
-To further extend the genetic algorithm already implemented in Ngene, a generic development framework will provide an easier way to test computational development models. The framework is designed to accommodate any conceivable model.
+As it stood, Ngene gave the users too much freedom in implementing their own modules, making it difficult to compare two models without having to factor in differences in implementations. A generic development framework was therefore devised to eliminate these factors and ease the implementation at the same time. The framework was designed to accommodate any conceivable model.
 
-It consists of a common code base that implements common algorithms and concepts such as a cell or a protein (see fig.~\ref{fig:diagram_ndevframe}) and is enforced in order to ensure a common ground on which a comparison between different development models can be done while minimizing any implementation factors that may give one model an advantage over the other. In other words, it will take care of notifying all cells of a development step, or a tick, and all inter-cellular communications (see fig.~\ref{fig:diagram_ndevframe_msg}).
+The framework provides a code base that implements a common development algorithms, along with common concepts such as a cell or a protein (see fig.~\ref{fig:diagram_ndevframe}). This includes intercellular communication (see fig.~\ref{fig:diagram_ndevframe_msg}) and development stepping in order to reduce any implementation advantages a model has over another. Use of this code base is enforced in order to ensure that all comparison made between different development models will be based on a common ground.
 
 \begin{figure}[!ht]
 	\centering
@@ -85,7 +91,7 @@ It consists of a common code base that implements common algorithms and concepts
 	\label{fig:diagram_ndevframe_msg}
 \end{figure}
 
-Figure~\ref{fig:diagram_ndevframe_common-base} shows three different scenarios where model A and B use only chemicals, while model C only makes use of proteins. This tells us that model A and B may use both the cell type and the chemicals part of a \texttt{Message}, while model C only takes cell type into consideration (or it may not even implement cell communication). We also see that model B and C make use of a control program besides the genome. Even though these three models are different, they still use the same framework, meaning all underlying code is the same. A comparison can then be done without fearing that there are implementation differences that may affect one model or another.
+Figure~\ref{fig:diagram_ndevframe_common-base} shows three different scenarios where model A and B use only chemicals, while model C only makes use of proteins. This tells us that model A and B may use both the cell type and the chemicals part of a \texttt{Message}, while model C only takes cell type into consideration (or it may not even make use of communication). We also see that model B and C make use of a control program besides the genome. Even though these three models are different, they still use the same framework or code base. A comparison can then be performed without having to take into account implementation differences that may affect one model or another.
 
 \begin{figure}[!ht]
 	\centering
@@ -94,18 +100,7 @@ Figure~\ref{fig:diagram_ndevframe_common-base} shows three different scenarios w
 	\label{fig:diagram_ndevframe_common-base}
 \end{figure}
 
-
-\subsubsection{Using the Framework}
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[scale=0.9]{diagram_ndevframe_ex}
-	\caption{An example of how one can implement \texttt{MyDevExperiment}.}
-	\label{fig:diagram_ndevframe_ex}
-\end{figure}
-
-A module is created by inheriting \texttt{AbstractDevelopment} (see fig.~\ref{fig:diagram_ndevframe_ex}) and implementing the required methods, \texttt{execute()} and \texttt{initialize()}. The latter is executed every time a new organism is to be developed and can be used to expand the genotype into a more functional object, such as an actual cell program, and preparing the organism with initial cells. The \texttt{execute()} method is called every tick, for every cell in the organism. Here, the cell program from the genotype can be executed as well as any control programs that might be needed. Note that any messages sent has already been received and are stored in the cells themselves by the time the first cell is given the chance to fulfil its purpose in a tick. It will not be possible to actually access the organism itself in this method to avoid tampering with and further minimize any differences between two models.
-
-With regards to speed optimizations, lots of thought as been put into how to represent the organisms themselves. In the current implementation, an \emph{STL Map} is used to store the cells using their coordinates as the key value. Other alternatives were also considered:
+With regards to speed optimizations, lots of thought as been put into how to represent the organisms themselves. In the current implementation, a C++ Standard Library (STL) \texttt{<map>} is used to store the cells using their coordinates as the key value. Other alternatives were also considered:
 
 \begin{center}
 	\begin{tabular}{ r | c | c | c }
@@ -117,19 +112,29 @@ With regards to speed optimizations, lots of thought as been put into how to rep
 		\hline
 		search & $O(log~n)$ & $O(n)$ & $O(1)$ \\
 	\end{tabular}
+	\label{tbl:speed}
 \end{center}
 
-A quick glance at the comparison table and the \texttt{<ext/hash\_map>} may seem like the best choice to go with. However, there are some drawbacks that must be taken into consideration. A good hashing algorithm is essential for the performance of the hash table by providing a uniform distribution over the array. Too simple, and a lot of collisions will occur, but too complex and the hashing table will spend all of its time calculating a hash value. Collisions will, however, occur regardless of how good the algorithm is. The \emph{birthday paradox} predicts that it doesn't take many elements before the chance of a collision exceeds 95\%, even for very big arrays. A good collision resolution is therefore also needed but it will not be enough to guarantee the performance advantage over other solutions. For the experiments conducted in this thesis, the number of cells rarely exceeded 1000. For a \texttt{<map>}, this means at most 10 comparisons to find an element by its key value. A hash table would require about the same number of operations to calculate the hash, perform the lookup and resolve any collisions.
+A quick glance at the comparison table and the \texttt{<ext/hash\_map>} may seem like the best choice to go with. However, there are some drawbacks that must be taken into consideration. A good hashing algorithm is essential for the performance of the hash table by providing a uniform distribution over the array. Too simple, and a lot of collisions will occur, but too complex and the hashing table will spend all of its time calculating a hash value. Collisions occur regardless of how good the algorithm is. The \emph{birthday paradox} predicts that it doesn't take many elements before the chance of a collision exceeds 95\%, even for very big arrays. A good collision resolution is therefore also needed but will not be enough to guarantee the performance advantage over other solutions. For the experiments conducted in this thesis, the number of cells rarely exceeded 1000. For a \texttt{<map>}, this means at most 10 comparisons to find an element by its key value. A hash table would require about the same number of operations to calculate the hash, perform the lookup and resolve any collisions.
 
-The \texttt{<map>} was chosen over the \texttt{<vector>} because despite its better access and insertion times, required more time to find all of a cell's neighbours. This could've be remedied by creating and maintaining a neighbours list for every cell. However, this would make insertion $O(n)$ as opposed to $O(log~n)$ of the \texttt{<map>}.
+The \texttt{<map>} was chosen over the \texttt{<vector>} because despite its better access and insertion times, required more time to find all of a cell's neighbours. This can be remedied by creating and maintaining a neighbours list for every cell. However, this would make insertion $O(n)$ as opposed to $O(log~n)$ of the \texttt{<map>}.
 
+\subsubsection{Using the Framework}
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[scale=0.9]{diagram_ndevframe_ex}
+	\caption{An example of how one can implement \texttt{MyDevExperiment}.}
+	\label{fig:diagram_ndevframe_ex}
+\end{figure}
+
+The framework was designed to ease the implementation effort as much as possible. The whole code base can be inherited from \texttt{AbstractDevelopment} (see fig.~\ref{fig:diagram_ndevframe_ex}). To make it your own module, only two functions need to be implemented, \texttt{execute()} and \texttt{initialize()}. The latter is executed once with every new organism that is to be developed, and can be used to unpacking the genotype to a cellular program and/or generating initial cells in the organism. The \texttt{execute()} function is called every development step/tick, for every cell in the organism. Here, the cell program from the genotype can be executed as well as any control programs that might be needed. Note that any messages sent has already been received and are stored in the cells themselves by the time a cell is given the chance to fulfil its purpose in a tick. It will not be possible to actually access the organism itself from this function in order to avoid accidental tampering.
+
+For the purpose of this thesis, two models were implemented within this framework.
 
 \subsubsection{ArtDev3D}
-A simpler (and hopefully faster) version of Johan H{\o}ye's master's thesis\cite{hoye2006} model was implemented within the framework. Though simpler, all logical operations are still kept intact.
+Porting Johan H{\o}ye's master's thesis\cite{hoye2006} to Ngene's framework was a rather cumbersome job. Partly due to lack of proper system documentation and partly because many biology concepts made their way into his code, making it bloated and messy. Classes such \texttt{Proteincollection} and \texttt{ChangeChemicalConcentrationInCellProtein} not only makes it confusing to read, but are also unnecessary. Because they are re-implementions of already existing containers, chances are they will not perform as well as native implementations. Furthermore, the hierarchy of the system runs very deep, ie. a single function may need to call other functions which call different functions, and so on, in order to perform simple cellular operations. A single cell may call this function several times in a single tick, and there are many cells in a single organism, not to mention an entire population over many generations. Reducing the number of function call will also reduce any potential strain on the call stack, and in turn better the performance. Efforts has therefore been made to flatten the structure and simplify as much as possible without comprimising the logical integrity of the model. In addition to some fresh documentation, it will hopefully be easier to understand.
 
-Due to lack of proper system documentation, porting the code from Java to C++ has been a rather cumbersome job. Many biology concepts made their way into his code, making it very messy and difficult to read at times. There are classes for pretty much every concept such as \texttt{Cell}, \texttt{Protein} and even \texttt{Proteincollection} and \texttt{ChangeChemicalConcentrationInCellProtein}. Because of how the hierarchy is built up, functions may call other functions which again call different functions, and so on, to perform simple operations. These functions are often called many times in a single cell during a single tick, putting a strain on the call stack when there are a lot more cells in an organism, more ticks in a development process, and many organism in a population that are to evolve over generations. Parts of the effort in porting this model over to the new framework has been spent on flattening the structure a bit, hopefully making it simpler and easier to understand. In many cases, it was simply substituting a class, such as \texttt{Chemicalconcentrations}, with an STL container. After all, the golden rule of programming is to not write custom containers unless deemed absolutely necessary.
-
-There are a couple of issues that Johan may have missed when he wrote his thesis. A lot of papers in this field agree to a certain degree that cells develop simultaneously, i.e. for all development that is based on neighbouring cells' states, an information exchange between all cells should occur first, and any other cellular operations last. However, in Johan's model, this is not implemented. The following snippets from his code should demonstrate this issue.
+There is an issue that has been addressed with the porting of this model, and may therefore offer different results than the original. In most models, cells develop simultaneously. Before a cell can begin its operations, information must be exchanged between all cells so that when it is executing, it will use a cell's ``older'' state and not the newly updated one. In ArtDev3D, this is not properly implemented. The following snippets from his code should demonstrate this issue.
 
 \begin{verbatimtab}
 development/model/DevelopmentProsess.java:287-307:
@@ -155,7 +160,7 @@ private boolean doTick() {
 }
 \end{verbatimtab}
 
-A tick signalizes the organism to start doing something. Here, a tick event is triggered in an organism a certain amount of times.
+A tick signalizes the organism to perform a single development step. A tick event is triggered in an organism a configurable amount of times.
 
 \begin{verbatimtab}
 development/model/framework/organism/Organism.java:90-101:
@@ -175,7 +180,7 @@ public void tickEvent() {
 }
 \end{verbatimtab}
 
-The organism receives the event and then relays this tick event to all cells inside of it. This occurs in the order in which the cells were added to the array.
+When the organism receives the event, it will notify all cells inside of this event. The cells are notified in the order in which the cells were added to the array.
 
 \begin{verbatimtab}
 development/model/framework/cell/Cell.java:275-293:
@@ -201,12 +206,12 @@ public final void tickEvent() {
 }
 \end{verbatimtab}
 
-Here we see that all requested actions by this cell's proteins are deleted before new actions can be requested. This happens in \texttt{pc.tickEvent()}: First, all dead proteins are removed from the collection and the remaining are aged. Finally, these proteins can request an action upon the cell based on chemical levels in the cell, as well as criteria based on neighbouring cells' types. These queued actions are accumulated and realized in \texttt{doAction()}.
+Here we see that all requested actions by this cell's proteins are removed before new actions can be requested. This happens in \texttt{pc.tickEvent()}: First, all dead proteins are removed from the collection and the remaining are aged. Finally, these proteins can request an action upon the cell based on the chemical levels in the cell, as well as criteria based on neighbouring cells' types. The requests are queued up and realized in \texttt{doAction()}.
 
-We see that \texttt{Cell.tickEvent()} performs both the information gathering and all the actions as a single function while they should have been split up and run in two different loops. The problem here is that a single cell may get ``newer'' information from a neighbouring cell that already has been processed mixed up with ``older'' information from unprocessed cells, what it should have based its actions on.
+We see that \texttt{Cell.tickEvent()} performs both the information gathering and all requested actions as a single operation. This should, instead, have been split up and executed in two different loops. As mentioned earlier, the problem here is that a single cell may base its actions on a neighbouring cell's ``newer'' state because it happened to be first in line. This issue was addressed by extracting \texttt{doAction()} out of \texttt{Cell.tickEvent()} and calling it separately in a later loop.
 
-For the purpose of my thesis, \texttt{doAction()} has been extracted out of \texttt{Cell.tickEvent()} and is called separately in another loop. This may or may not have a consequence in the outcome of the runs. The experiments conducted will show whether or not this is the case.
+\subsubsection{Cartesian}
+This model is based on a number of works by Julian F. Miller, mainly \cite{mteurogp2000} and \cite{ecal2003}. 
 
+<more to come...>
 
-\subsubsection{Julian F. Miller's Model}
-This model is based a number of works such as \cite{mteurogp2000} and \cite{ecal2003}. There are no official documentation or source code of it, so all work is based solely on descriptions of how it works.
