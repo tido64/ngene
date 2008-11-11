@@ -7,7 +7,7 @@ class Function
 {
 public:
 	virtual ~Function() { };
-	virtual int exec(const int, const int, const int) = 0;
+	virtual unsigned char exec(const unsigned char, const unsigned char, const unsigned char) = 0;
 };
 
 enum Functions

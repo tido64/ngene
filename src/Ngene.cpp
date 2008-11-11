@@ -4,7 +4,7 @@ using std::sort;
 using std::string;
 using std::vector;
 
-const char *NGENE_VERSION = "1.1.81024";
+const char *NGENE_VERSION = "1.1.81111";
 
 int main(int argc, char *argv[])
 {

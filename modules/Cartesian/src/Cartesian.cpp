@@ -27,120 +27,61 @@ Cartesian::~Cartesian()
 		delete *i;
 }
 
-double Cartesian::diffuse(const double lvl, const vector<Message> &in)
-{
-	double sum = 0;
-	for (vector<Message>::const_iterator i = in.begin(); i != in.end(); i++)
-		if (i->type > -1)
-			sum += i->chemicals[0];
-	return (lvl / 2) + (sum / 16);
-}
-
 void Cartesian::execute(Cell &c)
 {
-	vector<unsigned int> input (18, 0);
+	if (c.type < 1)
+	{
+		remove(c.coords);
+		return;
+	}
+
+	unsigned int sigma = 0;
+	vector<unsigned char> input (18, 0);
 	input.reserve((From::ALL_NEIGHBOURS + 1) * 4);
-
-	if (c.messages[From::above_left].type != -1)
+	input[0] = c.chemicals[0];
+	input[9] = c.type;
+	for (unsigned int i = 0; i < 8; i++)
 	{
-		input[0] = c.messages[From::above_left].chemicals[0];
-		input[9] = c.messages[From::above_left].type;
-	}
-	if (c.messages[From::above].type != -1)
-	{
-		input[1] = c.messages[From::above].chemicals[0];
-		input[10] = c.messages[From::above].type;
-	}
-
-	if (c.messages[From::above_right].type != -1)
-	{
-		input[2] = c.messages[From::above_right].chemicals[0];
-		input[11] = c.messages[From::above_right].type;
-	}
-	if (c.messages[From::left].type != -1)
-	{
-		input[3] = c.messages[From::left].chemicals[0];
-		input[12] = c.messages[From::left].type;
-	}
-	input[4] = c.chemicals[0];
-	input[13] = c.type;
-	if (c.messages[From::right].type != -1)
-	{
-		input[5] = c.messages[From::right].chemicals[0];
-		input[14] = c.messages[From::right].type;
-	}
-	if (c.messages[From::below_left].type != -1)
-	{
-		input[6] = c.messages[From::below_left].chemicals[0];
-		input[15] = c.messages[From::below_left].type;
-	}
-	if (c.messages[From::below].type != -1)
-	{
-		input[7] = c.messages[From::below].chemicals[0];
-		input[16] = c.messages[From::below].type;
-	}
-	if (c.messages[From::below_right].type != -1)
-	{
-		input[8] = c.messages[From::below_right].chemicals[0];
-		input[17] = c.messages[From::below_right].type;
+		if (c.messages[i].type > 0)
+		{
+			input[i + 1] = c.messages[i].chemicals[0];
+			sigma += c.messages[i].chemicals[0];
+			input[i + 10] = c.messages[i].type;
+		}
 	}
 
-	//printf("==>");
-	//for (vector<unsigned int>::iterator i = input.begin(); i != input.end(); i++)
-	//	printf(" %u", *i);
-	//printf("\n");
-
-	unsigned int x, y, z;
+	unsigned char x, y, z;
 	for (unsigned int i = 0; i < this->nodes.size(); i += 4)
 	{
-		x = input[this->nodes[i]] & this->MAX_CHEMICALS;
-		y = input[this->nodes[i + 1]] & this->MAX_CHEMICALS;
-		z = input[this->nodes[i + 2]] & this->MAX_CHEMICALS;
+		x = input[this->nodes[i]];
+		y = input[this->nodes[i + 1]];
+		z = input[this->nodes[i + 2]];
 		input.push_back(this->system[this->nodes[i + 3]]->exec(x, y, z));
 	}
 
 	// handle output
-	unsigned int mask = 1;
+	unsigned char mask = 1, node = 2;
 	c.type = input[this->output[0]] & 3;
 
-	if (!exists(c.coords.above_left()) && (this->output[1] & mask) != 0)
-		divide_cell(c, c.coords.above_left()).chemicals[0] = input[this->output[From::above_left + 2]] & this->MAX_CHEMICALS;
-	mask <<= 1;
+	vector<Coordinates> neighbourhood;
+	neighbourhood.push_back(c.coords.above_left());
+	neighbourhood.push_back(c.coords.above());
+	neighbourhood.push_back(c.coords.above_right());
+	neighbourhood.push_back(c.coords.left());
+	neighbourhood.push_back(c.coords.right());
+	neighbourhood.push_back(c.coords.below_left());
+	neighbourhood.push_back(c.coords.below());
+	neighbourhood.push_back(c.coords.below_right());
 
-	if (!exists(c.coords.above()) && (this->output[1] & mask) != 0)
-		divide_cell(c, c.coords.above()).chemicals[0] = input[this->output[From::above + 2]] & this->MAX_CHEMICALS;
-	mask <<= 1;
-
-	if (!exists(c.coords.above_right()) && (this->output[1] & mask) != 0)
-		divide_cell(c, c.coords.above_right()).chemicals[0] = input[this->output[From::above_right + 2]] & this->MAX_CHEMICALS;
-	mask <<= 1;
-
-	if (!exists(c.coords.left()) && (this->output[1] & mask) != 0)
-		divide_cell(c, c.coords.left()).chemicals[0] = input[this->output[From::left + 2]] & this->MAX_CHEMICALS;
-	mask <<= 1;
-
-	if (!exists(c.coords.right()) && (this->output[1] & mask) != 0)
-		divide_cell(c, c.coords.right()).chemicals[0] = input[this->output[From::right + 2]] & this->MAX_CHEMICALS;
-	mask <<= 1;
-
-	if (!exists(c.coords.below_left()) && (this->output[1] & mask) != 0)
-		divide_cell(c, c.coords.below_left()).chemicals[0] = input[this->output[From::below_left + 2]] & this->MAX_CHEMICALS;
-	mask <<= 1;
-
-	if (!exists(c.coords.below()) && (this->output[1] & mask) != 0)
-		divide_cell(c, c.coords.below()).chemicals[0] = input[this->output[From::below + 2]] & this->MAX_CHEMICALS;
-	mask <<= 1;
-
-	if (!exists(c.coords.below_right()) && (this->output[1] & mask) != 0)
-		divide_cell(c, c.coords.below_right()).chemicals[0] = input[this->output[From::below_right + 2]] & this->MAX_CHEMICALS;
-	mask <<= 1;
-
-	c.chemicals[0] = diffuse(c.chemicals[0], c.messages);
-	if (c.chemicals[0] > this->MAX_CHEMICALS)
+	for (vector<Coordinates>::iterator i = neighbourhood.begin(); i != neighbourhood.end(); i++)
 	{
-		printf("==> A cell messed up its chemicals\n");
-		exit(-1);
+		if (!exists(*i) && (this->output[1] & mask) != 0)
+			divide_cell(c, *i).chemicals[0] = input[this->output[node]];
+		mask <<= 1;
+		node++;
 	}
+
+	c.chemicals[0] = (c.chemicals[0] / 2) + (sigma / 16);
 }
 
 void Cartesian::initialize(Organism *o)
