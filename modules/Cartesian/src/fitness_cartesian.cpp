@@ -7,7 +7,6 @@
 
 namespace cgp
 {
-	int width, height;
 	double baseline;
 	std::string name ("Cartesian");
 	Coordinates offset;
@@ -23,30 +22,31 @@ void assess(Specimen &individual)
 	int points = 0;
 	Coordinates slot;
 	std::map<Coordinates, Cell>::const_iterator s_result;
-
-	for (unsigned int x = 0; x < cgp::target.size(); x++)
+	for (unsigned int y = 0; y < cgp::target.front().size(); y++)
 	{
-		slot.x = x - cgp::offset.x;
-		slot.y = 0 - cgp::offset.y;
-		//printf("==> Checking [%d][%d", slot.x, slot.y);
-		for (unsigned int y = 0; y < cgp::target[x].size(); y++)
+		//printf("==>");
+		slot.x = -cgp::offset.x;
+		slot.y = y - cgp::offset.y;
+		for (unsigned int x = 0; x < cgp::target.size(); x++)
 		{
 			s_result = specimen.find(slot);
 			if (s_result != specimen.end())
 			{
-				if (cgp::target[x][y] != 0)
+				if (cgp::target[x][y] > 0)
 					points += (static_cast<unsigned int>(s_result->second.type) == cgp::target[x][y]) ? 2 : 1;
+				//printf("  [%d,%d] %d/%u", slot.x, slot.y, s_result->second.type, cgp::target[x][y]);
 			}
 			else
 			{
-				if (cgp::target[x][y] == 0)
+				if (cgp::target[x][y] < 1)
 					points += 2;
+				//printf("  [%d,%d] -/%u", slot.x, slot.y, cgp::target[x][y]);
 			}
-			slot.y++;
-			//printf(", %d", slot.y);
+			slot.x++;
 		}
-		//printf("]\n");
+		//printf("\n");
 	}
+
 	individual.fitness = points / cgp::baseline;
 }
 
@@ -75,13 +75,13 @@ void initiate(const char *parameters)
 
 	char c;
 	cgp::target.reserve(tmp.front().size());
-	for (unsigned int x = 0; x < tmp.size(); x++)
+	for (unsigned int x = 0; x < tmp.front().size(); x++)
 	{
 		cgp::target.push_back(std::vector<unsigned int> ());
-		cgp::target.back().reserve(tmp[x].size());
-		for (unsigned int y = 0; y < tmp[x].size(); y++)
+		cgp::target.back().reserve(tmp.size());
+		for (unsigned int y = 0; y < tmp.size(); y++)
 		{
-			c = tmp[x][y];
+			c = tmp[y][x];
 			cgp::target[x].push_back(atoi(&c));
 		}
 	}
