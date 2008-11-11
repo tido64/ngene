@@ -75,7 +75,7 @@ void Cartesian::execute(Cell &c)
 
 	for (vector<Coordinates>::iterator i = neighbourhood.begin(); i != neighbourhood.end(); i++)
 	{
-		if (!exists(*i) && (this->output[1] & mask) != 0)
+		if ((input[this->output[1]] & mask) != 0) // && !exists(*i))
 			divide_cell(c, *i).chemicals[0] = input[this->output[node]];
 		mask <<= 1;
 		node++;

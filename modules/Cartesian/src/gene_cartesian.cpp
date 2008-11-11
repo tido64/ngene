@@ -92,28 +92,35 @@ const char *str(const Genotype &genotype)
 	std::map<Coordinates, Cell> o (cgp::sys->get_organism());
 	delete cgp::sys;
 
+	//for (std::map<Coordinates, Cell>::iterator i = o.begin(); i != o.end(); i++)
+	//	printf("==> [%d,%d] %d\n", i->first.x, i->first.y, i->second.type);
+	//printf("==>\n");
+
 	int
-		range_x = cgp::height / 2,
-		range_y = cgp::width / 2;
-	std::map<Coordinates, Cell>::const_iterator r;
+		range_x = cgp::width / 2,
+		range_y = cgp::height / 2;
+	std::map<Coordinates, Cell>::const_iterator res;
 	std::stringstream ss;
-	Coordinates slot;
-	for (int x = -range_x; x <= range_x; x++)
+	Coordinates slot (-range_x, -range_y);
+
+	for (unsigned int y = 0; y < cgp::height; y++)
 	{
-		slot.x = x;
-		for (int y = -range_y; y <= range_y; y++)
+		//printf("==>");
+		slot.x = -range_x;
+		slot.y = y - range_y;
+		for (unsigned int x = 0; x < cgp::width; x++)
 		{
-			slot.y = y;
-			r = o.find(slot);
-			if (r != o.end())
-				//printf("%d ", r->second.type);
-				ss << r->second.type << " ";
+			res = o.find(slot);
+			if (res != o.end())
+				//printf("  [%d,%d] %d", slot.x, slot.y, res->second.type);
+				ss << res->second.type << " ";
 			else
-				//printf("0 ");
+				//printf("  [%d,%d] -", slot.x, slot.y);
 				ss << "0 ";
+			slot.x++;
 		}
-		ss << std::endl;
 		//printf("\n");
+		ss << std::endl;
 	}
 	cgp::name = ss.str();
 	return cgp::name.c_str();
