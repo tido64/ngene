@@ -4,7 +4,7 @@
 class add : public Function
 {
 public:
-	int exec(const int a, const int b, const int ctrl)
+	unsigned char exec(const unsigned char a, const unsigned char b, const unsigned char ctrl)
 	{
 		return a + b;
 	}

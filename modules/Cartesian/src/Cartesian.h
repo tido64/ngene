@@ -13,8 +13,6 @@ public:
 	Cartesian(const unsigned int t, const unsigned int l);
 	~Cartesian();
 
-	double diffuse(const double lvl, const std::vector<Message> &in);
-
 	// Implements AbstractDevelopment's methods
 	void execute(Cell &);
 	void initialize(Organism *);

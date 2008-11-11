@@ -48,7 +48,7 @@ void seed(Genotype &genotype)
 		input = 18,
 		output = 10;
 
-	int lower = 0, upper = input;
+	unsigned int lower = 0, upper = input;
 	std::vector<unsigned int> layer;
 	layer.reserve(cgp::levels + 1);
 

@@ -14,13 +14,7 @@ void mutate(Genotype &genotype)
 	if (address % 4 == 3) // change function adress
 		genotype[address] = ngene::random->next_int(NUMBER_OF_FUNCTIONS);
 	else // change input adress
-	{
-		unsigned int in = *boost::unsafe_any_cast<unsigned int>(&genotype[address]);
-		if (*boost::unsafe_any_cast<unsigned int>(&genotype[address]) < 2 || ngene::random->next() < 0.5)
-			genotype[address] = in + ngene::random->next_int(1, in);
-		else
-			genotype[address] = in - ngene::random->next_int(1, in);
-	}
+		genotype[address] = ngene::random->next_int(*boost::unsafe_any_cast<unsigned int>(&genotype[address]));
 }
 
 const char *name()

@@ -13,70 +13,29 @@ private:
 	void exchange()
 	{
 		Message empty;
-		std::map<Coordinates, Cell>::const_iterator r;
+		std::vector<std::map<Coordinates, Cell>::const_iterator> neighbours;
 		for (std::map<Coordinates, Cell>::iterator i = this->organism->cells.begin(); i != this->organism->cells.end(); i++)
 		{
 			i->second.messages.clear();
+			neighbours.clear();
+			neighbours.push_back(this->organism->cells.find(i->first.above()));
+			neighbours.push_back(this->organism->cells.find(i->first.above_left()));
+			neighbours.push_back(this->organism->cells.find(i->first.above_right()));
+			neighbours.push_back(this->organism->cells.find(i->first.left()));
+			neighbours.push_back(this->organism->cells.find(i->first.right()));
+			neighbours.push_back(this->organism->cells.find(i->first.below()));
+			neighbours.push_back(this->organism->cells.find(i->first.below_left()));
+			neighbours.push_back(this->organism->cells.find(i->first.below_right()));
+			neighbours.push_back(this->organism->cells.find(i->first.front()));
+			neighbours.push_back(this->organism->cells.find(i->first.back()));
 
-			r = this->organism->cells.find(i->first.above());
-			if (r != this->organism->cells.end())
-				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
-			else
-				i->second.messages.push_back(empty);
-
-			r = this->organism->cells.find(i->first.above_left());
-			if (r != this->organism->cells.end())
-				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
-			else
-				i->second.messages.push_back(empty);
-
-			r = this->organism->cells.find(i->first.above_right());
-			if (r != this->organism->cells.end())
-				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
-			else
-				i->second.messages.push_back(empty);
-
-			r = this->organism->cells.find(i->first.left());
-			if (r != this->organism->cells.end())
-				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
-			else
-				i->second.messages.push_back(empty);
-
-			r = this->organism->cells.find(i->first.right());
-			if (r != this->organism->cells.end())
-				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
-			else
-				i->second.messages.push_back(empty);
-
-			r = this->organism->cells.find(i->first.below());
-			if (r != this->organism->cells.end())
-				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
-			else
-				i->second.messages.push_back(empty);
-
-			r = this->organism->cells.find(i->first.below_left());
-			if (r != this->organism->cells.end())
-				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
-			else
-				i->second.messages.push_back(empty);
-
-			r = this->organism->cells.find(i->first.below_right());
-			if (r != this->organism->cells.end())
-				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
-			else
-				i->second.messages.push_back(empty);
-
-			r = this->organism->cells.find(i->first.front());
-			if (r != this->organism->cells.end())
-				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
-			else
-				i->second.messages.push_back(empty);
-
-			r = this->organism->cells.find(i->first.back());
-			if (r != this->organism->cells.end())
-				i->second.messages.push_back(Message (r->second.type, r->second.chemicals, r->first));
-			else
-				i->second.messages.push_back(empty);
+			for (std::vector<std::map<Coordinates, Cell>::const_iterator>::iterator c = neighbours.begin(); c != neighbours.end(); c++)
+			{
+				if (*c == this->organism->cells.end())
+					i->second.messages.push_back(empty);
+				else
+					i->second.messages.push_back(Message ((*c)->second.type, (*c)->second.chemicals, (*c)->second.coords));
+			}
 		}
 	}
 
@@ -85,10 +44,8 @@ private:
 	{
 		if (!this->cell_buffer.empty())
 		{
-			//printf("Found %u new cell(s). ", this->cell_buffer.size());
 			this->organism->cells.insert(this->cell_buffer.begin(), this->cell_buffer.end());
 			this->cell_buffer.clear();
-			//printf("Flushed %u new cell(s)\n", this->organism->cells.size());
 		}
 	}
 
@@ -113,7 +70,7 @@ protected:
 		return this->cell_buffer[l];
 	}
 
-	/// The cell program that is run with each tick. Must be implemented.
+	/// The cell program that is run at each tick. Must be implemented.
 	virtual void execute(Cell &) = 0;
 
 	/// Checks whether or not there exists a cell in the given coordinates.
@@ -134,6 +91,11 @@ protected:
 	bool queued(const Coordinates &l)
 	{
 		return this->cell_buffer.find(l) != this->cell_buffer.end();
+	}
+
+	void remove(const Coordinates &l)
+	{
+		//this->organism->cells.erase(l);
 	}
 
 public:
