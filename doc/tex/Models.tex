@@ -1,0 +1,28 @@
+\section{The Models}
+
+Currently, there are many development models in the field that are inspired by nature. (More here when I find the words...)
+
+\subsection{ArtDev3D}
+This model was the master's thesis of Johan H{\o}ye\cite{hoye2006} and its aim was to be as close to biology as possible without dwelling too deep into the underlying and less understood concepts.
+
+\subsubsection{Concepts}
+To understand this model, we will have to touch a few topics in biology. Like with humans, everything starts out with a single cell, the zygote. From this cell, more cells are created, and from these, even more. This happens mostly in a controlled fashion with the help of the DNA, the recipe of life. It tells which proteins to synthesize, how and when.
+
+The proteins, in turn, do all actual work inside the cell. In this model, only four such tasks were implemented: regulation of the chemical and protein levels, changing the type of the cell and ``requesting'' cell division in certain directions. I use requesting here because the way this model works, is that the proteins queue an actual request for the cell to perform division. Likewise, the proteins also request for a change of cell type. The proteins are activated depending on the current chemical levels in the cell as well as nearby cells.
+
+The cell is also ``programmed'' to perform certain tasks. Implemented funcions include osmosis, or the exchange of chemicals (or hormones) with nearby cells, and performing the actual cell division in requested directions. This set of functions are programmed into each cell and is not open to evolutionary changes. Only the DNA itself is.
+
+The genotype of this model, the DNA, consists of genes. Genes carry recipes for proteins and determine their function, how they will be activated, and long they will live. The genes are implemented so that the propertes can be easily mutated while being wholly copied during cross over.
+
+\subsubsection{How it works}
+Development starts with an ``empty'' organism. The DNA is inserted into a cell before it is inserted to the organism. It becomes the zygote when the cell ``scans'' through the DNA and synthesizes all proteins. This is only performed on the initial cell. 
+
+
+\subsection{Cartesian Genetic Programming}
+intro
+
+\subsubsection{Concepts}
+As opposed to ArtDev3D, the whole cell program is evolved through EA.
+
+\subsubsection{How it works}
+...
