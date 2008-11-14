@@ -7,20 +7,26 @@ There are some aspects of the engine that I would have changed or improved but d
 
 \begin{itemize}
 	\itemsep=0pt
-	\item \textbf{Making the core interchangeable}
+	\item\textbf{Improving the message interface of Ngene Development Framework}
+
+	Currently, the messages are gathered by looping through the cells and finding out what their neighbours are. This is a $O(n^{2})$ algorithm and can be much improved. One way of doing it is to take a snapshot of the organism and pass that object to the cells. The benefit of doing it this way is that is fast (in the order of $O(n)$) and it also opens up the possibility to implement chemical diffusion.
+
+	\item\textbf{Making the core interchangeable}
 
 	The genetic algorithm itself should be implemented as a separate module, making it possible to change algorithm at any time.
 
-	\item \textbf{Ability to swap modules mid-experiment}
+	\item\textbf{Further optimizations}
+
+	The use of \texttt{<map>} comes with a penalty as mentioned in chapter~\ref{tbl:speed}. A three-dimensional implementation of a \texttt{vector} should be considered as it would give constant lookup time and negate the need to search for nearby elements.
+
+	The Mersenne twister is often criticized for not being very elegant. There may be other implementations of a pseudo-random number generator that outperform the Mersenne twister while maintaining equal or better quality of randomness.
+
+	\item\textbf{Ability to swap modules mid-experiment}
 
 	The possibility to swap modules based on circumstances in a population, for instance, half way through an evolution or when the population is converging.
-
-	\item \textbf{Further optimizations}
-
-	 The use of \texttt{<map>} comes with a penalty as mentioned in chapter~\ref{tbl:speed}. A 3d implementation of a \texttt{vector} should be considered as it would give constant lookup time and negate the need to search for a neighbour element.
 \end{itemize}
 
 \subsubsection{Other models}
 
-etc.
+TODO
 
