@@ -21,9 +21,11 @@ The design is broken into the following modules:
 All modules are loaded into memory when the program is executed and kept there until the program is terminated. This modular design is essential when it comes to making the engine available for all purposes. For example, while \emph{tournament} selection is suitable for most of the experiments in this thesis, other users may want to run a comparison test between different selection methods. This is easily achieved by simply specifying which module to use in a configuration file. There is no need to recompile a single line of code unless a new module is required. This modular design also keeps the code cleaner and easier to maintain.
 
 \subsubsection{Why C++?}
-Choosing a programming language depends on what kind of application you want to write. A simple program with no special requirements can be written in any language. For instance, a mail client written in Python will perform equally well as any other client because the focus lies on fetching and displaying e-mails and the ability to manage them in a clear way. The features are what are expected of such an application. However, when performance becomes essential, there are really only two ways to code: In assembly (or machine code) or C/C+. Unlike languages that depend on a virtual machine (C\#, Java), or an interpreter (Common LISP, Python), code written in C/C++ is compiled directly to machine code before executed, usually yielding much better performance.
+In a sense, one can say that this project was made possible because of my prototype in Python. It taught me many higher level concepts that is practically non-existant in lower level languages such as C++. Without it, I probably wouldn't have been able to bring the project to the level it is today. Especially without the concept of a dynamic type, the idea of a container that can contain anything from an integer, to a string, to a floating type number, I would still have trouble trying to compensate for it with complex algorithms to deal with raw data pointers. Most importantly, it taught me the importance of optimization and use of libraries.
 
-C++ is thought of as being a middle level language: It has the advantages of both the lower (machine code) and higher level languages, but also the inherent disadvantages. For example, all memory management must be explicitly handled in the code because C++ lacks a garbage collection found typically in C\# or Java. This means that we have to be careful of memory leaks and access of invalid memory addresses. Furthermore, C++ doesn't come with as big a convenience library as those found in aforementioned languages. Such a library would eliminate rewriting often used algorithms. Fortunately, efforts are being made to ease the implementation through external libraries.
+Choosing a programming language depends on what kind of application you want to write. A simple program with no special requirements can be written in any language. For instance, a mail client written in Python will perform equally well as any other client because the focus lies on fetching and displaying e-mails and the ability to manage them in a clear way. The features are more important than the extra two milliseconds it takes to perform a query. However, there are applications for which performance is more important than anything. Arguably, such programs should be written in one of two ways: In assembly (or machine code) or C/C+. While assembly is rarely used these days, due to being practically unreadable for mortals, C and C++ is often used for time critical applications. Unlike languages that depend on a virtual machine (C\#, Java), or an interpreter (Common LISP, Python), code written in C/C++ is compiled directly to machine code before executed, often yielding much better performance.
+
+C++ is thought of as being a middle level language: It has the advantages of both the lower (machine code) and higher level languages, but also the inherent disadvantages. For example, all memory management must be explicitly handled in the code because C++ lacks a garbage collection found typically in C\# or Java. This means that we have to be careful of memory leaks and access of invalid memory addresses. Failure to do so may cause a huge performance hit. Furthermore, C++ doesn't come with as big a convenience library as those found in aforementioned languages. Such a library would eliminate rewriting often used algorithms and the headache of fixing a buggy code. Fortunately, efforts are already being made to ease the implementation through external libraries.
 
 \subsubsection{Boost C++ Libraries}
 \emph{Boost}\footnote{\url{http://www.boost.org/}} is a collection of libraries which complement the C++ Standard Library (STL). Ngene makes use of this collection, saving time and effort, and guaranteeing that such code works as it should.
@@ -41,10 +43,10 @@ awesome
 >>> _
 \end{verbatim}
 
-Such a container is unfortunately not readily available in C++ and must be implemented in order for the modular design to work. Fortunately, this has already been done and is freely available as part of \emph{Boost}. \emph{Boost.Any} is a container not very different from the one found in Python and only requires a type-casting before the data can be handled as normal.
+Fortunately, this has already been implemented and is freely available as part of \emph{Boost}. The modular design would otherwise not work without, at least not within given time constraint. \emph{Boost.Any} is a container not very different from the one found in Python and only requires a type-casting before the data can be handled as normal.
 
 \paragraph{\textbf{Boost Random Number Library}}\cite{maurer2000}
-Another problem with genetic algorithms and development in general is implementing a good pseudo-random number generator. Ngene uses the implementation of \emph{Mersenne twister} pseudo-random number generator found in the Boost libraries.
+Another problem with genetic algorithms and development in general is implementing a good pseudo-random number generator. Ngene uses the implementation of \emph{Mersenne twister} pseudo-random number generator found in the Boost libraries. This generator was chosen for its long period ($2^(19937) - 1$ to be exact), and because it is relatively fast compared to other algorithms. It also passes a number of tests for randomness, including Diehard\footnote{A collection of tests to measure the quality of the randomness of the generator, developed by George Marsaglia.} and most of the TestU01 Crush randomness tests.
 
 \subsubsection{Brief System Overview}
 \begin{figure}[!ht]
@@ -129,89 +131,28 @@ The \texttt{<map>} was chosen over the \texttt{<vector>} because despite its bet
 
 The framework was designed to ease the implementation effort as much as possible. The whole code base can be inherited from \texttt{AbstractDevelopment} (see fig.~\ref{fig:diagram_ndevframe_ex}). To make it your own module, only two functions need to be implemented, \texttt{execute()} and \texttt{initialize()}. The latter is executed once with every new organism that is to be developed, and can be used to unpacking the genotype to a cellular program and/or generating initial cells in the organism. The \texttt{execute()} function is called every development step/tick, for every cell in the organism. Here, the cell program from the genotype can be executed as well as any control programs that might be needed. Note that any messages sent has already been received and are stored in the cells themselves by the time a cell is given the chance to fulfil its purpose in a tick. It will not be possible to actually access the organism itself from this function in order to avoid accidental tampering.
 
-For the purpose of this thesis, two models were implemented within this framework.
+For the purpose of this thesis, two models were implemented within this framework not only to test the flexibility and performance of this framework but also to see what is missing and what areas need improvement.
 
 \subsubsection{ArtDev3D}
-Porting Johan H{\o}ye's master's thesis\cite{hoye2006} to Ngene's framework was a rather cumbersome job. Partly due to lack of proper system documentation and partly because many biology concepts made their way into his code, making it bloated and messy. Classes such \texttt{Proteincollection} and \texttt{ChangeChemicalConcentrationInCellProtein} not only makes it confusing to read, but are also unnecessary because they are re-implementions of already existing containers. Chances are they will not perform as well as native implementations. Furthermore, the hierarchy of the system runs very deep, ie. a single function may need to call other functions which call different functions, and so on, in order to perform simple cellular operations. This makes it hard to follow the flow of the code, and may have an impact on performance. A single cell may call this function several times in a single tick, and there are many cells in a single organism, not to mention an entire population over many generations. Reducing the number of function call will also reduce any potential strain on the call stack, and in turn better the performance. Efforts has therefore been made to flatten the structure and simplify as much as possible without comprimising the logical integrity of the model. In addition to some fresh documentation, it will hopefully be easier to understand.
+Porting Johan H{\o}ye's master's thesis\cite{hoye2006} to Ngene's framework was a rather cumbersome job, partly due to little system documentation and partly because many biology concepts made their way into his code. Porting this code to Ngene's framework has been a matter of finding out what occurs in a cell during a development step, and whether or not there are external processes that needs to be accounted for. As described in \ref{sec:ArtDev3D}, the innards of the cell perform
 
-There is an issue that has been addressed with the porting of this model, and may therefore offer different results than the original. In most models, cells are developed simultaneously. Before a cell can execute its functions, information must be exchanged between all cells so that when it is run, it will base its operations on the current state and not the updating one. In ArtDev3D, this is not properly implemented. The concern will be shown in the following code snippets.
 
-\begin{verbatimtab}
-development/model/DevelopmentProsess.java:287-307:
+TODO
 
-/*
- * Performs a tick.
- * The development prosess steps one step forwards.
- */
-private boolean doTick() {
-	int cTime = getCurrentTick();
-	int dTime = this.numberOfTicks;
-	boolean success = false;
 
-	if(cTime < dTime) {
-		[...]
-		this.currentOrganism.tickEvent(); //< Development occurs here
-		this.currentTick++;
-		success = true;
-	} else {
-		setActive(false);
-	}
-	return success;
-}
-\end{verbatimtab}
+The hierarchy of the system runs very deep, ie. a single function may need to call other functions which call different functions, and so on, in order to perform simple cellular operations. This makes it hard to follow the flow of the code and may have a negative impact on performance. A single cell may call this function several times in a single tick, and there are many cells in a single organism, not to mention an entire population over many generations. Reducing the number of function calls will also reduce any potential strain on the call stack, and in turn better the performance. Efforts has therefore been made to flatten the structure and simplify as much as possible without comprimising the logical integrity of the model. In addition to some fresh documentation, it will hopefully make it even easier to understand.
 
-A tick signalizes the organism to perform a single development step. A tick event is triggered in an organism a configurable amount of times.
-
-\begin{verbatimtab}
-development/model/framework/organism/Organism.java:90-101:
-
-/**
- * Informs all cells in this organism of a tick event.
- * Each time this method is called, the development proceeds one step.
- * This method should be called each time a tick happens in
- * {@link DevelopmentProsess}
- */
-public void tickEvent() {
-	[...]
-	// notify each cell of the tick
-	for (Cell c : cells) {
-		c.tickEvent();
-	}
-}
-\end{verbatimtab}
-
-When the organism receives the event, it will notify all cells inside of this event. The cells are notified in the order in which the cells were added to the array.
-
-\begin{verbatimtab}
-development/model/framework/cell/Cell.java:275-293:
-
-/**
- * Handles the actions this cell must do each tick.
- * The order in which the different processes are carried out may have a great
- * effect on the behaviour of the cell. Great care must be taken if changing
- * this method!
- *
- */
-public final void tickEvent() {
-	[...]
-
-	// Clears all requested actions
-	resetRequestedActions();
-
-	// This cells protein collection is doing their action
-	pc.tickEvent();
-
-	// This cell is doing its action
-	doAction();
-}
-\end{verbatimtab}
-
-Here we see that all requested actions by this cell's proteins are removed before new actions can be requested. This happens in \texttt{pc.tickEvent()}: First, all dead proteins are removed from the collection and the remaining are aged. Finally, these proteins can request an action upon the cell based on the chemical levels in the cell, as well as criteria based on neighbouring cells' types. The requests are queued up and realized in \texttt{doAction()}.
-
-We see that \texttt{Cell.tickEvent()} performs both the information gathering and all requested actions as a single operation. This should, instead, have been split up and executed in two different loops. As mentioned earlier, the problem here is that a single cell may base its actions on a neighbouring cell's ``newer'' state because it happened to be first in line. This issue was addressed by extracting \texttt{doAction()} out of \texttt{Cell.tickEvent()} and calling it separately in a later loop.
+There is an issue that has been addressed with the porting of this model, and may therefore offer different results than the original. In most models, cells are developed simultaneously. Before a cell can execute its functions, information must be exchanged between all cells so that when it is run, it will base its operations on the current state and not the updating one. In ArtDev3D, this is not properly implemented. This concern points to a couple of lines of code that perform a single development step inside the cell. Upon execution, the cell will start collecting requests from its proteins. The proteins can request an action when they are activated, i.e. when the state of the cell and its neighbours are above a threshold. The requests are queued up and then executed. The problem with this, is that it all happens in a single step. Thus, cells that already have had their turn before the current cell, will have an altered state. Actions are therefore based on a mix of ``newer'' information from these cells, and ``old'' information from the rest. When porting this code to the new framework, the cell will no longer have direct access to other cells. Instead, it will receive messages from (or a snapshot of) nearby cells before the development step takes place in any cell.
 
 \subsubsection{Cartesian}
 This model is based on a number of works by Julian F. Miller, mainly \cite{mteurogp2000} and \cite{ecal2003}. 
 
-<more to come...>
+TODO
+
+Mutation upwards has an impact
+Implement bit check error
+
+\subsubsection{Performance}
+
+TODO
 

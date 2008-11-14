@@ -1,9 +1,10 @@
 \section{The Models}
 
-Currently, there are many development models in the field that are inspired by nature. (More here when I find the words...)
+Currently, there are many development models in the field that are inspired by nature. Though the biological development is still the same, it is very much still a topic under discussion and there are still uncharted territories. It is therefore not unconceivable that most of these differ not only in implementation, but also in the biology and ideas behind it. In this section, we'll take a look at two models. We'll see how they work, and discuss their differences and why they are important for this thesis in particular.
 
 \subsection{ArtDev3D}
-This model was the master's thesis of Johan H{\o}ye\cite{hoye2006} and its aim was to be as close to biology as possible without dwelling too deep into the underlying and less understood concepts.
+\label{sec:ArtDev3D}
+In 2006, Johan H{\o}ye handed in his master's thesis\cite{hoye2006} based on his own model of biological development. Its aim was to be as close to biology as possible without dwelling too deep into the underlying and less understood concepts.
 
 \subsubsection{Concepts}
 To understand this model, we will have to touch a few topics in biology. Like with humans, everything starts out with a single cell, the zygote. From this cell, more cells are created, and from these, even more. This happens mostly in a controlled fashion with the help of the DNA, the recipe of life. It tells which proteins to synthesize, how and when.
@@ -12,17 +13,60 @@ The proteins, in turn, do all actual work inside the cell. In this model, only f
 
 The cell is also ``programmed'' to perform certain tasks. Implemented funcions include osmosis, or the exchange of chemicals (or hormones) with nearby cells, and performing the actual cell division in requested directions. This set of functions are programmed into each cell and is not open to evolutionary changes. Only the DNA itself is.
 
-The genotype of this model, the DNA, consists of genes. Genes carry recipes for proteins and determine their function, how they will be activated, and long they will live. The genes are implemented so that the propertes can be easily mutated while being wholly copied during cross over.
+The genotype of this model, the DNA, consists of genes. Genes carry recipes for proteins and determine their function, how they will be activated, and long they will live. The genes are implemented so that the propertes can be easily mutated while being duplicated as a whole during cross over.
 
 \subsubsection{How it works}
-Development starts with an ``empty'' organism. The DNA is inserted into a cell before it is inserted to the organism. It becomes the zygote when the cell ``scans'' through the DNA and synthesizes all proteins. This is only performed on the initial cell. 
+Development starts with an ``empty'' organism. The DNA is inserted into a cell before it is inserted to the organism. It becomes a zygote when the cell ``scans'' through the DNA and synthesizes all proteins. This is only performed in the initial cell. After this, the organism is developed by performing a set of operations on every cell every development step:
+
+\begin{enumerate}
+	\itemsep=0pt
+	\item Determine activated proteins, usually by checking the internal chemical levels and neighbour cell types.
+	\item All activated proteins request an action.
+	\item Actions are accumulated, and executed. Depending on the action, the cell may regulate its chemical levels (produce/consume), synthesize proteins, change type, and perform cell division.
+	\item Repeat from step 1 for all cells in the organism.
+\end{enumerate}
+
+The development ends when a number of steps have passed, and the organism is rated based on how similar it is to the target phenotype. In this case, the targets are usually simple three-dimensional shapes. His experiments showed that the initial number of don't-care-neighbours, i.e. the number of neighbours that the cell don't take into consideration when executing its functions, had a negative impact on the growth of an organism when lowered. It was also shown that having a higher number of chemical types in the cells only contributed to making it harder to correctly develop the target shapes. This is most important because the other model in this discussion is based on chemicals.
 
 
 \subsection{Cartesian Genetic Programming}
-intro
+Cartesian Genetic Programming (CGP) was invented by Julian Miller in 1998. The following description of what the model is and how it works is based on a number of works, but mostly \cite{mteurogp2000} and \cite{ecal2003}. There may therefore be differences and loss of accuracy when compared to his latest work.
 
 \subsubsection{Concepts}
-As opposed to ArtDev3D, the whole cell program is evolved through EA.
+The model is inspired by the communication between cells. In biology, this is achieved by means of secreting chemicals through the cell's membrane. The same membrane is also used to receive chemicals from other cells. Based on the presence of some chemicals, the cell performs a set of operations to see if a change in cell type is needed, and in which directions it should divide itself to.
+
+The genotype of this model is a string of numbers that make up a feed forward circuit. This is represented as a set of four numbers where the last number denotes which function to perform, and the first three are the input to this function. The reason a node is represented as exactly four numbers is because a gate may require up to three inputs. In most cases, the gate would simply discard the third input if not used. As opposed to ArtDev3D, the whole cell program is evolved, so nothing is programmed directly into the cell. The evolved cell program can therefore be difficult analyse.
 
 \subsubsection{How it works}
-...
+There are several ways to start the development with this model. One way of doing it is to represent the organism as a grid filled with cells and alternately give them maximum and no chemicals. The other way is to start like ArtDev3D with a single cell and give it maximum chemicals. With the cell's and nearby cells' chemical levels, an input string is created and fed to the cell program. As the cell program is decided entirely by evolution (and chance), no explanation of what happens inside the cell is possible. However, the end result is a string of numbers that determines whether or not the type of the cell should change and whether or not the cell should divide in a direction and how much chemicals the potentially new cell should be given.
+
+
+\subsection{A generic development model}
+Without a doubt, there are differences that makes it difficult to compare these two models. They differ not only in implementation but also in concepts. The most interesting thing to see here is that intercellular interactions in particular give different results in the two models.
+
+In CGP, the cells communicate with each other using chemicals. The amount of chemicals exchanged along nearby cells' types determine what will occur in the cell in a development step. In ArtDev3D, communication happens without the chemicals. The state of the neighbourhood alone make up the external signals that contribute to determine whether or not some proteins are activated. Chemicals in ArtDev3D are used internally only and are not exchanged. Furthermore, it has shown that the number of chemical types is inversely related to fitness. One can place these models on their own end of the scale. Because of this controversy, there are discussions as to whether chemicals really are necessary.
+
+However, there are other factors that come into play as well. For instance, the two models used different genetic algorithms, they evolve different genotypes, and the cell program are partly hard-coded in one model but not in the other. It is also important to note that these are only two models in a relatively new field where a lot of research is still ongoing. Why is something working for one model, and not for the other? These questions are difficult to answer with so many factors to consider.
+
+One way of solving this problem is to devise a generic model that can embody any model. This model will inherit the basic elements that are common in most models and should still be able to give the user the freedom to implement their own model without having to make compromises. In other words, the model should be able to provide the users with most of the details already implemented so that there will only be a need to focus on the model itself.
+
+Requirements for such a model should include:
+\begin{itemize}
+	\itemsep=0pt
+	\item\textbf{A genetic algorithm}
+
+	Using a common genetic algorithm will eliminate discussions on whether or not a certain algorithm is better than another. The focus should be on the development model, and not genetic algorithms.
+
+	\item\textbf{A development algorithm}
+
+	Most of the models use the same basic algorithm for development. With every development step, every cell in an organism is told to execute their program. This occurs for a known number of steps, and varies very little from model to model.
+
+	\item\textbf{A common messaging system}
+
+	Especially with these two models, there are different things that go into a message that is sent to nearby cells. A common message that will be able to contain most of a cell's properties while being able to constrict the messages to just that and nothing more. When comparing, one should be able to say that two models differ because one uses chemicals while the other uses both chemicals and cell types.
+\end{itemize}
+
+As can be seen, the model will allow users to focus on the model without having to worry about trivial questions such as which genetic algorithm to use, or how should messages be sent. Instead, the user will be able to choose which parts of a message is relevant to his or her model and invest more time in more important matters, such as developing the model or performing comparisons.
+
+TODO
+
