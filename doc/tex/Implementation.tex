@@ -1,37 +1,41 @@
 \section{Implementation}
+\label{sec:implementation}
+We will have a look at the implementation of the engine and the framework in this section. Much focus lies on performance, and therefore, the
+
+TODO: Diskusjonen kan derfor bli preget av hastighet osv.
 
 \subsection{About Ngene}
-\emph{Ngene} is a flexible, generic, multi-purpose genetic algorithm engine written in C++ with heavy emphasis on performance and flexibility. The engine is divided into logical modules that can be interchanged or extended upon in order to fit the intended goal.
+\emph{Ngene} is a flexible, generic, multi-purpose genetic algorithm engine written in C++ with heavy emphasis on performance and flexibility. The engine is divided into logical modules that can be easily interchanged or extended upon in order to fit the intended goal. A sub-goal of this engine is also portability, as in the program should support any existing operating system and platform.
 
-The prototype for this engine started out as an assignment for a sub-symbolic artificial intelligence course. It was written in Python, which later proved to be too slow for this kind of application, and later partially ported to C++ because I wanted to learn the language at the time. The engine was finally picked up again, and completed for the purpose of this thesis.
+The prototype for this engine started out as an assignment for a sub-symbolic artificial intelligence course. It was written in Python, which later proved to be too slow for this kind of application, and later partially ported to C++ because I wanted to learn the language at the time. The project got lost in a pile of other assignments and was never heard from again. The engine was finally picked up again, and completed for the purpose of this thesis.
 
 \subsubsection{Modular Design}
-The design is broken into the following modules:
+In order to achieve maximum flexibility, the engine should be able to change any of its parts without having to do anything special. Should the user feel like changing the mutation method, this should be as easy as changing a single line in a configuration file. More essentially, conducting experiments on different genotypes should also be just as easy as mentioned. With that in mind, the design is therefore broken into the following logical modules:
 
 \begin{itemize}
 	\itemsep=0pt
-	\item (core) - The genetic algorithm itself
-	\item Fitness - Assesses the fitness of a genotype
-	\item Genotype - Produces the genotype and translates them to phenotype
-	\item Mating - Crosses two genotypes
-	\item Mutator - Mutates a genotype
-	\item Selector - Selects a random genotype
+	\item\textbf{Core} - The genetic algorithm itself
+	\item\textbf{Fitness} - Assesses the fitness of a genotype
+	\item\textbf{Genotype} - Generates the genotype and translates them to phenotype
+	\item\textbf{Mating} - Crosses two genotypes
+	\item\textbf{Mutator} - Mutates a genotype
+	\item\textbf{Selector} - Randomly selects a genotype
 \end{itemize}
 
-All modules are loaded into memory when the program is executed and kept there until the program is terminated. This modular design is essential when it comes to making the engine available for all purposes. For example, while \emph{tournament} selection is suitable for most of the experiments in this thesis, other users may want to run a comparison test between different selection methods. This is easily achieved by simply specifying which module to use in a configuration file. There is no need to recompile a single line of code unless a new module is required. This modular design also keeps the code cleaner and easier to maintain.
+The engine is now like a jigsaw puzzle with pieces that resemble in shape but not motive. This way, it is possible to put together different pictures without having to perform any extraneous tasks (like cutting the edges to make it fit). More concretely, this modular design will allow users to swap a module, say roulette selection for tournament selection, without prior knowledge of programming. In fact, writing code will not at all be needed unless a new module is required. This design will also keep the code much cleaner and easier to maintain.
 
 \subsubsection{Why C++?}
 In a sense, one can say that this project was made possible because of my prototype in Python. It taught me many higher level concepts that is practically non-existant in lower level languages such as C++. Without it, I probably wouldn't have been able to bring the project to the level it is today. Especially without the concept of a dynamic type, the idea of a container that can contain anything from an integer, to a string, to a floating type number, I would still have trouble trying to compensate for it with complex algorithms to deal with raw data pointers. Most importantly, it taught me the importance of optimization and use of libraries.
 
-Choosing a programming language depends on what kind of application you want to write. A simple program with no special requirements can be written in any language. For instance, a mail client written in Python will perform equally well as any other client because the focus lies on fetching and displaying e-mails and the ability to manage them in a clear way. The features are more important than the extra two milliseconds it takes to perform a query. However, there are applications for which performance is more important than anything. Arguably, such programs should be written in one of two ways: In assembly (or machine code) or C/C+. While assembly is rarely used these days, due to being practically unreadable for mortals, C and C++ is often used for time critical applications. Unlike languages that depend on a virtual machine (C\#, Java), or an interpreter (Common LISP, Python), code written in C/C++ is compiled directly to machine code before executed, often yielding much better performance.
+Choosing a programming language depends on what kind of application you want to write. A simple program with no special requirements can be written in any language. For instance, a mail client written in Python will perform equally well as any other client because the focus lies on fetching and displaying e-mails and the ability to manage them in an easy way. The features are more important than the extra two milliseconds it takes to perform a query. However, there are applications for which performance is more important than anything. Arguably, such programs should be written in one of two ways: In assembly (or machine code) or C/C+. While assembly is rarely used these days due to being practically unreadable for mortals, C and C++ is often used for time critical applications. Unlike languages that depend on a virtual machine (C\#, Java), or an interpreter (some LISP dialects, Python), code written in C/C++ is compiled directly to machine code before executed, often yielding much better performance.
 
-C++ is thought of as being a middle level language: It has the advantages of both the lower (machine code) and higher level languages, but also the inherent disadvantages. For example, all memory management must be explicitly handled in the code because C++ lacks a garbage collection found typically in C\# or Java. This means that we have to be careful of memory leaks and access of invalid memory addresses. Failure to do so may cause a huge performance hit. Furthermore, C++ doesn't come with as big a convenience library as those found in aforementioned languages. Such a library would eliminate rewriting often used algorithms and the headache of fixing a buggy code. Fortunately, efforts are already being made to ease the implementation through external libraries.
+C++ is thought of as being a middle level language. It has the advantages of both the lower (machine code) and higher level languages, but also the inherent disadvantages. For example, all memory management must be explicitly handled in the code because C++ lacks a garbage collection found typically in C\# or Java. This means that we have to be careful of memory leaks and access of invalid memory addresses. Furthermore, C++ doesn't come with as big a convenience library as those found in aforementioned languages. Such a library would eliminate rewriting often used algorithms and the headache of fixing a buggy code. Fortunately, efforts are already being made to ease the implementation through external libraries.
 
 \subsubsection{Boost C++ Libraries}
 \emph{Boost}\footnote{\url{http://www.boost.org/}} is a collection of libraries which complement the C++ Standard Library (STL). Ngene makes use of this collection, saving time and effort, and guaranteeing that such code works as it should.
 
 \paragraph{\textbf{Boost.Any}}\cite{henney2001}
-A problem with writing a generic genetic algorithm in a strongly typed programming language such as C++, is that different studies require different data types to be passed around the system. A simple program that sorts numbers, for instance, needs to pass around an array with integers while another one may require the use of a class or custom data type. In a higher level language such as Python, a container is already available that can store any type of data:
+A problem with writing a generic genetic algorithm in a strongly typed programming language, is that different studies require different data types to be passed around the system. CGP, for instance, uses integers to implement its genotype, while ArtDev3D uses a custom defined type. In other models, there may even be a mix of different types. It is impossible to foresee what may or may not be used, and we are thus forced to abstract this away. Unfortunately, C++ will not allow an integer variable to store any other data type than an integer. In a higher level language like Python, there exists a container that can store any type of data:
 
 \begin{verbatim}
 >>> foo = 1 + 2
@@ -43,10 +47,10 @@ awesome
 >>> _
 \end{verbatim}
 
-Fortunately, this has already been implemented and is freely available as part of \emph{Boost}. The modular design would otherwise not work without, at least not within given time constraint. \emph{Boost.Any} is a container not very different from the one found in Python and only requires a type-casting before the data can be handled as normal.
+This can also be done in C++ with some coding. Fortunately for us, this has already been implemented and is freely available as part of \emph{Boost}. The modular design would otherwise not work without it, at least not within given time constraint. The container, called \emph{Boost.Any}, does not differ much from the one found in Python and comes only at the cheap cost of requiring a type-casting before the data can be handled as normal.
 
 \paragraph{\textbf{Boost Random Number Library}}\cite{maurer2000}
-Another problem with genetic algorithms and development in general is implementing a good pseudo-random number generator. Ngene uses the implementation of \emph{Mersenne twister} pseudo-random number generator found in the Boost libraries. This generator was chosen for its long period ($2^(19937) - 1$ to be exact), and because it is relatively fast compared to other algorithms. It also passes a number of tests for randomness, including Diehard\footnote{A collection of tests to measure the quality of the randomness of the generator, developed by George Marsaglia.} and most of the TestU01 Crush randomness tests.
+Another problem with genetic algorithms and development in general is implementing a good pseudo-random number generator. Ngene uses the implementation of \emph{Mersenne twister} pseudo-random number generator also found in the Boost libraries. This generator was chosen for its long period ($2^(19937) - 1$ to be exact), and because it is relatively fast compared to other algorithms. It also passes a number of tests for randomness, including Diehard\footnote{A collection of tests to measure the quality of the randomness of the generator, developed by George Marsaglia.} and most of the stricter TestU01 Crush\footnote{Another collection of tests, developed by Pierre L'Ecuyer and Richard Simard.} randomness tests.
 
 \subsubsection{Brief System Overview}
 \begin{figure}[!ht]
@@ -117,7 +121,7 @@ With regards to speed optimizations, lots of thought as been put into how to rep
 	\label{tbl:speed}
 \end{center}
 
-A quick glance at the comparison table and the \texttt{<ext/hash\_map>} may seem like the best choice to go with. However, there are some drawbacks that must be taken into consideration. A good hashing algorithm is essential for the performance of the hash table by providing a uniform distribution over the array. Too simple, and a lot of collisions will occur, but too complex and the hashing table will spend all of its time calculating a hash value. Collisions occur regardless of how good the algorithm is. The \emph{birthday paradox} predicts that it doesn't take many elements before the chance of a collision exceeds 95\%, even for very big arrays. A good collision resolution is therefore also needed but will not be enough to guarantee the performance advantage over other solutions. For the experiments conducted in this thesis, the number of cells rarely exceeded 1000. For a \texttt{<map>}, this means at most 10 comparisons to find an element by its key value. A hash table would require about the same number of operations to calculate the hash, perform the lookup and resolve any collisions.
+A quick glance at the comparison table and the \texttt{<ext/hash\_map>} may seem like the best choice to go with. However, there are some drawbacks that must be taken into consideration. A good hashing algorithm is essential for the performance of the hash table by providing a uniform distribution over the array. Too simple, and a lot of collisions will occur, but too complex and the hashing table will spend all of its time calculating a hash value. Collisions occur regardless of how good the algorithm is. The \emph{birthday paradox} predicts that it doesn't take many elements before the chance of a collision exceeds 95\%, even for very big arrays. A good collision resolution is therefore also needed but will not be enough to guarantee the performance advantage over other solutions. For the experiments conducted in this thesis, the number of cells rarely exceeded 1000. For a \texttt{<map>}, this means at most 10 comparisons is needed to find an element by its key value. A hash table would require about the same number of operations to calculate the hash, perform the lookup and resolve any collisions.
 
 The \texttt{<map>} was chosen over the \texttt{<vector>} because despite its better access and insertion times, required more time to find all of a cell's neighbours. This can be remedied by creating and maintaining a neighbours list for every cell. However, this would make insertion $O(n)$ as opposed to $O(log~n)$ of the \texttt{<map>}.
 
@@ -129,23 +133,34 @@ The \texttt{<map>} was chosen over the \texttt{<vector>} because despite its bet
 	\label{fig:diagram_ndevframe_ex}
 \end{figure}
 
-The framework was designed to ease the implementation effort as much as possible. The whole code base can be inherited from \texttt{AbstractDevelopment} (see fig.~\ref{fig:diagram_ndevframe_ex}). To make it your own module, only two functions need to be implemented, \texttt{execute()} and \texttt{initialize()}. The latter is executed once with every new organism that is to be developed, and can be used to unpacking the genotype to a cellular program and/or generating initial cells in the organism. The \texttt{execute()} function is called every development step/tick, for every cell in the organism. Here, the cell program from the genotype can be executed as well as any control programs that might be needed. Note that any messages sent has already been received and are stored in the cells themselves by the time a cell is given the chance to fulfil its purpose in a tick. It will not be possible to actually access the organism itself from this function in order to avoid accidental tampering.
+The framework was designed to ease the implementation effort as much as possible. The whole code base can be inherited from \texttt{AbstractDevelopment} (see fig.~\ref{fig:diagram_ndevframe_ex}). To port a model to this framework, only two functions need to be implemented: \texttt{execute()} and \texttt{initialize()}. The latter is executed once with every new organism that is to be developed, and can be used to unpacking the genotype to a cellular program and/or generating initial cells in the organism. The \texttt{execute()} function is called every development step/tick, for every cell in the organism. Here, the cell program from the genotype can be executed as well as any control programs that might be needed. Note that any messages sent has already been received and are stored in the cells themselves by the time a cell is given the chance to fulfil its purpose in a tick. It will not be possible to actually access the organism itself from this function in order to avoid accidental tampering.
 
 For the purpose of this thesis, two models were implemented within this framework not only to test the flexibility and performance of this framework but also to see what is missing and what areas need improvement.
 
 \subsubsection{ArtDev3D}
-Porting Johan H{\o}ye's master's thesis\cite{hoye2006} to Ngene's framework was a rather cumbersome job, partly due to little system documentation and partly because many biology concepts made their way into his code. Porting this code to Ngene's framework has been a matter of finding out what occurs in a cell during a development step, and whether or not there are external processes that needs to be accounted for. As described in \ref{sec:ArtDev3D}, the innards of the cell perform
+Porting Johan H{\o}ye's master's thesis\cite{hoye2006} to Ngene's framework has been a matter of finding out what occurs in a cell during a development step, and whether or not there are external processes that needs to be accounted for. As described in \ref{sec:ArtDev3D}, the genotype of the model does not do all the work in a cell. The cell has its own control program as well. The program can be summarized as the following steps:
 
+\begin{enumerate}
+	\itemsep=0pt
+	\item Clear all queued actions.
+	\item For every active protein, queue their action requests.
+	\item Accumulate actions (add them together to execute in one go).
+	\item Execute action \#1: Transcribe proteins.
+	\item Execute action \#2: Regulate chemical levels.
+	\item Execute action \#3: Perform cell division.
+	\item Execute action \#4: Change cell type.
+	\item Remove dead proteins.
+\end{enumerate}
 
-TODO
+The implementation of the model might seem overwhelming at first impression. There is a heavy use of biological concepts in the code and the simplest operation may span across many classes, and files, as a result. This alone makes it hard to follow the code flow, but the little system documentation that does exist, fortunately, does provide with some help though it consists mainly of commentaries in the source files themselves. While his efforts in making it understandable are much appreciated, it might be beneficial to flatten the structure a bit and get rid of some of the redundant structures that are inspired by nature. There is another reason for why this was altered as well.
 
+In theory, such an implementation can have a negative impact on performance. When a simple operation performed must call a function to call another function to call yet another function and so on, can put the calling stack under strain. This may occur because this does not happen only once, but several times every development step in a single cell. And as we know, there are plenty of cells in an organism. Flattening the structure as mentioned, will reduce the number of calls and potentially improve performance.
 
-The hierarchy of the system runs very deep, ie. a single function may need to call other functions which call different functions, and so on, in order to perform simple cellular operations. This makes it hard to follow the flow of the code and may have a negative impact on performance. A single cell may call this function several times in a single tick, and there are many cells in a single organism, not to mention an entire population over many generations. Reducing the number of function calls will also reduce any potential strain on the call stack, and in turn better the performance. Efforts has therefore been made to flatten the structure and simplify as much as possible without comprimising the logical integrity of the model. In addition to some fresh documentation, it will hopefully make it even easier to understand.
+There was also an issue that was identified and patched in the port. In most models, cells are developed simultaneously. In order to achieve this, information must be exchanged between all cells before a cell can execute its functions. This is to ensure that the cell program will execute based on the current state of the organism without interfering for other cells. In ArtDev3D, this is not properly implemented. Upon execution, the cell will start collecting requests from its proteins. The proteins can request an action when they are activated, i.e. when the state of the cell and its neighbours are above a threshold. The requests are queued up and then executed. The problem with this, is that it all happens in a single step. Thus, cells that already have had their turn before the current cell, will have an altered state. Actions are therefore based on a mix of ``newer'' information from these cells, and ``old'' information from the rest. When porting this code to the new framework, the cell will no longer have direct access to other cells. Instead, it will receive messages from (or a snapshot of) nearby cells before the development step takes place in any cell. This change may alter the outcome of the model, but was addressed merely out of necessity. We cannot have two different development algorithms as that would defeat the very purpose of the framework.
 
-There is an issue that has been addressed with the porting of this model, and may therefore offer different results than the original. In most models, cells are developed simultaneously. Before a cell can execute its functions, information must be exchanged between all cells so that when it is run, it will base its operations on the current state and not the updating one. In ArtDev3D, this is not properly implemented. This concern points to a couple of lines of code that perform a single development step inside the cell. Upon execution, the cell will start collecting requests from its proteins. The proteins can request an action when they are activated, i.e. when the state of the cell and its neighbours are above a threshold. The requests are queued up and then executed. The problem with this, is that it all happens in a single step. Thus, cells that already have had their turn before the current cell, will have an altered state. Actions are therefore based on a mix of ``newer'' information from these cells, and ``old'' information from the rest. When porting this code to the new framework, the cell will no longer have direct access to other cells. Instead, it will receive messages from (or a snapshot of) nearby cells before the development step takes place in any cell.
 
 \subsubsection{Cartesian}
-This model is based on a number of works by Julian F. Miller, mainly \cite{mteurogp2000} and \cite{ecal2003}. 
+This model is based on a number of works by Julian F. Miller, mainly \cite{mteurogp2000} and \cite{ecal2003}.
 
 TODO
 
@@ -153,6 +168,7 @@ Mutation upwards has an impact
 Implement bit check error
 
 \subsubsection{Performance}
+So far, we've discussed the potential performance gain of this framework without actually seeing any gains.
 
 TODO
 
