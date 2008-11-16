@@ -3,15 +3,18 @@ BINDIR = ../../bin/modules
 OBJDIR = ../../build/unix
 
 CPP = g++
-CFLAGS = -g0 -O3 -Wall -Werror -iquote../../src/Interfaces -fPIC
+CFLAGS = -g0 -O2 -Wall -Werror -pipe -iquote../../src/Interfaces -ftree-vectorize -fPIC
 
 default: $(TARGET).so
 
 $(OBJDIR)/Random.o:
-	$(CPP) $(CFLAGS) -c ../../src/Random.cpp -o $@
+	$(CPP) -c ../../src/Random.cpp $(CFLAGS) -o $@
 
 $(OBJDIR)/%.o: %.cpp
-	$(CPP) $(CFLAGS) -c $< -o $@
+	$(CPP) -c $< $(CFLAGS) -o $@
 
 $(TARGET).so: $(OBJDIR)/Random.o $(OBJDIR)/$(TARGET).o
-	$(CPP) -s -shared -o $(BINDIR)/$@ $^
+	$(CPP) -shared -o $(BINDIR)/$@ $^
+
+clean:
+	rm -f $(OBJDIR)/$(TARGET).o

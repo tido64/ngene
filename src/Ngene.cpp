@@ -4,7 +4,7 @@ using std::sort;
 using std::string;
 using std::vector;
 
-const char *NGENE_VERSION = "1.1.81111";
+const char *NGENE_VERSION = "1.1.81115";
 
 int main(int argc, char *argv[])
 {
@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
 		// Terminate if a perfect specimen is found or user canceled
 		if (logger.log(generation, adults))
 		{
-			printf("Perfect specimen found. ");
+			printf("\nPerfect specimen found. ");
 			break;
 		}
 		else if (USER_INTERVENTION)

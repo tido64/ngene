@@ -8,9 +8,9 @@ OBJ    = $(OBJDIR)/Cartesian.o \
 	$(OBJDIR)/Random.o \
 	$(OBJDIR)/gene_cartesian.o
 
-CPP = g++
-CFLAGS = -g -O2 -Wall -Werror -pipe -ftree-vectorize -fPIC
-LDFLAGS = -shared
+CPP = icpc
+CFLAGS = -xHost -fast -Wall -fPIC
+LDFLAGS = -shared -static-intel
 
 default: $(EXEC)
 
