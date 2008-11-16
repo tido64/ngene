@@ -3,9 +3,9 @@ BINDIR = ../../bin/modules
 OBJDIR = ../../build/unix
 
 CPP = g++
-CFLAGS = -g0 -O3 -Wall -Werror -iquote../../src/Interfaces -fPIC
+CFLAGS = -g0 -O2 -Wall -Werror -pipe -iquote../../src/Interfaces -ftree-vectorize -fPIC
 
 default: $(TARGET).so
 
 $(TARGET).so:
-	$(CPP) -s -shared $(CFLAGS) -o $(BINDIR)/$(TARGET).so $(TARGET).cpp
+	$(CPP) $(CFLAGS) -shared -o $(BINDIR)/$(TARGET).so $(TARGET).cpp

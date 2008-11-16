@@ -39,8 +39,8 @@ Gene::Gene(const Setup *s, Random *r) : random(r), setup(s)
 					(r->next() < 0.5) ? 0.0 : r->next(this->setup->min_stimuli, this->setup->max_stimuli));
 			break;
 		case ProteinType::regulatory:
-			this->protein.parameters.reserve(this->setup->cell_types_number);
-			for (unsigned int i = 0; i < this->setup->cell_types_number; i++)
+			this->protein.parameters.reserve(this->setup->chemicals_number);
+			for (unsigned int i = 0; i < this->setup->chemicals_number; i++)
 				this->protein.parameters.push_back(
 					(r->next() < 0.5) ? 0.0 : r->next(this->setup->min_stimuli, this->setup->max_stimuli));
 			break;

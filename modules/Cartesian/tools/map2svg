@@ -1,0 +1,40 @@
+#!/usr/bin/python3
+import sys
+
+print("Cartesian output to SVG")
+if (len(sys.argv) < 2):
+	print("Syntax:", sys.argv[0], "<file>")
+
+else:
+	size = 10 
+	svg = "<?xml version=\"1.0\" ?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\"><defs><style><![CDATA[rect { stroke-width: 1; stroke: #000000 } .blue { fill: #0000ff } .red { fill: #ff0000 } .white { fill: #ffffff }]]></style></defs>"
+	x = 0
+	y = 0
+
+	def draw(c):
+		global size, svg, x, y
+		svg += ''.join(["<rect class=\"", c, "\" x=\"", str(x * size), "\" y=\"", str(y * size), "\" width=\"", str(size), "\" height=\"", str(size), "\" />"]);
+
+	print("Reading", sys.argv[1], "...", end=" ")
+	with open(sys.argv[1], "r") as f:
+		for line in f:
+			x = 0
+			for px in line:
+				if (px == '1'):
+					draw("blue")
+				if (px == '2'):
+					draw("red")
+				if (px == '3'):
+					draw("white")
+				if (px.isdigit()):
+					x += 1
+			y += 1
+	svg += "</svg>\n"
+	print("Done!")
+
+	out = ''.join([sys.argv[1].rstrip(".outp").split("/", 1)[-1], ".svg"])
+	print("Writing", out, "...", end=" ")
+	f = open(out, "w")
+	f.write(svg)
+	f.close()
+	print("Done!")

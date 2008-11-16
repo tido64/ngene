@@ -45,6 +45,7 @@ void Cartesian::execute(Cell &c)
 		if (c.messages[i].type > 0)
 		{
 			input[i + 1] = c.messages[i].chemicals[0];
+			input[i + 1] &= 128;
 			sigma += c.messages[i].chemicals[0];
 			input[i + 10] = c.messages[i].type;
 		}
@@ -75,7 +76,7 @@ void Cartesian::execute(Cell &c)
 
 	for (vector<Coordinates>::iterator i = neighbourhood.begin(); i != neighbourhood.end(); i++)
 	{
-		if ((input[this->output[1]] & mask) != 0) // && !exists(*i))
+		if ((input[this->output[1]] & mask) != 0 && !exists(*i))
 			divide_cell(c, *i).chemicals[0] = input[this->output[node]];
 		mask <<= 1;
 		node++;

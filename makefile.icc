@@ -14,8 +14,8 @@ OBJ = $(OBJDIR)/ConfigManager.o \
 	$(OBJDIR)/Random.o \
 	$(OBJDIR)/Ngene.o
 
-CPP = g++
-CFLAGS = -g -O2 -Wall -pipe -ftree-vectorize #-fopenmp
+CPP = icpc
+CFLAGS = -xHost -fast -Wall #-Werror -fopenmp
 LDFLAGS = -ldl #-lgomp
 
 default: $(EXEC)

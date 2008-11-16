@@ -60,10 +60,9 @@ void initiate(const char *parameters)
 		printf("==> Falling back to: French Flag\n");
 
 		// 00 = empty, 01 = blue, 10 = red, 11 = white
-		tmp.push_back("111333222");
-		tmp.push_back("111333222");
-		tmp.push_back("111333222");
-		tmp.push_back("111333222");
+		tmp.push_back("113322");
+		tmp.push_back("113322");
+		tmp.push_back("113322");
 	}
 	else
 	{

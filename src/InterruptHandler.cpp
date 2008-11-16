@@ -1,7 +1,7 @@
 #include "InterruptHandler.h"
 
 bool USER_INTERVENTION = false;
-const char *INTMSG = "User aborted! Stand by for termination\n";
+const char *INTMSG = "\rUser aborted! Stand by for termination\n";
 
 InterruptHandler::InterruptHandler()
 {
