@@ -45,7 +45,7 @@ void Cartesian::execute(Cell &c)
 		if (c.messages[i].type > 0)
 		{
 			input[i + 1] = c.messages[i].chemicals[0];
-			input[i + 1] &= 128;
+			input[i + 1] &= 128; // implements Dr. Miller's benign bug
 			sigma += c.messages[i].chemicals[0];
 			input[i + 10] = c.messages[i].type;
 		}

@@ -7,15 +7,83 @@ For this purpose, a couple of experiments were picked from a number of papers.
 TODO
 
 \subsection{Repeating ArtDev3D's experiments}
-For this model, the sphere and the star
+For this model, the sphere and the x-mas tree was chosen to test the new implementation. The reason for this is because the sphere is a relatively simple shape to evolve and easily achieve perfect fitness. For the second test, we will see how well the new implemention will do on difficult shapes.
 
-TODO
+Both of these experiments were conducted with different settings in order to see how parameters would affect the fitness of the individuals. In this thesis, however, I used a fixed set of parameters for simplicity's sake. The numbers may therefore deviate from the original results. Both of these experiments are run with settings as close to the original experiments as possible:
 
+\begin{itemize}
+	\itemsep=-2pt
+	\item Population: 1000
+	\item Generations: 500
+	\item Mating rate: 90\%
+	\item Mutation rate: 10\%
+	\item Crossover: Single point
+	\item Selection: Tournament (size=4, pressure=0.8)
+\end{itemize}
+
+And the parameters used for development:
+
+\begin{itemize}
+	\itemsep=-2pt
+	\item Development time: 12 ticks
+	\item Protein lifespan: 5 ticks
+	\item Cell types: 1 (sphere) / 12 (x-mas tree)
+	\item Chemical types: 1
+	\item Don't-care-neighbours: 6
+\end{itemize}
+
+\subsubsection{Sphere}
+This shape seems the simplest to evolve as it is entirely symmetrical and much less complex than other shapes. Since these experiments are about verifying that everything runs as it should, they will always use the same parameters. 200 runs were conducted, and the number of perfect specimens found was recorded.
+
+\begin{center}\includegraphics[scale=0.9]{chart_artdev3d_sphere}\end{center}
+
+Original ArtDev3D managed to evolve perfect fitness 856 out of 980 experiments. It is important to remember that these were run with \emph{different} settings whereas we are using the best settings available here. That is why we see a much higher percentage (199 out of 200) than the original experiments. Had we known what these parameters were beforehand and used them, the number would probably have been much closer to the original results. Regardless, it does show that Ngene can perform equally well.
+
+\subsubsection{X-mas tree}
+This experiment is of a different nature than the previous one. It may not be very scientific but should demonstrate how well Ngene performs on complex shapes compared to ArtDev3D. No perfect specimens are expected here because ArtDev3D had a hard time evolving one, and it is not expected for Ngene to outperform it. As with previous test, 200 runs were conducted. The highest fitness after each run was recorded for the following graph.
+
+\begin{center}\includegraphics[scale=0.9]{chart_artdev3d_x-mas-tree}\end{center}
+
+It seems that Ngene is performing rather well. Note that the highest fitness achieved in ArtDev3D only occured once in the 980 test runs conducted. This experiment is but a fifth of that, and it is not inconceivable that Ngene might be able to achieve higher fitness with a larger sample. Interestingly, Ngene only managed to evolve fitness above 0.9 in 57 out of 200 runs. The rest were above 0.8.
+
+\subsubsection{Summary}
+We've seen that Ngene's implementation of ArtDev3D can evolve on an equal level as the original implementation. In chapter~\ref{sec:Implementation:ArtDev3D}, I've mentioned that there was a fix applied to the engine when it was ported to the framework. From what can be seen above, it would seem that this patch has not affected the model in any perceivable way. Whether or not the fix is beneficial in any way, is difficult to see and is outside the scope of this thesis.
 
 
 \subsection{Repeating the French flag experiment}
 The French flag experiment is one that tries to evolve the French flag. Each cell can either be blue, red or white.
 
-
 TODO
 
+
+\subsection{Performance benchmarks}
+With regards to what has been written about ArtDev3D up to this point, I've only discussed the potential performance gain of this framework without showing anything concrete. We shall now put these claims under scrutiny, and see how fast the new ArtDev3D, cleverly dubbed ArtDev3D\emph{.N} (N for Ngene or N-hanced), really is. This simple benchmark test was run on an Intel\textregistered~ Core\texttrademark~ 2 Duo E6600, 2 GB of DDR2-RAM under Linux 2.6.27-7. The conditions of the programs under run:
+
+\begin{itemize}
+	\itemsep=0pt
+	\item ArtDev3D ran with Java\texttrademark SE Runtime Environment 6 Update 10 build 33.
+	\item ArtDev3D.N was compiled with GCC 4.3.2, with optimization flags: \texttt{-O3}.
+	\item Additionally, ArtDev3D.N was also compiled with Intel C++ Compiler (ICC) 11.0 build 069, with optimization flags: \texttt{-xHost -fast}.
+\end{itemize}
+
+The same settings were used for both engines:
+
+\begin{itemize}
+	\itemsep=-2pt
+	\item Population: 100
+	\item Generations: 100
+	\item Mating rate: 90\%
+	\item Mutation rate: 30\%
+	\item Development time: 12 ticks
+	\item Target: Sphere
+\end{itemize}
+
+Perfect termination was disabled so that the engines would not exit when perfect fitness was found. This is to ensure that both engines ran for the exact same number of generations. The test was repeated 100 times and the average time was then calculated.
+
+\begin{center}\includegraphics[scale=0.9]{chart_avg-time}\end{center}
+
+The speed gained here is quite significant considering that the sample is relatively small to perform a benchmark on. We see here that switching to a better compiler like ICC shaved off an additional 4.59 seconds. The optimizations flags were not experimented with so the gap between them could potentially be increased even further. The framework itself can also be optimized a lot more but this is for future work and we will have this discussion in chapter~\ref{sec:improvements}. Speed aside, it is also interesting to see how they perform memory-wise. These numbers were taken during the experiments above.
+
+\begin{center}\includegraphics[scale=0.9]{chart_peak-memory-usage}\end{center}
+
+ArtDev3D peaks at a staggering 650 MB! The average is only a few MB less. The main culprit for this is Java\texttrademark Virtual Machine. It has been criticized\cite{maio2008} for the garbage collector because of its ridiculous memory consumption. The reason behind is that during allocation and deallocation, it leaves the memory very fragmented and has a hard time filling the gaps in between, resulting in more memory allocated without being used entirely. Memory usage is important because lowering memory use can also increase overall performance. The computer that these experiments were conducted on has 2 MB of L2 cache. If a program fit into this cache, it would run significantly faster than a program that didn't. Ngene peaks out at 11 MB but during a run it uses approximately 7 MB on average.
