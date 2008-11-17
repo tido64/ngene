@@ -2,7 +2,7 @@
 Currently, there are many development models in the field that are inspired by nature. Though the biological development is still the same, it is very much still a topic under discussion and there are still uncharted territories. It is therefore not unconceivable that most of these differ not only in implementation, but also in the biology and ideas behind it. In this section, we'll take a look at two models. We'll see how they work, and discuss their differences and why they are important for this thesis in particular.
 
 \subsection{ArtDev3D}
-\label{sec:ArtDev3D}
+\label{sec:Models:ArtDev3D}
 In 2006, Johan H{\o}ye handed in his master's thesis\cite{hoye2006} based on his own model of biological development. Its aim was to be as close to biology as possible without dwelling too deep into the underlying and less understood concepts.
 
 \subsubsection{Concepts}
@@ -43,7 +43,7 @@ There are several ways to start the development with this model. One way of doin
 
 
 \subsection{A generic development framework}
-Without a doubt, there are differences that makes it difficult to compare these two models. They differ not only in implementation but also in concepts. The most interesting thing to see here is that intercellular interactions in particular give different results in the two models.
+Without a doubt, there are differences that can make it difficult to compare these two models. They differ not only in implementation but also in concepts. The most interesting thing to see here is that intercellular interactions in particular give different results in the two models.
 
 In CGP, the cells communicate with each other using chemicals. The amount of chemicals exchanged along nearby cells' types determine what will occur in the cell in a development step. In ArtDev3D, communication happens without the chemicals. The state of the neighbourhood alone make up the external signals that contribute to determine whether or not some proteins are activated. Chemicals in ArtDev3D are used internally only and are not exchanged. Furthermore, it has shown that the number of chemical types is inversely related to fitness. One can place these models on their own end of the scale. Because of this controversy, there are discussions as to whether chemicals really are necessary.
 
@@ -53,7 +53,6 @@ To solve this problem, one can try and eliminate these factors. This thesis prop
 
 Requirements for such a model should include:
 \begin{itemize}
-	\itemsep=0pt
 	\item\textbf{A genetic algorithm}
 
 	Using a common genetic algorithm will eliminate discussions on whether or not a certain algorithm is better than another. The focus should be on the development model, and not genetic algorithms.
