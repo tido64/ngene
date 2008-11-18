@@ -1,10 +1,6 @@
 \section{Experiments}
 \label{sec:experiments}
-Porting the models to the new framework is only the first part of the project. It is also important that these models, once ported, are able to perform in the exact same way as the original code would. The best way to verify that it does, is to repeat a set of experiments and compare the results to the original implementation.
-
-For this purpose, a couple of experiments were picked from a number of papers.
-
-TODO
+Porting the models to the new framework is only the first part of the project. It is also important that these models, once ported, are able to perform in the exact same way as the original code would. The best way to verify that it does, is to repeat a set of experiments and compare the results to the original implementation. A couple of exemplary experiments were picked out for this purpose. Additionally, another simple test was also devised in order to benchmark the performance of this framework.
 
 \subsection{Repeating ArtDev3D's experiments}
 For this model, the sphere and the x-mas tree was chosen to test the new implementation. The reason for this is because the sphere is a relatively simple shape to evolve and easily achieve perfect fitness. For the second test, we will see how well the new implemention will do on difficult shapes.
@@ -44,16 +40,34 @@ This experiment is of a different nature than the previous one. It may not be ve
 
 \begin{center}\includegraphics[scale=0.9]{chart_artdev3d_x-mas-tree}\end{center}
 
-It seems that Ngene is performing rather well. Note that the highest fitness achieved in ArtDev3D only occured once in the 980 test runs conducted. This experiment is but a fifth of that, and it is not inconceivable that Ngene might be able to achieve higher fitness with a larger sample. Interestingly, Ngene only managed to evolve fitness above 0.9 in 57 out of 200 runs. The rest were above 0.8.
+It seems that Ngene is performing rather well. Note that the highest fitness achieved in ArtDev3D only occured once in the 980 test runs conducted. This experiment is but a fifth of that, and it is not inconceivable that Ngene might be able to achieve higher fitness with a larger sample. Interestingly, Ngene only managed to evolve fitness above 0.9 in 57 out of 200 runs. The rest were above 0.8 however.
 
 \subsubsection{Summary}
-We've seen that Ngene's implementation of ArtDev3D can evolve on an equal level as the original implementation. In chapter~\ref{sec:Implementation:ArtDev3D}, I've mentioned that there was a fix applied to the engine when it was ported to the framework. From what can be seen above, it would seem that this patch has not affected the model in any perceivable way. Whether or not the fix is beneficial in any way, is difficult to see and is outside the scope of this thesis.
+We've seen that Ngene's implementation of ArtDev3D can evolve on an equal level as the original implementation. In chapter~\ref{sec:Implementation:ArtDev3D}, I've mentioned that there was a fix applied to the engine when it was ported to the framework. From what can be seen above, it would seem that this patch has not affected the model in any perceivable way. Whether or not the fix is beneficial in any way, is difficult to see. It may very well be that the bug is dormant.
 
 
-\subsection{Repeating the French flag experiment}
-The French flag experiment is one that tries to evolve the French flag. Each cell can either be blue, red or white.
+\subsection{Repeating a cartesian genetic programming experiment}
+For the CGP model, the French flag experiment was picked out. The purpose of this experiment is to evolve a grid of cells that resembles the French flag. Each cell is given a type of either blue, red or white.
 
-TODO
+\begin{itemize}
+	\itemsep=-2pt
+	\item Population: 100
+	\item Generations: 10000
+	\item Mating rate: 90\%
+	\item Mutation rate: 20\%
+	\item Crossover: Single point
+	\item Selection: Tournament (size=4, pressure=0.8)
+\end{itemize}
+
+And the parameters used for development:
+
+\begin{itemize}
+	\itemsep=-2pt
+	\item Development time: 10 ticks
+	\item Cell types: 3
+\end{itemize}
+
+TODO: Result pending.
 
 
 \subsection{Performance benchmarks}

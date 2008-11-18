@@ -161,10 +161,23 @@ There was also an issue that was identified and patched in the port. In most mod
 
 
 \subsubsection{Cartesian}
-This model is based on a number of works by Julian F. Miller, mainly \cite{mteurogp2000} and \cite{ecal2003}.
+This model was implemented from scratch with help from Dr. Julian F. Miller himself. The model is rather simple because the whole cell program is in the genotype. The implementation should only need to translate the genotype into a working digital circuit and be able to ``run'' it.
 
-TODO
+The genotype is an array of integers. The number of integers depend on the number of layers and how many nodes each layer consists of. The number of layers and nodes per layer is static. This will keep it simple, and also make the crossover less complicated. As far as I know, this should be in line with Dr. Miller's implementation as well. Each node consists of four integers - three that will serve as connection points to other nodes while the last one will point to a specific function. The function will get its input from the connected nodes' output. The functions implemented here are basic boolean operations, in addition to the four elementary mathematical operations.
 
-Mutation upwards has an impact
+\begin{itemize}
+	\itemsep=0pt
+	\item \texttt{AND}, \texttt{MUX}, \texttt{NAND}, \texttt{NOR}, \texttt{OR}, \texttt{XNOR}, \texttt{XOR}
+	\item addition, division, multiplication, subtraction
+\end{itemize}
 
-Implement bit check error
+Upon initialization, the engine will receive the genotype and will start translating it into a digital circuit. The cell program is then executed:
+
+\begin{itemize}
+	\item An input bitstring is generated from the chemical levels and types of the current cell together with its neighbours.
+	\item The bitstring is sent to the cell program.
+	\item The output bitstring is parsed. Some bits will give the cell a new type, the rest will tell the cell to divide in particular directions and how much chemicals these will receive.
+	\item Chemical diffusion according to $(c_{ij})_{new} = \frac{1}{2}(c_{ij})_{old} + \frac{1}{16}\sum_{k, l \in N} (c_{kl})_{old}$
+\end{itemize}
+
+Dr. Miller has also provided with important information regarding his implementation of the model. His implementation actually contains a bug that causes the program to only read the most significant bit from the chemical bits in the neighbours. The other bits are set to zero. When he later identified and patched this bug, he found that the bug was actually beneficial to the model. This bug was also re-implemented in order to make it closer to the original implementation.
