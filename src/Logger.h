@@ -45,7 +45,7 @@ public:
 	/// on current run.
 	/// \param best  The best speicmen in the population
 	/// \param time  The time spent on this run
-	void log(const char *best, double time);
+	void log(const char *best, unsigned long int time);
 
 private:
 	char timestamp[64];	///< The time at which this run started

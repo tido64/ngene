@@ -19,7 +19,7 @@ typedef const char *(*GenotypeToStr)(const Genotype &);
 typedef void (*Mating)(std::vector<Specimen> &, const Specimen &, const Specimen &);
 
 /// A pointer to \ref Mating.h::offspring.
-typedef const unsigned int (*offspring_produced)();
+typedef unsigned int (*offspring_produced)();
 
 /// A pointer to \ref Mutator.h::mutate.
 typedef void (*Mutator)(Genotype &);
