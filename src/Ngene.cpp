@@ -4,7 +4,7 @@ using std::sort;
 using std::string;
 using std::vector;
 
-const char *NGENE_VERSION = "1.1.81115";
+const char *NGENE_VERSION = "1.1.81120";
 
 int main(int argc, char *argv[])
 {
@@ -45,10 +45,11 @@ int main(int argc, char *argv[])
 		lifespan = config->lifespan,
 		offspring_rate = config->offspring_rate,
 		prodigies = config->prodigies;
+	unsigned long int
+		time;
 	double
 		mating_rate = config->mating_rate,
-		mutation_rate = config->mutation_rate,
-		time;
+		mutation_rate = config->mutation_rate;
 	delete config;
 	config = 0;
 
@@ -72,7 +73,7 @@ int main(int argc, char *argv[])
 	}
 	module.seed = 0;
 
-	printf("Evolution started: %i generations shall live and prosper!\n\n", doomsday);
+	printf("Evolution started: %u generations shall live and prosper!\n\n", doomsday);
 
 	logger.log(1, adults);
 	time = clock();
@@ -121,7 +122,8 @@ int main(int argc, char *argv[])
 			if (elitism)
 			{
 				sort(adults.begin(), adults.end());
-				start = adults.begin() + 1;
+				start = adults.begin();
+				start++;
 			}
 			for (Population::iterator i = start; i != adults.end(); i++)
 			{

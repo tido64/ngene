@@ -32,14 +32,16 @@ void assess(Specimen &individual)
 			s_result = specimen.find(slot);
 			if (s_result != specimen.end())
 			{
-				if (cgp::target[x][y] > 0)
-					points += (static_cast<unsigned int>(s_result->second.type) == cgp::target[x][y]) ? 2 : 1;
+				//if (cgp::target[x][y] > 0)
+				//	points += (static_cast<unsigned int>(s_result->second.type) == cgp::target[x][y]) ? 1 : 0;
+				if (cgp::target[x][y] > 0 && static_cast<unsigned int>(s_result->second.type) == cgp::target[x][y])
+					points += 1;
 				//printf("  [%d,%d] %d/%u", slot.x, slot.y, s_result->second.type, cgp::target[x][y]);
 			}
 			else
 			{
 				if (cgp::target[x][y] < 1)
-					points += 2;
+					points += 1;
 				//printf("  [%d,%d] -/%u", slot.x, slot.y, cgp::target[x][y]);
 			}
 			slot.x++;
@@ -60,9 +62,11 @@ void initiate(const char *parameters)
 		printf("==> Falling back to: French Flag\n");
 
 		// 00 = empty, 01 = blue, 10 = red, 11 = white
-		tmp.push_back("113322");
-		tmp.push_back("113322");
-		tmp.push_back("113322");
+		tmp.push_back("00000000000");
+		tmp.push_back("01113332220");
+		tmp.push_back("01113332220");
+		tmp.push_back("01113332220");
+		tmp.push_back("00000000000");
 	}
 	else
 	{
@@ -70,6 +74,7 @@ void initiate(const char *parameters)
 		{
 			tmp.push_back("");
 		} while (getline(target, tmp.back()));
+		tmp.pop_back();
 	}
 
 	char c;
@@ -84,7 +89,7 @@ void initiate(const char *parameters)
 			cgp::target[x].push_back(atoi(&c));
 		}
 	}
-	cgp::baseline = cgp::target.size() * cgp::target.front().size() * 2;
+	cgp::baseline = cgp::target.size() * cgp::target.front().size();// * 2;
 	cgp::offset.x = cgp::target.size() / 2;
 	cgp::offset.y = cgp::target.front().size() / 2;
 }

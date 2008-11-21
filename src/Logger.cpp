@@ -50,18 +50,17 @@ bool Logger::log(const unsigned int generation, const Population &pop)
 	avg /= pop.size();
 
 	this->plotter->plot(generation, min, avg, max);
-	printf("\r %i:\tavg: %.4f\tmax: %.4f", generation, avg, max);
+	printf("\r %u:\tavg: %.4f\tmax: %.4f", generation, avg, max);
 	fflush(stdout);
-	return max == 1.0;
+	return max >= 1;
 }
 
-void Logger::log(const char *best, double time)
+void Logger::log(const char *best, unsigned long int time)
 {
 	std::ofstream output (strcat(this->timestamp, ".output"));
 	output << best << "\n";
 	output.close();
 
 	time /= CLOCKS_PER_SEC;
-	printf("\nCompleted in %i minute(s) and %i second(s).\n",
-		static_cast<int>(time / 60), static_cast<int>(time + 0.5) % 60);
+	printf("\nCompleted in %lu minute(s) and %lu second(s).\n", time / 60, time % 60);
 }

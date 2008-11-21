@@ -3,7 +3,7 @@
 
 namespace cgp
 {
-	unsigned int levels, nodes, ticks, width, height;
+	unsigned int bits = sizeof(char) * 8, levels, nodes, ticks, width, height;
 	std::string name ("Cartesian");
 	Cartesian *sys;
 }
@@ -44,9 +44,15 @@ void seed(Genotype &genotype)
 	*
 	* All ints are unsigned
 	**/
+#ifdef USE_WHOLE_INTEGERS
 	const unsigned int
 		input = 18,
 		output = 10;
+#else
+	const unsigned int
+		input = 9 * cgp::bits + 9 * 2,
+		output = 9 * cgp::bits + 2;
+#endif
 
 	unsigned int lower = 0, upper = input;
 	std::vector<unsigned int> layer;
@@ -92,6 +98,7 @@ const char *str(const Genotype &genotype)
 	std::map<Coordinates, Cell> o (cgp::sys->get_organism());
 	delete cgp::sys;
 
+	printf("\n==> Found %u cells\n", o.size());
 	//for (std::map<Coordinates, Cell>::iterator i = o.begin(); i != o.end(); i++)
 	//	printf("==> [%d,%d] %d\n", i->first.x, i->first.y, i->second.type);
 	//printf("==>\n");
