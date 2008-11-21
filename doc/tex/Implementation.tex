@@ -5,7 +5,7 @@ We will have a look at the implementation of the engine and the framework in thi
 TODO: Diskusjonen kan derfor bli preget av hastighet osv.
 
 \subsection{About Ngene}
-\emph{Ngene} is a flexible, generic, multi-purpose genetic algorithm engine written in C++ with heavy emphasis on performance and flexibility. The engine is divided into logical modules that can be easily interchanged or extended upon in order to fit the intended goal. A sub-goal of this engine is also portability. Anybody should be able to run this engine on their platform of choice, regardless of whether they are sitting on Microsoft\textregistered~ Windows\texttrademark~ or Unix, and hardware based on Intel\textregistered~ Architecture or Power Architecture.
+\emph{Ngene} is a flexible, generic, multi-purpose genetic algorithm engine written in C++ with heavy emphasis on performance and flexibility. The engine is divided into logical modules that can be easily interchanged or extended upon in order to fit the intended goal. A sub-goal of this engine is also portability. Anybody should be able to run this engine on their platform of choice, regardless of whether they are sitting on Microsoft\textregistered Windows\texttrademark or Unix, and hardware based on Intel\textregistered Architecture or Power Architecture.
 
 The prototype for this engine started out as an assignment for a sub-symbolic artificial intelligence course. It was written in Python, which later proved to be too slow for this kind of application, and later partially ported to C++ because I wanted to learn the language at the time. The project got lost in a pile of other assignments and was never heard from again. The engine was finally picked up again, and completed for the purpose of this thesis.
 
@@ -50,7 +50,7 @@ awesome
 This would simply give us a compilation error in C++, but can still be done with some coding. Fortunately for us, this has already been implemented and is freely available as part of \emph{Boost}. The modular design would otherwise not work without it, at least not within given time constraint. The container, called \emph{Boost.Any}, does not differ much from the one found in Python and comes only at the cheap cost of requiring a type-casting before the data can be handled as normal.
 
 \paragraph{\textbf{Boost Random Number Library}}\cite{maurer2000}
-Another problem with genetic algorithms and development in general is implementing a good pseudo-random number generator. Ngene uses the implementation of \emph{Mersenne twister} pseudo-random number generator also found in the Boost libraries. This generator was chosen for its long period ($2^(19937) - 1$ to be exact), and because it is relatively fast compared to other algorithms. It also passes a number of tests for randomness, including Diehard\footnote{A collection of tests to measure the quality of the randomness of the generator, developed by George Marsaglia.} and most of the stricter TestU01 Crush\footnote{Another collection of tests, developed by Pierre L'Ecuyer and Richard Simard.} randomness tests.
+Another problem with genetic algorithms and development in general is implementing a good pseudo-random number generator. Ngene uses the implementation of \emph{Mersenne twister} pseudo-random number generator also found in the Boost libraries. This generator was chosen for its long period ($2^{19937}-1$ or approximately $4.3*10^{6001}$), and because it is relatively fast compared to other algorithms. It also passes a number of tests for randomness, including Diehard\footnote{A collection of tests to measure the quality of the randomness of the generator, developed by George Marsaglia.} and most of the stricter TestU01 Crush\footnote{Another collection of tests, developed by Pierre L'Ecuyer and Richard Simard.} randomness tests.
 
 \subsubsection{Brief System Overview}
 \begin{figure}[!ht]
@@ -161,6 +161,7 @@ There was also an issue that was identified and patched in the port. In most mod
 
 
 \subsubsection{Cartesian}
+\label{sec:cartesian}
 This model was implemented from scratch with help from Dr. Julian F. Miller himself. The model is rather simple because the whole cell program is in the genotype. The implementation should only need to translate the genotype into a working digital circuit and be able to ``run'' it.
 
 The genotype is an array of integers. The number of integers depend on the number of layers and how many nodes each layer consists of. The number of layers and nodes per layer is static. This will keep it simple, and also make the crossover less complicated. As far as I know, this should be in line with Dr. Miller's implementation as well. Each node consists of four integers - three that will serve as connection points to other nodes while the last one will point to a specific function. The function will get its input from the connected nodes' output. The functions implemented here are basic boolean operations, in addition to the four elementary mathematical operations.

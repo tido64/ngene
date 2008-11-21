@@ -1,4 +1,10 @@
 \section{Conclusion}
+Ngene Development Framework was designed to enable the user to shift its focus from the technical details of implementation to the model itself.
+
+It was shown that it is entirely possible to implement two completely different models using the same code base provided by the framework. It was also shown that the models re-implemented into this framework, were able to perform at least as well as the original implementation did. The numbers and results we've seen, back these claims up.
+
+We've also been able to perform a more thorough comparison of the two engines without having to a
+
 
 \subsection{Further Work}
 
@@ -9,28 +15,26 @@ Regretfully, some experiments were not conducted that would have showed off the 
 There are some aspects of the engine that I would have changed or improved but did not have the time to do so.
 
 \begin{itemize}
-	\item\textbf{Improving the message interface of Ngene Development Framework}
-
-	Currently, the messages are gathered by looping through the cells and finding out what their neighbours are. This is a $O(n^{2})$ algorithm and can be much improved. One way of doing it is to take a snapshot of the organism and pass that object to the cells. The benefit of doing it this way is that is fast (in the order of $O(n)$) and it also opens up the possibility to implement chemical diffusion across more cells than the immediate neighbours.
-
 	\item\textbf{Further optimizations}
+		\begin{itemize}
+			\item Currently, the messages are gathered by looping through the cells and finding out what their neighbours are. This is a $O(n^{2})$ algorithm and can be much improved. One way of doing it is to take a snapshot of the organism and pass that object to the cells. The benefit of doing it this way is that it is fast (in the order of $O(n)$) and it also opens up the possibility to simulate chemical diffusion across more cells than the immediate neighbours of a cell.
 
-	The use of \texttt{<map>} comes with a penalty as mentioned in chapter~\ref{tbl:speed}. A three-dimensional implementation of a \texttt{vector} should be considered as it would give constant lookup time and negate the need to search for nearby elements.
+			\item The use of \texttt{<map>} comes with a penalty as mentioned in chapter~\ref{tbl:speed}. A three-dimensional implementation of a \texttt{<vector>} should be considered as it would give constant lookup time and negate the need to search for nearby elements.
 
-	The Mersenne twister is often criticized for not being very elegant. There has been suggestions that point to other implementations of a pseudo-random number generator that outperform the Mersenne twister while maintaining equal or better quality of randomness. Genetic algorithms in general are very dependent on a good random number generator, and having a fast one is only beneficial to the whole engine.
+			\item The Mersenne twister is often criticized for not being very elegant. There has been suggestions that point to other implementations of a pseudo-random number generator that outperform the Mersenne twister while maintaining equal or better quality of randomness. There is also a new implementation of Mersenne twister that should be considered. It is much faster and makes use of SIMD instructions in recent CPUs. Genetic algorithms in general are very dependent on a good random number generator, and having a fast one is only beneficial to the whole engine.
 
-	Ngene has implemented OpenMP\footnote{http://www.openmp.org/} in order to utilize multi-core CPUs. This feature was, however, disabled because the framework is not thread-safe. As multi-core CPUs are becoming more common, the framework should be able to use it to its own advantage.
+			\item Ngene has implemented OpenMP\footnote{http://www.openmp.org/} in order to utilize multi-core CPUs. This feature was, however, disabled because the framework is not thread-safe. As multi-core CPUs are becoming more common, the framework should be able to utilize such facilities.
+		\end{itemize}
 
 	\item\textbf{Making the core interchangeable}
 
-	The genetic algorithm itself should be implemented as a separate module, making it possible to change algorithm at any time.
+	The genetic algorithm itself should be implemented as a separate module, making it possible to change algorithm depending on the experiments conducted.
 
 	\item\textbf{Ability to swap modules mid-experiment}
 
-	The possibility to swap modules based on circumstances in a population, for instance, half way through an evolution or when the population is converging.
+	The possibility to swap modules based on circumstances in a population, for instance, half way through an evolution or when the population is converging may produce interesting results. This can be used to simulate genetic drift or other natural phenomena.
 \end{itemize}
 
 \subsubsection{Other models}
 
 TODO
-
