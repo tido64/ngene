@@ -61,43 +61,43 @@ For the CGP model, the French flag experiment was picked out. The purpose of thi
 
 The target phenotype used:
 
-\begin{center}\fbox{\includegraphics[scale=0.9]{French-flag}}\end{center}
+\begin{center}\fbox{\includegraphics{French-flag}}\end{center}
 
 Finding the right development time for this particular problem proved to be rather difficult. It would seem that setting the development time too high not only slowed down the whole process, it also made it harder for the organisms to evolve correctly. The experiments started out with development time of 10 ticks and was slowly decremented as the results were not satisfactory. The following are the best evolved organisms using 4 ticks.
 
 \begin{center}
-	\fbox{\includegraphics[scale=0.9]{cartesian-4-3-90-9-3-20081119-083309}}
-	~\fbox{\includegraphics[scale=0.9]{cartesian-4-3-90-9-3-20081119-091139}}
-	~\fbox{\includegraphics[scale=0.9]{cartesian-4-3-90-9-3-20081119-230852}}
+	\fbox{\includegraphics{cartesian-4-3-90-9-3-20081119-083309}}
+	~\fbox{\includegraphics{cartesian-4-3-90-9-3-20081119-091139}}
+	~\fbox{\includegraphics{cartesian-4-3-90-9-3-20081119-230852}}
 \end{center}
 
 It seemed odd that setting the development time one step longer would have any saying in how the organisms would grow. To ensure that the results weren't purely coincidential, the experiment was repeated once more for five ticks.
 
 \begin{center}
-	\fbox{\includegraphics[scale=0.9]{cartesian-5-3-90-9-3-20081120-221123}}
-	~\fbox{\includegraphics[scale=0.9]{cartesian-5-3-90-9-3-20081120-233001}}
-	~\fbox{\includegraphics[scale=0.9]{cartesian-5-3-90-9-3-20081121-002613}}
+	\fbox{\includegraphics{cartesian-5-3-90-9-3-20081120-221123}}
+	~\fbox{\includegraphics{cartesian-5-3-90-9-3-20081120-233001}}
+	~\fbox{\includegraphics{cartesian-5-3-90-9-3-20081121-002613}}
 \end{center}
 
 These results seem to suggest that the model is not stable. Colours appear in areas they shouldn't be in as opposed to the previous results where the colours at least stayed closer to each other. One can theorize that the growth continues even after target phenotype have been evolved, hence resulting in a worse fitness. This seems to be backed up by the fact that the engine would more frequently obtain fitness above 0.9 when using development time of four when compared to five. Using development time of 10 also raised the number of cells above 200.
 
 To further investigate this issue, the phenotype was altered so that it would have a border around the flag.
 
-\begin{center}\fbox{\includegraphics[scale=0.9]{French-flag-border}}\end{center}
+\begin{center}\fbox{\includegraphics{French-flag-border}}\end{center}
 
 This new phenotype will hopefully show whether or not the model does continue to grow, or if it manages to maintain a status quo to some extent. No changes were made to the settings above. The tests were repeated using the new target phenotype.
 
 \begin{center}
 	Development time: 4 ticks\newline
-	\fbox{\includegraphics[scale=0.9]{cartesian-4-3-90-9-3-20081120-071044}}
-	~\fbox{\includegraphics[scale=0.9]{cartesian-4-3-90-9-3-20081120-081439}}
+	\fbox{\includegraphics{cartesian-4-3-90-9-3-20081120-071044}}
+	~\fbox{\includegraphics{cartesian-4-3-90-9-3-20081120-081439}}
 \end{center}
 
 \begin{center}
 	Development time: 5 ticks\newline
-	\fbox{\includegraphics[scale=0.9]{cartesian-5-3-90-9-3-20081121-063215}}
-	~\fbox{\includegraphics[scale=0.9]{cartesian-5-3-90-9-3-20081121-072947}}
-	~\fbox{\includegraphics[scale=0.9]{cartesian-5-3-90-9-3-20081121-205507}}
+	\fbox{\includegraphics{cartesian-5-3-90-9-3-20081121-063215}}
+	~\fbox{\includegraphics{cartesian-5-3-90-9-3-20081121-072947}}
+	~\fbox{\includegraphics{cartesian-5-3-90-9-3-20081121-205507}}
 \end{center}
 
 As suspected, the average fitness dropped due to the increased size and complexity of the phenotype. With the exception of the first flag in the second row that ``bleeds'' into the border (two cells: blue on the left and white cell above the one blue cell in red cells zone), all of them are missing cells for some reason. It seems like the model compensates by either growing less cells or initiating cell death more often. Unfortunately, the results can't be called conclusive due to the nature of test. One will have to look into how the organisms change in each development step. The tools necessary for this is unavailable at the moment.
