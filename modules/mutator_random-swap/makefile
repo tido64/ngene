@@ -15,3 +15,6 @@ $(OBJDIR)/%.o: %.cpp
 
 $(TARGET).so: $(OBJDIR)/Random.o $(OBJDIR)/$(TARGET).o
 	$(CPP) -shared -o $(BINDIR)/$@ $^
+
+clean:
+	rm -f $(OBJDIR)/$(TARGET).o

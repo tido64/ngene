@@ -23,7 +23,7 @@ void PluginManager::load_module(const Module::Type module_type, const string &fi
 {
 	string dl = "./modules/";
 	dl.append(filename);
-	#if WIN32
+	#ifdef WIN32
 		dlhandle module (LoadLibraryA(dl.c_str()));
 	#else
 		dlhandle module = dlopen(dl.c_str(), RTLD_LAZY);

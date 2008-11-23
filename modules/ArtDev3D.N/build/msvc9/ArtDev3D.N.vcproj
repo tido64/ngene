@@ -213,6 +213,10 @@
 				RelativePath="..\..\makefile"
 				>
 			</File>
+			<File
+				RelativePath="..\..\makefile.icc"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Source Files"

@@ -1,13 +1,12 @@
 \section{Implementation}
 \label{sec:implementation}
-We will have a look at the implementation of the engine and the framework in this section. Much focus lies on performance, and therefore, the
+We will have a look at the implementation of the engine and the development framework in this section. Since there is much focus on performance, this section may be characterized by its performance discussions. We will also see how a model (or two) can be implemented within this framework.
 
-TODO: Diskusjonen kan derfor bli preget av hastighet osv.
 
 \subsection{About Ngene}
-\emph{Ngene} is a flexible, generic, multi-purpose genetic algorithm engine written in C++ with heavy emphasis on performance and flexibility. The engine is divided into logical modules that can be easily interchanged or extended upon in order to fit the intended goal. A sub-goal of this engine is also portability. Anybody should be able to run this engine on their platform of choice, regardless of whether they are sitting on Microsoft\textregistered Windows\texttrademark or Unix, and hardware based on Intel\textregistered Architecture or Power Architecture.
+\emph{Ngene} is a flexible, generic, multi-purpose genetic algorithm engine written in C++ with heavy emphasis on performance and flexibility. The engine is divided into logical modules that can easily be interchanged or extended upon in order to fit the intended purpose. A sub-goal of this engine is also portability. Anybody should be able to use this engine on their platform of choice, regardless of whether they are sitting on Microsoft\textregistered Windows\texttrademark or Unix, and hardware based on Intel\textregistered Architecture or Power Architecture.
 
-The prototype for this engine started out as an assignment for a sub-symbolic artificial intelligence course. It was written in Python, which later proved to be too slow for this kind of application, and later partially ported to C++ because I wanted to learn the language at the time. The project got lost in a pile of other assignments and was never heard from again. The engine was finally picked up again, and completed for the purpose of this thesis.
+The prototype for this engine started out as an assignment for a sub-symbolic artificial intelligence course. It was written in Python, which later proved to be too slow for this kind of application, and later partially ported to C++ because I wanted to learn the language at the time. The project got lost in a pile of other assignments and was never heard from again. The engine was finally picked up again, re-designed and completed for the purpose of this thesis.
 
 \subsubsection{Modular Design}
 In order to achieve maximum flexibility, the engine should be able to change any of its parts without having to do anything special. Should the user feel like changing the mutation method, this should be as easy as changing a single line in a configuration file. More essentially, conducting experiments on different genotypes should also be just as easy as mentioned. With that in mind, the design is therefore broken into the following logical modules:
@@ -22,7 +21,7 @@ In order to achieve maximum flexibility, the engine should be able to change any
 	\item\textbf{Selector} - Randomly selects a genotype
 \end{itemize}
 
-The engine is now like a jigsaw puzzle with pieces that resemble in shape but not motive. This way, it is possible to put together different pictures without having to perform any extraneous tasks (like cutting the edges to make it fit). More concretely, this modular design will allow users to swap a module, say roulette selection for tournament selection, without prior knowledge of programming. In fact, writing code will not at all be needed unless a new module is required. This design will also keep the code much cleaner and easier to maintain.
+Think of the engine as a jigsaw puzzle with pieces that resemble in shape but with different motive. This way, it is possible to assemble different pictures without having to perform any extraneous tasks (like cutting the edges to make it fit). More concretely, this modular design will allow users to swap a module, say roulette selection for tournament selection, without prior knowledge of programming. In fact, writing code will not at all be needed unless a new module is required. This design will also keep the code much cleaner and easier to maintain.
 
 \subsubsection{Why C++?}
 In a sense, one can say that this project was made possible because of my prototype in Python. It taught me many higher level concepts that is practically non-existant in lower level languages such as C++. Without it, I probably wouldn't have been able to bring the project to the level it is today. Especially without the concept of a dynamic type, the idea of a container that can contain anything from an integer, to a string, to a floating type number, I would still have trouble trying to compensate for it with complex algorithms to deal with raw data pointers. Most importantly, it taught me the importance of optimization and use of libraries.

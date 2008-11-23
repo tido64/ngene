@@ -1,7 +1,21 @@
-default:
-	@rubber -d main.tex
+TARGET = main
+BIB = main.bbl
+TEX = pdflatex
+OPT = -file-line-error
 
-view: default
+default: $(TARGET)
+
+$(TARGET): $(BIB)
+	$(TEX) $(OPT) $(TARGET).tex
+
+%.bbl: %.aux
+	bibtex $<
+	$(TEX) $(OPT) $(TARGET).tex
+
+%.aux: %.tex
+	$(TEX) $(OPT) $<
+
+open: default
 	@gnome-open main.pdf
 
 clean:
