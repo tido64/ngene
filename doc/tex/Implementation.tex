@@ -9,7 +9,7 @@ We will have a look at the implementation of the engine and the development fram
 The prototype for this engine started out as an assignment for a sub-symbolic artificial intelligence course. It was written in Python, which later proved to be too slow for this kind of application, and later partially ported to C++ because I wanted to learn the language at the time. The project got lost in a pile of other assignments and was never heard from again. The engine was finally picked up again, re-designed and completed for the purpose of this thesis.
 
 \subsubsection{Modular Design}
-In order to achieve maximum flexibility, the engine should be able to change any of its parts without having to do anything special. Should the user feel like changing the mutation method, this should be as easy as changing a single line in a configuration file. More essentially, conducting experiments on different genotypes should also be just as easy as mentioned. With that in mind, the design is therefore broken into the following logical modules:
+The modular design of Ngene is the heart of it all. In order to achieve maximum flexibility, the engine should be able to change any of its parts without having to do anything special. Should the user feel like changing the mutation method, this should be as easy as changing a single line in a configuration file. This is most useful because different experiments may require different genotypes or any other modules. With that in mind, the design is therefore broken into the following logical modules:
 
 \begin{itemize}
 	\itemsep=0pt
@@ -21,14 +21,14 @@ In order to achieve maximum flexibility, the engine should be able to change any
 	\item\textbf{Selector} - Randomly selects a genotype
 \end{itemize}
 
-Think of the engine as a jigsaw puzzle with pieces that resemble in shape but with different motive. This way, it is possible to assemble different pictures without having to perform any extraneous tasks (like cutting the edges to make it fit). More concretely, this modular design will allow users to swap a module, say roulette selection for tournament selection, without prior knowledge of programming. In fact, writing code will not at all be needed unless a new module is required. This design will also keep the code much cleaner and easier to maintain.
+Each of these modules are like the parts of a car. Roulette selection can be exchanged for tournament selection, just like how the motor can be exchanged for another to enhance its performance. Of course, without the technical difficulties involved when changing a car engine. This modular design will allow users to swap a module without prior knowledge of programming. In fact, writing code will not be needed at all unless a new module is required. This design will also keep the code much cleaner and easier to maintain.
 
 \subsubsection{Why C++?}
 In a sense, one can say that this project was made possible because of my prototype in Python. It taught me many higher level concepts that is practically non-existant in lower level languages such as C++. Without it, I probably wouldn't have been able to bring the project to the level it is today. Especially without the concept of a dynamic type, the idea of a container that can contain anything from an integer, to a string, to a floating type number, I would still have trouble trying to compensate for it with complex algorithms to deal with raw data pointers. Most importantly, it taught me the importance of optimization and use of libraries.
 
 Choosing a programming language depends on what kind of application you want to write. A simple program with no special requirements can be written in any language. For instance, a mail client written in Python will perform equally well as any other client because the focus lies on fetching and displaying e-mails and the ability to manage them in an easy way. The features are more important than the extra two milliseconds it takes to perform a query. However, there are applications for which performance is more important than anything. Arguably, such programs should be written in one of two ways: In assembly (or machine code) or C/C+. While assembly is rarely used these days due to being practically unreadable for mortals, C and C++ is often used for time critical applications. Unlike languages that depend on a virtual machine (C\#, Java), or an interpreter (some LISP dialects, Python), code written in C/C++ is compiled directly to machine code before executed, often yielding much better performance.
 
-C++ is thought of as being a middle level language. It has the advantages of both the lower (machine code) and higher level languages, but also the inherent disadvantages. For example, all memory management must be explicitly handled in the code because C++ lacks a garbage collection found typically in C\# or Java. This means that we have to be careful of memory leaks and access of invalid memory addresses. Furthermore, C++ doesn't come with as big a convenience library as those found in aforementioned languages. Such a library would eliminate rewriting often used algorithms and the headache of fixing a buggy code. Fortunately, efforts are already being made to ease the implementation through external libraries.
+C++ is thought of as being a middle level language. It has the advantages of both the lower (machine code) and higher level languages, but also the inherent disadvantages. For example, all memory management must be explicitly handled in the code. C++ does not have a garbage collector typically found in higher level languages. This means that we have to be extra careful of deallocating memory to avoid leaks, and prevent access of invalid memory addresses. Furthermore, C++ doesn't come with as big a convenience library as those found in aforementioned languages. Such libraries save a lot of time, eliminating rewriting often used algorithms and the headache of debugging faulty code. Fortunately, efforts are being made to ease the implementation through external libraries.
 
 \subsubsection{Boost C++ Libraries}
 \emph{Boost}\footnote{\url{http://www.boost.org/}} is a collection of libraries which complement the C++ Standard Library (STL). Ngene makes use of this collection, saving time and effort, and guaranteeing that such code works as it should.
@@ -46,7 +46,7 @@ awesome
 >>> _
 \end{verbatim}
 
-This would simply give us a compilation error in C++, but can still be done with some coding. Fortunately for us, this has already been implemented and is freely available as part of \emph{Boost}. The modular design would otherwise not work without it, at least not within given time constraint. The container, called \emph{Boost.Any}, does not differ much from the one found in Python and comes only at the cheap cost of requiring a type-casting before the data can be handled as normal.
+Doing something similar in C++ would simply give us a syntax error. To make such a container in C++, will require some coding. Fortunately, this has already been implemented and is freely available as part of \emph{Boost}. The modular design would otherwise not work without it, at least not within given time constraint. The container, called \emph{Boost.Any}, does not differ much from the one found in Python and comes only at the cheap cost of requiring a type-casting before the data can be handled as normal.
 
 \paragraph{\textbf{Boost Random Number Library}}\cite{maurer2000}
 Another problem with genetic algorithms and development in general is implementing a good pseudo-random number generator. Ngene uses the implementation of \emph{Mersenne twister} pseudo-random number generator also found in the Boost libraries. This generator was chosen for its long period ($2^{19937}-1$ or approximately $4.3*10^{6001}$), and because it is relatively fast compared to other algorithms. It also passes a number of tests for randomness, including Diehard\footnote{A collection of tests to measure the quality of the randomness of the generator, developed by George Marsaglia.} and most of the stricter TestU01 Crush\footnote{Another collection of tests, developed by Pierre L'Ecuyer and Richard Simard.} randomness tests.
@@ -59,9 +59,8 @@ Another problem with genetic algorithms and development in general is implementi
 	\label{fig:diagram_ngene}
 \end{figure}
 
-Figure~\ref{fig:diagram_ngene} shows a brief overview of how Ngene is put together. At startup, three of these parts are responsible for what must happen before anything can be run in accordance with the user's parameters. \texttt{ConfigManager} takes care of reading the configuration file and makes sure that all other parts have access to and will understand what it is told to do. Once it has played its part, \texttt{PluginManager} should be able to load relevant modules and \texttt{Logger} will know whether or not it should plot a fitness/generation graph of a population or just write some text to a file.
+Figure~\ref{fig:diagram_ngene} shows a brief overview of how Ngene is put together. At startup, three of these parts are responsible for what must take place before anything can be run in accordance with the user's parameters. \texttt{ConfigManager} takes care of reading the configuration file and creating a settings object that every other parts have access to. Once the configuration file has been parsed, \texttt{PluginManager} will use this object to find out which modules it's going load. If the user specified tournament selector, it will load the tournament module and make it ready for the genetic engine. When every module is loaded, \texttt{Logger} will use the same settings object to find out how it should log the current run, whether it should plot a fitness/generation graph or just print out the progress on the screen. By now, the genetic algorithm will start. It is a very simple algorithm:
 
-The genetic algorithm is very simple:
 \begin{enumerate}
 	\itemsep=0pt
 	\item An initial population is randomly generated.
@@ -72,9 +71,9 @@ The genetic algorithm is very simple:
 	\item Write log/graph and final \texttt{Specimen} to disk.
 \end{enumerate}
 
-The final step is the responsibility of \texttt{Logger}. \texttt{Logger} has no knowledge of what format the \texttt{Specimen} should be written as. Be it a text file, an image or a proprietary format, it will simply request the \texttt{Genotype} module to give it some data to write to disk. The output format is actually hard-coded into each \texttt{Genotype} module. Because this rarely changes for a single experiment and/or model, otherwise a new module must be written anyway, this has no real impact on users.
+The final step is the responsibility of \texttt{Logger}. \texttt{Logger} has no knowledge of what format the \texttt{Specimen} should be written as. Be it a text file, an image or a proprietary format, it will simply request the \texttt{Genotype} module to give it some data to write to disk. The output format is actually coded in each \texttt{Genotype} module because it rarely changes for a single experiment and/or model. Otherwise, a new module must be written anyway.
 
-\texttt{PluginManager}, along with the responsibilities of loading and releasing modules, will also act as a layer between the modules and the algorithm itself. The engine will never have to bother with the specifics of each module, but rather be able to just tell what a module ought to do. Of course, this requires that the modules follow certain specifications in order to be compatible with this layer. These are described in more detail in the system documentation for Ngene.
+\texttt{PluginManager}, along with the responsibilities of loading and releasing modules, will also act as a layer between the modules and the genetic engine itself. The engine will never have to bother with the specifics of each module. It should be able to just tell what a module ought to do. Of course, this requires that the modules implement a predefined interface in order to be compatible with this layer. These are described in more detail in the system documentation for Ngene.
 
 
 \subsection{Ngene Development Framework}
@@ -85,18 +84,18 @@ The final step is the responsibility of \texttt{Logger}. \texttt{Logger} has no 
 	\label{fig:diagram_ndevframe}
 \end{figure}
 
-As it stood, Ngene gave the users too much freedom in implementing their own modules, making it difficult to compare two models without having to factor in differences in implementations. A generic development framework was therefore devised to eliminate these factors and ease the implementation at the same time. The framework was designed to accommodate any conceivable model.
+The downside of having such a flexible design, is that users are given too much freedom in implementing their own modules, making it difficult to compare two models without having to factor in differences in implementations. A common generic development framework can eliminate these factors and ease the implementation at the same time. The Ngene Development Framework is an attempt of such a framework.
 
-The framework provides a code base that implements a common development algorithms, along with common concepts such as a cell or a protein (see fig.~\ref{fig:diagram_ndevframe}). This includes intercellular communication (see fig.~\ref{fig:diagram_ndevframe_msg}) and development stepping in order to reduce any implementation advantages a model has over another. Use of this code base is enforced in order to ensure that all comparison made between different development models will be based on a common ground.
+The framework provides a code base that implements a common development algorithms, along with common concepts such as a cell and protein (see fig.~\ref{fig:diagram_ndevframe}). More importantly, it also includes an intercellular communication (see fig.~\ref{fig:diagram_ndevframe_msg}) algorithm. As we saw earlier with ArtDev3D and CGP, the communication between the two differs a lot. It is important that the message system can provide what is needed for both systems and still be able to clearly distinguish the differences so that we can easily take this into consideration when comparing the two models. Use of this code base is enforced in order to ensure that all comparison made between different development models are based on a common ground.
 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[scale=0.9]{diagram_ndevframe_msg}
-	\caption{A common message implementation should eliminate factors involving what information is exchanged between the organism's cells.}
+	\caption{A common message implementation should let users easier distinguish the differences in intercellular communication between different models.}
 	\label{fig:diagram_ndevframe_msg}
 \end{figure}
 
-Figure~\ref{fig:diagram_ndevframe_common-base} shows three different scenarios where model A and B use only chemicals, while model C only makes use of proteins. This tells us that model A and B may use both the cell type and the chemicals part of a \texttt{Message}, while model C only takes cell type into consideration (or it may not even make use of communication). We also see that model B and C make use of a control program besides the genome. Even though these three models are different, they still use the same framework or code base. A comparison can then be performed without having to take into account implementation differences that may affect one model or another.
+Figure~\ref{fig:diagram_ndevframe_common-base} should demonstrate this requirement. We can see right away that all three models differ because model A and B use chemicals, while C uses proteins. We also see that model B and C require a control program in addition to their cell programs. When models are implemented using the framework, we will be able to clearly see which parts a model uses and why it is unique compared to another model. Since a common code base is used, you can rule out the possibility that the development or genetic algorithm may differ.
 
 \begin{figure}[!ht]
 	\centering
@@ -105,7 +104,7 @@ Figure~\ref{fig:diagram_ndevframe_common-base} shows three different scenarios w
 	\label{fig:diagram_ndevframe_common-base}
 \end{figure}
 
-With regards to speed optimizations, lots of thought as been put into how to represent the organisms themselves. In the current implementation, a C++ Standard Library (STL) \texttt{<map>} is used to store the cells using their coordinates as the key value. Other alternatives were also considered:
+Since the framework is going to be used by many users, speed is also a concern when designing it. It is important that the framework is not only flexible and easy to use, but also perform relatively well compared to other implementations. Lots of thought as been put into how to represent the organisms themselves. In the current implementation, a C++ Standard Library (STL) \texttt{<map>} is used to store the cells using their coordinates as the key value. Other alternatives were also considered:
 
 \begin{center}
 	\begin{tabular}{ r | c | c | c }
@@ -120,9 +119,12 @@ With regards to speed optimizations, lots of thought as been put into how to rep
 	\label{tbl:speed}
 \end{center}
 
-A quick glance at the comparison table and the \texttt{<ext/hash\_map>} may seem like the best choice to go with. However, there are some drawbacks that must be taken into consideration. A good hashing algorithm is essential for the performance of the hash table by providing a uniform distribution over the array. Too simple, and a lot of collisions will occur, but too complex and the hashing table will spend all of its time calculating a hash value. Collisions occur regardless of how good the algorithm is. The \emph{birthday paradox} predicts that it doesn't take many elements before the chance of a collision exceeds 95\%, even for very big arrays. A good collision resolution is therefore also needed but will not be enough to guarantee the performance advantage over other solutions. For the experiments conducted in this thesis, the number of cells rarely exceeded 1000. For a \texttt{<map>}, this means at most 10 comparisons is needed to find an element by its key value. A hash table would require about the same number of operations to calculate the hash, perform the lookup and resolve any collisions.
+A quick glance at the comparison table and the \texttt{<ext/hash\_map>} may seem like the best choice to go with. However, there are some drawbacks that must be taken into consideration.
 
-The \texttt{<map>} was chosen over the \texttt{<vector>} because despite its better access and insertion times, required more time to find all of a cell's neighbours. This can be remedied by creating and maintaining a neighbours list for every cell. However, this would make insertion $O(n)$ as opposed to $O(log~n)$ of the \texttt{<map>}.
+A hash table creates a unique key based on a number of properties found in the value to be stored. The key is used to retrieve the value at some later point. The hashing algorithm is essential in both that it determines how uniform the distribution will be over the array, and how well the hash table will perform overall. A too simple hashing algorithm will often experience collisions, i.e. a lot of values will have the same key. When this occurs, there are several ways to handle it (also called collision resolution). In worst case scenario, the key will point to a list, thus making the hash table perform like a linked list. Insertion is still constant but lookup may be as bad as $O(n)$. On the other hand, an overly complex hashing algorithm will also deteriorate performance because more CPU cycles is spent calculating a good hash value. Regardless of how good the hashing algorithm is, collisions will always occur. The \emph{birthday paradox} predicts that it doesn't take many elements before the chance of a collision exceeds 95\%, even for very big arrays. It is clear that the hash table cannot guarantee its performance advantage over the other containers. Besides, for the experiments conducted in this thesis, the number of cells rarely exceeded 1000. If we use a \texttt{<map>}, which is the case here, it will take at most ten comparisons to find an element by its key value. A good hashing algorithm will use approximately the same number of operations to calculate a key value, perform lookup, and resolve any collisions.
+
+The problem with \texttt{<vector>} is that it is one-dimensional. This makes it difficult to efficiently calculate x, y and z values of a coordinate since we don't know how many cells there will be. Another drawback is that it will take $O(n)$ time to look for neighbours. This can be worked around by maintaining an up to date neighbours list for every cell. This will make lookup $O(1)$ but increase insertion time to $O(n)$. \texttt{<map>} offers easier facilities to perform such tasks more efficiently. Later, in chapter \ref{sec:improvements}, we will discuss a custom implementation that will theoretically perform better than mentioned containers.
+
 
 \subsubsection{Using the Framework}
 \begin{figure}[!ht]
@@ -135,6 +137,7 @@ The \texttt{<map>} was chosen over the \texttt{<vector>} because despite its bet
 The framework was designed to ease the implementation effort as much as possible. The whole code base can be inherited from \texttt{AbstractDevelopment} (see fig.~\ref{fig:diagram_ndevframe_ex}). To port a model to this framework, only two functions need to be implemented: \texttt{execute()} and \texttt{initialize()}. The latter is executed once with every new organism that is to be developed, and can be used to unpacking the genotype to a cellular program and/or generating initial cells in the organism. The \texttt{execute()} function is called every development step/tick, for every cell in the organism. Here, the cell program from the genotype can be executed as well as any control programs that might be needed. Note that any messages sent has already been received and are stored in the cells themselves by the time a cell is given the chance to fulfil its purpose in a tick. It will not be possible to actually access the organism itself from this function in order to avoid accidental tampering.
 
 For the purpose of this thesis, two models were implemented within this framework not only to test the flexibility and performance of this framework but also to see what is missing and what areas need improvement.
+
 
 \subsubsection{ArtDev3D}
 \label{sec:Implementation:ArtDev3D}
