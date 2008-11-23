@@ -294,11 +294,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\makefile.icc"
+				>
+			</File>
+			<File
 				RelativePath="..\..\bin\ngene.conf"
 				>
 			</File>
 			<File
 				RelativePath="..\..\bin\ngene.xml"
+				>
+			</File>
+			<File
+				RelativePath="..\..\readme.txt"
 				>
 			</File>
 		</Filter>
