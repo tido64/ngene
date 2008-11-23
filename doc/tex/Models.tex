@@ -20,7 +20,9 @@ I use ``request'' here because of the way this model works. The proteins queue a
 
 The cell is also ``programmed'' to perform a number of tasks independent of the dna. Implemented functions include osmosis, or the exchange of chemicals (or hormones) with nearby cells, and performing the actual cell division in requested directions. This set of functions are fixed for every cell and is not changed through evolution like the dna is.
 
-The genotype of this model, the dna, consists of genes. Genes carry recipes for proteins and determine their function, how they are activated, and long they will live. The genes are implemented so that the properties can easily be mutated while being duplicated as a whole during cross over.
+\begin{center}\includegraphics[scale=1.2]{artdev3d_genotype}\end{center}
+
+The genotype of this model, the dna, is an array with genes. The genes carry recipes for proteins and determine their function (type and meta), how they are (neighbourhood and parameters)activated, and long they will live. The gene sequence is used to find genes with desired proteins to synthesize. Genes are implemented so that each individual property can easily be mutated but duplicated as a whole during cross over.
 
 \subsubsection{How it works}
 Development starts with an ``empty'' organism. The dna is inserted into a cell before it is inserted to the organism. It becomes a zygote once the cell ``scans'' through the dna and synthesizes all proteins. This is only performed in the initial cell. After initialization, the organism is developed by performing a set of operations on every cell every development step:
@@ -38,12 +40,14 @@ The development ends when a number of steps have passed, and the organism is rat
 
 
 \subsection{Cartesian Genetic Programming}
-Cartesian Genetic Programming (CGP) was invented by Julian Miller in 1998. The following description of what the model is and how it works is based on a number of works, but mostly \cite{mteurogp2000} and \cite{ecal2003}. There may therefore be differences and inaccuracies when comparing to his latest work. The model is used to develop a feed-forward graph that maps an input to an output. This can also be called a digital circuit.
+Cartesian Genetic Programming (CGP) was invented by Julian Miller in 1998. The following description of what the model is and how it works is based on a number of works, but mostly \cite{mteurogp2000} and \cite{ecal2003}. There may therefore be differences and inaccuracies when comparing to his latest work. The model is based on developing a feed-forward graph that maps an input to an output, or a digital circuit if you like.
 
 \subsubsection{Concepts}
 The model focuses a great deal on intercellular communication. In biology, this is achieved by means of secreting chemicals through the cell's membrane. The same membrane is also used to receive chemicals from other cells. Based on the presence of some chemicals, the cell performs a set of operations to see if a change in cell type is needed, and in which directions it should divide itself to.
 
-The genotype of this model is a string of numbers that make up a feed forward circuit. This is represented as a set of four numbers where the last number denotes which function to perform, and the first three point to the input to this function. The input can come from other nodes and the input string. The reason a node is represented as exactly four numbers is because a boolean gate may require up to three inputs. In most cases, the gate will simply discard the third input if not used. As opposed to ArtDev3D, the whole cell program is evolved, so nothing is programmed directly into the cell. Consequently, the evolved cell program can be difficult analyze.
+\begin{center}\includegraphics[scale=1.3]{cartesian_genotype}\end{center}
+
+The genotype of this model is a string of numbers that make up a feed forward circuit. This is represented as a set of four numbers where the last number denotes which function to perform, and the first three point to the input for this function. As can be seen in the figure above, the input can come from both other nodes and the input string. The reason a node is represented as exactly four numbers is because a boolean gate may require up to three inputs. In most cases, the gate will simply discard the third input if not used. As opposed to ArtDev3D, the whole cell program is evolved, so nothing is programmed directly into the cell. Consequently, the evolved cell program can be difficult analyze.
 
 \subsubsection{How it works}
 There are several ways to start development with this model. One way is to represent the organism as a grid filled with cells and alternately give them maximum and no chemicals. The other way, and the way it is implemented here, is to start like ArtDev3D with a single cell and give it maximum chemicals. With the cell's and nearby cells' chemical levels, an input string is created and fed to the cell program. As the cell program is decided entirely by evolution (and chance), explanation of what happens inside the cell is nearly impossible. However, the end result is a string of numbers that determines whether or not the type of the cell should change and whether or not the cell should divide in a direction and how much chemicals the potentially new cell should be given.

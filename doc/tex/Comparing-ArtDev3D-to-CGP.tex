@@ -4,6 +4,9 @@ We've now seen that implementations of the models using the framework, were able
 \subsection{Design}
 The design of CGP is very elegant. The initialization stage does nothing more than implementing the digital circuit, or cell program, from the genotype. And the cell program just feeds input into this program. Output is parsed, and the cell is updated. Very simple. ArtDev3D is deeply rooted in biology and this is reflected in the code. Even with the new implementation, the code is much more complex compared to CGP.
 
+TODO
+
+
 \subsection{Stability}
 From the results we've seen so far, there are a number of things that can be said about these models. Most prominently, we see that ArtDev3D is able to evolve perfect specimens within relatively short time. With the sphere experiment, perfect fitness was achieved within just 500 generations. What can't be seen from the results is that it would achieve this typically within 50 generations. In contrast, the CGP model requires a lot of generations in order to reach higher fitness. At 10 000 generations, fitness rarely exceeded 0.9. Even when doubling that number, the population was still improving. Obviously, one cannot set it to run forever. The problem seemed to lie in the development method used in the models.
 
