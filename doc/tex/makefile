@@ -1,11 +1,10 @@
 TARGET = main
-BIB = main.bbl
 TEX = pdflatex
 OPT = -file-line-error
 
 default: $(TARGET)
 
-$(TARGET): $(BIB)
+$(TARGET): $(TARGET).bbl
 	$(TEX) $(OPT) $(TARGET).tex
 
 %.bbl: %.aux
@@ -16,7 +15,7 @@ $(TARGET): $(BIB)
 	$(TEX) $(OPT) $<
 
 open: default
-	@gnome-open main.pdf
+	@gnome-open $(TARGET).pdf
 
 clean:
-	rm -f *.aux main.bbl main.blg main.log main.out main.toc
+	rm -f *.aux $(TARGET).bbl $(TARGET).blg $(TARGET).log $(TARGET).out $(TARGET).toc
