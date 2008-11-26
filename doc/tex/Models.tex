@@ -1,12 +1,12 @@
 \section{The Models}
-There are many development models in the field that are inspired by nature. Though the concept of biological development does not change much, it is very much still a topic under discussion and there are still uncharted territories. It is therefore not surprising that these models differ not only in implementation, but also the biologic ideas behind it. In this section, we will take a look at two models. We'll see how they work, and discuss their differences and why they are important for this thesis in particular.
+There are many development models in the field that are inspired by nature. Though the concept of biological development does not change much, it is very much still a topic under discussion and there are still uncharted territories. It is therefore not surprising that these models differ not only in implementation, but also the biological ideas behind it. In this chapter, we will take a look at two models. We'll see how they work, and discuss their differences. These models are important for this thesis because they are believed to represent the greatest difference in development models to date.
 
 \subsection{ArtDev3D}
 \label{sec:Models:ArtDev3D}
 In 2006, Johan H{\o}ye handed in his master's thesis\cite{hoye2006} based on his own model of biological development. Its aim was to be as close to biology as possible without dwelling too deep into the underlying and less understood concepts.
 
 \subsubsection{Concepts}
-To understand this model, we will have to touch a few topics in biology. Like with humans, everything starts out with a single cell, the zygote. The zygote divides and becomes two cells. These cells divide again to become four cells. This process repeats itself in a controlled fashion with the help of the dna, the recipe of life. It tells which proteins to synthesize, how and when. The proteins, in turn, carry out all the actual work inside the cell. In this model, only four such tasks were implemented:
+To understand this model, we will have to touch a few topics in biology. Like with humans, everything starts out with a single cell, the zygote. The zygote divides and becomes two cells. These cells divide again to become four cells. This process repeats itself in a controlled fashion with the help of the DNA, the recipe of life. It tells which proteins to synthesize, how and when. The proteins, in turn, carry out all the actual work inside the cell. In this model, only four such tasks were implemented:
 
 \begin{itemize}
 	\itemsep=0pt
@@ -18,14 +18,14 @@ To understand this model, we will have to touch a few topics in biology. Like wi
 
 I use ``request'' here because of the way this model works. The proteins queue a request for the cell to perform division in some directions. These requests are accumulated and if the stimuli levels are just right, it will be realized. Likewise, the proteins also request for a change of cell type. The proteins themselves need to be activated in order to request anything. This usually depends on the current chemical levels in the cell as well as nearby cells.
 
-The cell is also ``programmed'' to perform a number of tasks independent of the dna. Implemented functions include osmosis, or the exchange of chemicals (or hormones) with nearby cells, and performing the actual cell division in requested directions. This set of functions are fixed for every cell and is not changed through evolution like the dna is.
+The cell is also ``programmed'' to perform a number of tasks independent of the DNA. Implemented functions include osmosis, or the exchange of chemicals (or hormones) with nearby cells, and performing the actual cell division in requested directions. This set of functions are fixed for every cell and is not changed through evolution like the DNA is.
 
 \begin{center}\includegraphics[scale=1.2]{artdev3d_genotype}\end{center}
 
-The genotype of this model, the dna, is an array with genes. The genes carry recipes for proteins and determine their function (type and meta), how they are (neighbourhood and parameters)activated, and long they will live. The gene sequence is used to find genes with desired proteins to synthesize. Genes are implemented so that each individual property can easily be mutated but duplicated as a whole during cross over.
+The genotype of this model, the DNA, is an array with genes. The genes carry recipes for proteins and determine their function (type and meta), how they are (neighbourhood and parameters)activated, and long they will live. The gene sequence is used to find genes with desired proteins to synthesize. Genes are implemented so that each individual property can easily be mutated but duplicated as a whole during cross over.
 
 \subsubsection{How it works}
-Development starts with an ``empty'' organism. The dna is inserted into a cell before it is inserted to the organism. It becomes a zygote once the cell ``scans'' through the dna and synthesizes all proteins. This is only performed in the initial cell. After initialization, the organism is developed by performing a set of operations on every cell every development step:
+Development starts with an ``empty'' organism. The DNA is inserted into a cell before it is inserted to the organism. It becomes a zygote once the cell ``scans'' through the DNA and synthesizes all proteins. This is only performed in the initial cell. After initialization, the organism is developed by performing a set of operations on every cell every development step:
 
 \begin{enumerate}
 	\itemsep=0pt
@@ -34,9 +34,9 @@ Development starts with an ``empty'' organism. The dna is inserted into a cell b
 	\item Actions are accumulated, and executed. Depending on the action, the cell may regulate its chemical levels, synthesize proteins, change type, and perform cell division.
 \end{enumerate}
 
-Note that while the dna indirectly requests actions upon the cell through the proteins, the cell performs the real work, like regulating the chemicals and proteins, behind the scene. The cell program limits what the dna can do, but at the same time, the dna can affect both the cell and its surroundings using proteins as its proxy.
+Note that while the DNA indirectly requests actions upon the cell through the proteins, the cell performs the real work, like regulating the chemicals and proteins, behind the scene. The cell program limits what the DNA can do, but at the same time, the DNA can affect both the cell and its surroundings using proteins as its proxy.
 
-The development ends when a number of steps have passed, and the organism is rated based on how similar it is to the target phenotype. In this case, the targets are usually simple three-dimensional shapes. H{\o}ye's experiments showed that the initial number of don't-care-neighbours, i.e. the number of neighbours that the cell don't take into consideration when executing its functions, had a negative impact on the growth of an organism when lowered. It was also shown that having a higher number of chemical types in the cells only contributed to making it harder to correctly develop the target shapes. This is most important because the other model in this discussion is based on chemicals.
+The development ends when a number of steps have passed, and the organism is rated based on how similar it is to the target phenotype. In this case, the targets are usually simple three-dimensional shapes. H{\o}ye's experiments showed that the initial number of don't-care-neighbours, i.e.\ the number of neighbours that the cell don't take into consideration when executing its functions, had a negative impact on the growth of an organism when lowered. It was also shown that having a higher number of chemical types in the cells only contributed to making it harder to correctly develop the target shapes. This is most important because the other model in this discussion is based on chemicals.
 
 
 \subsection{Cartesian Genetic Programming}
@@ -45,9 +45,9 @@ Cartesian Genetic Programming (CGP) was invented by Julian Miller in 1998. The f
 \subsubsection{Concepts}
 The model focuses a great deal on intercellular communication. In biology, this is achieved by means of secreting chemicals through the cell's membrane. The same membrane is also used to receive chemicals from other cells. Based on the presence of some chemicals, the cell performs a set of operations to see if a change in cell type is needed, and in which directions it should divide itself to.
 
-\begin{center}\includegraphics[scale=1.5]{cartesian_genotype}\end{center}
+\begin{center}\includegraphics[scale=1.7]{cartesian_genotype}\end{center}
 
-The genotype of this model is a string of numbers that make up a feed forward circuit. This is represented as a set of four numbers where the last number denotes which function to perform, and the first three point to the input for this function. As can be seen in the figure above, the input can come from both other nodes and the input string. The reason a node is represented as exactly four numbers is because a boolean gate may require up to three inputs. In most cases, the gate will simply discard the third input if not used. As opposed to ArtDev3D, the whole cell program is evolved, so nothing is programmed directly into the cell. Consequently, the evolved cell program can be difficult analyze.
+The genotype of this model is a string of numbers that make up a feed forward circuit. This is represented as a set of four numbers where the first three points to a node, and the last number denotes which function to perform. The input to this function is the output of the nodes that the first three point to. As can be seen in the simplified figure above (some gates aren't connected to avoid clutter), the input can come from both other nodes and the input string. The reason a node is represented as exactly four numbers is because a Boolean gate may require up to three inputs. In most cases, the gate will simply discard the third input if not used. Only a selected few nodes will produce the output. As opposed to ArtDev3D, the whole cell program is evolved, so nothing is programmed directly into the cell. Consequently, the evolved cell program can be difficult analyze.
 
 \subsubsection{How it works}
 There are several ways to start development with this model. One way is to represent the organism as a grid filled with cells and alternately give them maximum and no chemicals. The other way, and the way it is implemented here, is to start like ArtDev3D with a single cell and give it maximum chemicals. With the cell's and nearby cells' chemical levels, an input string is created and fed to the cell program. As the cell program is decided entirely by evolution (and chance), explanation of what happens inside the cell is nearly impossible. However, the end result is a string of numbers that determines whether or not the type of the cell should change and whether or not the cell should divide in a direction and how much chemicals the potentially new cell should be given.
@@ -70,7 +70,7 @@ Requirements for such a model should include:
 
 	\item\textbf{A development algorithm}
 
-	Most of the models use the same basic algorithm for development, i.e. with every development step, every cell in an organism is told to execute their program. This occurs for a configurable number of steps, and varies very little from model to model. Hence, there is no need to implement this algorithm every time.
+	Most of the models use the same basic algorithm for development, i.e.\ with every development step, every cell in an organism is told to execute their program. This occurs for a configurable number of steps, and varies very little from model to model. Hence, there is no need to implement this algorithm every time.
 
 	\item\textbf{A common messaging system}
 
@@ -79,4 +79,4 @@ Requirements for such a model should include:
 
 There are several benefits to using such a framework. First and foremost, it will cut down on implementation time. Such a model will allow a user to concentrate wholly on their model and not spend time implementing the most suitable genetic algorithm, or finding out whether or not the messaging system was implemented correctly. Instead, the user need only use what is already there and just fill in the blanks. Secondly, the implementation can be guaranteed to work. As the framework matures, the user can be assured that if something does not work, it is most likely their model and not because of a bug elsewhere in the system. Finally, and probably most importantly, the framework will hopefully be able to reduce the number of factors that prevent a clear verdict on a comparison.
 
-We've seen that these two models are quite different from one another, which is why they will serve as an excellent starting point to implement the framework. One of the criteria for the framework is to be generic as it should be able to implement any model conceivable. It should also be able to perform at least as well as the original implementation did. We shall have a closer look at this in the next section.
+We've seen that these two models are quite different from one another, which is why they will serve as an excellent starting point to implement the framework. One of the criteria for the framework is to be generic as it should be able to implement any model conceivable. It should also be able to perform at least as well as the original implementation did. We shall have a closer look at this in the next chapter.
