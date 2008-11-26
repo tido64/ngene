@@ -1,10 +1,9 @@
 \section{Comparing ArtDev3D to CGP}
 We've now seen that implementations of the models using the framework, were able to reproduce the results achieved in experiments conducted by their inventors. However, there is one other purpose of this framework that we still need to discuss. That is the ability to compare two models with a minimum set of interfering factors.
 
-\subsection{Design}
-The design of CGP is very elegant. The initialization stage does nothing more than implementing the digital circuit, or cell program, from the genotype. And the cell program just feeds input into this program. Output is parsed, and the cell is updated. Very simple. ArtDev3D is deeply rooted in biology and this is reflected in the code. Even with the new implementation, the code is much more complex compared to CGP.
 
-TODO
+\subsection{Design}
+The design of CGP is very elegant. It is based on a very simple system of a digital circuit. The cell does not need to do much other than generating input and parsing output. In contrast, ArtDev3D handles much more complex, lower level activities such as protein synthesis and protein requests. It is deeper rooted in biology, a property that is reflected in the original code. ArtDev3D also has an ``easier'' cell program. It is easier to see what it does, because most of it is in plain sight. CGP does not have this quality as the whole cell program is evolved. This makes it harder to analyze and see what it really does. We do know that it uses chemicals to a great extent. It is information that is exchanged between all cells. This is something that is not implemented in ArtDev3D. In fact, that is why chemicals have been reported\cite{hoye2006} to complicated things. Further investigation can determine whether or not chemicals really are useful in general, or whether exchanging cell type information is sufficient.
 
 
 \subsection{Stability}

@@ -1,18 +1,18 @@
 \section{Conclusion}
-Ngene Development Framework was designed to enable the user to shift its focus from the technical details of implementation to the model itself.
+Ngene Development Framework is a platform for implementing computational development model. It was designed to enable the user to shift its focus from the technical details of implementation to the model itself. The purpose of this framework is to provide a common ground for different models so that any less significant differences are eliminated, making a comparison more accurate as well as easier.
 
-It was shown that it is entirely possible to implement two completely different models using the same code base provided by the framework. It was also shown that the models re-implemented into this framework, were able to perform at least as well as the original implementation did. The numbers and results we've seen, back these claims up.
+We have seen that it is entirely possible to implement two completely different models using the same code base provided by the framework. As can be seen from the results, the new implementations were able to perform just as well as the original implementations did. We also saw that, with some changes, a model can be made to run more efficiently.
 
-TODO
+The most important part about being able to port these two models, is that we can clearly see their differences. We can simply put them up side by side, and see, for instance, that ArtDev3D uses only the cell type information of the messages a cell receives. Whereas CGP reads both cell types and chemicals. We don't have to worry about minor details, such as the genetic algorithms used or the way development was implemented. These are already provided by the framework. The models need only use them. Additionally, modules are interchangeable, so it is easy to swap algorithms to see what works and what doesn't for some models.
 
 
 \subsection{Further Work}
 
-Regretfully, some experiments were not conducted that would have showed off the comparison part of the framework.
+Regretfully, more experiments could have been conducted in order to perform a more thorough comparison between ArtDev3D and CGP. It could be interesting to see what the chemicals' real role is. What would happen if chemicals were not used in CGP? These are only some of the issues that can be investigated on this platform. It would also have been beneficial to the framework to implement a third model. With only two models, the framework may have easily been ``tailored'' to just these. As more models use the framework, it will become more apparent which parts aren't generic enough for future models. As the purpose of this framework is to be able to compare different models, it is quite essential that it is able to provide for any model. It shouldn't be constricted to just a handful of models.
 
 \subsubsection{Improvements to Ngene}
 \label{sec:improvements}
-There are some aspects of the engine that I would have changed or improved but did not have the time to do so.
+There are some aspects of the core engine that I would have changed or improved but did not have the time to do so. These changes will further enhance the framework, both in performance and flexibility.
 
 \begin{itemize}
 	\item\textbf{Further optimizations}
@@ -34,5 +34,3 @@ There are some aspects of the engine that I would have changed or improved but d
 
 	The possibility to swap modules based on circumstances in a population, for instance, half way through an evolution or when the population is converging may produce interesting results. This can be used to simulate genetic drift or other natural phenomena.
 \end{itemize}
-
-TODO
