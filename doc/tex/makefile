@@ -1,21 +1,24 @@
 TARGET = main
-TEX = pdflatex
-OPT = -file-line-error
+TEX = @pdflatex
+BIB = @bibtex
+DRAFT = -draftmode
+OPT = -file-line-error -halt-on-error
 
 default: $(TARGET)
 
 $(TARGET): $(TARGET).bbl
-	$(TEX) $(OPT) $(TARGET).tex
+	$(TEX) $(OPT) $(TARGET).tex > /dev/null
+	@grep written $(TARGET).log
 
 %.bbl: %.aux
-	bibtex $<
-	$(TEX) $(OPT) $(TARGET).tex
+	$(BIB) $< > /dev/null
+	$(TEX) $(DRAFT) $(OPT) $(TARGET).tex > /dev/null
 
 %.aux: %.tex
-	$(TEX) $(OPT) $<
+	$(TEX) $(DRAFT) $(OPT) $< > /dev/null
 
 open: default
 	@gnome-open $(TARGET).pdf
 
 clean:
-	rm -f *.aux $(TARGET).bbl $(TARGET).blg $(TARGET).log $(TARGET).out $(TARGET).toc
+	rm -f *.aux $(TARGET).bbl $(TARGET).blg $(TARGET).lof $(TARGET).log $(TARGET).out $(TARGET).toc
