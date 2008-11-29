@@ -1,4 +1,4 @@
-Ngene
+ngene
 =====
 
 A cross-platform generic genetic algorithm for multipurpose usage, conceived by
@@ -12,7 +12,7 @@ Dependencies
 ============
 
 The code has been compiled and tested on Windows and some Unix-based operating
-systems. However, there shouldn't be any problem to use Ngene on other
+systems. However, there shouldn't be any problem to use ngene on other
 platforms as the code is meant to be platform independent.
 
 Boost C++ Libraries (>= 1.34.1)
