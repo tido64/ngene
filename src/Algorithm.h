@@ -35,7 +35,7 @@ namespace ngene
 	}
 
 	/// Converts any basic data type to string.
-	template <class T>
+	template <typename T>
 	inline std::string to_string(const T& t)
 	{
 		std::stringstream ss;
