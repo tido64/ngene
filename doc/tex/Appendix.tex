@@ -3,7 +3,7 @@
 \section{Implementing an Ngene Module}
 This section will describe the technical details required to implement modules for Ngene. If you've downloaded the source code, the folder structure should be like this (unless it's been changed):
 
-\begin{verbatimtab}
+\begin{verbatim}
 ngene/
  + bin/
  + build/
@@ -13,9 +13,11 @@ ngene/
  + src/
    + Development/
    + Interfaces/
-\end{verbatimtab}
+\end{verbatim}
 
-\noindent The Interfaces folder contains all the header files that must be included with some modules. These are specified in corresponding modules. For every module, there is one common function that they all must implement.
+\noindent Don't worry if you don't understand the following sections. There are examples in the modules folder as well. They implement some basic modules, including tournament selection, single-point crossover, and random-swap mutation. They also include the source code for ArtDev3D.N and the Cartesian model.
+
+The Interfaces folder contains all the header files that must be included with some modules. These are specified in corresponding modules. For every module, there is one common function that they all must implement.
 
 \begin{verbatim}
 /// Sets up the module and makes sure it is ready for use. Every module is

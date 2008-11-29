@@ -1,12 +1,12 @@
 \section{Development Models}
-There are many development models in the field that are inspired by nature. Though the concept of biological development does not change much, it is very much still a topic under discussion and there are still uncharted territories. It is therefore not surprising that these models differ not only in implementation, but also the biological ideas behind it. In this chapter, we will take a look at two models. We'll see how they work, and discuss their differences. These models are important for this thesis because they are believed to represent the greatest difference in development models to date.
+There are many development models in the field that are inspired by nature. Though the concept of biological development does not change much, it is very much still a topic under discussion and there are still uncharted territories. It is therefore not surprising that these models differ not only in implementation, but also the biological ideas behind it. In this chapter, we will take a look at two models. We'll see how they work, and discuss their differences. These models are important for this thesis because they are believed to represent the greatest difference in development models to date. The reason behind this is to make sure the framework will cover as much ground as possible. Because it is intended to be generic, it would be sad if a model did not fit in.
 
 \subsection{ArtDev3D}
 \label{sec:Models:ArtDev3D}
-In 2006, Johan H{\o}ye handed in his master's thesis\cite{hoye2006} based on his own model of biological development. Its aim was to draw inspiration from biology but simplify concepts to avoid dwelling too deep into the underlying and less understood concepts.
+In 2006, Johan H{\o}ye handed in his master's thesis\cite{hoye2006} based on his own model of biological development. Its aim was to draw inspiration from biology but simplify concepts to avoid dwelling too deep into the underlying and less understood concepts. His model relies on DNA with a small control program in the cells.
 
 \subsubsection{Concepts}
-To understand this model, we will have to touch a few topics in biology. Like with humans, everything starts out with a single cell, the zygote. The zygote divides and becomes two cells. These cells divide again to become four cells. This process repeats itself in a controlled fashion with the help of the DNA, the recipe of life. It tells which proteins to synthesize, how and when. The proteins, in turn, carry out all the actual work inside the cell. In his model, only four such tasks were defined:
+To understand this model, we will have to touch a few topics in biology. Like with humans, everything starts out with a single cell, the zygote. The zygote divides and the organism has grown to consist of two cells. These cells divide again to become four cells. This process repeats itself in a controlled fashion with the help of the DNA, the recipe of life. It tells which proteins to synthesize, how and when. The proteins, in turn, carry out all the actual work inside the cell. In his model, only four such tasks were defined at the time, though more could have been added:
 
 \begin{itemize}
 	\itemsep=0pt
@@ -16,9 +16,9 @@ To understand this model, we will have to touch a few topics in biology. Like wi
 	\item Synthesize/transcribe more proteins
 \end{itemize}
 
-I use ``request'' here because of the way this model works. The proteins queue a request for the cell to perform division in some directions. These requests are accumulated and if the stimuli levels are just right, it will be realized. Likewise, the proteins also request for a change of cell type. The proteins themselves need to be activated in order to request anything. This usually depends on the current chemical levels in the cell as well as nearby cells. The neighbourhood in this model is defined to be the cells that a cell are in direct contact with in free space. That is above, below, left, right, front and back. Six in total.
+I use ``request'' here because of the way this model works. The proteins queue a request for the cell to perform division in some directions. These requests are accumulated and if the stimuli levels are above a given threshold, it will be actualized. The accumulation works like a voting system, once there are enough votes for a particular direction, cell division will occur in that direction. The only difference is, instead of voting the proteins assert a certain amount of stimuli for a direction and the sum of all assertions must be above a threshold to activate the action. Likewise, the proteins also request for a cell type change in the same manner. In order to be old enough to vote, proteins must activated. This will be explained momentarily.
 
-The cell is also ``programmed'' to perform a number of tasks independent of the DNA. Implemented functions include osmosis, or the exchange of chemicals (or hormones) with nearby cells, and performing the actual cell division in requested directions. This set of functions are fixed for every cell and is not changed through evolution like the DNA is.
+The cell is also ``programmed'' to perform a number of tasks independent of the DNA. Implemented functions include exchange of information with nearby cells, and performing the actual cell division in requested directions. This set of functions are fixed for every cell and is not subject to evolution like the DNA is.
 
 \begin{figure}[!ht]
 	\centering
@@ -27,7 +27,7 @@ The cell is also ``programmed'' to perform a number of tasks independent of the 
 	\label{fig:artdev3d_genotype}
 \end{figure}
 
-The genotype of this model (see fig~\ref{fig:artdev3d_genotype}), the DNA, is an array with genes. The genes carry a recipe for a protein and a genetic sequence. The gene sequence is used to find genes with desired proteins to synthesize. The protein type determines what its function is. If a protein that changes the cell's type is a type, then proteins that regulate chemicals are another. When the protein is activate is stored in the neighbours and chemicals array. The neighbours array stores the desired types of nearby cells. The chemicals array stores the desired chemical levels in the cell. When both of these are fulfilled, the protein is activated. Data in \texttt{meta} contain only one of two things, a cell type or a genetic sequence. These are used by the cell-type-changing and transcribing proteins respectively. The other two types only use the parameters. Figure~\ref{fig:artdev3d_protein-parameters} shows how the parameters are used to store the values to adjust the chemicals in a cell. Likewise, the proteins can store the directions it wants cells to divide into.
+The genotype of this model (see fig~\ref{fig:artdev3d_genotype}), the DNA, is an array with genes. The genes carry a recipe for a protein and a genetic sequence. The gene sequence is used to find genes with desired proteins to synthesize. The protein type determines what its function is. If a protein that changes the cell's type is a type, then proteins that regulate chemicals are another. How the protein is activated, is stored in the neighbours and chemicals array. The neighbours array stores the desired types of nearby cells. The neighbourhood in this model is defined to be the cells that a cell are in direct contact with in free space. That is above, below, left, right, front and back. The chemicals array stores the desired chemical levels in the cell. Once nearby cells' types correspond to the neighbourhood criteria, and the chemical levels in the cell are equal or above the criteria of the protein, it is activated. Data in \texttt{meta} contains only one of two things, a cell type or a genetic sequence. These are used by the cell-type-changing and transcribing proteins respectively. The other two types only use the parameters. Figure~\ref{fig:artdev3d_protein-parameters} shows how the parameters are used to store the values to adjust the chemicals in a cell. Likewise, the proteins can store stimuli for each direction it wishes the cell to duplicate.
 
 \begin{figure}[!ht]
 	\centering
@@ -36,23 +36,23 @@ The genotype of this model (see fig~\ref{fig:artdev3d_genotype}), the DNA, is an
 	\label{fig:artdev3d_protein-parameters}
 \end{figure}
 
-Any of these properties can be easily mutated and still be duplicated as a whole during cross over.
+The genes are implemented this way in order to make it possible to copy whole genes during cross over. At the same time, any of these properties can be easily mutated.
 
 \subsubsection{How it works}
-Development starts with an ``empty'' organism. The DNA is inserted into a cell before it is inserted to the organism. It becomes a zygote once the cell ``scans'' through the DNA and synthesizes all proteins. This is only performed in the initial cell. After initialization, the organism is developed by performing a set of operations on every cell every development step:
+Development starts with an ``empty'' organism. The genotype, or the DNA, is copied into a cell, which is then inserted into the organism. The organism now contains a single cell and DNA. Since this is the first cell, there is a special routine. The cell will ``scan'' through the DNA and synthesize all proteins. This is the initialization stage. Once completed it is ready for development. Every development step, all cells will execute the same set of operations as follows:
 
 \begin{enumerate}
 	\itemsep=0pt
-	\item Determine activated proteins, usually by checking the internal chemical levels and neighbour cell types.
-	\item All activated proteins request an action.
-	\item Actions are accumulated, and executed. Depending on the action, the cell may regulate its chemical levels, synthesize proteins, change type, and perform cell division.
+	\item Determine which proteins are active.
+	\item Have all active proteins request an action.
+	\item Accumulate actions and execute them.
 \end{enumerate}
 
-Note that while the DNA indirectly requests actions upon the cell through the proteins, the cell performs the real work, like regulating the chemicals and proteins, behind the scene. The cell functions limit what the DNA can do, but at the same time, the DNA can affect both the cell and its surroundings using proteins as its proxy.
+Note that while the DNA indirectly requests actions upon the cell through the proteins, the cell performs the real work like regulating the chemicals and proteins behind the scene. The cell functions limit what the DNA can do, but at the same time, the DNA can affect both the cell and its surroundings using proteins as its proxy.
 
 The development ends when a number of steps have passed, and the organism is rated based on how similar it is to the target phenotype. In this case, the targets are usually simple three-dimensional shapes.
 
-While working with this model, it was discovered that the development algorithm does not develop all cells simultaneously. Usually, all cells must receive or gather information on nearby cells before any actions are executed. This is not the case here. Every cell gathers information and executes action in one go. So when the next cell gathers information, there will be ``new'' information mixed in. This flow is described in more detail in chapter~\ref{sec:Implementation:ArtDev3D}. However, the model seem to work rather well regardless. H{\o}ye's experiments also showed a number of interesting things. The initial number of don't-care-neighbours, i.e.\ the number of neighbours that can be of any type, had a negative impact on the growth of an organism when lowered. It was also shown that having a higher number of chemical types in the cells only contributed to making it harder to correctly develop the target shapes. This is most interesting because the next model we are going to discuss is based on chemicals, and it has been shown to work well.
+While working with this model, it was discovered that the development algorithm does not develop all cells simultaneously. Usually, all cells must receive or gather information on nearby cells before any actions are executed. This is not the case here. Every cell gathers information and executes action in one go. So when the next cell gathers information, there will be ``new'' information mixed in. This flow is described in more detail in chapter~\ref{sec:Implementation:ArtDev3D}. However, the model seem to work rather well regardless. H{\o}ye's experiments also showed a number of interesting things. The initial number of don't-care-neighbours, i.e.\ the number of neighbours that can be of any type, had a negative impact on the growth of an organism when lowered. It was also shown that having a higher number of chemical types in the cells only contributed to making it harder to correctly develop the target shapes. This is most interesting because the next model we are going to discuss is based on chemicals, and it has been shown that chemicals do work rather well.
 
 
 \subsection{Artificial Development (ADCGP)}
@@ -72,7 +72,7 @@ The genotype of this model (fig.~\ref{fig:cartesian_genotype}) is a string of nu
 
 In the simplified figure above (some gates aren't connected to avoid clutter), the input string consists of 90 bits, denoted 0 up to and including 89. Every gate, or node, are denoted 90-\emph{n}, where \emph{n} is the number of nodes. This means that the first gate we see in layer 1, is denoted 90, and the one under it is 91. Now we look at the genotype. As mentioned, it consists of four numbers. 7, 50, and 32 point to the corresponding bits in the input string, i.e.\ 7th, 50th and 32nd bits of the input string on the left. These bits are fed to the gate with a function identified by the fourth number. In this case, it is 10 - XOR. If an input number was higher than 89, it would be pointing to the output of a gate instead of the input string. The last few numbers of a genotype do not describe a circuit. They now point to either the input string or nodes. These bits make up the output string. There are no reason for why a node should be exactly four numbers. It can be any arbitrary number as long as it is consistent.
 
-As opposed to ArtDev3D, every cellular activity is evolved. Nothing is programmed directly into the cell. Consequently, the evolved cell program can be difficult to analyze. The gates seen in figure~\ref{fig:cartesian_genotype} are just a series of Boolean operations.
+As opposed to ArtDev3D, every cellular activity is evolved. Nothing is programmed directly into the cell. Consequently, the evolved cell program can be difficult to analyze. The gates seen in the figure, if written down, are just a series of Boolean operations.
 
 \subsubsection{How it works}
 There are several ways to start development with this model. One way is to represent the organism as a grid filled with cells and alternately give them maximum and no chemicals. The other way, and the way it is implemented here, is to start like ArtDev3D with a single cell and give it maximum chemicals. With the cell's and nearby cells' chemical levels, an input string is created and fed to the cell program. As the cell program is decided entirely by evolution (and chance), explanation of what happens inside the cell is nearly impossible. However, the end result is a string of numbers that determines whether or not the type of the cell should change and whether or not the cell should divide in a direction and how much chemicals the potentially new cell should be given.
@@ -84,7 +84,12 @@ There are differences that can make it difficult to compare these two models. Th
 
 In ADCGP, the cells communicate with each other using chemicals. The amount of chemicals exchanged, along with nearby cells' types determine what will occur in the cell in a development step. In ArtDev3D, communication happens without the chemicals. The state of the neighbourhood alone make up the external signals that contribute to determine whether or not some proteins are activated. Chemicals in ArtDev3D are used internally only and are not exchanged. Furthermore, it has shown that the number of chemical types is inversely related to fitness. Quite opposite of how ADCGP is reported to work. One can place these models on their own end of the scale. Because of this controversy, there are discussions as to whether chemicals really are necessary.
 
-Moreover, there are other factors that come into play as well. For instance, the two models use different evolutionary algorithms, they evolve different genotypes, and the cell program is partly hard-coded in one model but not in the other. These are only two models in a relatively new field where a lot of research is still ongoing. How can we tell why something is working for one model, and not for the other? These kinds of questions can be difficult to answer with so many factors to consider.
+Moreover, there are other factors that come into play as well. For instance, the two models use different evolutionary algorithms, they evolve different genotypes, and the cell program is partly hard-coded in one model but not in the other.
+
+TODO:
+Rephrase
+
+These are only two models in a relatively new field where a lot of research is still ongoing. How can we tell why something is working for one model, and not for the other? These kinds of questions can be difficult to answer with so many factors to consider.
 
 To solve this problem, one can try and minimize the impact of these factors. This thesis proposes a framework that will provide a generic implementation of a development system that can embody any model without forcing compromises. Models that are implemented within this framework will share a common code base, making factors related to implementation and use of algorithms negligible. It will also become much clearer what one model uses or not, compared to another model.
 

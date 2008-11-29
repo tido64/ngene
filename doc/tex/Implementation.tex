@@ -34,7 +34,7 @@ C++ is thought of as being a middle level language. It has the advantages of bot
 \emph{Boost}\footnote{\url{http://www.boost.org/}} is a collection of libraries which complement the C++ Standard Library (STL). Ngene makes use of this collection, saving time and effort, and guaranteeing that such code works as it should.
 
 \paragraph{\textbf{Boost.Any}}\cite{henney2001}
-A problem with writing a generic genetic algorithm in a strongly typed programming language, is that different studies require different data types to be passed around the system. CGP, for instance, uses integers to implement its genotype, while ArtDev3D uses a custom defined type. In other models, there may even be a mix of different types. It is impossible to foresee what may or may not be used, and we are thus forced to abstract this away. Unfortunately, C++ will not allow an integer variable to store any other data type than an integer. In a higher level language like Python, there exists a container that can store any type of data:
+A problem with writing a generic genetic algorithm in a strongly typed programming language, is that different studies require different data types to be passed around the system. ADCGP, for instance, uses integers to implement its genotype, while ArtDev3D uses a custom defined type. In other models, there may even be a mix of different types. It is impossible to foresee what may or may not be used, and we are thus forced to abstract this away. Unfortunately, C++ will not allow an integer variable to store any other data type than an integer. In a higher level language like Python, there exists a container that can store any type of data:
 
 \begin{verbatim}
 >>> foo = 1 + 2
@@ -65,7 +65,7 @@ Figure~\ref{fig:diagram_ngene} shows a brief overview of how Ngene is put togeth
 	\itemsep=0pt
 	\item An initial population is randomly generated.
 	\item \texttt{Specimen}s are randomly selected for crossover.
-	\item A configurable percent of the offspring are mutated.
+	\item Mutate an offspring at random.
 	\item Repeat step 2 until the offspring population is of satisfactory size.
 	\item Replace adult population with offspring population.
 	\item Repeat process from step 2 until the maximum number of generations is reached, or a perfect \texttt{Specimen} is found.
@@ -76,7 +76,6 @@ The final step is the responsibility of \texttt{Logger}. \texttt{Logger} has no 
 
 \texttt{PluginManager}, along with the responsibilities of loading and releasing modules, will also act as a layer between the modules and the genetic engine itself. The engine will never have to bother with the specifics of each module. It should be able to just tell what a module ought to do. Of course, this requires that the modules implement a predefined interface in order to be compatible with this layer. These are described in more detail in the appendix.
 
-
 \subsection{Ngene Development Framework}
 \begin{figure}[!ht]
 	\centering
@@ -85,11 +84,14 @@ The final step is the responsibility of \texttt{Logger}. \texttt{Logger} has no 
 	\label{fig:diagram_ndevframe}
 \end{figure}
 
+TODO:
+Elaborate NDF as much as possible. It's the heart of the thesis.
+
 The downside of having such a flexible design, is that users are given too much freedom in implementing their own modules, making it difficult to compare two models without having to factor in differences in implementations. A common generic development framework can remove these factors and ease the implementation at the same time. The Ngene Development Framework is an attempt of such a framework.
 
 The framework provides a code base that implements a common development algorithms, along with common concepts such as a cell and protein. Figure~\ref{fig:diagram_ndevframe} shows how they are defined. We see that a cell is defined to have a type, proteins, chemicals and messages. These properties may be fixed but users can choose to not use them. ADCGP, for instance, does not make use of proteins. \texttt{AbstractDevelopment} is the class that implements development algorithm. As mentioned in chapter~\ref{sec:framework_requirements}, it implements functions that protects the organism: \texttt{divide\_cell()}, \texttt{exists()}, \texttt{queued()}. They add a new cell, checks if a cell exists in given location and checks if there will be a new cell in given location, respectively. Most of these functions are already implemented and ready to use. Only \texttt{initialize()} and \texttt{execute()} are not. Their function is described in more detail in the following subsection.
 
-An intercellular communication algorithm is also included. This works by providing a number of information that can be exchanged. In figure~\ref{fig:diagram_ndevframe_msg}, we see that a message can consist of cell type and chemicals. Some models, say model A may only use the chemicals part of the message while discarding everything else. For model B or C, this might not be the case. As we saw earlier with ArtDev3D and CGP, the communication between the two differs a lot. It is important that the message system can provide what is needed for any system and still be able to clearly distinguish the differences so that we can easily take this into consideration when comparing the two models. Use of this code base is enforced in order to ensure that all comparison made between different development models are based on a common ground.
+An intercellular communication algorithm is also included. This works by providing a number of information that can be exchanged. In figure~\ref{fig:diagram_ndevframe_msg}, we see that a message can consist of cell type and chemicals. Some models, say model A may only use the chemicals part of the message while discarding everything else. For model B or C, this might not be the case. As we saw earlier with ArtDev3D and ADCGP, the communication between the two differs a lot. It is important that the message system can provide what is needed for any system and still be able to clearly distinguish the differences so that we can easily take this into consideration when comparing the two models. Use of this code base is enforced in order to ensure that all comparison made between different development models are based on a common ground.
 
 \begin{figure}[!ht]
 	\centering
@@ -98,7 +100,7 @@ An intercellular communication algorithm is also included. This works by providi
 	\label{fig:diagram_ndevframe_msg}
 \end{figure}
 
-Figure~\ref{fig:diagram_ndevframe_common-base} demonstrates this requirement. We can see right away that all three models differ because model A and B use chemicals, while C uses proteins. We also see that model B and C require a control program in addition to their cell programs. When models are implemented using the framework, we will be able to clearly see which parts a model uses and why it is unique compared to another model. Since a common code base is used, you can, for example, no longer say that these models produced different results because they ran through different development algorithms.
+Figure~\ref{fig:diagram_ndevframe_common-base} demonstrates this requirement. We can see right away that all three models differ because model A and B use chemicals, while C uses proteins. We also see that model B and C require a control program in addition to their cell programs. When models are implemented using the framework, we will be able to clearly see which parts a model uses and why it is unique compared to another model. Since a common code base is used, you can, for example, no longer say that these models produced different results because they ran through different development algorithms. This was the whole point with a common code base from the start, it forces users to use it, thus removing this factor.
 
 \begin{figure}[!ht]
 	\centering
@@ -137,6 +139,9 @@ The problem with \texttt{<vector>} is that it is one-dimensional. This makes it 
 	\label{fig:diagram_ndevframe_ex}
 \end{figure}
 
+TODO:
+expand. People need to actually be able to use it and understand what it can do from this. One issue is porting - not wrt the models ported, that comes after, but how does one go abut starting to take their model and porting it here. What options are there fr comparison after the model is ported. I mean can soemone else really just use it?
+
 The framework was designed to ease the implementation effort as much as possible. The whole code base can be inherited from \texttt{AbstractDevelopment}. To port a model to this framework, only two functions need to be implemented: \texttt{execute()} and \texttt{initialize()}. The latter is executed once with every new organism that is to be developed, and can be used to unpack the genotype to a cellular program and/or generate initial cells in the organism. \texttt{execute()} is called every development step/tick, for every cell in the organism. Here, the cell program from the genotype can be executed as well as any control programs that might be needed. Note that any messages sent has already been received and are stored in the cells by the time any cell is given the chance to fulfill its purpose in a tick. It will not be possible to actually access the organism itself from this function. This is to avoid accidental tampering of the organism. There is an example implementation of these two functions in figure~\ref{fig:diagram_ndevframe_ex}.
 
 For the purpose of this thesis, two models were implemented within this framework not only to test the flexibility and performance of this framework but also to see what is missing and what areas need improvement. It is therefore important that these models represent the widest spectrum of computational development.
@@ -169,7 +174,7 @@ In theory, such an implementation can have a negative impact on performance. Whe
 	\label{fig:artdev3d_flow}
 \end{figure}
 
-There was also an issue that was identified and patched in the port. In most models, cells are developed simultaneously. In order to achieve this, information must be exchanged between all cells before a cell can execute its functions. This is to ensure that the cell program will execute based on the current state of the organism without interfering for other cells. In ArtDev3D, this is not properly implemented. The left logical flow in figure~\ref{fig:artdev3d_flow} shows the original ArtDev3D implementation. Upon execution, the cell will start collecting requests from its proteins. The proteins can request an action when they are activated, i.e.\ when the state of the cell and its neighbours are above a threshold. The requests are queued up and then executed. The problem with this, is that it all happens in a single step. Thus, cells that already have had their turn before the current cell, will have an altered state. Actions are therefore based on a mix of ``newer'' information from these cells, and ``old'' information from the rest. When porting this code to the new framework, the cell will no longer have direct access to other cells. Instead, it will receive messages from (or a snapshot of) nearby cells before the development step takes place in any cell. The right logical flow in figure~\ref{fig:artdev3d_flow} is the altered flow of ArtDev3D. Messages are exchanged before any cells are given control. Any action requests are then based on information that does not change as previously. This change may alter the outcome of the model but was addressed because the development algorithm of the framework is already implemented. The model is merely a user of it now.
+There was also an issue that was identified and patched in the port. In most models, cells are developed simultaneously. In order to achieve this, information must be exchanged between all cells before a cell can execute its functions. This is to ensure that the control program and DNA will execute based on the current state of the organism without interfering for other cells. In ArtDev3D, this is not properly implemented. The left logical flow in figure~\ref{fig:artdev3d_flow} shows the original ArtDev3D implementation. Upon execution, the cell will start collecting requests from its proteins. The proteins can request an action when they are activated, i.e.\ when the state of the cell and its neighbours are above a threshold. The requests are queued up and then executed. The problem with this, is that it all happens in a single step. Thus, cells that already have had their turn before the current cell, will have an altered state. Actions are therefore based on a mix of ``newer'' information from these cells, and ``old'' information from the rest. When porting this code to the new framework, the cell will no longer have direct access to other cells. Instead, it will receive messages from (or a snapshot of) nearby cells before the development step takes place in any cell. The right logical flow in figure~\ref{fig:artdev3d_flow} is the altered flow of ArtDev3D. Messages are exchanged before any cells are given control. Any action requests are then based on information that does not change as previously. This change may alter the outcome of the model but was addressed because the development algorithm of the framework is already implemented. The model is merely a user of it now.
 
 
 \subsubsection{Artificial Development (ADCGP)}
