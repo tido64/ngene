@@ -2,6 +2,9 @@
 \label{sec:experiments}
 Porting the models to the new framework is only the first part of the project. It is also important that these models, once ported, are able to perform in the exact same way as the original code would. The best way to verify that it does, is to repeat a small sample of experiments and compare the results to the original reports. A smaller test was also conducted to measure the performance of this framework. This test will show whether the improvements to ArtDev3D proposed in the previous chapter actually does make it faster.
 
+TODO:
+you need to present the experiments in a slightly different light. Your goal is to test the platform to make sure that is works towards its goals. You re repeating but not exactly - you are not just rerunnign their experiments on their platform as the header would imply. 4.1. Developing 3D shapes using ArtDevsD model...etc. In intro yu can describe the fact that the gals is to replicate the experiments n a differnet platform to illustrate the viability of the platform for that model. Similar with the Julian model.
+
 
 \subsection{Developing 3D shapes using ArtDev3D's model}
 For this model, the sphere and the x-mas tree was chosen to test the new implementation of ArtDev3D. The reason for this is because the sphere is a relatively simple shape to evolve and easily achieve perfect fitness. The reason the normal tree is not chosen is because they are almost the same in complexity and ArtDev3D equally well on both of these. For the second test, we want see how well the new implementation will do on difficult shapes.
@@ -62,7 +65,7 @@ We've seen that Ngene's implementation of ArtDev3D can evolve on an equal level 
 
 
 \subsection{Developing the French flag using artificial development}
-For the CGP model, the French flag experiment was picked out. The purpose of this experiment is to evolve a grid of cells that resembles the French flag. Each cell is given a type of either blue, red or white. For every cell that corresponded with the target, one point was rewarded. The fitness is calculated from the total points scored divided by maximum score achievable. The engine ran with the following settings:
+For the ADCGP model, the French flag experiment was picked out. The purpose of this experiment is to evolve a grid of cells that resembles the French flag. Each cell is given a type of either blue, red or white. For every cell that corresponded with the target, one point was rewarded. The fitness is calculated from the total points scored divided by maximum score achievable. The engine ran with the following settings:
 
 \begin{itemize}
 	\itemsep=-2pt
