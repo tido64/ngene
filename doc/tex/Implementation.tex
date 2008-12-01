@@ -1,6 +1,6 @@
 \section{Implementation}
 \label{sec:implementation}
-In this chapter, we will introduce the genetic engine that will lie the basis for the development framework. Much of the focus will lie on performance and making things logical. A brief introduction to using the framework will be held. We will also have a closer look at the two models discussed in the previous chapter. This time around, it will be a little more technical.
+In this chapter, we will introduce the genetic engine that will form the basis for the development framework. Much of the focus will lie on performance and making things logical. A brief introduction to using the framework will be held. We will also have a closer look at the two models discussed in the previous chapter. This time around, it will be a little more technical.
 
 
 \subsection{About Ngene}
@@ -84,12 +84,11 @@ The final step is the responsibility of \texttt{Logger}. \texttt{Logger} has no 
 	\label{fig:diagram_ndevframe}
 \end{figure}
 
-TODO:
-Elaborate NDF as much as possible. It's the heart of the thesis.
+The downside of having such a flexible design, is that users are given too much freedom to implement their own modules. In fact, the engine itself is just a generic genetic algorithm that can be used for any purpose, not just computational development. This will be taken care of by the framework proposed in this thesis.
 
-The downside of having such a flexible design, is that users are given too much freedom in implementing their own modules, making it difficult to compare two models without having to factor in differences in implementations. A common generic development framework can remove these factors and ease the implementation at the same time. The Ngene Development Framework is an attempt of such a framework.
+As mentioned in chapter \ref{sec:framework_requirements}, the framework will provide a code base that will satisfy each and every requirement listed: A development algorithm, message exchange algorithm, and implementations of common concepts such as cells and proteins. The genetic algorithm is already provided for by Ngene. The idea of having such a platform, is to eliminate differing factors that does not have anything to do with the models themselves, and yet does effect the outcome. These are the factors that we need to remove in order to make reliable studies of computational development.
 
-The framework provides a code base that implements a common development algorithms, along with common concepts such as a cell and protein. Figure~\ref{fig:diagram_ndevframe} shows how they are defined. We see that a cell is defined to have a type, proteins, chemicals and messages. These properties may be fixed but users can choose to not use them. ADCGP, for instance, does not make use of proteins. \texttt{AbstractDevelopment} is the class that implements development algorithm. As mentioned in chapter~\ref{sec:framework_requirements}, it implements functions that protects the organism: \texttt{divide\_cell()}, \texttt{exists()}, \texttt{queued()}. They add a new cell, checks if a cell exists in given location and checks if there will be a new cell in given location, respectively. Most of these functions are already implemented and ready to use. Only \texttt{initialize()} and \texttt{execute()} are not. Their function is described in more detail in the following subsection.
+Figure~\ref{fig:diagram_ndevframe} shows how the common concepts are defined. We see that a cell is defined to have a type, some proteins, chemicals and a message storage. These properties may be fixed but users can choose to not use them. ADCGP, for instance, does not make use of proteins. \texttt{AbstractDevelopment} is the class that implements development algorithm. In accordance with the requirements listed in chapter~\ref{sec:framework_requirements}, it implements functions that will allow access to the organism while protecting it: \texttt{divide\_cell()}, \texttt{exists()}, \texttt{queued()}. Respectively, they add a new cell, checks if a cell exists in given location and checks if there will be a new cell in given location. These functions are already implemented and ready to use except for two. Only \texttt{initialize()} and \texttt{execute()} are not. These are the functions that the users will implement their model with. This will be described in more detail in the following subsection.
 
 An intercellular communication algorithm is also included. This works by providing a number of information that can be exchanged. In figure~\ref{fig:diagram_ndevframe_msg}, we see that a message can consist of cell type and chemicals. Some models, say model A may only use the chemicals part of the message while discarding everything else. For model B or C, this might not be the case. As we saw earlier with ArtDev3D and ADCGP, the communication between the two differs a lot. It is important that the message system can provide what is needed for any system and still be able to clearly distinguish the differences so that we can easily take this into consideration when comparing the two models. Use of this code base is enforced in order to ensure that all comparison made between different development models are based on a common ground.
 
@@ -100,7 +99,7 @@ An intercellular communication algorithm is also included. This works by providi
 	\label{fig:diagram_ndevframe_msg}
 \end{figure}
 
-Figure~\ref{fig:diagram_ndevframe_common-base} demonstrates this requirement. We can see right away that all three models differ because model A and B use chemicals, while C uses proteins. We also see that model B and C require a control program in addition to their cell programs. When models are implemented using the framework, we will be able to clearly see which parts a model uses and why it is unique compared to another model. Since a common code base is used, you can, for example, no longer say that these models produced different results because they ran through different development algorithms. This was the whole point with a common code base from the start, it forces users to use it, thus removing this factor.
+Figure~\ref{fig:diagram_ndevframe_common-base} demonstrates this requirement. We can see right away that all three models differ because model A and B use chemicals, while C uses proteins. We also see that model B and C require a control program in addition to their cell programs. When models are implemented using the framework, we will be able to clearly see which parts a model uses and why it is unique compared to another model. Since a common code base is used, you can, for example, no longer say that these models produced different results because they ran through different development algorithms. This was the whole point with a common code base from the beginning, it forces users to use it, thus removing this factor.
 
 \begin{figure}[!ht]
 	\centering
@@ -109,7 +108,7 @@ Figure~\ref{fig:diagram_ndevframe_common-base} demonstrates this requirement. We
 	\label{fig:diagram_ndevframe_common-base}
 \end{figure}
 
-Since the framework is going to be used by many users, speed is also a concern when designing it. It is important that the framework is not only flexible and easy to use, but also perform relatively well compared to other implementations. Lots of thought as been put into how to represent the organisms themselves. In the current implementation, a C++ Standard Library (STL) \texttt{<map>} is used to store the cells using their coordinates as the key value. Other alternatives were also considered:
+Since the framework is going to be used by many users, speed is also a concern when designing it. It is important that the framework is not only flexible and easy to use, but also perform relatively well compared to other implementations. The bottle-neck in these types of systems are usually the representation of the organism. Since lots of CPU time is spent accessing and modifying this object, effort has been spent to figure out how to best represent these organisms. In the current implementation, a C++ Standard Library (STL) \texttt{<map>} is used to store the cells using their coordinates as the key value. It is believed that it keeps the best balance between insertion and lookup time. Alternatives were considered and compared against each other before this decision became final.
 
 \begin{center}
 	\begin{tabular}{ r | c | c | c }
@@ -124,12 +123,9 @@ Since the framework is going to be used by many users, speed is also a concern w
 	\label{tbl:speed}
 \end{center}
 
-A quick glance at the comparison table and the \texttt{<ext/hash\_map>} may seem like the best choice to go with. However, there are some drawbacks that must be taken into consideration.
+At first glance, it may seem like the hash map is the best choice to implement the organism with. However, there are some drawbacks that must be taken into consideration. A hash map creates a unique key based on a number of properties found in the value to be stored. The key is used to retrieve the value at some later point. Since the key is meant to be unique for every stored element, the lookup time will be constant ($O(1)$) for any element, regardless of where it is actually stored. This key is creating by a hashing algorithm. The hashing algorithm is essential in both that it determines how uniform the distribution will be over an array, and how well the hash table will perform overall. A too simple hashing algorithm will often experience collisions, i.e.\ a lot of values will be using the same key. When this occurs, there are several ways to handle it. Such a solution is called a collision resolution. One such resolution is to keep values with the same key in a list. This means that when a user wants to retrieve a value, the hash table will have to look through every value in that list. In the worst case scenario, all values will have the same key, suddenly making lookup time linear ($O(n)$) as opposed to theoretical constant time. On the other hand, an overly complex hashing algorithm will also deteriorate performance because more CPU cycles is spent calculating a good hash value. However, regardless of how good the hashing algorithm is, collisions will always occur. The \emph{birthday paradox} predicts that it doesn't take many elements before the chance of a collision exceeds 95\%, even for very big arrays. It is clear that the hash table cannot guarantee its performance advantage over the other containers. Besides, for the experiments conducted in this thesis, the number of cells rarely exceeded 1000. If we use a \texttt{<map>}, which is the case here, it will take at most ten comparisons to find an element by its key value. A good hashing algorithm will use approximately the same number of operations to calculate a key value, perform lookup, and resolve any collisions.
 
-A hash table creates a unique key based on a number of properties found in the value to be stored. The key is used to retrieve the value at some later point. The hashing algorithm is essential in both that it determines how uniform the distribution will be over the array, and how well the hash table will perform overall. A too simple hashing algorithm will often experience collisions, i.e.\ a lot of values will have the same key. When this occurs, there are several ways to handle it (also called collision resolution). In worst case scenario, the key will point to a list, thus making the hash table perform like a linked list. Insertion is still constant but lookup may be as bad as $O(n)$. On the other hand, an overly complex hashing algorithm will also deteriorate performance because more CPU cycles is spent calculating a good hash value. Regardless of how good the hashing algorithm is, collisions will always occur. The \emph{birthday paradox} predicts that it doesn't take many elements before the chance of a collision exceeds 95\%, even for very big arrays. It is clear that the hash table cannot guarantee its performance advantage over the other containers. Besides, for the experiments conducted in this thesis, the number of cells rarely exceeded 1000. If we use a \texttt{<map>}, which is the case here, it will take at most ten comparisons to find an element by its key value. A good hashing algorithm will use approximately the same number of operations to calculate a key value, perform lookup, and resolve any collisions.
-
-The problem with \texttt{<vector>} is that it is one-dimensional. This makes it difficult to efficiently calculate x, y and z values of a coordinate since we don't know how many cells there will be. Another drawback is that it will take $O(n)$ time to look for neighbours. This can be worked around by maintaining an up to date neighbours list for every cell. This will make lookup $O(1)$ but increase insertion time to $O(n)$. \texttt{<map>} offers easier facilities to perform such tasks more efficiently. Later, in chapter \ref{sec:improvements}, we will discuss a custom implementation that will theoretically perform better than mentioned containers.
-
+The problem with \texttt{<vector>} is that it is one-dimensional. A drawback is that it will take $O(n)$ time to look for neighbours. This can be worked around by maintaining an up to date neighbours list for every cell. This will make lookup $O(1)$ but increase insertion time to $O(n)$. \texttt{<map>} offers easier facilities to perform such tasks more efficiently. Later, in chapter \ref{sec:improvements}, we will discuss a custom implementation that will theoretically perform better than mentioned containers.
 
 \subsubsection{Using the Framework}
 \begin{figure}[!ht]
@@ -139,10 +135,36 @@ The problem with \texttt{<vector>} is that it is one-dimensional. This makes it 
 	\label{fig:diagram_ndevframe_ex}
 \end{figure}
 
-TODO:
-expand. People need to actually be able to use it and understand what it can do from this. One issue is porting - not wrt the models ported, that comes after, but how does one go abut starting to take their model and porting it here. What options are there fr comparison after the model is ported. I mean can soemone else really just use it?
+The framework was designed to ease the implementation effort as much as possible. To start implementing a model, there are some things that need to be considered. First of all, these are the elements that no longer need to be implemented.
 
-The framework was designed to ease the implementation effort as much as possible. The whole code base can be inherited from \texttt{AbstractDevelopment}. To port a model to this framework, only two functions need to be implemented: \texttt{execute()} and \texttt{initialize()}. The latter is executed once with every new organism that is to be developed, and can be used to unpack the genotype to a cellular program and/or generate initial cells in the organism. \texttt{execute()} is called every development step/tick, for every cell in the organism. Here, the cell program from the genotype can be executed as well as any control programs that might be needed. Note that any messages sent has already been received and are stored in the cells by the time any cell is given the chance to fulfill its purpose in a tick. It will not be possible to actually access the organism itself from this function. This is to avoid accidental tampering of the organism. There is an example implementation of these two functions in figure~\ref{fig:diagram_ndevframe_ex}.
+\begin{itemize}
+	\itemsep=0pt
+	\item An evolutionary algorithm (provided by Ngene)
+	\item A development algorithm (provided by the framework)
+	\item Messaging (provided by the framework)
+	\item Cells, chemicals, organisms, proteins, and other concepts (provided by the framework)
+\end{itemize}
+
+\noindent The whole code base already provides the basic implementation for any model. The user only needs to focus the following things:
+
+\begin{itemize}
+	\itemsep=0pt
+	\item\textbf{What does my organism need before development can start?} This can be everything from translating the genotype into a more functional representation (in ADCGP, for example, to make the circuit), creating the first cell(s), to synthesizing proteins (like in ArtDev3D), or setting the chemical level (like in ADCGP). This is what we call the initialization step, and will be implemented in \texttt{initialize()}. This function will be called everytime a new organism is being developed by the framework. The user will never have to concern themselves with how or when to call this function.
+	\item\textbf{What does my cell do in a single development step?} This is a focus on a single cell and what it does in a single development step only. For example, with ADCGP, cells create an input string from external signals (received through messages) and feeds the program with the input to get an output that will determine the cells' actions. This is what will go into \texttt{execute()}. Again, as with the other function, this will be called by the framework.
+\end{itemize}
+
+\noindent As can be clearly seen, the focus has now shifted on to the models themselves.
+
+Currrently, in order to prevent accidental tampering, there is no way to directly access the organism. A convenience few functions were therefore implemented to remedy this.
+
+\begin{itemize}
+	\itemsep=0pt
+	\item\texttt{divide\_cell()} lets you tell the organism to add a cell at a given location. These types of calls will be queued up and new cells will not be added before all cells have been executed.
+	\item\texttt{exists()} checks if there is a cell at given location in the organism
+	\item\texttt{queued()} checks if any other cell has queued a cell to be added at given location, i.e.\ if it has called \texttt{divide\_cell()}.
+\end{itemize}
+
+For external signals, the \texttt{messages} array will store information from nearby cells. Note that these are always updated before a development step, and is therefore always up to date.
 
 For the purpose of this thesis, two models were implemented within this framework not only to test the flexibility and performance of this framework but also to see what is missing and what areas need improvement. It is therefore important that these models represent the widest spectrum of computational development.
 
@@ -163,9 +185,9 @@ Porting Johan H{\o}ye's master's thesis\cite{hoye2006} to Ngene's framework has 
 	\item Remove dead proteins.
 \end{enumerate}
 
-The implementation of the model might seem overwhelming at first impression. There is a heavy use of biological concepts in the code and the simplest operation may span across many classes, and files, as a result. This alone makes it hard to follow the code flow, but the little system documentation that does exist, fortunately, does provide some help though it consists mainly of commentaries in the source files themselves. While his efforts in making it understandable are visible, it might be beneficial to flatten the structure a bit and get rid of some of the redundant structures that are inspired by nature. There is another reason for why this was altered as well.
+The implementation of the model might seem overwhelming at first impression. There is a heavy use of biological concepts in the code and the simplest operation may span across many classes, and files, as a result. This alone makes it hard to follow the code flow, but the little system documentation that does exist, fortunately, does provide some help although it consists mainly of commentaries in the source files themselves. While his efforts in making it understandable are visible, it might be beneficial to flatten the structure a bit and get rid of some of the redundant structures that are inspired by nature. There is another reason for why this was altered as well.
 
-In theory, such an implementation can have a negative impact on performance. When a simple operation performed must call a function to call another function to call yet another function and so on, can put the calling stack under strain. This may occur because this does not happen only once, but several times every development step in a single cell. And as we know, there are plenty of cells in an organism. Flattening the structure as mentioned, will reduce the number of calls and potentially improve performance.
+In theory, such an implementation can have a negative impact on performance. When a simple operation performed must call a function to call another function to call yet another function and so on, can put the calling stack under strain. This may occur because this does not happen only once, but several times every development step in a single cell. And as we know, there are plenty of cells in an organism. Since the model is not concerned with remodeling biology, flattening the structure as mentioned, will reduce the number of calls and potentially improve performance.
 
 \begin{figure}[!ht]
 	\centering
@@ -174,14 +196,14 @@ In theory, such an implementation can have a negative impact on performance. Whe
 	\label{fig:artdev3d_flow}
 \end{figure}
 
-There was also an issue that was identified and patched in the port. In most models, cells are developed simultaneously. In order to achieve this, information must be exchanged between all cells before a cell can execute its functions. This is to ensure that the control program and DNA will execute based on the current state of the organism without interfering for other cells. In ArtDev3D, this is not properly implemented. The left logical flow in figure~\ref{fig:artdev3d_flow} shows the original ArtDev3D implementation. Upon execution, the cell will start collecting requests from its proteins. The proteins can request an action when they are activated, i.e.\ when the state of the cell and its neighbours are above a threshold. The requests are queued up and then executed. The problem with this, is that it all happens in a single step. Thus, cells that already have had their turn before the current cell, will have an altered state. Actions are therefore based on a mix of ``newer'' information from these cells, and ``old'' information from the rest. When porting this code to the new framework, the cell will no longer have direct access to other cells. Instead, it will receive messages from (or a snapshot of) nearby cells before the development step takes place in any cell. The right logical flow in figure~\ref{fig:artdev3d_flow} is the altered flow of ArtDev3D. Messages are exchanged before any cells are given control. Any action requests are then based on information that does not change as previously. This change may alter the outcome of the model but was addressed because the development algorithm of the framework is already implemented. The model is merely a user of it now.
+There was also an issue that was identified and patched in the port. This was mentioned briefly in \ref{sec:Models:ArtDev3D}. In most models, cells are developed simultaneously. In order to achieve this, information must be exchanged between all cells before a cell can execute its functions. This is to ensure that the control program and DNA will execute based on the current state of the organism without interfering for other cells. In ArtDev3D, this is not properly implemented. The left logical flow in figure~\ref{fig:artdev3d_flow} shows the original ArtDev3D implementation. Upon execution, the cell will start collecting requests from its proteins. The proteins can request an action when they are activated, i.e.\ when the state of the cell and its neighbours are above a threshold. The requests are queued up and then executed. The problem with this, is that it all happens in a single step. Thus, cells that already have had their turn before the current cell, will have an altered state. Actions are therefore based on a mix of ``newer'' information from these cells, and ``old'' information from the rest. When porting this code to the new framework, the cell will no longer have direct access to other cells. Instead, it will receive messages from (or a snapshot of) nearby cells before the development step takes place in any cell. The right logical flow in figure~\ref{fig:artdev3d_flow} is the altered flow of ArtDev3D. Messages are exchanged before any cells are given control. Any action requests are then based on information that does not change as previously. This change may alter the outcome of the model but was addressed because the development algorithm of the framework is already implemented. The model is merely a user of it now.
 
 
 \subsubsection{Artificial Development (ADCGP)}
 \label{sec:cartesian}
 This model was implemented from scratch with help from Dr. Julian F. Miller. The model is rather simple because the whole cell program is in the genotype. The implementation should only need to translate the genotype into a working digital circuit and be able to use it.
 
-The genotype is an array of integers. The number of integers depend on the number of layers and how many nodes each layer consists of. The number of layers and nodes per layer is static. This will keep it simple, and also make the crossover less complicated. As far as I know, this should be in line with Dr. Miller's implementation as well. Each node consists of four integers - three that will serve as connection points to other nodes while the last one will point to a specific function. The function will get its input from the connected nodes' output. The functions implemented here are basic Boolean operations, in addition to the four elementary mathematical operations.
+As we saw in figure~\ref{fig:cartesian_genotype}, the genotype is an array of integers. The number of integers depend on the number of layers and how many nodes each layer consists of. The number of layers and nodes per layer is static. This will keep it simple, and also make the crossover less complicated. As far as I know, this should be in line with Dr. Miller's implementation as well. Each node consists of four integers - three that will serve as connection points to other nodes while the last one will point to a specific function. The function will get its input from the connected nodes' output. The functions implemented here are basic Boolean operations, in addition to the four elementary mathematical operations.
 
 \begin{itemize}
 	\itemsep=0pt
@@ -189,7 +211,7 @@ The genotype is an array of integers. The number of integers depend on the numbe
 	\item addition, division, multiplication, subtraction
 \end{itemize}
 
-Upon initialization, the engine will receive the genotype and will start translating it into a digital circuit. The cell program is then executed:
+\noindent Upon initialization, the engine will receive the genotype and will start translating it into a digital circuit. The cell program is then executed:
 
 \begin{itemize}
 	\itemsep=0pt

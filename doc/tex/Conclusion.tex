@@ -1,18 +1,18 @@
 \section{Conclusion}
 Ngene Development Framework is a platform for implementing computational development model. It was designed to enable the user to shift its focus from the technical details of implementation to the model itself. The purpose of this framework is to provide a common ground for different models so that any less significant differences are eliminated, making a comparison more accurate as well as easier.
 
-We have seen that it is entirely possible to implement two completely different models using the same code base provided by the framework. As can be seen from the results, the new implementations were able to perform just as well as the original implementations did. We also saw that, with some changes, a model can be made to run more efficiently.
+We have seen that it is entirely possible to implement two completely different models using the same code base provided by the framework. As can be seen from the results, the new implementations are able to perform just as well as the original implementations did. We also saw that, with some changes, a model can be made to run more efficiently.
 
-The most important part about being able to port these two models, is that we can clearly see their differences. We can simply put them up side by side, and see, for instance, that ArtDev3D uses only the cell type information of the messages a cell receives. Whereas ADCGP reads both cell types and chemicals. We don't have to worry about minor details, such as the evolutionary algorithms used or the way development was implemented. These are already provided by the framework. The models need only use them.
+The most important part about being able to port these two models, is that we can clearly see their differences. We can simply put them up side by side, and see, for instance, that ArtDev3D uses only the cell type information of the messages a cell receives, whereas ADCGP reads both cell types and chemicals. We don't have to worry about minor details, such as the evolutionary algorithms used or the way development was implemented. These are already provided by the framework. The models need only use them.
 
 
 \subsection{Further Work}
 
-Regretfully, more experiments could have been conducted in order to perform a more thorough comparison between ArtDev3D and ADCGP. It could be interesting to see what the chemicals' real role is. What would happen if chemicals were not used in ADCGP? These are only some of the issues that can be investigated on this platform. It would also have been beneficial to the framework to implement a third model. With only two models, the framework may have easily been ``tailored'' to just these. As more models use the framework, it will become more apparent which parts aren't generic enough for future models. As the purpose of this framework is to be able to compare different models, it is quite essential that it is able to provide for any model. It shouldn't be constricted to just a handful of models.
+Regretfully, more experiments could have been conducted in order to perform a more thorough comparison between ArtDev3D and ADCGP. It would be interesting to see what the chemicals' real role is. What would happen if chemicals were not used in ADCGP? This is but one of the issues that can be investigated on this platform. It would also have been beneficial to the framework to implement a third model. With only two models, the framework may have easily been ``tailored'' to just these. When more models use the framework, it will become more apparent which parts aren't generic enough for future models. As the purpose of this framework is to be able to compare different models, it is quite essential that it is able to provide for any model. It shouldn't be constricted to just a handful of models.
 
 \subsubsection{Improvements to Ngene and the Development Framework}
 \label{sec:improvements}
-There are some aspects of the core engine that I would have changed or improved but did not have the time to do so. These changes will further enhance the framework, both in performance and flexibility.
+There are some aspects of the engine and the framework that I would have changed or improved upon but did not have the time to do so. These changes will further enhance the platform, both in performance and flexibility.
 
 \begin{itemize}
 	\item\textbf{Development analysis tool}
@@ -21,18 +21,22 @@ There are some aspects of the core engine that I would have changed or improved 
 
 	\item\textbf{Further optimizations}
 		\begin{itemize}
-			\item Currently, the messages are gathered by looping through the cells and finding out what their neighbours are. This is a $O(n^{2})$ algorithm and can be much improved. One way of doing it is to take a snapshot of the organism and pass that object to the cells. The benefit of doing it this way is that it is fast (in the order of $O(n)$) and it also opens up the possibility to simulate chemical diffusion across more cells than the immediate neighbours of a cell.
+			\item There is a flaw in the framework that can lead to abnormal growth. The function that is called by cells to request a division, \texttt{divide\_cell()}, does not who it was called by, and does not check where that location is. Theoretically, a cell could request for a new cell in an entirely different area than directly next to it.
+
+			\item Currently, the messages are gathered by looping through the cells and finding out what their neighbours are. This is a $O(n^{2})$ algorithm and can be much improved. One way of doing it is to take a snapshot of the organism and pass that object to the cells. The benefit of doing it this way is that it is fast (in the order of $O(n)$) and it also opens up the possibility to simulate chemical diffusion across more cells than the immediate neighbours of a cell. This will also lead to deprecation of some convenience functions.
 
 			\item The use of \texttt{<map>} comes with a penalty as mentioned in chapter~\ref{tbl:speed}. A three-dimensional implementation of a \texttt{<vector>} should be considered as it would give constant lookup and insertion as opposed to $O(log~n)$. It will also remove the need to search for neighbours, as these can be accessed directly given a cell's coordinates.
 
-			\item The Mersenne twister is often criticized for not being very elegant. There has been suggestions that point to other implementations of a pseudo-random number generator that outperform the Mersenne twister while maintaining equal or better quality of randomness. There is also a new implementation of Mersenne twister that should be considered. It is much faster and makes use of SIMD instructions in recent CPUs. Improvements have also been done to increase its quality of randomness Genetic algorithms in general are very dependent on a good random number generator, and having a fast one is only beneficial to the whole engine.
-
 			\item Ngene has implemented OpenMP\footnote{http://www.openmp.org/} in order to utilize multi-core CPUs. This feature was, however, disabled because the framework is not thread-safe. As multi-core CPUs are becoming more common, the framework should be able to utilize such facilities.
+
+			\item The Mersenne twister is often criticized for not being very elegant. There has been suggestions that point to other implementations of a pseudo-random number generator that outperform the Mersenne twister while maintaining equal or better quality of randomness. There is also a new implementation of Mersenne twister that should be considered. It is much faster and makes use of SIMD instructions in recent CPUs. Improvements have also been done to increase its quality of randomness. Genetic algorithms in general are very dependent on a good random number generator, and having a fast one is only beneficial to the whole engine. In fact, at writing moment, Mersenne twister 2.0 has already been implemented is ready to be imported into Ngene. This has not been done yet with regards to this thesis.
+
+			\item Since the new random number generator no longer depends on Boost C++ Libraries, it is a bit excessive to make the whole project depend on this library for the dynamic container only. At writing moment, an independent implementation is ready for import but has been held back because of this thesis. With this, Boost is no longer a dependency, and will be removed. The new implementation will is only  minor improvement to Boost::Any, but will speed up compilation time considerably.
 		\end{itemize}
 
 	\item\textbf{Making the core interchangeable}
 
-	The genetic algorithm itself should be implemented as a separate module, making it possible to change algorithm depending on the experiments conducted.
+	The genetic algorithm itself should be implemented as a separate module, making it possible to change evolutionary algorithm depending on the experiments conducted.
 
 	\item\textbf{Ability to swap modules mid-experiment}
 
