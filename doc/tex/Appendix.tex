@@ -1,7 +1,11 @@
 \appendix
 
 \section{Implementing an Ngene Module}
-This section will describe the technical details required to implement modules for Ngene. If you've downloaded the source code, the folder structure should be like this (unless it's been changed):
+This section will describe the technical details required to implement modules for Ngene. The code can be downloaded from various sources, but the newest revision will always be available at:
+
+\url{http://ngene.googlecode.com/}
+
+If you've downloaded the source code, the folder structure should be like this (unless it's been recently changed):
 
 \begin{verbatim}
 ngene/
@@ -15,7 +19,7 @@ ngene/
    + Interfaces/
 \end{verbatim}
 
-\noindent Don't worry if you don't understand the following sections. There are examples in the modules folder as well. They implement some basic modules, including tournament selection, single-point crossover, and random-swap mutation. They also include the source code for ArtDev3D.N and the Cartesian model.
+\noindent Don't worry if you don't understand the following sections. There are examples in the modules folder as well. They implement some basic modules, including tournament selection, single-point crossover, and random-swap mutation. They also include the source code for ArtDev3D.N and the Cartesian model. Studies of these are recommended over reading this little document as it is much easier to learn from examples.
 
 The Interfaces folder contains all the header files that must be included with some modules. These are specified in corresponding modules. For every module, there is one common function that they all must implement.
 
@@ -166,7 +170,7 @@ All selector modules must include the header (path may vary depending on where y
 /// \param[out] champ  The selected individual
 /// \param candidates  The population to perform selection over
 /// \param generation  The current generation
-void gene\_select(Population::iterator &champ, Population &candidates, int generation);
+void gene_select(Population::iterator &champ, Population &candidates, int generation);
 
 /// Returns the name of this module.
 const char *name();

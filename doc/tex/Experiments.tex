@@ -1,15 +1,12 @@
 \section{Experiments}
 \label{sec:experiments}
-Porting the models to the new framework is only the first part of the project. It is also important that these models, once ported, are able to perform in the exact same way as the original code would. The best way to verify that it does, is to repeat a small sample of experiments and compare the results to the original reports. A smaller test was also conducted to measure the performance of this framework. This test will show whether the improvements to ArtDev3D proposed in the previous chapter actually does make it faster.
-
-TODO:
-you need to present the experiments in a slightly different light. Your goal is to test the platform to make sure that is works towards its goals. You re repeating but not exactly - you are not just rerunnign their experiments on their platform as the header would imply. 4.1. Developing 3D shapes using ArtDevsD model...etc. In intro yu can describe the fact that the gals is to replicate the experiments n a differnet platform to illustrate the viability of the platform for that model. Similar with the Julian model.
+Porting the models to the new framework is only the first part of this thesis. Once the models have been ported, I have only shown that the framework is flexible enough to embody these models. However, without being able to reproduce the same results, it would be like shoving the triangular piece down the square slot. It will fit eventually, but completely defeats the purpose. It is important that for the framework to be viable, it should be able to show that the outcome has not changed. The model should produce the same results regardless of the fact that it has been ported to a new platform. As you might've guessed, this chapter is about reproducing past results. A few experiments will be re-conducted and the results represented and compared to the old results. We will also be looking at the small improvements made to ArtDev3D, and see how they perform compared to the original implementation.
 
 
 \subsection{Developing 3D shapes using ArtDev3D's model}
-For this model, the sphere and the x-mas tree was chosen to test the new implementation of ArtDev3D. The reason for this is because the sphere is a relatively simple shape to evolve and easily achieve perfect fitness. The reason the normal tree is not chosen is because they are almost the same in complexity and ArtDev3D equally well on both of these. For the second test, we want see how well the new implementation will do on difficult shapes.
+For this model, the sphere and the x-mas tree was chosen to test the new implementation of ArtDev3D. The reason for choosing these two, is because the sphere is a relatively simple shape to evolve and easily achieve perfect fitness. It will be perfect for testing the accuracy of the re-implementation. The reason the normal tree is not chosen is because it is very similar to the x-mas tree in shape, and it is almost as complex. On top of that, ArtDev3D does equally well on both of these. The purpose of the second test is to see how well the new implementation will do on difficult shapes.
 
-Both of these experiments were conducted with different settings in order to see how parameters would affect the fitness of the individuals. In this thesis, however, I used a fixed set of parameters for simplicity's sake. The numbers may therefore deviate from the original results. Both of these experiments are run with settings as close to the original experiments as possible:
+Both of these experiments were conducted with different settings in H{\o}ye's paper\cite{hoye2006} in order to see how various parameters would affect the fitness of the individuals. In this thesis, however, a fixed set of parameters was used for simplicity's sake. The numbers may therefore deviate from the original results because this decision. However, the experiments were run with settings as close to the original experiments as possible:
 
 \begin{itemize}
 	\itemsep=-2pt
@@ -21,7 +18,7 @@ Both of these experiments were conducted with different settings in order to see
 	\item Selection: Tournament (size=4, pressure=0.8)
 \end{itemize}
 
-And the parameters used for development:
+\noindent And the parameters used for development:
 
 \begin{itemize}
 	\itemsep=-2pt
@@ -32,7 +29,7 @@ And the parameters used for development:
 	\item Don't-care-neighbours: 6
 \end{itemize}
 
-Both of these experiments were run 200 times. H{\o}ye reported to have run these experiments 980 times each but with varying parameters. Considering there are several set-ups he could have run them with, a smaller number was chosen now because only one set-up is used. 200 runs should be enough to demonstrate the point of this chapter.
+The experiments were run 200 times. H{\o}ye reported to have run these experiments 980 times each but with varying parameters. Considering there are many set-ups he could have run them with, a smaller number was chosen now because only one set-up is used. 200 runs should be enough to demonstrate the point of this chapter.
 
 \subsubsection{Sphere}
 \begin{center}\includegraphics[scale=0.2]{sphere}\end{center}
@@ -45,7 +42,7 @@ This shape seems the simplest to evolve as it is entirely symmetrical and much l
 	\label{fig:chart_artdev3d_sphere}
 \end{figure}
 
-Original ArtDev3D managed to evolve perfect fitness 856 out of 980 experiments. It is important to remember that these were run with \emph{different} settings whereas we are using the best settings available here. That is why we see a much higher percentage (199 out of 200) than the original experiments. Had we known what these parameters were beforehand and used them, the number would probably have been much closer to the original results. Regardless, it does show that Ngene can perform equally well.
+Original ArtDev3D managed to evolve perfect fitness in 856 out of 980 experiments. It is important to remember that these were run with \emph{different} settings whereas we are using the best settings available here. That is why we see a much higher percentage (199 out of 200) than the original experiments. Had we known what these parameters were beforehand and used them, the number would probably have been much closer to the original results. Regardless, it does show that the development framework can perform equally well.
 
 \subsubsection{X-mas tree}
 \begin{center}\includegraphics[scale=0.2]{x-mas-tree}\end{center}
@@ -58,14 +55,14 @@ This experiment is of a different nature than the previous one. It may not be ve
 	\label{fig:chart_artdev3d_x-mas-tree}
 \end{figure}
 
-It seems that Ngene is performing rather well. Note that the highest fitness achieved in ArtDev3D only occurred once in the 980 test runs conducted. This experiment is but a fifth of that, and it is not inconceivable that Ngene might be able to achieve higher fitness with a larger sample. Interestingly, Ngene only managed to evolve fitness above 0.9 in 57 out of 200 runs. The rest were above 0.8 however.
+It seems that Ngene is performing rather well. Note that the highest fitness achieved in ArtDev3D only occurred once in the 980 test runs. This experiment is but a fifth of that, and it is not inconceivable that Ngene might be able to achieve higher fitness with a larger sample. Interestingly, Ngene only managed to evolve fitness above 0.9 in 57 out of 200 runs. The rest were above 0.8 however. This tells us how well the model copes with complex shapes.
 
 \subsubsection{Summary}
-We've seen that Ngene's implementation of ArtDev3D can evolve on an equal level as the original implementation. In chapter~\ref{sec:Implementation:ArtDev3D}, I've mentioned that there was a fix applied to the engine when it was ported to the framework. From what can be seen above, it would seem that this patch has not affected the model in any perceivable way. Whether or not the fix is beneficial in any way, is difficult to see. It may very well be that the bug is dormant.
+We've seen that the new implementation of ArtDev3D can evolve on an equal level as the original implementation. In chapter~\ref{sec:Implementation:ArtDev3D}, I've mentioned that there was a fix applied to the model when it was ported to the framework. From what can be seen above, it would seem that this patch has not affected the model in any perceivable way. Whether or not the fix is beneficial in any way, is difficult to see. It may very well be that the bug is dormant.
 
 
 \subsection{Developing the French flag using artificial development}
-For the ADCGP model, the French flag experiment was picked out. The purpose of this experiment is to evolve a grid of cells that resembles the French flag. Each cell is given a type of either blue, red or white. For every cell that corresponded with the target, one point was rewarded. The fitness is calculated from the total points scored divided by maximum score achievable. The engine ran with the following settings:
+For the re-implementation of ADCGP model, the French flag experiment was picked out. The purpose of this experiment is to evolve a grid of cells that resembles the French flag. Each cell is given a type of either blue, red or white. For every cell that corresponds with the target, one point is rewarded. The fitness is calculated from the total points scored divided by maximum score achievable. The engine ran with the following settings:
 
 \begin{itemize}
 	\itemsep=-2pt
@@ -77,7 +74,7 @@ For the ADCGP model, the French flag experiment was picked out. The purpose of t
 	\item Selection: Tournament (size=4, pressure=0.8)
 \end{itemize}
 
-The target phenotype used:
+\noindent The target phenotype used:
 
 \begin{center}\fbox{\includegraphics{French-flag}}\end{center}
 
@@ -97,13 +94,13 @@ It seemed odd that setting the development time one step longer would have any s
 	~\fbox{\includegraphics{cartesian-5-3-90-9-3-20081121-002613}}
 \end{center}
 
-These results seem to suggest that the model is not stable. Colours appear in areas they shouldn't be in as opposed to the previous results where the colours at least stayed closer to each other. One can theorize that the growth continues even after target phenotype have been evolved, hence resulting in a worse fitness. This seems to be backed up by the fact that the engine would more frequently obtain fitness above 0.9 when using development time of four when compared to five. Using development time of 10 also raised the number of cells above 200.
+These results seem to suggest that the model is not stable. Colours appear in areas they shouldn't be in as opposed to the previous results where the colours at least stayed closer to each other. Note that there is a hole in the middle flag, next to the red cell in the blue area. One can theorize that the growth continues even after target phenotype has been evolved, hence resulting in a worse fitness. This seems to be backed up by the fact that the engine would more frequently obtain fitness above 0.9 when using development time of four when compared to five. Using development time of 10 also raised the number of cells above 200.
 
 To further investigate this issue, the phenotype was altered so that it would have a border around the flag.
 
 \begin{center}\fbox{\includegraphics{French-flag-border}}\end{center}
 
-This new phenotype will hopefully show whether or not the model does continue to grow, or if it manages to maintain a status quo to some extent. No changes were made to the settings above. The tests were repeated using the new target phenotype.
+\noindent This new phenotype will hopefully show whether or not the model does continue to grow, or if it manages to maintain a status quo to some extent. No changes were made to the settings above. The tests were repeated using the new target phenotype.
 
 \begin{center}
 	Development time: 4 ticks\newline
@@ -133,7 +130,7 @@ With regards to what has been written about ArtDev3D up to this point, I've only
 	\item Additionally, ArtDev3D.N was also compiled with Intel\textregistered C++ Compiler (ICC) 11.0 build 069, with optimization flags: \texttt{-xHost -fast}.
 \end{itemize}
 
-The same settings were used for both engines:
+\noindent The same settings were used for both engines:
 
 \begin{itemize}
 	\itemsep=-2pt
@@ -145,7 +142,7 @@ The same settings were used for both engines:
 	\item Target: Sphere
 \end{itemize}
 
-Perfect termination was disabled so that the engines would not exit when perfect fitness was found. This is to ensure that both engines ran for the exact same number of generations. The test was repeated 100 times and the average time was then calculated.
+\noindent Perfect termination was disabled so that the engines would not exit when perfect fitness was found. This is to ensure that both engines ran for the exact same number of generations. The test was repeated 100 times and the average time was then calculated.
 
 \begin{figure}[!ht]
 	\centering
