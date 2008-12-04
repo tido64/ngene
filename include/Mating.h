@@ -6,8 +6,8 @@
 
 #include <map>
 #include <string>
-#include "../Random.h"
-#include "../Specimen.h"
+#include "../src/Random.h"
+#include "Specimen.h"
 
 namespace ngene
 {
@@ -37,5 +37,5 @@ extern "C"
 	const char MATING_INTERFACE *name();
 
 	/// Returns the number of offspring this module produces.
-	const unsigned int MATING_INTERFACE offspring();
+	unsigned int MATING_INTERFACE offspring();
 }

@@ -1,4 +1,4 @@
-#include "../../../src/Interfaces/Mutator.h"
+#include <Mutator.h>
 #include "Gene.h"
 
 void initiate(const char *parameters) { }
@@ -6,7 +6,7 @@ void initiate(const char *parameters) { }
 void mutate(Genotype &genotype)
 {
 	int idx = ngene::random->next_int(genotype.size());
-	if (Random::Instance().next() < 0.5) // duplicate or delete gene
+	if (ngene::random->next() < 0.5) // duplicate or delete gene
 	{
 		if (ngene::random->next() < 0.7) // duplicate
 			genotype.push_back(genotype[idx]);

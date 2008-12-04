@@ -1,9 +1,9 @@
-#include "../../../src/Interfaces/Fitness.h"
+#include <Fitness.h>
 #include <fstream>
 #include <map>
 #include <vector>
-#include "../../../src/Development/Cell.h"
-#include "../../../src/Development/Coordinates.h"
+#include <Development/Cell.h>
+#include <Development/Coordinates.h>
 
 namespace cgp
 {

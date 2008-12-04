@@ -5,7 +5,7 @@
 #	define FITNESS_INTERFACE
 #endif
 
-#include "../Plugins.h"
+#include "../src/Plugins.h"
 
 namespace ngene
 {

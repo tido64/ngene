@@ -1,4 +1,4 @@
-#include "../../../src/Interfaces/Mutator.h"
+#include <Mutator.h>
 #include "Function.h"
 
 namespace cgp

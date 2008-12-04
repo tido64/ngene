@@ -1,4 +1,4 @@
-#include "../../../src/Interfaces/Genotype.h"
+#include <Genotype.h>
 #include "Cartesian.h"
 
 namespace cgp

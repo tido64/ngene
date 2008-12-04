@@ -26,7 +26,7 @@ Windows:
 	http://www.boost.org/
 
 	Download and extract the compressed file, then copy or move the folder
-	named "boost" into the libs/ folder.
+	named "boost" into the include/ folder.
 
 
 Unix:

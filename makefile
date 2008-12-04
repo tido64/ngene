@@ -15,7 +15,7 @@ OBJ = $(OBJDIR)/ConfigManager.o \
 	$(OBJDIR)/Ngene.o
 
 CPP = g++
-CFLAGS = -g -O2 -Wall -pipe -ftree-vectorize #-fopenmp
+CFLAGS = -g -O2 -Wall -pipe -I include -ftree-vectorize #-fopenmp
 LDFLAGS = -ldl #-lgomp
 
 default: $(EXEC)

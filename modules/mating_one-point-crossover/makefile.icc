@@ -3,7 +3,7 @@ BINDIR = ../../bin/modules
 OBJDIR = ../../build/unix
 
 CPP = icpc
-CFLAGS = -xHost -fast -Wall -iquote../../src/Interfaces -fPIC
+CFLAGS = -xHost -fast -Wall -I ../../include -fPIC
 
 default: $(TARGET).so
 

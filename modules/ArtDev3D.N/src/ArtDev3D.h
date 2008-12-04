@@ -1,5 +1,5 @@
-#include "../../../src/Development/AbstractDevelopment.h"
-#include "../../../src/Development/Organism.h"
+#include <Development/AbstractDevelopment.h>
+#include <Development/Organism.h>
 #include "Gene.h"
 #include "ProteinType.h"
 

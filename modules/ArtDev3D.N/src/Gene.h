@@ -14,7 +14,7 @@
 
 #define DIRECTIONS 6
 
-#include "../../../src/Development/Protein.h"
+#include <Development/Protein.h>
 #include "../../../src/Algorithm.h"
 #include "../../../src/Random.h"
 #include <algorithm>

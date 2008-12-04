@@ -1,6 +1,6 @@
 /*-- Boundaries are implemented in output-writer and not development module --*/
 
-#include "../../../src/Interfaces/Genotype.h"
+#include <Genotype.h>
 #include <sstream>
 
 #include "ArtDev3D.h"
