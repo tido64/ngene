@@ -1,5 +1,5 @@
-#include "../../../src/Development/AbstractDevelopment.h"
-#include "../../../src/Development/Organism.h"
+#include <Development/AbstractDevelopment.h>
+#include <Development/Organism.h>
 #include "Function.h"
 
 class Cartesian : public AbstractDevelopment

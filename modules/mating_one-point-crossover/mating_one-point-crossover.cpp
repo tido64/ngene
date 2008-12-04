@@ -1,4 +1,4 @@
-#include "../../src/Interfaces/Mating.h"
+#include <Mating.h>
 
 void initiate(const char *parameters) { }
 

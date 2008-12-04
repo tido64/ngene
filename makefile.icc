@@ -15,7 +15,7 @@ OBJ = $(OBJDIR)/ConfigManager.o \
 	$(OBJDIR)/Ngene.o
 
 CPP = icpc
-CFLAGS = -xHost -fast -Wall #-Werror -fopenmp
+CFLAGS = -xHost -fast -Wall -I include #-Werror -fopenmp
 LDFLAGS = -ldl #-lgomp
 
 default: $(EXEC)

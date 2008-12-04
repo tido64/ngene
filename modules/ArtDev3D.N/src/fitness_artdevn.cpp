@@ -1,7 +1,7 @@
 /// Assesses the fitness of the organism.
 
-#include "../../../src/Interfaces/Fitness.h"
-#include "../../../src/Development/Cell.h"
+#include <Fitness.h>
+#include <Development/Cell.h>
 #include <fstream>
 #include <map>
 #include <sstream>

@@ -9,7 +9,7 @@ OBJ    = $(OBJDIR)/Cartesian.o \
 	$(OBJDIR)/gene_cartesian.o
 
 CPP = icpc
-CFLAGS = -xHost -fast -Wall -fPIC
+CFLAGS = -xHost -fast -Wall -I ../../include -fPIC
 LDFLAGS = -shared -static-intel
 
 default: $(EXEC)

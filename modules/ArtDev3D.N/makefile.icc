@@ -11,7 +11,7 @@ OBJ    = $(OBJDIR)/ArtDev3D.o \
 	$(OBJDIR)/Random.o
 
 CPP = icpc
-CFLAGS = -xHost -fast -Wall -fPIC
+CFLAGS = -xHost -fast -Wall -I ../../include -fPIC
 LDFLAGS = -shared -static-intel
 
 default: $(EXEC)

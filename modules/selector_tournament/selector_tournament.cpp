@@ -1,7 +1,7 @@
 #include <cmath>
 #include <set>
 #include <sstream>
-#include "../../src/Interfaces/Selector.h"
+#include <Selector.h>
 
 namespace tournament
 {

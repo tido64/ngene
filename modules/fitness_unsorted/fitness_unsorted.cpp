@@ -1,4 +1,4 @@
-#include "../../src/Interfaces/Fitness.h"
+#include <Fitness.h>
 
 #include <list>
 #include <string>
