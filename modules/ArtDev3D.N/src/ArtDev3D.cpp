@@ -61,6 +61,7 @@ void ArtDev3D::initialize(Organism *o)
 	for (Genotype::const_iterator i = o->genotype.begin(); i != o->genotype.end(); i++)
 	{
 		this->genome.push_back(boost::any_cast<Gene>(*i));
+		//this->genome.push_back(*i->cast<Gene>());
 		c.proteins.push_back(*this->genome.back().get_protein());
 	}
 	c.chemicals.assign(this->genome.front().setup->chemicals_number, 0.0);

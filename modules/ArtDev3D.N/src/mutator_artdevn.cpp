@@ -15,6 +15,7 @@ void mutate(Genotype &genotype)
 	}
 	else // mutate a random property
 		boost::unsafe_any_cast<Gene>(&genotype[idx])->mutate();
+		//genotype[idx].cast<Gene>()->mutate();
 }
 
 const char *name()

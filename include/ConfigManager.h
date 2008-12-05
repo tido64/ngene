@@ -9,6 +9,7 @@
 #include <fstream>
 #include <map>
 #include <boost/algorithm/string/trim.hpp>
+//#include <Algorithm.h>
 
 class ConfigManager
 {

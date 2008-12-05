@@ -7,13 +7,10 @@ CFLAGS = -xHost -fast -Wall -I ../../include -fPIC
 
 default: $(TARGET).so
 
-$(OBJDIR)/Random.o:
-	$(CPP) -c ../../src/Random.cpp $(CFLAGS) -o $@
-
 $(OBJDIR)/%.o: %.cpp
 	$(CPP) -c $< $(CFLAGS) -o $@
 
-$(TARGET).so: $(OBJDIR)/Random.o $(OBJDIR)/$(TARGET).o
+$(TARGET).so: $(OBJDIR)/$(TARGET).o
 	$(CPP) -shared -static-intel -o $(BINDIR)/$@ $^
 
 clean:

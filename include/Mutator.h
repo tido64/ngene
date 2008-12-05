@@ -5,8 +5,8 @@
 #endif
 
 #include <string>
-#include "../src/Random.h"
-#include "Specimen.h"
+#include <Random.h>
+#include <Specimen.h>
 
 namespace ngene
 {

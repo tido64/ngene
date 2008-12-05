@@ -3,7 +3,9 @@
 using std::string;
 using std::vector;
 
-PluginManager::PluginManager(const Config *config) : modules(Module::number_of_types, 0)
+PluginManager::PluginManager(const Config *config) :
+	random(Random::Instance()),
+	modules(Module::number_of_types, 0)
 {
 	this->dlhandles.reserve(Module::number_of_types);
 	this->load_module(Module::gene, config->module_path[Module::gene], config->parameters[Module::gene]);
@@ -39,7 +41,7 @@ void PluginManager::load_module(const Module::Type module_type, const string &fi
 		}
 		else
 		{
-			((void (*)(Random *))dlsym(module, "assign_functions"))(&Random::Instance());
+			((void (*)(Random *))dlsym(module, "assign_functions"))(this->random);
 			switch (module_type)
 			{
 				case Module::gene:

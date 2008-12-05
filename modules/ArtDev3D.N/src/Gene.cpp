@@ -2,7 +2,7 @@
 
 using std::random_shuffle;
 
-Gene::Gene(const Setup *s, Random *r) : random(r), setup(s)
+Gene::Gene(const Setup *s, Random *r) : setup(s), random(r)
 {
 	// generate a random bitstring
 	this->sequence = r->next_int(2 << this->setup->gene_sequence_length);
@@ -54,7 +54,7 @@ Gene::Gene(const Setup *s, Random *r) : random(r), setup(s)
 	}
 }
 
-Gene::Gene(const Gene &g) : random(g.random), sequence(g.sequence), protein(g.protein), setup(g.setup) { }
+Gene::Gene(const Gene &g) : setup(g.setup), sequence(g.sequence), random(g.random), protein(g.protein) { }
 
 const Protein *Gene::get_protein()
 {

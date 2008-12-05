@@ -7,8 +7,7 @@ OBJ    = $(OBJDIR)/ArtDev3D.o \
 	$(OBJDIR)/Algorithm.o \
 	$(OBJDIR)/ConfigManager.o \
 	$(OBJDIR)/Gene.o \
-	$(OBJDIR)/gene_artdevn.o \
-	$(OBJDIR)/Random.o
+	$(OBJDIR)/gene_artdevn.o
 
 CPP = g++
 CFLAGS = -g -O2 -Wall -Werror -pipe -I ../../include -ftree-vectorize -fPIC
@@ -28,7 +27,7 @@ $(OBJDIR)/%.o: ../../src/%.cpp
 fitness: $(OBJDIR)/fitness_artdevn.o
 	$(CPP) $(LDFLAGS) -o $(BINDIR)/fitness_artdev3d.so $^
 
-mutator: $(OBJDIR)/Gene.o $(OBJDIR)/Random.o $(OBJDIR)/mutator_artdevn.o
+mutator: $(OBJDIR)/Gene.o $(OBJDIR)/mutator_artdevn.o
 	$(CPP) $(LDFLAGS) -o $(BINDIR)/mutator_artdev3d.so $^
 
 all: $(EXEC) fitness mutator

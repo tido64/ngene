@@ -16,7 +16,7 @@ private:
 		min_chemical_concentration,			///< The lowest number of chemical concentration
 		min_stimuli_level;					///< The minimum stimuli threshold to activate a protein
 	std::map<Coordinates, Cell> new_cells;	///< Array of new cells to add to the organism after a tick
-	Genome genome;							///< Translated genotype (casted from boost::any)
+	Genome genome;							///< Translated genotype (casted from Any)
 
 	/// Part of mitosis(), performs the actual cell duplication and inserts the
 	/// new cell into given location if possible. No cells are created if the

@@ -6,13 +6,15 @@
 #include <algorithm>
 #include <vector>
 #include <boost/any.hpp>
+//#include "Any.h"
+typedef boost::any Any;
 
 #define best_specimen std::min_element		///< For finding the best specimen in a population
 #define worst_specimen std::max_element		///< For finding the worst specimen in a population
 
 class Specimen;
 typedef std::vector<Specimen> Population;	///< Defines the population type
-typedef std::vector<boost::any> Genotype;	///< Defines the genotype type
+typedef std::vector<Any> Genotype;			///< Defines the genotype type
 
 class Specimen
 {

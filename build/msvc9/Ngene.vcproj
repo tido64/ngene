@@ -213,10 +213,6 @@
 				RelativePath="..\..\src\PluginManager.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\..\src\Random.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -271,10 +267,6 @@
 				RelativePath="..\..\src\Plugins.h"
 				>
 			</File>
-			<File
-				RelativePath="..\..\src\Random.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -326,7 +318,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\Mersenne_twister.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\Mutator.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\Random.h"
 				>
 			</File>
 			<File

@@ -5,13 +5,13 @@ BINDIR = bin
 OBJDIR = build/unix
 SRCDIR = src
 EXEC = $(BINDIR)/$(TARGET)
-OBJ = $(OBJDIR)/ConfigManager.o \
+OBJ = $(OBJDIR)/Algorithm.o \
+	$(OBJDIR)/ConfigManager.o \
 	$(OBJDIR)/InterruptHandler.o \
 	$(OBJDIR)/Logger.o \
 	$(OBJDIR)/PlotterFactory.o \
 	$(OBJDIR)/Plotter_SVG.o \
 	$(OBJDIR)/PluginManager.o \
-	$(OBJDIR)/Random.o \
 	$(OBJDIR)/Ngene.o
 
 CPP = g++
@@ -22,9 +22,6 @@ default: $(EXEC)
 
 $(EXEC): $(OBJ)
 	$(CPP) $(LDFLAGS) -o $@ $^
-
-$(OBJDIR)/Random.o: $(SRCDIR)/Random.cpp
-	$(CPP) -c $< $(CFLAGS) -fPIC -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CPP) -c $< $(CFLAGS) -o $@

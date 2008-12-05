@@ -14,10 +14,10 @@
 
 #define DIRECTIONS 6
 
+#include <algorithm>
+#include <Random.h>
 #include <Development/Protein.h>
 #include "../../../src/Algorithm.h"
-#include "../../../src/Random.h"
-#include <algorithm>
 #include "CellType.h"
 #include "Mutable.h"
 #include "ProteinType.h"
@@ -25,11 +25,6 @@
 
 class Gene
 {
-private:
-	Random *random;			///< Random number generator
-	unsigned int sequence;	///< The DNA sequence of this gene
-	Protein protein;		///< The protein this gene translates into
-
 public:
 	const Setup *setup;		///< Parameters the mutation abides by
 
@@ -51,6 +46,11 @@ public:
 	void mutate();
 
 	Gene &operator =(const Gene &gene);
+
+private:
+	unsigned int sequence;	///< The DNA sequence of this gene
+	Random *random;			///< Random number generator
+	Protein protein;		///< The protein this gene translates into
 };
 
 #endif

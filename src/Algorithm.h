@@ -9,6 +9,7 @@
 namespace ngene
 {
 	const double ln2 = log(2.0);	///< Constant used to convert log base 10 to base 2
+	const std::string whitespace (" \t\n\v\f\r");
 
 	/// Searches for an occurrence of a substring inside a bitstring. Algorithm
 	/// makes use of bit-operations.
@@ -41,6 +42,13 @@ namespace ngene
 		std::stringstream ss;
 		ss << t;
 		return ss.str();
+	}
+
+	inline std::string &trim(std::string &str)
+	{
+		str = str.erase(str.find_last_not_of(whitespace) + 1);
+		str = str.erase(0, str.find_first_not_of(whitespace));
+		return str;
 	}
 }
 

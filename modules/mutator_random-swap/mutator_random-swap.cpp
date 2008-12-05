@@ -11,7 +11,7 @@ const char *name()
 	return "Random Swap";
 }
 
-void mutate(vector<boost::any> &genotype)
+void mutate(Genotype &genotype)
 {
 	swap(
 		genotype[ngene::random->next_int(genotype.size())],
