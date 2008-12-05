@@ -22,9 +22,10 @@ using std::stringstream;
 
 void assess(Specimen &individual)
 {
-	boost::any phenotype_container;
+	Any phenotype_container;
 	ngene::phenotype(phenotype_container, individual.genotype);
 	map<Coordinates, Cell> specimen (*boost::unsafe_any_cast< map<Coordinates, Cell> >(&phenotype_container));
+	//map<Coordinates, Cell> specimen (*phenotype_container.cast<map<Coordinates, Cell> >());
 
 	//for (map<Coordinates, Cell>::iterator i = specimen.begin(); i != specimen.end(); i++)
 	//	printf("[%d,%d,%d] = %d\n", i->first.x, i->first.y, i->first.z, i->second.type);

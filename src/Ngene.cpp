@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
 				module.select(mates[1], adults, generation);
 			} while (mates[0] == mates[1]);
 
-			if (Random::Instance().next() <= mating_rate)
+			if (module.random->next() <= mating_rate)
 			{
 				// Empty the embryonic vessels
 				for (Population::iterator i = embryo.begin(); i != embryo.end(); i++)
@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 		#pragma omp parallel for
 		for (int i = 0; i < static_cast<int>(offspring.size()); i++)
 		{
-			if (Random::Instance().next() <= mutation_rate)
+			if (module.random->next() <= mutation_rate)
 				module.mutate(offspring[i].genotype);
 			module.assess_fitness(offspring[i]);
 			offspring[i].age = 0;
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
 			if (prodigies > 0) // Replace lower citizens with prodigies
 			{
 				unsigned int current_prodigies = (prodigies > offspring.size())
-					? Random::Instance().next_int(offspring.size()) : Random::Instance().next_int(prodigies);
+					? module.random->next_int(offspring.size()) : module.random->next_int(prodigies);
 				sort(adults.begin(), adults.end());
 				for (unsigned int i = 0; i < current_prodigies; i++)
 					adults.pop_back();

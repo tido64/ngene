@@ -196,10 +196,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\src\Random.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Setup.h"
 				>
 			</File>
@@ -241,10 +237,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\gene_artdevn.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\src\Random.cpp"
 				>
 			</File>
 		</Filter>

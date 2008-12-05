@@ -15,15 +15,16 @@ typedef void * dlhandle;	//< Custom type definition to make dynamic library load
 /// Handles all module loading and acts as an interface for the rest of the
 /// system.
 
+#include <Random.h>
 #include "Config.h"
 #include "ModuleType.h"
 #include "Plugins.h"
-#include "Random.h"
 
 class PluginManager
 {
 public:
 	int offspring_rate;					///< The number of offspring produced each generation
+	Random *random;						///< Pointer to pseudo-random number generator
 	std::vector<const char *> modules;	///< Stores the names of the loaded modules
 
 	Fitness assess_fitness;				///< Assesses an individual

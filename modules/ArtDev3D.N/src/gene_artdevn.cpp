@@ -34,7 +34,7 @@ void initiate(const char *parameters)
 	N::artdev3d = new ArtDev3D (N::ticks, N::setup.cell_types_number, N::setup.min_stimuli);
 }
 
-void phenotype(boost::any &phenotype, const Genotype &genotype)
+void phenotype(Any &phenotype, const Genotype &genotype)
 {
 	N::artdev3d->evolve(genotype);
 	phenotype = N::artdev3d->get_organism();

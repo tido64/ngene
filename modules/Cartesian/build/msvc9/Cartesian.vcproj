@@ -184,10 +184,6 @@
 				RelativePath="..\..\src\gene_cartesian.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\..\..\..\src\Random.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -204,10 +200,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Function.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\src\Random.h"
 				>
 			</File>
 		</Filter>

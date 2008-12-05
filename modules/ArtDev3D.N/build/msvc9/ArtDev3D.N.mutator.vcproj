@@ -180,10 +180,6 @@
 				RelativePath="..\..\src\mutator_artdevn.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\..\..\..\src\Random.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -192,10 +188,6 @@
 			>
 			<File
 				RelativePath="..\..\src\Gene.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\src\Random.h"
 				>
 			</File>
 		</Filter>

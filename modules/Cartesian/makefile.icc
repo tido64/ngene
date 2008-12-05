@@ -5,7 +5,6 @@ SRCDIR = src
 EXEC   = $(BINDIR)/$(TARGET)
 OBJ    = $(OBJDIR)/Cartesian.o \
 	$(OBJDIR)/Algorithm.o \
-	$(OBJDIR)/Random.o \
 	$(OBJDIR)/gene_cartesian.o
 
 CPP = icpc
@@ -26,10 +25,10 @@ $(OBJDIR)/%.o: ../../src/%.cpp
 fitness: $(OBJDIR)/fitness_cartesian.o
 	$(CPP) $(LDFLAGS) -o $(BINDIR)/fitness_cartesian.so $^
 
-mating: $(OBJDIR)/Random.o $(OBJDIR)/mating_cartesian.o
+mating: $(OBJDIR)/mating_cartesian.o
 	$(CPP) $(LDFLAGS) -o $(BINDIR)/mating_cartesian.so $^
 
-mutator: $(OBJDIR)/Random.o $(OBJDIR)/mutator_cartesian.o
+mutator: $(OBJDIR)/mutator_cartesian.o
 	$(CPP) $(LDFLAGS) -o $(BINDIR)/mutator_cartesian.so $^
 
 all: $(EXEC) fitness mutator
