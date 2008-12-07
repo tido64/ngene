@@ -1,7 +1,7 @@
 #ifndef FUNCTIONS_H_
 #define FUNCTIONS_H_
 
-#include "../../../src/Algorithm.h"
+#include <Algorithm.h>
 
 class Function
 {

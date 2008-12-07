@@ -168,10 +168,6 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\..\..\src\Algorithm.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\ArtDev3D.h"
 				>
 			</File>
@@ -219,10 +215,6 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File
-				RelativePath="..\..\..\..\src\Algorithm.cpp"
-				>
-			</File>
 			<File
 				RelativePath="..\..\src\ArtDev3D.cpp"
 				>

@@ -30,7 +30,12 @@ void PluginManager::load_module(const Module::Type module_type, const string &fi
 	#else
 		dlhandle module = dlopen(dl.c_str(), RTLD_LAZY);
 	#endif
-	if (module != NULL)
+	if (module == 0)
+	{
+		printf("==> Failed to load %s\n", filename.c_str());
+		exit(-1);
+	}
+	else
 	{
 		dl = "name";
 		((void (*)(const char *))dlsym(module, "initiate"))(parameters.c_str());
@@ -66,10 +71,5 @@ void PluginManager::load_module(const Module::Type module_type, const string &fi
 		}
 		this->modules[module_type] = ((const char *(*)())dlsym(module, dl.c_str()))();
 		dlhandles.push_back(module);
-	}
-	else
-	{
-		printf("==> Failed to load %s\n", filename.c_str());
-		exit(-1);
 	}
 }

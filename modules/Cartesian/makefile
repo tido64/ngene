@@ -4,7 +4,6 @@ OBJDIR = build/unix
 SRCDIR = src
 EXEC   = $(BINDIR)/$(TARGET)
 OBJ    = $(OBJDIR)/Cartesian.o \
-	$(OBJDIR)/Algorithm.o \
 	$(OBJDIR)/gene_cartesian.o
 
 CPP = g++
@@ -17,9 +16,6 @@ $(EXEC): $(OBJ)
 	$(CPP) $(LDFLAGS) -o $@ $^
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
-	$(CPP) -c $< $(CFLAGS) -o $@
-
-$(OBJDIR)/%.o: ../../src/%.cpp
 	$(CPP) -c $< $(CFLAGS) -o $@
 
 fitness: $(OBJDIR)/fitness_cartesian.o

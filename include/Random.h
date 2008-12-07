@@ -1,12 +1,34 @@
-/// Generic random number generator interface. All generators must extend from
-/// this interface. All numbers generated must be in the range of [0, 1)
-/// unless specified otherwise.
+/// Generic pseudo-random number generator. All generators must implement
+/// the following interface. All numbers generated must be in the range of
+/// [0, 1) unless specified otherwise.
+///
+/// class Random
+/// {
+/// public:
+/// 	static Random *Instance()
+/// 	{
+/// 		static Random singleton;
+/// 		return &singleton;
+/// 	}
+/// 
+/// 	inline double next();
+/// 	inline double next(double min, double max);
+/// 	inline unsigned int next_int(unsigned int i);
+/// 	inline int next_int(int min, int max);
+/// 	inline unsigned int operator ()(unsigned int i);
+/// 	void seed(unsigned int s);
+/// 	void seed(unsigned int seed[], unsigned int seedc);
+/// 
+/// private:
+/// 	Random();
+//};
 
 #ifndef RANDOM_H_
 #define RANDOM_H_
 
-//#include "Mersenne_twister.h"
+#include "Mersenne_twister.h"
 
+/*
 #include <ctime>
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_real.hpp>
@@ -51,7 +73,7 @@ public:
 		return static_cast<unsigned int>(this->mt_rand() * i);
 	}
 
-	void seed(unsigned int) { }
+	void seed(unsigned int s) { }
 	void seed(unsigned int seed[], unsigned int seedc) { }
 
 private:
@@ -64,5 +86,6 @@ private:
 		uniform_real_dist(0, 1),
 		mt_rand(mersenne_twister, uniform_real_dist) { }
 };
+*/
 
 #endif

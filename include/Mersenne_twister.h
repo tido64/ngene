@@ -1,9 +1,23 @@
+/// Double precision SIMD-oriented Fast Mersenne Twister (dSFMT)
+/// based on IEEE 754 format.
+///
+/// \author Mutsuo Saito (Hiroshima University)
+/// \author Makoto Matsumoto (Hiroshima University)
+///
+/// Copyright (C) 2007,2008 Mutsuo Saito, Makoto Matsumoto and Hiroshima
+/// University. All rights reserved.
+///
+/// The new BSD License is applied to this software
+/// (see http://www.opensource.org/licenses/bsd-license.php)
+
 #ifndef MERSENNE_TWISTER_H_
 #define MERSENNE_TWISTER_H_
 
 #include <cstring>
 #include <ctime>
 #include "dSFMT-params.h"
+
+const double one = 1.0;
 
 class Random
 {
@@ -27,12 +41,10 @@ public:
 				do_recursion(&dsfmt.status[i], &dsfmt.status[i], &dsfmt.status[i + DSFMT_POS1], &lung);
 			for (; i < DSFMT_N; i++)
 				do_recursion(&dsfmt.status[i], &dsfmt.status[i], &dsfmt.status[i + DSFMT_POS1 - DSFMT_N], &lung);
-			for (i = 0; i < DSFMT_N; i++)
-				convert_c0o1(dsfmt.status + i);
 			dsfmt.status[DSFMT_N] = lung;
 			dsfmt.idx = 0;
 		}
-		return reinterpret_cast<double *>(dsfmt.status)[dsfmt.idx++];
+		return reinterpret_cast<double *>(dsfmt.status)[dsfmt.idx++] - one;
 	}
 
 	inline double next(double min, double max)
@@ -136,28 +148,40 @@ private:
 	dsfmt_t dsfmt;								//< dsfmt internal state vector
 	static const int dsfmt_mexp = DSFMT_MEXP;	//< dsfmt mexp for check
 
-	Mersenne_twister()
+	Random()
 #ifdef HAVE_SSE2
-	:	sse2_param_mask(_mm_set_epi32(DSFMT_MSK32_3, DSFMT_MSK32_4, DSFMT_MSK32_1, DSFMT_MSK32_2)),
-		sse2_double_m_one(_mm_set_pd(-1.0, -1.0))
+	:	sse2_param_mask(_mm_set_epi32(DSFMT_MSK32_3, DSFMT_MSK32_4, DSFMT_MSK32_1, DSFMT_MSK32_2))
 #endif
 	{
 		seed(time(0));
-		printf("\n>>> Mersenne twister was created\n");
 	}
 
-#ifndef HAVE_SSE2
-	/// This function converts the double precision floating point numbers which
-	/// distribute uniformly in the range [1, 2) to those which distribute uniformly
-	/// in the range [0, 1).
-	/// \param w  128bit stracture of double precision floating point numbers (I/O)
-	inline void convert_c0o1(w128_t *w)
+#if defined(HAVE_SSE2)
+	const __m128i sse2_param_mask;	//< mask data for sse2
+
+	/// This function represents the recursion formula.
+	/// \param r  output 128-bit
+	/// \param a  a 128-bit part of the internal state array
+	/// \param b  a 128-bit part of the internal state array
+	/// \param d  a 128-bit part of the internal state array (I/O)
+	inline void do_recursion(w128_t *r, w128_t *a, w128_t *b, w128_t *u)
 	{
-		w->d[0] -= 1.0;
-		w->d[1] -= 1.0;
-	}
+		__m128i v, w, x, y, z;
 
-#	ifdef HAVE_ALTIVEC
+		x = a->si;
+		z = _mm_slli_epi64(x, DSFMT_SL1);
+		y = _mm_shuffle_epi32(u->si, SSE2_SHUFF);
+		z = _mm_xor_si128(z, b->si);
+		y = _mm_xor_si128(y, z);
+
+		v = _mm_srli_epi64(y, DSFMT_SR);
+		w = _mm_and_si128(y, sse2_param_mask);
+		v = _mm_xor_si128(v, x);
+		v = _mm_xor_si128(v, w);
+		r->si = v;
+		u->si = y;
+	}
+#elif defined(HAVE_ALTIVEC)
 	/// This function represents the recursion formula.
 	/// \param r     output
 	/// \param a     a 128-bit part of the internal state array
@@ -191,7 +215,7 @@ private:
 		r->s = vec_xor(z, x);
 		lung->s = w;
 	}
-#	else // plain C
+#else // plain C
 	/// This function represents the recursion formula.
 	/// \param r     output 128-bit
 	/// \param a     a 128-bit part of the internal state array
@@ -210,42 +234,6 @@ private:
 		r->u[0] = (lung->u[0] >> DSFMT_SR) ^ (lung->u[0] & DSFMT_MSK1) ^ t0;
 		r->u[1] = (lung->u[1] >> DSFMT_SR) ^ (lung->u[1] & DSFMT_MSK2) ^ t1;
 	}
-#	endif
-#else
-	const __m128i sse2_param_mask;		//< mask data for sse2
-	const __m128d sse2_double_m_one;	//< -1.0 double for sse2
-
-	/// This function converts the double precision floating point numbers which
-	/// distribute uniformly in the range [1, 2) to those which distribute uniformly
-	/// in the range [0, 1).
-	/// \param w  128bit stracture of double precision floating point numbers (I/O)
-	inline void convert_c0o1(w128_t *w)
-	{
-		w->sd = _mm_add_pd(w->sd, sse2_double_m_one);
-	}
-
-	/// This function represents the recursion formula.
-	/// \param r  output 128-bit
-	/// \param a  a 128-bit part of the internal state array
-	/// \param b  a 128-bit part of the internal state array
-	/// \param d  a 128-bit part of the internal state array (I/O)
-	inline void do_recursion(w128_t *r, w128_t *a, w128_t *b, w128_t *u)
-	{
-		__m128i v, w, x, y, z;
-
-		x = a->si;
-		z = _mm_slli_epi64(x, DSFMT_SL1);
-		y = _mm_shuffle_epi32(u->si, SSE2_SHUFF);
-		z = _mm_xor_si128(z, b->si);
-		y = _mm_xor_si128(y, z);
-
-		v = _mm_srli_epi64(y, DSFMT_SR);
-		w = _mm_and_si128(y, sse2_param_mask);
-		v = _mm_xor_si128(v, x);
-		v = _mm_xor_si128(v, w);
-		r->si = v;
-		u->si = y;
-	}
 #endif
 
 	/// This function represents a function used in the initialization
@@ -261,7 +249,7 @@ private:
 	/// by init_by_array
 	/// \param x  32-bit integer
 	/// \return 32-bit integer
-	static uint32_t ini_func2(uint32_t x)
+	uint32_t ini_func2(uint32_t x)
 	{
 		return (x ^ (x >> 27)) * (uint32_t)1566083941UL;
 	}

@@ -16,6 +16,13 @@ The last number is the date of build. Usually bug-fixes.
 API may change when there is a new minor revision. These will be highlighted.
 
 
+What's new in 1.2
+-----------------
+ * Custom Any container
+ * Mersenne twister 2.0
+ * No Boost dependencies (!)
+
+
 What's new in 1.1
 -----------------
  * Algorithms library

@@ -4,7 +4,6 @@ OBJDIR = build/unix
 SRCDIR = src
 EXEC   = $(BINDIR)/$(TARGET)
 OBJ    = $(OBJDIR)/ArtDev3D.o \
-	$(OBJDIR)/Algorithm.o \
 	$(OBJDIR)/ConfigManager.o \
 	$(OBJDIR)/Gene.o \
 	$(OBJDIR)/gene_artdevn.o
@@ -19,9 +18,6 @@ $(EXEC): $(OBJ)
 	$(CPP) $(LDFLAGS) -o $@ $^
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
-	$(CPP) -c $< $(CFLAGS) -o $@
-
-$(OBJDIR)/%.o: ../../src/%.cpp
 	$(CPP) -c $< $(CFLAGS) -o $@
 
 fitness: $(OBJDIR)/fitness_artdevn.o

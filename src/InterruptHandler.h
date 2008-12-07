@@ -17,7 +17,7 @@
 
 #include <cstdio>
 
-extern bool USER_INTERVENTION;
+extern bool TERMINATION_PENDING;
 
 class InterruptHandler
 {
