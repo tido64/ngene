@@ -5,8 +5,7 @@ BINDIR = bin
 OBJDIR = build/unix
 SRCDIR = src
 EXEC = $(BINDIR)/$(TARGET)
-OBJ = $(OBJDIR)/Algorithm.o \
-	$(OBJDIR)/ConfigManager.o \
+OBJ = $(OBJDIR)/ConfigManager.o \
 	$(OBJDIR)/InterruptHandler.o \
 	$(OBJDIR)/Logger.o \
 	$(OBJDIR)/PlotterFactory.o \

@@ -1,6 +1,6 @@
 #include "InterruptHandler.h"
 
-bool USER_INTERVENTION = false;
+bool TERMINATION_PENDING = false;
 const char *INTMSG = "\rUser aborted! Stand by for termination\n";
 
 InterruptHandler::InterruptHandler()
@@ -17,7 +17,7 @@ InterruptHandler::InterruptHandler()
 #ifdef WIN32
 BOOL int_handle(DWORD fdwCtrlType)
 {
-	USER_INTERVENTION = true;
+	TERMINATION_PENDING = true;
 	switch (fdwCtrlType)
 	{
 		case CTRL_C_EVENT:
@@ -34,7 +34,7 @@ BOOL int_handle(DWORD fdwCtrlType)
 #else
 void int_handle(int sig)
 {
-	USER_INTERVENTION = true;
+	TERMINATION_PENDING = true;
 	printf("%s", INTMSG);
 }
 

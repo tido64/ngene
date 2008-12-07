@@ -75,6 +75,7 @@ const void *ConfigManager::parse()
 
 	if (this->conf.find(genotype_path) == this->conf.end())
 	{
+		dump();
 		printf("==> No path was found for the genotype module\n");
 		exit(-1);
 	}
@@ -86,6 +87,7 @@ const void *ConfigManager::parse()
 
 	if (this->conf.find(fitness_path) == this->conf.end())
 	{
+		dump();
 		printf("==> No path was found for the fitness module\n");
 		exit(-1);
 	}
@@ -97,6 +99,7 @@ const void *ConfigManager::parse()
 
 	if (this->conf.find(mating_path) == this->conf.end())
 	{
+		dump();
 		printf("==> No path was found for the mating module\n");
 		exit(-1);
 	}
@@ -108,6 +111,7 @@ const void *ConfigManager::parse()
 
 	if (this->conf.find(mutator_path) == this->conf.end())
 	{
+		dump();
 		printf("==> No path was found for the mutator module\n");
 		exit(-1);
 	}
@@ -119,6 +123,7 @@ const void *ConfigManager::parse()
 
 	if (this->conf.find(selector_path) == this->conf.end())
 	{
+		dump();
 		printf("==> No path was found for the selector module\n");
 		exit(-1);
 	}

@@ -6,10 +6,10 @@
 #ifndef CONFIGMANAGER_H_
 #define CONFIGMANAGER_H_
 
+#include <cstdlib>
 #include <fstream>
 #include <map>
-#include <boost/algorithm/string/trim.hpp>
-//#include <Algorithm.h>
+#include <Algorithm.h>
 
 class ConfigManager
 {
@@ -28,7 +28,7 @@ public:
 		while (!in_cfg.eof())
 		{
  			std::getline(in_cfg, line);
-			boost::algorithm::trim(line);
+			ngene::trim(line);
 			if (line[0] != '#')
 			{
 				if (line[0] == '[')
@@ -44,11 +44,11 @@ public:
 						comment = line.find_first_of('#');
 
 						std::string key = line.substr(0, equal_sign++);
-						boost::algorithm::trim(key);
+						ngene::trim(key);
 						key = section + key;
 
 						std::string val = line.substr(equal_sign, comment - equal_sign);
-						boost::algorithm::trim(val);
+						ngene::trim(val);
 
 						this->conf[key] = val;
 					}
@@ -63,6 +63,14 @@ public:
 
 private:
 	std::map<std::string, std::string> conf;
+
+	/// Dumps the configuration file. For debugging purposes only.
+	void dump()
+	{
+		printf("==> Dumping configuration file...\n");
+		for (std::map<std::string, std::string>::const_iterator i = conf.begin(); i != conf.end(); i++)
+			printf("==> %s = %s\n", i->first.c_str(), i->second.c_str());
+	}
 };
 
 #endif

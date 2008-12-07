@@ -2,13 +2,16 @@
 
 using std::sort;
 using std::string;
+using std::swap;
 using std::vector;
 
-const char *NGENE_VERSION = "1.1.81120";
+const char *NGENE_VERSION = "1.1.81207";
 
 int main(int argc, char *argv[])
 {
 	InterruptHandler interrupt_handler;
+
+	printf("ngene v%s\n", NGENE_VERSION);
 
 	string config_file ("ngene.conf");
 	if (argc > 1)
@@ -18,10 +21,11 @@ int main(int argc, char *argv[])
 			printf("Usage: %s [config file]\n", argv[0]);
 			return 0;
 		}
+		else if ((strcmp(argv[1], "--version") == 0) | (strcmp(argv[1], "-v") == 0))
+			return 0;
 		else
 			config_file = argv[1];
 	}
-	printf("Starting Ngene v%s\n", NGENE_VERSION);
 
 	// Load configuration
 	ConfigManager *config_manager = new ConfigManager(config_file.c_str());
@@ -62,7 +66,7 @@ int main(int argc, char *argv[])
 	adults.reserve(capacity);
 	mates.reserve(capacity);
 
-	// Prepare the initial population
+	// Prepare initial population
 	for (unsigned int i = 0; i < capacity; i++)
 	{
 		Specimen specimen;
@@ -116,57 +120,54 @@ int main(int argc, char *argv[])
 			offspring[i].age = 0;
 		}
 
-		if (lifespan > 1)
+#ifdef ENABLE_LIFESPAN
+		Population::iterator iter_tmp, start = adults.begin();
+		if (elitism)
 		{
-			Population::iterator iter_tmp, start = adults.begin();
-			if (elitism)
+			sort(adults.begin(), adults.end());
+			start = adults.begin();
+			start++;
+		}
+		for (Population::iterator i = start; i != adults.end(); i++)
+		{
+			if(i->age >= lifespan)
 			{
-				sort(adults.begin(), adults.end());
-				start = adults.begin();
-				start++;
+				module.select(iter_tmp, offspring, generation);
+				*i = *iter_tmp;
+				i->age = 1;
+				offspring.erase(iter_tmp);
 			}
-			for (Population::iterator i = start; i != adults.end(); i++)
+			else
+				i->age++;
+		}
+		if (prodigies > 0) // Replace lower citizens with prodigies
+		{
+			unsigned int current_prodigies = (prodigies > offspring.size())
+				? module.random->next_int(offspring.size()) : module.random->next_int(prodigies);
+			sort(adults.begin(), adults.end());
+			for (unsigned int i = 0; i < current_prodigies; i++)
+				adults.pop_back();
+			for (unsigned int i = 0; i < current_prodigies; i++)
 			{
-				if(i->age >= lifespan)
-				{
-					module.select(iter_tmp, offspring, generation);
-					*i = *iter_tmp;
-					i->age = 1;
-					offspring.erase(iter_tmp);
-				}
-				else
-					i->age++;
-			}
-			if (prodigies > 0) // Replace lower citizens with prodigies
-			{
-				unsigned int current_prodigies = (prodigies > offspring.size())
-					? module.random->next_int(offspring.size()) : module.random->next_int(prodigies);
-				sort(adults.begin(), adults.end());
-				for (unsigned int i = 0; i < current_prodigies; i++)
-					adults.pop_back();
-				for (unsigned int i = 0; i < current_prodigies; i++)
-				{
-					module.select(iter_tmp, offspring, generation);
-					adults.push_back(*iter_tmp);
-					adults.rbegin()->age = 1;
-					offspring.erase(iter_tmp);
-				}
+				module.select(iter_tmp, offspring, generation);
+				adults.push_back(*iter_tmp);
+				adults.rbegin()->age = 1;
+				offspring.erase(iter_tmp);
 			}
 		}
-		else
-		{
-			if (elitism) // replace worst fit offspring with best fit adult
-				*worst_specimen(offspring.begin(), offspring.end()) = *best_specimen(adults.begin(), adults.end());
-			adults.swap(offspring);
-		}
+#else
+		if (elitism) // replace worst fit offspring with best fit adult
+			swap(*worst_specimen(offspring.begin(), offspring.end()), *best_specimen(adults.begin(), adults.end()));
+		adults.swap(offspring);
+#endif
 
 		// Terminate if a perfect specimen is found or user canceled
 		if (logger.log(generation, adults))
 		{
 			printf("\nPerfect specimen found. ");
-			break;
+			TERMINATION_PENDING = true;
 		}
-		else if (USER_INTERVENTION)
+		if (TERMINATION_PENDING)
 			break;
 	}
 	time = clock() - time;

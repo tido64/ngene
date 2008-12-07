@@ -18,7 +18,16 @@ namespace ngene
 	/// \param haystack       The bitstring to search in
 	/// \param haystack_size  The number of digits in the haystack
 	/// \return The index of the first occurrence, or -1 when the substring is not found
-	int bitstring_find(unsigned int needle, unsigned int needle_size, unsigned int haystack, unsigned int haystack_size);
+	inline int bitstring_find(unsigned int needle, const unsigned int needle_size, const unsigned int haystack, const unsigned int haystack_size)
+	{
+		for (unsigned int i = 0; i <= haystack_size - needle_size; i++)
+		{
+			if ((haystack & needle) == needle)
+				return i;
+			needle <<= 1;
+		}
+		return -1;
+	}
 
 	/// Flips a single bit in a bitstring.
 	/// \param bits        The bitstring to perform a flip on
@@ -35,15 +44,16 @@ namespace ngene
 		return log(static_cast<double>(x)) / ln2;
 	}
 
-	/// Converts any basic data type to string.
+	/// Converts any POD type to string.
 	template <typename T>
-	inline std::string to_string(const T& t)
+	inline std::string to_string(const T &t)
 	{
 		std::stringstream ss;
 		ss << t;
 		return ss.str();
 	}
 
+	/// Trims whitespaces from a string in-place.
 	inline std::string &trim(std::string &str)
 	{
 		str = str.erase(str.find_last_not_of(whitespace) + 1);

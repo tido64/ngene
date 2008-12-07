@@ -15,9 +15,11 @@
 #define DIRECTIONS 6
 
 #include <algorithm>
+
+#include <Algorithm.h>
 #include <Random.h>
 #include <Development/Protein.h>
-#include "../../../src/Algorithm.h"
+
 #include "CellType.h"
 #include "Mutable.h"
 #include "ProteinType.h"

@@ -7,7 +7,12 @@ Plotter_SVG::Plotter_SVG(string &filename, const std::vector<const char *> *modu
 {
 	filename += ".svg";
 	this->svg.open(filename.c_str());
-	if (this->svg.is_open())
+	if (!this->svg.is_open())
+	{
+		printf("==> Failed to initiate plotter. Please make sure you have writing privileges.\n");
+		exit(-1);
+	}
+	else
 	{
 		this->svg	<< "<?xml version=\"1.0\"?>\n"
 					<< "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n"
@@ -68,11 +73,6 @@ Plotter_SVG::Plotter_SVG(string &filename, const std::vector<const char *> *modu
 			// generate ticks on the axes
 		this->fitness_margin += this->fitness_scale;
 	}
-	else
-	{
-		printf("==> Failed to initiate plotter. Please make sure you have writing privileges.\n");
-		exit(-1);
-	}
 }
 
 Plotter_SVG::~Plotter_SVG()
@@ -83,16 +83,27 @@ Plotter_SVG::~Plotter_SVG()
 
 void Plotter_SVG::plot(unsigned int generation, double min, double avg, double max)
 {
-	avg = this->fitness_margin - avg * this->fitness_scale;
-	max = this->fitness_margin - max * this->fitness_scale;
-	min = this->fitness_margin - min * this->fitness_scale;
-	if (generation-- > 1)
+	if (generation-- < 2)
 	{
-		int prev = generation - 1;
-		this->svg	<< "	<line class=\"max\" x1=\"" << this->generation_axis[prev] << "\" y1=\"" << this->max << "\" x2=\"" << this->generation_axis[generation] << "\" y2=\"" << max << "\" />\n"
-					<< "	<line class=\"avg\" x1=\"" << this->generation_axis[prev] << "\" y1=\"" << this->avg << "\" x2=\"" << this->generation_axis[generation] << "\" y2=\"" << avg << "\" />\n"
-					<< "	<line class=\"min\" x1=\"" << this->generation_axis[prev] << "\" y1=\"" << this->min << "\" x2=\"" << this->generation_axis[generation] << "\" y2=\"" << min << "\" />\n";
+		this->avg *= this->fitness_scale;
+		this->avg  = this->fitness_margin - avg;
+		this->max *= this->fitness_scale;
+		this->max  = this->fitness_margin - max;
+		this->min *= this->fitness_scale;
+		this->min  = this->fitness_margin - min;
+		return;
 	}
+	avg *= this->fitness_scale;
+	avg  = this->fitness_margin - avg;
+	max *= this->fitness_scale;
+	max  = this->fitness_margin - max;
+	min *= this->fitness_scale;
+	min  = this->fitness_margin - min;
+	generation--;
+	int prev = generation - 1;
+	this->svg	<< "	<line class=\"max\" x1=\"" << this->generation_axis[prev] << "\" y1=\"" << this->max << "\" x2=\"" << this->generation_axis[generation] << "\" y2=\"" << max << "\" />\n"
+				<< "	<line class=\"avg\" x1=\"" << this->generation_axis[prev] << "\" y1=\"" << this->avg << "\" x2=\"" << this->generation_axis[generation] << "\" y2=\"" << avg << "\" />\n"
+				<< "	<line class=\"min\" x1=\"" << this->generation_axis[prev] << "\" y1=\"" << this->min << "\" x2=\"" << this->generation_axis[generation] << "\" y2=\"" << min << "\" />\n";
 	this->avg = avg;
 	this->max = max;
 	this->min = min;
