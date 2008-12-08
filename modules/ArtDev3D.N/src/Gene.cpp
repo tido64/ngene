@@ -115,10 +115,3 @@ void Gene::mutate()
 			break;
 	}
 }
-
-Gene & Gene::operator =(const Gene &gene)
-{
-	this->sequence = gene.sequence;
-	this->protein = gene.protein;
-	return *this;
-}
