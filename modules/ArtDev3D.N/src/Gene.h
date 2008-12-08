@@ -47,8 +47,6 @@ public:
 	/// checked.
 	void mutate();
 
-	Gene &operator =(const Gene &gene);
-
 private:
 	unsigned int sequence;	///< The DNA sequence of this gene
 	Random *random;			///< Random number generator
