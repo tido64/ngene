@@ -8,7 +8,7 @@
 class Plotter_SVG : public IPlotter
 {
 public:
-	Plotter_SVG(std::string &filename, const std::vector<const char *> *modules, const Config *config);
+	Plotter_SVG(std::string filename, const std::vector<const char *> *modules, const Config *config);
 	~Plotter_SVG();
 	void plot(unsigned int generation, double min, double avg, double max);
 

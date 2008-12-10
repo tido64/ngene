@@ -54,8 +54,6 @@ Gene::Gene(const Setup *s, Random *r) : setup(s), random(r)
 	}
 }
 
-Gene::Gene(const Gene &g) : setup(g.setup), sequence(g.sequence), random(g.random), protein(g.protein) { }
-
 const Protein *Gene::get_protein()
 {
 	return &this->protein;

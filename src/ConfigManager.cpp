@@ -24,6 +24,7 @@ const void *ConfigManager::parse()
 		mutator_parameters	= "mutator:parameters",
 		mutator_path		= "mutator:path",
 		offspring_rate		= "offspring rate",
+		plotter				= "plotter",
 		prodigies			= "prodigies",
 		selector_parameters	= "selector:parameters",
 		selector_path		= "selector:path";
@@ -64,6 +65,9 @@ const void *ConfigManager::parse()
 		cfg->offspring_rate = static_cast<unsigned int>(cfg->capacity + cfg->capacity * 0.1);
 	else
 		cfg->offspring_rate = atoi(this->conf[offspring_rate].c_str());
+
+	if (this->conf.find(plotter) != this->conf.end())
+		cfg->plotter = this->conf[plotter];
 
 	if (this->conf.find(prodigies) == this->conf.end())
 		cfg->prodigies = static_cast<unsigned int>(cfg->capacity * 0.3);

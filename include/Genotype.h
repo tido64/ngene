@@ -4,7 +4,6 @@
 #	define GENOTYPE_INTERFACE
 #endif
 
-#include <string>
 #include <Random.h>
 #include <Specimen.h>
 

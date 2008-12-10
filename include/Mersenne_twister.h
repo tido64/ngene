@@ -149,14 +149,14 @@ private:
 	static const int dsfmt_mexp = DSFMT_MEXP;	//< dsfmt mexp for check
 
 	Random()
-#ifdef HAVE_SSE2
+#ifdef __SSE2__
 	:	sse2_param_mask(_mm_set_epi32(DSFMT_MSK32_3, DSFMT_MSK32_4, DSFMT_MSK32_1, DSFMT_MSK32_2))
 #endif
 	{
 		seed(time(0));
 	}
 
-#if defined(HAVE_SSE2)
+#if defined(__SSE2__)
 	const __m128i sse2_param_mask;	//< mask data for sse2
 
 	/// This function represents the recursion formula.
@@ -181,7 +181,7 @@ private:
 		r->si = v;
 		u->si = y;
 	}
-#elif defined(HAVE_ALTIVEC)
+#elif defined(__ALTIVEC__)
 	/// This function represents the recursion formula.
 	/// \param r     output
 	/// \param a     a 128-bit part of the internal state array

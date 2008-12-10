@@ -33,9 +33,6 @@ public:
 	/// Creates a gene with random properties.
 	Gene(const Setup *s, Random *r);
 
-	/// Duplicates the given gene.
-	Gene(const Gene &g);
-
 	/// Returns a constant pointer to the protein.
 	const Protein *get_protein();
 
