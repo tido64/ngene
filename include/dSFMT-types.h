@@ -37,7 +37,7 @@ typedef unsigned long long uint64_t;
 /*------------------------------------------
   128-bit SIMD like data type for standard C
   ------------------------------------------*/
-#if defined(HAVE_ALTIVEC)
+#if defined(__ALTIVEC__)
 #	if !defined(__APPLE__)
 #		include <altivec.h>
 #	endif
@@ -51,7 +51,7 @@ union W128_T
 	double d[2];
 };
 
-#elif defined(HAVE_SSE2)
+#elif defined(__SSE2__)
 #	include <emmintrin.h>
 
 /// 128-bit data structure

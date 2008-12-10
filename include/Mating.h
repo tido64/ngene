@@ -4,8 +4,6 @@
 #	define MATING_INTERFACE
 #endif
 
-#include <map>
-#include <string>
 #include <Random.h>
 #include <Specimen.h>
 

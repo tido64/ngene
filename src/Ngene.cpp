@@ -2,15 +2,12 @@
 
 using std::sort;
 using std::string;
-using std::swap;
 using std::vector;
 
-const char *NGENE_VERSION = "1.1.81207";
+const char *NGENE_VERSION = "1.1.81209";
 
 int main(int argc, char *argv[])
 {
-	InterruptHandler interrupt_handler;
-
 	printf("ngene v%s\n", NGENE_VERSION);
 
 	string config_file ("ngene.conf");
@@ -26,6 +23,8 @@ int main(int argc, char *argv[])
 		else
 			config_file = argv[1];
 	}
+
+	InterruptHandler interrupt_handler;
 
 	// Load configuration
 	ConfigManager *config_manager = new ConfigManager(config_file.c_str());
@@ -79,12 +78,20 @@ int main(int argc, char *argv[])
 
 	printf("Evolution started: %u generations shall live and prosper!\n\n", doomsday);
 
-	logger.log(1, adults);
 	time = clock();
 
 	// Commence evolution
 	for (unsigned int generation = 2; generation <= doomsday; generation++)
 	{
+		// Terminate if a perfect specimen is found or user canceled
+		if (logger.log(generation - 1, adults))
+		{
+			printf("\nPerfect specimen found. ");
+			TERMINATION_PENDING = true;
+		}
+		if (TERMINATION_PENDING)
+			break;
+
 		// Mating season!
 		offspring.clear();
 		do
@@ -157,18 +164,9 @@ int main(int argc, char *argv[])
 		}
 #else
 		if (elitism) // replace worst fit offspring with best fit adult
-			swap(*worst_specimen(offspring.begin(), offspring.end()), *best_specimen(adults.begin(), adults.end()));
+			iter_swap(worst_specimen(offspring.begin(), offspring.end()), best_specimen(adults.begin(), adults.end()));
 		adults.swap(offspring);
 #endif
-
-		// Terminate if a perfect specimen is found or user canceled
-		if (logger.log(generation, adults))
-		{
-			printf("\nPerfect specimen found. ");
-			TERMINATION_PENDING = true;
-		}
-		if (TERMINATION_PENDING)
-			break;
 	}
 	time = clock() - time;
 	logger.log(module.gtoa(best_specimen(adults.begin(), adults.end())->genotype), time);

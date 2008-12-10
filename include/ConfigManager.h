@@ -59,7 +59,7 @@ public:
 	}
 
 	/// Parses the configuration file and returns a config object.
-	virtual const void *parse();
+	const void *parse();
 
 private:
 	std::map<std::string, std::string> conf;

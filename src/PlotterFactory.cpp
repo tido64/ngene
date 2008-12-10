@@ -2,18 +2,15 @@
 
 using std::vector;
 
-PlotterFactory::PlotterFactory(const char *filename, const Config *c, const vector<const char *> *m) :
-	config(c), modules(m), plotter(0), log_file(filename)
-{ }
-
-IPlotter *PlotterFactory::get_plotter()
+IPlotter *PlotterFactory::get_plotter(char *filename, const Config *c, const vector<const char *> *m)
 {
-	if (this->plotter == 0)
+	static IPlotter *plotter = 0;
+	if (plotter == 0)
 	{
-		if (this->config->plotter.compare("SVG") == 0)
-			this->plotter = new Plotter_SVG(this->log_file, this->modules, this->config);
+		if (c->plotter.compare("SVG") == 0)
+			plotter = new Plotter_SVG(filename, m, c);
 		else
-			this->plotter = new Plotter_Dummy();
+			plotter = new Plotter_Dummy();
 	}
-	return this->plotter;
+	return plotter;
 }

@@ -1,5 +1,9 @@
 #include "Logger.h"
 
+using std::numeric_limits;
+using std::ofstream;
+using std::vector;
+
 Logger::Logger() : plotter(0)
 {
 #ifdef WIN32
@@ -11,7 +15,7 @@ Logger::Logger() : plotter(0)
 		printf("==> Failed to create directory for logs: %s\n", strerror(errno));
 		exit(-1);
 	}
-	const std::time_t now = time(0);
+	const time_t now = time(0);
 	strftime(this->timestamp, sizeof(this->timestamp), "./logs/%Y%m%d-%H%M%S", localtime(&now));
 }
 
@@ -20,11 +24,9 @@ Logger::~Logger()
 	delete this->plotter;
 }
 
-void Logger::log(const Config *config, const std::vector<const char *> &modules)
+void Logger::log(const Config *config, const vector<const char *> &modules)
 {
-	PlotterFactory plotter_factory ((const char *)&this->timestamp, config, &modules);
-	this->plotter = plotter_factory.get_plotter();
-
+	this->plotter = PlotterFactory::get_plotter(this->timestamp, config, &modules);
 	printf("  * Species:           %s\n", modules[Module::gene]);
 	printf("  * Fitness assessor:  %s\n", modules[Module::fitness]);
 	printf("  * Mating style:      %s\n", modules[Module::mating]);
@@ -37,7 +39,7 @@ bool Logger::log(const unsigned int generation, const Population &pop)
 	double
 		avg = 0.0,
 		max = 0.0,
-		min = std::numeric_limits<double>::max();
+		min = numeric_limits<double>::max();
 
 	for (Population::const_iterator i = pop.begin(); i != pop.end(); i++)
 	{
@@ -57,7 +59,7 @@ bool Logger::log(const unsigned int generation, const Population &pop)
 
 void Logger::log(const char *best, unsigned long int time)
 {
-	std::ofstream output (strcat(this->timestamp, ".output"));
+	ofstream output (strcat(this->timestamp, ".output"));
 	output << best << "\n";
 	output.close();
 

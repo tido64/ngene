@@ -1,15 +1,16 @@
 #include "Plotter_SVG.h"
 
 using std::string;
+using std::vector;
 
-Plotter_SVG::Plotter_SVG(string &filename, const std::vector<const char *> *modules, const Config *config) :
+Plotter_SVG::Plotter_SVG(string filename, const vector<const char *> *modules, const Config *config) :
 	fitness_margin(16), fitness_scale(240)
 {
 	filename += ".svg";
 	this->svg.open(filename.c_str());
 	if (!this->svg.is_open())
 	{
-		printf("==> Failed to initiate plotter. Please make sure you have writing privileges.\n");
+		printf("==> Failed to initiate SVG plotter. Please make sure you have writing privileges.\n");
 		exit(-1);
 	}
 	else

@@ -19,9 +19,8 @@ namespace From
 	};
 }
 
-class Coordinates
+struct Coordinates
 {
-public:
 	int x,	///< The x component of a cell's location
 		y,	///< The y component of a cell's location
 		z;	///< The z component of a cell's location
@@ -79,7 +78,7 @@ public:
 		return Coordinates(this->x, this->y, this->z - 1);
 	}
 
-	Coordinates operator +(const Coordinates &b) const
+	const Coordinates operator +(const Coordinates &b) const
 	{
 		return Coordinates (this->x + b.x, this->y + b.y, this->z + b.z);
 	}
