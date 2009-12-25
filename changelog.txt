@@ -1,0 +1,34 @@
+ngene
+=====
+
+Version numbering in ngene works as following:
+
+	1.x.ymmdd
+
+First number is major revision. These are only major changes.
+
+Second number is minor revision. Changed when there are significant changes
+like new features or change of library. These days, I'm trying to remove
+some dependencies. These are minor revisions.
+
+The last number is the date of build. Usually bug-fixes.
+
+API may change when there is a new minor revision. These will be highlighted.
+
+
+What's new in 1.2
+-----------------
+ * Custom Any container
+ * Mersenne twister 2.0
+ * No Boost dependencies (!)
+
+
+What's new in 1.1
+-----------------
+ * Algorithms library
+ * Development Framework
+
+
+What's new in 1.0
+-----------------
+ * Initial release

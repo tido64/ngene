@@ -1,0 +1,17 @@
+TARGET = mating_one-point-crossover
+BINDIR = ../../bin/modules
+OBJDIR = ../../build/unix
+
+CPP = icpc
+CFLAGS = -xHost -fast -Wall -I ../../include -fPIC
+
+default: $(TARGET).so
+
+$(OBJDIR)/%.o: %.cpp
+	$(CPP) -c $< $(CFLAGS) -o $@
+
+$(TARGET).so: $(OBJDIR)/$(TARGET).o
+	$(CPP) -shared -static-intel -o $(BINDIR)/$@ $^
+
+clean:
+	rm -f $(OBJDIR)/$(TARGET).o

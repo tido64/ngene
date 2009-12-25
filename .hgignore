@@ -1,0 +1,12 @@
+syntax: regexp
+
+Debug
+Release
+(?i)\.exe$
+(?i)\.ilk$
+(?i)\.log$
+(?i)\.o$
+(?i)\.pdb$
+(?i)sdf$
+(?i)\.suo$
+(?i)\.user$
