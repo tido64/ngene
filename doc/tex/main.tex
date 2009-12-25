@@ -1,0 +1,71 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[hang,small,bf]{caption}
+\usepackage[strict]{changepage}
+\usepackage[top=2.5cm,right=2.5cm,bottom=2.5cm,left=2.5cm]{geometry}
+\usepackage{graphicx}
+%\usepackage[pdfborderstyle={/S/U/W 1}]{hyperref}
+\usepackage{ifpdf}
+\usepackage{moreverb}
+\usepackage{url}
+\usepackage[utf8]{inputenc}
+\usepackage[UKenglish]{babel}
+\ifpdf
+\pdfinfo {
+	/Author (Tommy Anh Tuan Nguyen)
+	/Title (ngene - An Artificial Development Framework)
+	/Subject (Artificial Development Framework)
+	/Keywords (artdev3d, artificial development, artificial intelligence, benchmarks, c++, cartesian, computational development, framework, genetic algorithm, genetic programming, memory, optimization, performance, platform, speed)
+	/CreationDate (D:20080909223146)
+}
+\fi
+\def\verbatimtabsize{4\relax}
+\graphicspath{{./graphics/}}
+\setlength\fboxsep{0pt}
+\setlength\fboxrule{0.5pt}
+\begin{document}
+	\begin{titlepage}
+		\changepage{}{}{2cm}{2cm}{}{3cm}{}{}{}
+		\large\noindent
+		Tommy Anh Tuan Nguyen\newline\newline\newline
+		\includegraphics[scale=0.4]{../ngene_logo}\newline
+		{\LARGE An Artificial Development Framework}\newline
+		\newline
+		\newline
+		\newline
+		\newline
+		\newline
+		\newline
+		Trondheim, December 2008\newline
+		\newline
+		\newline
+		{\Large Norwegian University of Science and Technology}\newline
+		Faculty of Information Technology, Mathematics\newline
+		and Electrical Engineering\newline
+		Department of Computer Science (IDI)\newline
+		\newline
+		\newline
+		Master's Thesis in Computer Science, Artificial Intelligence\newline
+		\newline
+		Supervised by Pauline Haddow, IDI
+	\end{titlepage}
+	\include{Abstract}
+	\newpage
+	\noindent\textbf{\large Acknowledgements}\newline
+	My deepest gratitude goes to my supervisor for her seemingly infinite wisdom and patience, and my parents for their unconditional love and support. I would also like to thank my friends for the days I didn't feel like working, and my girlfriend for being so patient with me.\newline
+	\newline
+	Last but not least, Haruhi and Chii, without whom this thesis would be nigh impossible.
+	\newpage
+	\pagestyle{headings}
+	\tableofcontents
+	\listoffigures
+	\newpage
+	\include{Introduction}
+	\include{Models}
+	\include{Implementation}
+	\include{Experiments}
+	\include{Compare}
+	\include{Conclusion}
+	\bibliographystyle{ieeetr}
+	\bibliography{Bibliography}
+	\include{Appendix}
+\end{document}

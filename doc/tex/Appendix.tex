@@ -1,0 +1,179 @@
+\appendix
+
+\section{Implementing an Ngene Module}
+This section will describe the technical details required to implement modules for Ngene. The code can be downloaded from various sources, but the newest revision will always be available at:
+
+\url{http://ngene.googlecode.com/}
+
+If you've downloaded the source code, the folder structure should be like this (unless it's been recently changed):
+
+\begin{verbatim}
+ngene/
+ + bin/
+ + build/
+ + doc/
+ + libs/
+ + modules/
+ + src/
+   + Development/
+   + Interfaces/
+\end{verbatim}
+
+\noindent Don't worry if you don't understand the following sections. There are examples in the modules folder as well. They implement some basic modules, including tournament selection, single-point crossover, and random-swap mutation. They also include the source code for ArtDev3D.N and the Cartesian model. Studies of these are recommended over reading this little document as it is much easier to learn from examples.
+
+The Interfaces folder contains all the header files that must be included with some modules. These are specified in corresponding modules. For every module, there is one common function that they all must implement.
+
+\begin{verbatim}
+/// Sets up the module and makes sure it is ready for use. Every module is
+/// initiated this way.
+/// \param parameters  The parameters needed to correctly set up the module
+void initiate(const char *parameters);
+\end{verbatim}
+
+\noindent\texttt{initiate} is called when your module is loaded. This is where the module will recieve its parameters and everything is set up so that it can be used later on. In addition to this, the following sections will describe the rest of the functions that must be implemented in order to be compatible with Ngene.
+
+\subsection{Fitness}
+
+All fitness modules must include the header (path may vary depending on where you installed it):
+
+\begin{verbatim}
+#include <Interfaces/Fitness.h>
+\end{verbatim}
+
+\noindent The following functions must be implemented.
+
+\begin{verbatim}
+/// Assess an individual. The genotype is extracted through
+/// individual.genotype, and the fitness is given to individual.fitness.
+/// \param[in,out] individual  The individual to assess
+void assess(Specimen &individual);
+
+/// Returns the name of this module.
+const char *name();
+\end{verbatim}
+
+\noindent \texttt{assess()} is called when assessing an individual. The genotype can be extracted from \texttt{individual}. It is an array with generic objects and must be cast into the type that is used. For instance, if your genotype consists of integers, it must be cast into the appropriate data type:
+
+\begin{verbatimtab}
+std::vector<int> my_genotype;
+
+for (int i = 0; i < individual.genotype.size(); i++)
+{
+	// Cast a gene to an integer
+	int gene = *boost::unsafe_any_cast<int>(individual.genotype[i]);
+
+	// Store the integer in my own array for later use
+	my_genotype.push_back(gene);
+}
+\end{verbatimtab}
+
+\noindent This does not apply to fitness modules alone, but every module that wishes to make use of the genotype. Once the fitness is calculated, it should be stored in the individual like so:
+
+\begin{verbatim}
+individual.fitness = points;
+\end{verbatim}
+
+\noindent The individual is now assessed.
+
+
+\subsection{Genotype}
+
+All genotype modules must include the header (path may vary depending on where you installed it):
+
+\begin{verbatim}
+#include <Interfaces/Genotype.h>
+\end{verbatim}
+
+\noindent The following functions must be implemented.
+
+\begin{verbatim}
+/// Returns the phenotype of given genotype.
+/// \param[out]	phenotype  The phenotype returned
+/// \param		genotype   The genotype of the wanted phenotype
+void phenotype(boost::any &phenotype, const Genotype &genotype);
+
+/// Generates a random genotype.
+/// \param[out] genotype  The newly generated genotype
+void seed(std::vector<boost::any> &genotype);
+
+/// Return the name of the species, ex. "Traveling salesman problem".
+const char *species();
+
+/// Returns the output of a genotype in desired file format.
+const char *str(const std::vector<boost::any> &genotype);
+\end{verbatim}
+
+\noindent A random genotype is requested when \texttt{seed} is called. This genotype is stored in the container that is provided with the call as parameter.
+
+\texttt{phenotype} is used by the fitness module as it does not necessarily know how to develop an organism. This function receives two parameters. The phenotype can be returned in the first parameter. The second parameter is the genotype itself.
+
+
+\subsection{Mating}
+
+All mating modules must include the header (path may vary depending on where you installed it):
+
+\begin{verbatim}
+#include <Interfaces/Mating.h>
+\end{verbatim}
+
+\noindent The following functions must be implemented.
+
+\begin{verbatim}
+/// Crosses over two individuals and produces offspring.
+/// \param[out] children  The child(ren) produced
+/// \param parentA        The first individual of the cross over process
+/// \param parentB        The other individual of the cross over process
+void mate(std::vector<Specimen> &children, const Specimen &parentA, const Specimen &parentB);
+
+/// Returns the name of this module.
+const char *name();
+
+/// Returns the number of offspring this module/method produces
+const int offspring();
+\end{verbatim}
+
+\noindent\texttt{mate} crosses parentA's genotype with parentB's. The offspring produced are to be stored in \texttt{children}.
+
+
+\subsection{Mutator}
+
+All mutator modules must include the header (path may vary depending on where you installed it):
+
+\begin{verbatim}
+#include <Interfaces/Mutator.h>
+\end{verbatim}
+
+\noindent The following functions must be implemented.
+
+\begin{verbatim}
+/// Mutates given genotype.
+/// \param[in,out] genotype  The genotype to mutate
+void mutate(Genotype &genotype);
+
+/// Returns the name of this module.
+const char *name();
+\end{verbatim}
+
+
+\subsection{Selector}
+
+All selector modules must include the header (path may vary depending on where you installed it):
+
+\begin{verbatim}
+#include <Interfaces/Selector.h>
+\end{verbatim}
+
+\noindent The following functions must be implemented.
+
+\begin{verbatim}
+/// Randomly selects an individual from a population.
+/// \param[out] champ  The selected individual
+/// \param candidates  The population to perform selection over
+/// \param generation  The current generation
+void gene_select(Population::iterator &champ, Population &candidates, int generation);
+
+/// Returns the name of this module.
+const char *name();
+\end{verbatim}
+
+\noindent\texttt{gene\_select} performs a random selection, picking out a single individual. This individual is stored in \texttt{champ}.

@@ -1,5 +1,5 @@
-#ifndef MODULETYPE
-#define MODULETYPE
+#ifndef MODULETYPE_H_
+#define MODULETYPE_H_
 
 namespace Module
 {
