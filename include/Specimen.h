@@ -19,12 +19,14 @@ typedef std::vector<Any> Genotype;			///< Defines the genotype type
 class Specimen
 {
 public:
+#ifdef ENABLE_LIFESPAN
 	mutable unsigned int age;				///< The age of this individual
+#endif
 	double fitness;							///< The fitness of this individual compared to an ideal phenotype
 	Genotype genotype;						///< The genotype of this individual
 
 	/// Sort the population after their fitness in descending order.
-	bool operator< (const Specimen &individual) const
+	bool operator <(const Specimen &individual) const
 	{
 		return this->fitness > individual.fitness;
 	}

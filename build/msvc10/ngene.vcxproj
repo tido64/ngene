@@ -86,7 +86,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\include\Algorithm.h" />
     <ClInclude Include="..\..\include\Any.h" />
-    <ClInclude Include="..\..\include\ConfigManager.h" />
     <ClInclude Include="..\..\include\Development\AbstractDevelopment.h" />
     <ClInclude Include="..\..\include\Development\Cell.h" />
     <ClInclude Include="..\..\include\Development\Coordinates.h" />
@@ -104,6 +103,7 @@
     <ClInclude Include="..\..\include\Selector.h" />
     <ClInclude Include="..\..\include\Specimen.h" />
     <ClInclude Include="..\..\src\Config.h" />
+    <ClInclude Include="..\..\src\ConfigManager.h" />
     <ClInclude Include="..\..\src\InterruptHandler.h" />
     <ClInclude Include="..\..\src\IPlotter.h" />
     <ClInclude Include="..\..\src\Logger.h" />

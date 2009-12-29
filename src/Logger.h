@@ -31,7 +31,8 @@ public:
 	/// and configuration.
 	/// \param modules  The list of modules loaded
 	/// \param config   The configuration
-	void log(const Config *config, const std::vector<const char *> &modules);
+	/// \return Returns false if it fails to open a log
+	bool log(const Config *config, const std::vector<const char *> &modules);
 
 	/// Logs the progression of the run for each generation.
 	/// \param generation  The current generation

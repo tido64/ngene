@@ -15,9 +15,16 @@ struct Config
 	unsigned int
 		capacity,		///< Maximum number of adults per generation
 		doomsday,		///< Number of generations
+		offspring_rate;	///< Number of offspring produced each generation
+
+#ifdef ENABLE_LIFESPAN
+
+	unsigned int
 		lifespan,		///< Number of generations an adult will live
-		offspring_rate,	///< Number of offspring produced each generation
 		prodigies;		///< Number of prodigies replacing adults when lifespan > 1
+
+#endif
+
 	double
 		mating_rate,	///< The rate of a successful mating
 		mutation_rate;	///< The rate of mutation
