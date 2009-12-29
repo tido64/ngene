@@ -1,12 +1,48 @@
-#include <ConfigManager.h>
-#include "Config.h"
-#include "ModuleType.h"
+#include "ConfigManager.h"
 
+using std::getline;
+using std::ifstream;
 using std::map;
 using std::string;
 
-const void *ConfigManager::parse()
+Config *ConfigManager::load(const char *config_file)
 {
+	ifstream in_cfg (config_file);
+	if (!in_cfg.is_open())
+		return 0;
+
+	unsigned int comment, equal_sign;
+	string line, section;
+	map<string, string> conf_map;
+	while (!in_cfg.eof())
+	{
+		getline(in_cfg, line);
+		line = ngene::trim(line);
+		if (line[0] == '#')
+			continue;
+		if (line[0] == '[')
+		{
+			section = line.substr(1, line.find_first_of(']') - 1);
+			section += ':';
+		}
+		else
+		{
+			equal_sign = line.find_first_of('=');
+			if (equal_sign != string::npos)
+			{
+				comment = line.find_first_of('#');
+
+				string key = line.substr(0, equal_sign++);
+				key = section + ngene::trim(key);
+
+				string val = line.substr(equal_sign, comment - equal_sign);
+				conf_map[key] = ngene::trim(val);
+			}
+		}
+	}
+	in_cfg.close();
+
+	bool incomplete = false;
 	const string
 		capacity			= "capacity",
 		elitism				= "elitism",
@@ -29,113 +65,116 @@ const void *ConfigManager::parse()
 		selector_parameters	= "selector:parameters",
 		selector_path		= "selector:path";
 
-	Config *cfg (new Config());
-
-	if (this->conf.find(capacity) == this->conf.end())
-		cfg->capacity = 100;
-	else
-		cfg->capacity = atoi(this->conf[capacity].c_str());
-
-	if (this->conf.find(generations) == this->conf.end())
-		cfg->doomsday = 50;
-	else
-		cfg->doomsday = atoi(this->conf[generations].c_str());
-
-	if (this->conf.find(elitism) == this->conf.end())
-		cfg->elitism = false;
-	else
-		cfg->elitism = (atoi(this->conf[elitism].c_str()) == 1) ? true : false;
-
-	if (this->conf.find(lifespan) == this->conf.end())
-		cfg->lifespan = 1;
-	else
-		cfg->lifespan = atoi(this->conf[lifespan].c_str());
-
-	if (this->conf.find(mating_rate) == this->conf.end())
-		cfg->mating_rate = 0.9;
-	else
-		cfg->mating_rate = atof(this->conf[mating_rate].c_str());
-
-	if (this->conf.find(mutation_rate) == this->conf.end())
-		cfg->mutation_rate = 0.2;
-	else
-		cfg->mutation_rate = atof(this->conf[mutation_rate].c_str());
-
-	if (this->conf.find(offspring_rate) == this->conf.end())
-		cfg->offspring_rate = static_cast<unsigned int>(cfg->capacity + cfg->capacity * 0.1);
-	else
-		cfg->offspring_rate = atoi(this->conf[offspring_rate].c_str());
-
-	if (this->conf.find(plotter) != this->conf.end())
-		cfg->plotter = this->conf[plotter];
-
-	if (this->conf.find(prodigies) == this->conf.end())
-		cfg->prodigies = static_cast<unsigned int>(cfg->capacity * 0.3);
-	else
-		cfg->prodigies = atoi(this->conf[prodigies].c_str());
-
-	cfg->module_path.assign(Module::number_of_types, empty);
-	cfg->parameters.assign(Module::number_of_types, empty);
-
-	if (this->conf.find(genotype_path) == this->conf.end())
+	if (conf_map.find(genotype_path) == conf_map.end())
 	{
-		dump();
-		printf("==> No path was found for the genotype module\n");
-		exit(-1);
+		incomplete = true;
+		puts("==> [FAIL] No path was found for a genotype module");
+	}
+	if (conf_map.find(fitness_path) == conf_map.end())
+	{
+		incomplete = true;
+		puts("==> [FAIL] No path was found for a fitness module");
+	}
+	if (conf_map.find(mating_path) == conf_map.end())
+	{
+		incomplete = true;
+		puts("==> [FAIL] No path was found for a mating module");
+	}
+	if (conf_map.find(mutator_path) == conf_map.end())
+	{
+		incomplete = true;
+		puts("==> [FAIL] No path was found for a mutator module");
+	}
+	if (conf_map.find(selector_path) == conf_map.end())
+	{
+		incomplete = true;
+		puts("==> [FAIL] No path was found for a selector module");
+	}
+	if (incomplete) return 0;
+
+	Config *conf = new Config();
+
+	if (conf_map.find(capacity) == conf_map.end())
+	{
+		conf->capacity = 100;
+		printf("==> [WARN] No value for for '%s' found, using default: %u\n", capacity.c_str(), conf->capacity);
 	}
 	else
-	{
-		cfg->module_path[Module::gene] = this->conf[genotype_path];
-		cfg->parameters[Module::gene] = this->conf[genotype_parameters];
-	}
+		conf->capacity = atoi(conf_map[capacity].c_str());
 
-	if (this->conf.find(fitness_path) == this->conf.end())
+	if (conf_map.find(generations) == conf_map.end())
 	{
-		dump();
-		printf("==> No path was found for the fitness module\n");
-		exit(-1);
+		conf->doomsday = 50;
+		printf("==> [WARN] No value for for '%s' found, using default: %u\n", generations.c_str(), conf->doomsday);
 	}
 	else
-	{
-		cfg->module_path[Module::fitness] = this->conf[fitness_path];
-		cfg->parameters[Module::fitness] = this->conf[fitness_parameters];
-	}
+		conf->doomsday = atoi(conf_map[generations].c_str());
 
-	if (this->conf.find(mating_path) == this->conf.end())
+	if (conf_map.find(elitism) == conf_map.end())
 	{
-		dump();
-		printf("==> No path was found for the mating module\n");
-		exit(-1);
+		conf->elitism = false;
+		printf("==> [WARN] No value for for '%s' found, using default: false\n", elitism.c_str());
 	}
 	else
-	{
-		cfg->module_path[Module::mating] = this->conf[mating_path];
-		cfg->parameters[Module::mating] = this->conf[mating_parameters];
-	}
+		conf->elitism = (atoi(conf_map[elitism].c_str()) == 1) ? true : false;
 
-	if (this->conf.find(mutator_path) == this->conf.end())
+	if (conf_map.find(mating_rate) == conf_map.end())
 	{
-		dump();
-		printf("==> No path was found for the mutator module\n");
-		exit(-1);
+		conf->mating_rate = 0.9;
+		printf("==> [WARN] No value for for '%s' found, using default: %.2f\n", mating_rate.c_str(), conf->mating_rate);
 	}
 	else
-	{
-		cfg->module_path[Module::mutator] = this->conf[mutator_path];
-		cfg->parameters[Module::mutator] = this->conf[mutator_parameters];
-	}
+		conf->mating_rate = atof(conf_map[mating_rate].c_str());
 
-	if (this->conf.find(selector_path) == this->conf.end())
+	if (conf_map.find(mutation_rate) == conf_map.end())
 	{
-		dump();
-		printf("==> No path was found for the selector module\n");
-		exit(-1);
+		conf->mutation_rate = 0.2;
+		printf("==> [WARN] No value for for '%s' found, using default: %.2f\n", mutation_rate.c_str(), conf->mutation_rate);
 	}
 	else
-	{
-		cfg->module_path[Module::selector] = this->conf[selector_path];
-		cfg->parameters[Module::selector] = this->conf[selector_parameters];
-	}
+		conf->mutation_rate = atof(conf_map[mutation_rate].c_str());
 
-	return cfg;
+	if (conf_map.find(offspring_rate) == conf_map.end())
+	{
+		conf->offspring_rate = static_cast<unsigned int>(conf->capacity + conf->capacity * 0.1);
+		printf("==> [WARN] No value for for '%s' found, using default: %u\n", offspring_rate.c_str(), conf->offspring_rate);
+	}
+	else
+		conf->offspring_rate = atoi(conf_map[offspring_rate].c_str());
+
+	if (conf_map.find(plotter) != conf_map.end())
+		conf->plotter = conf_map[plotter];
+
+#ifdef ENABLE_LIFESPAN
+	if (conf_map.find(lifespan) == conf_map.end())
+	{
+		conf->lifespan = 1;
+		printf("==> [WARN] No value for for '%s' found, using default: %u\n", lifespan.c_str(), conf->lifespan);
+	}
+	else
+		conf->lifespan = atoi(conf_map[lifespan].c_str());
+
+	if (conf_map.find(prodigies) == conf_map.end())
+	{
+		conf->prodigies = static_cast<unsigned int>(conf->capacity * 0.3);
+		printf("==> [WARN] No value for for '%s' found, using default: %u\n", prodigies.c_str(), conf->prodigies);
+	}
+	else
+		conf->prodigies = atoi(conf_map[prodigies].c_str());
+#endif
+
+	conf->module_path.assign(Module::number_of_types, empty);
+	conf->parameters.assign(Module::number_of_types, empty);
+	conf->module_path[Module::gene] = conf_map[genotype_path];
+	conf->parameters[Module::gene] = conf_map[genotype_parameters];
+	conf->module_path[Module::fitness] = conf_map[fitness_path];
+	conf->parameters[Module::fitness] = conf_map[fitness_parameters];
+	conf->module_path[Module::mating] = conf_map[mating_path];
+	conf->parameters[Module::mating] = conf_map[mating_parameters];
+	conf->module_path[Module::mutator] = conf_map[mutator_path];
+	conf->parameters[Module::mutator] = conf_map[mutator_parameters];
+	conf->module_path[Module::selector] = conf_map[selector_path];
+	conf->parameters[Module::selector] = conf_map[selector_parameters];
+
+	return conf;
 }

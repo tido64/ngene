@@ -53,8 +53,8 @@ namespace ngene
 		return ss.str();
 	}
 
-	/// Trims whitespaces from a string in-place.
-	inline std::string &trim(std::string &str)
+	/// Trims whitespaces from a string.
+	inline std::string trim(std::string str)
 	{
 		str = str.erase(str.find_last_not_of(whitespace) + 1);
 		str = str.erase(0, str.find_first_not_of(whitespace));

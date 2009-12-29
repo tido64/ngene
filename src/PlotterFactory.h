@@ -8,9 +8,6 @@ class PlotterFactory
 {
 public:
 	/// Creates an instance of a plotter, given its type. Once created, the
-	/// pointer to this instance is returned on subsequent calls.
-	static IPlotter *get_plotter(char *filename, const Config *c, const std::vector<const char *> *m);
-
-private:
-	PlotterFactory();
+	/// pointer to this instance is returned.
+	IPlotter *get_plotter(const std::string &plotter_name);
 };

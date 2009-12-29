@@ -15,6 +15,7 @@ typedef void * dlhandle;	//< Custom type definition to make dynamic library load
 /// Handles all module loading and acts as an interface for the rest of the
 /// system.
 
+#include <cstdio>
 #include <Random.h>
 #include "Config.h"
 #include "ModuleType.h"
@@ -38,8 +39,9 @@ public:
 	/// Loads the modules specificed by the config file and readies an
 	/// interface for the modules accessible for the rest of the system.
 	/// \param config  The configuration to abide by
-	PluginManager(const Config *config);
+	PluginManager();
 	~PluginManager();
+	bool load(const Config *config);
 
 private:
 	/// Stores the handlers for the dynamically loaded libraries. Used for
@@ -50,5 +52,5 @@ private:
 	/// \param module_type	The type of the module to load
 	/// \param filename		The filename of the module
 	/// \param parameters	The parameters to send to the module
-	void load_module(const Module::Type module_type, const std::string &filename, const std::string &parameters);
+	bool load_module(const Module::Type module_type, const std::string &filename, const std::string &parameters);
 };

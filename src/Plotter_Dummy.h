@@ -5,7 +5,6 @@
 class Plotter_Dummy : public IPlotter
 {
 public:
-	Plotter_Dummy() { }
-	~Plotter_Dummy() { }
+	bool open(std::string filename, const Config *config, const std::vector<const char *> *modules) { return true; }
 	void plot(unsigned int generation, double min, double avg, double max) { }
 };

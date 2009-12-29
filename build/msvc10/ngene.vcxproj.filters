@@ -23,9 +23,6 @@
     <ClInclude Include="..\..\include\Any.h">
       <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\ConfigManager.h">
-      <Filter>Include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Development\AbstractDevelopment.h">
       <Filter>Development</Filter>
     </ClInclude>
@@ -75,6 +72,9 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ConfigManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\InterruptHandler.h">

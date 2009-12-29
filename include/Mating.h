@@ -14,7 +14,7 @@ namespace ngene
 
 extern "C"
 {
-	/// Retrieves convenient and essential functions for this module
+	/// Assigns convenient and essential functions for this module
 	void MATING_INTERFACE assign_functions(Random *fn_random)
 	{
 		ngene::random = fn_random;

@@ -4,7 +4,14 @@ using std::numeric_limits;
 using std::ofstream;
 using std::vector;
 
-Logger::Logger() : plotter(0)
+Logger::Logger() : plotter(0) { }
+
+Logger::~Logger()
+{
+	delete this->plotter;
+}
+
+bool Logger::log(const Config *config, const vector<const char *> &modules)
 {
 #ifdef WIN32
 	if (_mkdir("logs") == - 1 && errno != EEXIST)
@@ -12,26 +19,26 @@ Logger::Logger() : plotter(0)
 	if (mkdir("logs", 0775) == -1 && errno != EEXIST)
 #endif
 	{
-		printf("==> Failed to create directory for logs: %s\n", strerror(errno));
-		exit(-1);
+		printf("==> [FAIL] Could not create directory for logs: %s\n", strerror(errno));
+		return false;
 	}
+
 	const time_t now = time(0);
 	strftime(this->timestamp, sizeof(this->timestamp), "./logs/%Y%m%d-%H%M%S", localtime(&now));
-}
+	PlotterFactory plotter_factory;
+	this->plotter = plotter_factory.get_plotter(config->plotter);
+	if (!this->plotter->open(this->timestamp, config, &modules))
+	{
+		puts("==> [FAIL] Could not initiate SVG plotter. Please make sure you have writing privileges.");
+		return false;
+	}
 
-Logger::~Logger()
-{
-	delete this->plotter;
-}
-
-void Logger::log(const Config *config, const vector<const char *> &modules)
-{
-	this->plotter = PlotterFactory::get_plotter(this->timestamp, config, &modules);
 	printf("  * Species:           %s\n", modules[Module::gene]);
 	printf("  * Fitness assessor:  %s\n", modules[Module::fitness]);
 	printf("  * Mating style:      %s\n", modules[Module::mating]);
 	printf("  * Mutator:           %s\n", modules[Module::mutator]);
 	printf("  * Selector:          %s\n\n", modules[Module::selector]);
+	return true;
 }
 
 bool Logger::log(const unsigned int generation, const Population &pop)

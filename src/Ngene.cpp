@@ -4,7 +4,7 @@ using std::sort;
 using std::string;
 using std::vector;
 
-const char *NGENE_VERSION = "1.1.81209";
+const char *NGENE_VERSION = "1.1.91229";
 
 int main(int argc, char *argv[])
 {
@@ -13,31 +13,45 @@ int main(int argc, char *argv[])
 	string config_file ("ngene.conf");
 	if (argc > 1)
 	{
-		if ((strcmp(argv[1], "--help") == 0) | (strcmp(argv[1], "-h") == 0))
+		if (argv[1][0] == '-')
 		{
 			printf("Usage: %s [config file]\n", argv[0]);
 			return 0;
 		}
-		else if ((strcmp(argv[1], "--version") == 0) | (strcmp(argv[1], "-v") == 0))
-			return 0;
-		else
-			config_file = argv[1];
+		config_file = argv[1];
 	}
 
 	InterruptHandler interrupt_handler;
 
 	// Load configuration
-	ConfigManager *config_manager = new ConfigManager(config_file.c_str());
-	const Config *config = static_cast<const Config *>(config_manager->parse());
-	delete config_manager;
-	config_manager = 0;
+	Config *config;
+	{
+		ConfigManager *config_manager = new ConfigManager();
+		config = config_manager->load(config_file.c_str());
+		delete config_manager;
+	}
+	if (config == 0)
+	{
+		printf("==> [FAIL] Could not parse configuration file: %s\n", config_file.c_str());
+		return 1;
+	}
 
 	// Load all plugins
-	PluginManager module (config);
+	PluginManager module;
+	if (!module.load(config))
+	{
+		delete config;
+		puts("==> [FAIL] Could not initialize ngene");
+		return 1;
+	}
 
 	// Initialize logging
 	Logger logger;
-	logger.log(config, module.modules);
+	if (!logger.log(config, module.modules))
+	{
+		delete config;
+		return 1;
+	}
 
 	// Initialize constants and containers
 	const bool
@@ -45,14 +59,20 @@ int main(int argc, char *argv[])
 	const unsigned int
 		capacity = config->capacity,
 		doomsday = config->doomsday,
-		lifespan = config->lifespan,
-		offspring_rate = config->offspring_rate,
-		prodigies = config->prodigies;
+		offspring_rate = config->offspring_rate;
 	unsigned long int
 		time;
 	double
 		mating_rate = config->mating_rate,
 		mutation_rate = config->mutation_rate;
+
+#ifdef ENABLE_LIFESPAN
+	const unsigned int
+		lifespan = config->lifespan,
+		prodigies = config->prodigies;
+#endif
+
+	// We no longer need the configuration
 	delete config;
 	config = 0;
 
@@ -71,7 +91,9 @@ int main(int argc, char *argv[])
 		Specimen specimen;
 		module.seed(specimen.genotype);
 		module.assess_fitness(specimen);
+#ifdef ENABLE_LIFESPAN
 		specimen.age = 1;
+#endif
 		adults.push_back(specimen);
 	}
 	module.seed = 0;
@@ -87,7 +109,7 @@ int main(int argc, char *argv[])
 		if (logger.log(generation - 1, adults))
 		{
 			printf("\nPerfect specimen found. ");
-			TERMINATION_PENDING = true;
+			break;
 		}
 		if (TERMINATION_PENDING)
 			break;
@@ -118,16 +140,18 @@ int main(int argc, char *argv[])
 		} while (offspring.size() < offspring_rate);
 
 		// (Randomly mutate and) assess the fitness of each offspring
-		#pragma omp parallel for
+#ifdef _OPENMP
+#		pragma omp parallel for
+#endif
 		for (int i = 0; i < static_cast<int>(offspring.size()); i++)
 		{
 			if (module.random->next() <= mutation_rate)
 				module.mutate(offspring[i].genotype);
 			module.assess_fitness(offspring[i]);
+#ifdef ENABLE_LIFESPAN
 			offspring[i].age = 0;
 		}
 
-#ifdef ENABLE_LIFESPAN
 		Population::iterator iter_tmp, start = adults.begin();
 		if (elitism)
 		{
@@ -162,7 +186,10 @@ int main(int argc, char *argv[])
 				offspring.erase(iter_tmp);
 			}
 		}
+
 #else
+		}
+
 		if (elitism) // replace worst fit offspring with best fit adult
 			iter_swap(worst_specimen(offspring.begin(), offspring.end()), best_specimen(adults.begin(), adults.end()));
 		adults.swap(offspring);
