@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Development">
-      <UniqueIdentifier>{35432211-a94a-41c2-b98c-a95d7d1f5a2c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
@@ -15,6 +12,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Include\Development">
+      <UniqueIdentifier>{35432211-a94a-41c2-b98c-a95d7d1f5a2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\Algorithm.h">
@@ -24,22 +24,22 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Development\AbstractDevelopment.h">
-      <Filter>Development</Filter>
+      <Filter>Include\Development</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Development\Cell.h">
-      <Filter>Development</Filter>
+      <Filter>Include\Development</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Development\Coordinates.h">
-      <Filter>Development</Filter>
+      <Filter>Include\Development</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Development\Message.h">
-      <Filter>Development</Filter>
+      <Filter>Include\Development</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Development\Organism.h">
-      <Filter>Development</Filter>
+      <Filter>Include\Development</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Development\Protein.h">
-      <Filter>Development</Filter>
+      <Filter>Include\Development</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\dSFMT-params.h">
       <Filter>Include</Filter>

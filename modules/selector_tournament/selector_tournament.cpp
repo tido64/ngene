@@ -31,7 +31,7 @@ void gene_select(Population::iterator &champ, Population &candidates, int genera
 		selection.insert(ngene::random->next_int(candidates.size()));
 
 	int counter = 0;
-	for (set<int>::iterator i = selection.begin(); i != selection.end(); i++)
+	for (set<int>::iterator i = selection.begin(); i != selection.end(); ++i)
 	{
 		if (ngene::random->next() <= tournament::p * pow(1.0 - tournament::p, counter++))
 		{

@@ -28,11 +28,15 @@ bool PluginManager::load_module(const Module::Type module_type, const string &fi
 	string dl = "./modules/";
 	dl.append(filename);
 
-	#ifdef WIN32
-		dlhandle module (LoadLibraryA(dl.c_str()));
-	#else
-		dlhandle module = dlopen(dl.c_str(), RTLD_LAZY);
-	#endif
+#ifdef WIN32
+
+	dlhandle module (LoadLibraryA(dl.c_str()));
+
+#else
+
+	dlhandle module = dlopen(dl.c_str(), RTLD_LAZY);
+
+#endif
 
 	if (module == 0)
 	{

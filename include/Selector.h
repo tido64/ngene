@@ -1,5 +1,5 @@
 #ifdef WIN32
-#	define SELECTION_INTERFACE __declspec(dllexport)	// export DLL information
+#	define SELECTION_INTERFACE __declspec(dllexport)  // export DLL information
 #else
 #	define SELECTION_INTERFACE
 #endif

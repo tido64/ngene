@@ -73,7 +73,7 @@ bool Plotter_SVG::open(string filename, const Config *config, const vector<const
 	double generation_scale = 320.0 / config->doomsday;
 	this->generation_axis.reserve(config->doomsday + 1);
 	this->generation_axis.push_back(this->fitness_margin);
-	for (unsigned int i = 0; i < config->doomsday; i++)
+	for (unsigned int i = 0; i < config->doomsday; ++i)
 		this->generation_axis.push_back(this->generation_axis[i] + generation_scale);
 		// generate ticks on the axes
 	this->fitness_margin += this->fitness_scale;

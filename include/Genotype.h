@@ -26,8 +26,8 @@ extern "C"
 	void GENOTYPE_INTERFACE initiate(const char *parameters);
 
 	/// Returns the phenotype of given genotype.
-	/// \param[out]	phenotype  The phenotype returned
-	/// \param		genotype   The genotype of the wanted phenotype
+	/// \param[out] phenotype  The phenotype returned
+	/// \param genotype        The genotype of the wanted phenotype
 	void GENOTYPE_INTERFACE phenotype(Any &phenotype, const Genotype &genotype);
 
 	/// Generates a random genotype.
