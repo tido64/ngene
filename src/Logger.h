@@ -1,6 +1,8 @@
 #ifdef WIN32
 #	define WIN32_LEAN_AND_MEAN
 #	include <direct.h>
+#	define localtime_r(timep, result) localtime_s(result, timep)
+#	define strerror_r(errno, buf, sz) strerror_s(buf, errno)
 #else
 #	include <sys/stat.h>
 #endif
@@ -15,9 +17,8 @@
 /// where the file name follows YYYYMMdd-hhmmss (ie. date, then time).
 
 #include <cerrno>
-#include <cstring>
 #include <ctime>
-#include <limits>
+
 #include "PlotterFactory.h"
 #include "Plugins.h"
 
@@ -26,13 +27,6 @@ class Logger
 public:
 	Logger();
 	~Logger();
-
-	/// Starts the log with some information about this run, ie. modules loaded
-	/// and configuration.
-	/// \param modules  The list of modules loaded
-	/// \param config   The configuration
-	/// \return Returns false if it fails to open a log
-	bool log(const Config *config, const std::vector<const char *> &modules);
 
 	/// Logs the progression of the run for each generation.
 	/// \param generation  The current generation
@@ -48,7 +42,15 @@ public:
 	/// \param time  The time spent on this run
 	void log(const char *best, unsigned long int time);
 
+	/// Starts the log with some information about this run, ie. modules loaded
+	/// and configuration.
+	/// \param modules  The list of modules loaded
+	/// \param config   The configuration
+	/// \return Returns false if it fails to open a log
+	bool start(const Config *config, const std::vector<const char *> &modules);
+
 private:
-	char timestamp[64];	///< The time at which this run started
-	IPlotter *plotter;	///< A pointer to the plotter
+	IPlotter *plotter;     ///< A pointer to the plotter
+	std::string filename;  ///< The output file name
+	std::string settings;
 };

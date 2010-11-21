@@ -14,9 +14,9 @@ public:
 	virtual ~IPlotter() { }
 
 	/// Opens the log file and writes some information about current run.
-	/// \param filename	The name of the file to write to
-	/// \param config	The configuration of current run
-	/// \param modules	Vector of loaded modules
+	/// \param filename  The name of the file to write to
+	/// \param config    The configuration of current run
+	/// \param modules   Vector of loaded modules
 	/// \return Returns false on failure
 	virtual bool open(std::string filename, const Config *config, const std::vector<const char *> *modules) = 0;
 

@@ -1,6 +1,8 @@
+/// Deprecated. For now, it's just too convenient with Boost as it takes care
+/// of optimisations across platforms as well as compilers.
+///
 /// Dynamic container for ngene, modified for more performance. All type info
 /// is lost when traveling between shared libraries, so it is not type safe! 
-///
 ///
 /// (C) Copyright Christopher Diggins 2005
 /// (C) Copyright Pablo Aguilar 2005
@@ -9,9 +11,15 @@
 /// Distributed under Boost Software License - Version 1.0.
 /// See http://www.boost.org/LICENSE_1_0.txt for more information.
 
-
 #ifndef ANY_H_
 #define ANY_H_
+
+#if 1
+
+#include <boost/any.hpp>
+typedef boost::any Any;
+
+#else
 
 #include <cstdlib>
 #include <cstring>
@@ -199,5 +207,7 @@ private:
 		ptr = 0;
 	}
 };
+
+#endif
 
 #endif

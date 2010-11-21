@@ -17,7 +17,8 @@
 
 struct ConfigManager
 {
-	Config *load(const char *config_file);	///< Parses the configuration file and returns a config object.
+	/// Parses the configuration file and returns a config object.
+	Config *load(const char *config_file);
 };
 
 #endif

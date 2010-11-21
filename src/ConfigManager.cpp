@@ -44,26 +44,26 @@ Config *ConfigManager::load(const char *config_file)
 
 	bool incomplete = false;
 	const string
-		capacity			= "capacity",
-		elitism				= "elitism",
+		capacity            = "capacity",
+		elitism             = "elitism",
 		empty,
-		fitness_parameters	= "fitness:parameters",
-		fitness_path		= "fitness:path",
-		generations			= "generations",
-		genotype_parameters	= "genotype:parameters",
-		genotype_path		= "genotype:path",
-		lifespan			= "lifespan",
-		mating_parameters	= "mating:parameters",
-		mating_path			= "mating:path",
-		mating_rate			= "mating rate",
-		mutation_rate		= "mutation rate",
-		mutator_parameters	= "mutator:parameters",
-		mutator_path		= "mutator:path",
-		offspring_rate		= "offspring rate",
-		plotter				= "plotter",
-		prodigies			= "prodigies",
-		selector_parameters	= "selector:parameters",
-		selector_path		= "selector:path";
+		fitness_parameters  = "fitness:parameters",
+		fitness_path        = "fitness:path",
+		generations         = "generations",
+		genotype_parameters = "genotype:parameters",
+		genotype_path       = "genotype:path",
+		lifespan            = "lifespan",
+		mating_parameters   = "mating:parameters",
+		mating_path         = "mating:path",
+		mating_rate         = "mating rate",
+		mutation_rate       = "mutation rate",
+		mutator_parameters  = "mutator:parameters",
+		mutator_path        = "mutator:path",
+		offspring_rate      = "offspring rate",
+		plotter             = "plotter",
+		prodigies           = "prodigies",
+		selector_parameters = "selector:parameters",
+		selector_path       = "selector:path";
 
 	if (conf_map.find(genotype_path) == conf_map.end())
 	{
@@ -145,7 +145,7 @@ Config *ConfigManager::load(const char *config_file)
 	if (conf_map.find(plotter) != conf_map.end())
 		conf->plotter = conf_map[plotter];
 
-#ifdef ENABLE_LIFESPAN
+	#ifdef ENABLE_LIFESPAN
 	if (conf_map.find(lifespan) == conf_map.end())
 	{
 		conf->lifespan = 1;
@@ -161,7 +161,7 @@ Config *ConfigManager::load(const char *config_file)
 	}
 	else
 		conf->prodigies = atoi(conf_map[prodigies].c_str());
-#endif
+	#endif
 
 	conf->module_path.assign(Module::number_of_types, empty);
 	conf->parameters.assign(Module::number_of_types, empty);

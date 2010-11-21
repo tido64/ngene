@@ -8,7 +8,7 @@
 
 namespace ngene
 {
-	const double ln2 = log(2.0);	///< Constant used to convert log base 10 to base 2
+	const double ln2 = log(2.0);  ///< Constant used to convert log base 10 to base 2
 	const std::string whitespace (" \t\n\v\f\r");
 
 	/// Searches for an occurrence of a substring inside a bitstring. Algorithm
@@ -20,7 +20,7 @@ namespace ngene
 	/// \return The index of the first occurrence, or -1 when the substring is not found
 	inline int bitstring_find(unsigned int needle, const unsigned int needle_size, const unsigned int haystack, const unsigned int haystack_size)
 	{
-		for (unsigned int i = 0; i <= haystack_size - needle_size; i++)
+		for (unsigned int i = 0; i <= haystack_size - needle_size; ++i)
 		{
 			if ((haystack & needle) == needle)
 				return i;

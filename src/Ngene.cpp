@@ -4,7 +4,7 @@ using std::sort;
 using std::string;
 using std::vector;
 
-const char *NGENE_VERSION = "1.1.91229";
+const char *NGENE_VERSION = "1.1.100521";
 
 int main(int argc, char *argv[])
 {
@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 
 	// Initialize logging
 	Logger logger;
-	if (!logger.log(config, module.modules))
+	if (!logger.start(config, module.modules))
 	{
 		delete config;
 		return 1;
@@ -86,14 +86,14 @@ int main(int argc, char *argv[])
 	mates.reserve(capacity);
 
 	// Prepare initial population
-	for (unsigned int i = 0; i < capacity; i++)
+	for (unsigned int i = 0; i < capacity; ++i)
 	{
 		Specimen specimen;
 		module.seed(specimen.genotype);
 		module.assess_fitness(specimen);
-#ifdef ENABLE_LIFESPAN
+	#ifdef ENABLE_LIFESPAN
 		specimen.age = 1;
-#endif
+	#endif
 		adults.push_back(specimen);
 	}
 	module.seed = 0;
@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
 		// Terminate if a perfect specimen is found or user canceled
 		if (logger.log(generation - 1, adults))
 		{
-			printf("\nPerfect specimen found. ");
+			fputs("\nPerfect specimen found. ", stdout);
 			break;
 		}
 		if (TERMINATION_PENDING)
@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
 			if (module.random->next() <= mating_rate)
 			{
 				// Empty the embryonic vessels
-				for (Population::iterator i = embryo.begin(); i != embryo.end(); i++)
+				for (Population::iterator i = embryo.begin(); i != embryo.end(); ++i)
 					i->genotype.clear();
 
 				// Make the specimens mate and insert the embryos into the vessels
@@ -140,15 +140,15 @@ int main(int argc, char *argv[])
 		} while (offspring.size() < offspring_rate);
 
 		// (Randomly mutate and) assess the fitness of each offspring
-#ifdef _OPENMP
-#		pragma omp parallel for
-#endif
-		for (int i = 0; i < static_cast<int>(offspring.size()); i++)
+		#ifdef _OPENMP
+		#		pragma omp parallel for
+		#endif
+		for (int i = 0; i < static_cast<int>(offspring.size()); ++i)
 		{
 			if (module.random->next() <= mutation_rate)
 				module.mutate(offspring[i].genotype);
 			module.assess_fitness(offspring[i]);
-#ifdef ENABLE_LIFESPAN
+	#ifdef ENABLE_LIFESPAN
 			offspring[i].age = 0;
 		}
 
@@ -187,13 +187,13 @@ int main(int argc, char *argv[])
 			}
 		}
 
-#else
+	#else
 		}
 
 		if (elitism) // replace worst fit offspring with best fit adult
 			iter_swap(worst_specimen(offspring.begin(), offspring.end()), best_specimen(adults.begin(), adults.end()));
 		adults.swap(offspring);
-#endif
+	#endif
 	}
 	time = clock() - time;
 	logger.log(module.gtoa(best_specimen(adults.begin(), adults.end())->genotype), time);

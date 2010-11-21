@@ -9,7 +9,7 @@ OBJ    = $(OBJDIR)/ArtDev3D.o \
 	$(OBJDIR)/gene_artdevn.o
 
 CPP = g++
-CFLAGS = -g -O2 -Wall -Werror -pipe -I ../../include -ftree-vectorize -fPIC
+CFLAGS = -g -O2 -Wall -Werror -pipe -I ../../include -ftree-vectorize -fPIC -march=native
 LDFLAGS = -shared
 
 default: $(EXEC)

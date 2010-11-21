@@ -3,7 +3,7 @@ BINDIR = ../../bin/modules
 OBJDIR = ../../build/unix
 
 CPP = g++
-CFLAGS = -g0 -O2 -Wall -Werror -pipe -I ../../include -ftree-vectorize -fPIC
+CFLAGS = -g0 -O2 -Wall -Werror -pipe -I ../../include -ftree-vectorize -fPIC -march=native
 
 default: $(TARGET).so
 
