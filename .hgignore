@@ -1,12 +1,6 @@
-syntax: regexp
-
 Debug
 Release
-(?i)\.exe$
-(?i)\.ilk$
-(?i)\.log$
-(?i)\.o$
-(?i)\.pdb$
-(?i)sdf$
-(?i)\.suo$
-(?i)\.user$
+bin\/
+boost
+ipch
+(?i)\.(?:exe|ilk|log|o|pdb|sdf|suo|user)$

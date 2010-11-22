@@ -24,7 +24,7 @@ struct Config
 	#endif
 
 	double
-		mating_rate      ///< The rate of a successful mating
+		mating_rate,     ///< The rate of a successful mating
 		mutation_rate;   ///< The rate of mutation
 	std::string
 		plotter;         ///< The name of the plotter used
